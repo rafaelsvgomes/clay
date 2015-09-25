@@ -15,7 +15,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "PESSOA")
+@Table(name = "PESSOA", schema = "public")
 @SequenceGenerator(name="seqpessoa", sequenceName="seqpessoa", allocationSize = 1)
 public class Pessoa implements Serializable {
 	private static final long serialVersionUID = -8922414503953244338L;

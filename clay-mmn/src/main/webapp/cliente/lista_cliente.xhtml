@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="../layout/template.xhtml">
+	<ui:define name="pageTitle">
+		<h:outputText value="#{msg['page.title.lista.cliente']}" />
+	</ui:define>
+
+	<ui:define name="content">
+		<div style="border-bottom: 1px solid #E5E5E5;">
+			<h3>
+				<h:outputText value="#{msg['label.clientes']}" />
+				<small> <h:outputText value="#{msg['label.listagem']}" /></small>
+			</h3>
+		</div>
+		<h:form>
+			<p:dataTable id="dataTable" var="cliente"
+				value="#{clienteMB.clientes}" paginator="true" rows="5"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15">
+				<p:column>
+					<f:facet name="header">#</f:facet>
+					<h:outputText value="#{cliente.id}" />
+				</p:column>
+	
+				<p:column sortBy="#{cliente.nomePessoa}">
+					<f:facet name="header">
+						<h:outputText value="#{msg['label.cliente.nome']}" />
+					</f:facet>
+					<h:link outcome="editar_cliente" value="#{cliente.nomePessoa}"
+						title="#{msg['label.editar']} #{cliente.nomePessoa}">
+						<f:param name="id" value="#{cliente.id}" />
+					</h:link>
+				</p:column>
+	
+				<p:column sortBy="#{cliente.numCpfCnpj}">
+					<f:facet name="header">
+						<h:outputText value="#{msg['label.cliente.cpf']}" />
+					</f:facet>
+					<h:outputText value="#{cliente.numCpfCnpj}" />
+				</p:column>
+	
+				<p:column sortBy="#{cliente.dataNascimento}">
+					<f:facet name="header">
+						<h:outputText value="#{msg['label.cliente.dtnascimento']}" />
+					</f:facet>
+					<h:outputText value="#{cliente.dataNascimento}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+		<h:messages />
+	</ui:define>
+</ui:composition>
+</html>

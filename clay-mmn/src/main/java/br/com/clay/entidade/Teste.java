@@ -28,7 +28,7 @@ public class Teste {
 			emf.close();
 		}
 
-		System.out.println("Fim");
+		System.out.println("Fim de execução.");
 	}
 
 }

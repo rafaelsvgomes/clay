@@ -29,7 +29,6 @@
 					<h:outputText value="#{msg['label.cliente.cpf']}" />
 				</label>
 				<div class="controls">
-				
 					<p:inputMask id="cpf" mask="999.999.999-99" value="#{clienteMB.cliente.numCpfCnpj}" required="true" 
 						styleClass="input-large" size="14"/>
 				</div>
@@ -53,11 +52,12 @@
 				<p:commandButton value="#{msg['button.salvar']}"
 					action="#{clienteMB.salvar}" styleClass="btn btn-success" onclick="dlg.show();" 
 					oncomplete="dlg.hide();" rendered="#{clienteMB.cliente != null}" />
+				
 				<p:button value="#{msg['button.cancelar']}" outcome="lista_cliente" styleClass="btn" />
-				<p:commandButton value="#{msg['button.excluir']}"
-					onclick="confirmation.show()"
-					rendered="#{clienteMB.cliente.id != null}" immediate="true"
-					styleClass="btn btn-danger" />
+				
+				<p:commandButton value="#{msg['button.excluir']}" onclick="confirmation.show();"
+					rendered="#{clienteMB.cliente.id != null}" immediate="true" styleClass="btn btn-danger" />
+					
 			</div>
 		</div>
 		
@@ -67,8 +67,10 @@
 		
 		<p:confirmDialog id="confirmDialog" message="#{msg['excluir.cliente.confirma']}"
 			header="#{msg['excluir.cliente']}" severity="alert" widgetVar="confirmation">  
+			
 	        <p:commandButton id="confirm" value="#{msg['confirma.sim']}" update="messages" 
 	        	oncomplete="confirmation.hide()" action="#{clienteMB.remover}" />  
+	        	
 	        <p:commandButton id="decline" value="#{msg['confirma.nao']}" 
 	        	onclick="confirmation.hide()" type="button" />
 	    </p:confirmDialog>
@@ -76,4 +78,5 @@
 		<p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
 		<h:inputHidden value="#{clienteMB.cliente.id}" />
 	</h:form>
+	<h:form></h:form>
 </ui:fragment>

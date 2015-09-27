@@ -1,6 +1,5 @@
 package br.com.clay.entidade;
 
-import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -17,7 +16,7 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "PESSOA", schema = "public")
 @SequenceGenerator(name="seqpessoa", sequenceName="seqpessoa", allocationSize = 1)
-public class Pessoa implements Serializable {
+public class Pessoa implements ClayEntidade {
 	private static final long serialVersionUID = -8922414503953244338L;
 
 	@Id

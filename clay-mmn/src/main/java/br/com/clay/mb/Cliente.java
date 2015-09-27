@@ -2,7 +2,6 @@ package br.com.clay.mb;
 
 import static javax.faces.context.FacesContext.getCurrentInstance;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -10,20 +9,16 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.persistence.EntityManager;
 
 import br.com.clay.entidade.Pessoa;
+import br.com.clay.servico.ClienteServicoEJB;
 
 @ManagedBean(name = "clienteMB")
 @SessionScoped
-public class Cliente implements Serializable {
-
-//	@PersistenceContext(unitName = "clay_pu")
-	EntityManager em;
-
+public class Cliente {
 	
 	@EJB
-	ClienteEJB clienteEJB;
+	ClienteServicoEJB ejb;
 
 	private Long idSelecionado;
 
@@ -42,16 +37,18 @@ public class Cliente implements Serializable {
 		if (idSelecionado == null) {
 			return;
 		}
-		cliente = em.find(Pessoa.class, idSelecionado);
+		cliente = ejb.find(idSelecionado);
+		
+		System.out.println("Cliente recuperado. Id: "+ cliente.getId().toString());
 	}
 
 	public String salvar() {
 		try {
-			clienteEJB.salvar(cliente);
+			cliente.setTipoPessoa(1);
+			ejb.save(cliente);
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			addMessage(getMessageFromI18N("msg.erro.salvar.cliente"),
-					ex.getMessage());
+			addMessage(getMessageFromI18N("msg.erro.salvar.cliente"), ex.getMessage());
 			return "";
 		}
 
@@ -60,10 +57,10 @@ public class Cliente implements Serializable {
 
 	public String remover() {
 		try {
-			em.remove(cliente);
+			ejb.remove(cliente);
+			System.out.println("Cliente removido");
 		} catch (Exception ex) {
-			addMessage(getMessageFromI18N("msg.erro.remover.cliente"),
-					ex.getMessage());
+			addMessage(getMessageFromI18N("msg.erro.remover.cliente"), ex.getMessage());
 			return "";
 		}
 		return "lista_cliente";
@@ -75,8 +72,7 @@ public class Cliente implements Serializable {
 	 *         <code>ResourceBundle</code>.
 	 */
 	private String getMessageFromI18N(String key) {
-		ResourceBundle bundle = ResourceBundle.getBundle("messages_labels",
-				getCurrentInstance().getViewRoot().getLocale());
+		ResourceBundle bundle = ResourceBundle.getBundle("messages_labels", getCurrentInstance().getViewRoot().getLocale());
 		return bundle.getString(key);
 	}
 
@@ -87,10 +83,7 @@ public class Cliente implements Serializable {
 	 * @param detail
 	 */
 	private void addMessage(String summary, String detail) {
-		getCurrentInstance().addMessage(
-				null,
-				new FacesMessage(summary, summary.concat("<br/>")
-						.concat(detail)));
+		getCurrentInstance().addMessage(null, new FacesMessage(summary, summary.concat("<br/>").concat(detail)));
 	}
 
 	public Long getIdSelecionado() {
@@ -106,9 +99,7 @@ public class Cliente implements Serializable {
 	}
 
 	public List<Pessoa> getClientes() {
-//		if(clientes == null){
-			clientes = clienteEJB.getClientes(); 
-//		}
+		clientes = ejb.findAll();
 		return clientes;
 	}
 

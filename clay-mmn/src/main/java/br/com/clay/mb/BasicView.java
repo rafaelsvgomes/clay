@@ -41,32 +41,11 @@ public class BasicView implements Serializable {
         node10.getChildren().add(new DefaultTreeNode("Node 1.0.0"));
 //        root.getChildren().add(new DefaultTreeNode("Node 2"));
         
-        testa2();
     }
  
     public TreeNode getRoot() {
         return root;
     }
     
-    private void testa2() {
-		EntityManagerFactory emf = Persistence
-				.createEntityManagerFactory("Hello");
-		EntityManager em = emf.createEntityManager();
-		try {
-			Pessoa pessoa = new Pessoa();
-			pessoa.setNomePessoa("Projeto 4");
-			pessoa.setTipoPessoa(1);
-
-			em.getTransaction().begin();
-			em.persist(pessoa);
-			em.getTransaction().commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			em.getTransaction().rollback();
-		} finally {
-			emf.close();
-		}
-
-		System.out.println("Fim");
-	}
+	
 }

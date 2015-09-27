@@ -47,7 +47,9 @@
 					<f:facet name="header">
 						<h:outputText value="#{msg['label.cliente.dtnascimento']}" />
 					</f:facet>
-					<h:outputText value="#{cliente.dataNascimento}" />
+					<h:outputText value="#{cliente.dataNascimento}" >
+						 <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+					</h:outputText>
 				</p:column>
 			</p:dataTable>
 		</h:form>

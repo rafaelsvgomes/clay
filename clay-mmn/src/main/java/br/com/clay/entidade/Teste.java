@@ -10,20 +10,20 @@ public class Teste {
 
 		EntityManagerFactory emf = Persistence
 				.createEntityManagerFactory("clay_pu");
-		EntityManager em = emf.createEntityManager();
+//		EntityManager em = emf.createEntityManager();
 
 		try {
-			em.getTransaction().begin();
+//			em.getTransaction().begin();
 			Pessoa pessoa = new Pessoa();
 			pessoa.setNomePessoa("Projeto 2");
 			pessoa.setTipoPessoa(1);
 			pessoa.setNumCpfCnpj("12345678900");
 
-			em.persist(pessoa);
-			em.getTransaction().commit();
+//			em.persist(pessoa);
+//			em.getTransaction().commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			em.getTransaction().rollback();
+//			em.getTransaction().rollback();
 		} finally {
 			emf.close();
 		}

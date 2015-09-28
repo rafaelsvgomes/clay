@@ -11,6 +11,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import br.com.clay.entidade.Pessoa;
+import br.com.clay.enums.TipoPessoa;
+import br.com.clay.enums.TipoSexo;
 import br.com.clay.servico.ClienteServicoEJB;
 
 @ManagedBean(name = "clienteMB")
@@ -44,7 +46,8 @@ public class Cliente {
 
 	public String salvar() {
 		try {
-			cliente.setTipoPessoa(1);
+			cliente.setTipoSexo(TipoSexo.M);
+			cliente.setTipoPessoa(TipoPessoa.J);
 			ejb.save(cliente);
 		} catch (Exception ex) {
 			ex.printStackTrace();

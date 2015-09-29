@@ -23,6 +23,18 @@
 					</h:inputText>
 				</div>
 			</div>
+			
+			<div class="control-group">
+				<label class="control-label">
+					<h:outputText value="#{msg['label.cliente.tppessoa']}" />
+				</label>
+				<div class="controls">
+			        <p:selectOneRadio id="tppessoa" value="#{clienteMB.cliente.tipoPessoa}">
+			            <f:selectItem itemLabel="PF " itemValue="F" />
+			            <f:selectItem itemLabel="PJ " itemValue="J" />
+			        </p:selectOneRadio>
+				</div>
+			</div>
 
 			<div class="control-group">
 				<label class="control-label">
@@ -43,6 +55,18 @@
 						 label="#{msg['label.cliente.dtnascimento']}" required="true" size="10" styleClass="input-small">
 						 <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
 					</p:inputMask>
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<label class="control-label">
+					<h:outputText value="#{msg['label.cliente.sexo']}" />
+				</label>
+				<div class="controls">
+			        <p:selectOneRadio id="sexo" value="#{clienteMB.cliente.tipoSexo}">
+			            <f:selectItem itemLabel="Masculino " itemValue="M" />
+			            <f:selectItem itemLabel="Feminino " itemValue="F" />
+			        </p:selectOneRadio>
 				</div>
 			</div>
 		</fieldset>

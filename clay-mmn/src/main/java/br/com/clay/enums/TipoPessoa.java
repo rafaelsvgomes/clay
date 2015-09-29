@@ -1,20 +1,17 @@
 package br.com.clay.enums;
 
 public enum TipoPessoa {
-	
-	J,	F;
-	
-//	private char codTipoPessoa;
-//	
-//	private TipoPessoa(char codTipoPessoa) {
-//		this.codTipoPessoa = codTipoPessoa;
-//	}
-//
-//	/**
-//	 * @return
-//	 */
-//	public char getCodTipoPessoa() {
-//		return codTipoPessoa;
-//	}
-	
+
+	J("PJ"), F("PF");
+
+	private String descTipoPessoa;
+
+	private TipoPessoa(String descTipoPessoa) { 
+		this.descTipoPessoa = descTipoPessoa;
+	}
+
+	public String getDescTipoPessoa() {
+		return descTipoPessoa;
+	}
+
 }

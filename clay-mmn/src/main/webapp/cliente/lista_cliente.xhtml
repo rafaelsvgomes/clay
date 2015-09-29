@@ -20,7 +20,7 @@
 			<p:dataTable id="dataTable" var="cliente"
 				value="#{clienteMB.clientes}" paginator="true" rows="5"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="5,10,15">
+				rowsPerPageTemplate="5,10,15" emptyMessage="#{msg['alerta.nehum.cliente.encontrado']}" >
 				<p:column>
 					<f:facet name="header">#</f:facet>
 					<h:outputText value="#{cliente.id}" />
@@ -34,6 +34,13 @@
 						title="#{msg['label.editar']} #{cliente.nomePessoa}">
 						<f:param name="id" value="#{cliente.id}" />
 					</h:link>
+				</p:column>
+				
+				<p:column sortBy="#{cliente.tipoPessoa.descTipoPessoa}">
+					<f:facet name="header">
+						<h:outputText value="#{msg['label.cliente.tppessoa']}" />
+					</f:facet>
+					<h:outputText value="#{cliente.tipoPessoa.descTipoPessoa}" />
 				</p:column>
 	
 				<p:column sortBy="#{cliente.numCpfCnpj}">
@@ -50,6 +57,13 @@
 					<h:outputText value="#{cliente.dataNascimento}" >
 						 <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
 					</h:outputText>
+				</p:column>
+				
+				<p:column sortBy="#{cliente.tipoSexo.descTipoSexo}">
+					<f:facet name="header">
+						<h:outputText value="#{msg['label.cliente.sexo']}" />
+					</f:facet>
+					<h:outputText value="#{cliente.tipoSexo.descTipoSexo}" />
 				</p:column>
 			</p:dataTable>
 		</h:form>

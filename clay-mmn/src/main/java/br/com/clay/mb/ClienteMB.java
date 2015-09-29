@@ -2,6 +2,7 @@ package br.com.clay.mb;
 
 import static javax.faces.context.FacesContext.getCurrentInstance;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -17,7 +18,7 @@ import br.com.clay.servico.ClienteServicoEJB;
 
 @ManagedBean(name = "clienteMB")
 @SessionScoped
-public class Cliente {
+public class ClienteMB {
 	
 	@EJB
 	ClienteServicoEJB ejb;
@@ -28,7 +29,7 @@ public class Cliente {
 
 	private List<Pessoa> clientes;
 
-	public Cliente() {
+	public ClienteMB() {
 	}
 
 	public void inlcuir() {
@@ -46,8 +47,7 @@ public class Cliente {
 
 	public String salvar() {
 		try {
-			cliente.setTipoSexo(TipoSexo.M);
-			cliente.setTipoPessoa(TipoPessoa.J);
+			cliente.setDataCadastro(Calendar.getInstance());
 			ejb.save(cliente);
 		} catch (Exception ex) {
 			ex.printStackTrace();

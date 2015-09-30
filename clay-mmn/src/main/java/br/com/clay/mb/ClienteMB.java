@@ -10,16 +10,15 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import br.com.clay.entidade.Pessoa;
-import br.com.clay.enums.TipoPessoa;
-import br.com.clay.enums.TipoSexo;
 import br.com.clay.servico.ClienteServicoEJB;
 
 @ManagedBean(name = "clienteMB")
 @SessionScoped
 public class ClienteMB {
-	
+
 	@EJB
 	ClienteServicoEJB ejb;
 
@@ -32,22 +31,29 @@ public class ClienteMB {
 	public ClienteMB() {
 	}
 
-	public void inlcuir() {
-		cliente = new Pessoa();
+	public void incluir() {
+//		if (FacesContext.getCurrentInstance().getPartialViewContext().isAjaxRequest()) { 
+//            return; // Skip ajax requests.
+//        }
+		if (!FacesContext.getCurrentInstance().isPostback()) {
+			cliente = new Pessoa();
+		}
 	}
 
 	public void editar() {
-		if (idSelecionado == null) {
-			return;
+		if (!FacesContext.getCurrentInstance().isPostback()) {
+			if (idSelecionado == null) {
+				return;
+			}
+			cliente = ejb.find(idSelecionado);
 		}
-		cliente = ejb.find(idSelecionado);
-		
-		System.out.println("Cliente recuperado. Id: "+ cliente.getId().toString());
 	}
 
 	public String salvar() {
 		try {
 			cliente.setDataCadastro(Calendar.getInstance());
+			cliente.setNumCpfCnpj(cliente.getNumCpfCnpj().replace("-", "")
+					.replace(".", "").replace("/", ""));
 			ejb.save(cliente);
 		} catch (Exception ex) {
 			ex.printStackTrace();

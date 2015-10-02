@@ -2,6 +2,7 @@ package br.com.clay.mb;
 
 import static javax.faces.context.FacesContext.getCurrentInstance;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -12,6 +13,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import br.com.clay.entidade.Endereco;
 import br.com.clay.entidade.Pessoa;
 import br.com.clay.servico.ClienteServicoEJB;
 
@@ -27,6 +29,8 @@ public class ClienteMB {
 	private Pessoa cliente;
 
 	private List<Pessoa> clientes;
+	
+	private Endereco endereco;
 
 	public ClienteMB() {
 	}
@@ -37,6 +41,10 @@ public class ClienteMB {
 //        }
 		if (!FacesContext.getCurrentInstance().isPostback()) {
 			cliente = new Pessoa();
+			endereco = new Endereco();
+			endereco.setPessoa(cliente);;
+			cliente.setListaEndereco(new ArrayList<Endereco>());
+			cliente.getListaEndereco().add(endereco);
 		}
 	}
 
@@ -54,6 +62,7 @@ public class ClienteMB {
 			cliente.setDataCadastro(Calendar.getInstance());
 			cliente.setNumCpfCnpj(cliente.getNumCpfCnpj().replace("-", "")
 					.replace(".", "").replace("/", ""));
+			
 			ejb.save(cliente);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -110,6 +119,10 @@ public class ClienteMB {
 	public List<Pessoa> getClientes() {
 		clientes = ejb.findAll();
 		return clientes;
+	}
+
+	public Endereco getEndereco() {
+		return endereco;
 	}
 
 }

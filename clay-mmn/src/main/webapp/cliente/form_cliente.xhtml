@@ -17,8 +17,7 @@
 					<h:outputText value="#{msg['label.cliente.nome']}" />
 				</label>
 				<div class="controls">
-					<h:inputText value="#{clienteMB.cliente.nomePessoa}"
-						label="#{msg['label.cliente.nome']}" required="true" styleClass="input-large">
+					<h:inputText value="#{clienteMB.cliente.nomePessoa}" label="#{msg['label.cliente.nome']}" required="true" styleClass="input-large">
 						<f:validateLength minimum="5" maximum="60" />
 					</h:inputText>
 				</div>
@@ -30,33 +29,31 @@
 				</label>
 				<div class="controls">
 			        <p:selectOneRadio id="tppessoa" value="#{clienteMB.cliente.tipoPessoa}" >
-			            <f:selectItem itemLabel="PF" itemValue="F" />
-			            <f:selectItem itemLabel="PJ" itemValue="J" />
-			            <p:ajax update="cpfCnpjLabel, cnpj"/>
+			            <f:selectItem itemLabel="Pessoa Física" itemValue="F" />
+			            <f:selectItem itemLabel="Pessoa Jurídica" itemValue="J" />
+			            <p:ajax update="cpfCnpjLabel, cnpj, panelGeral" event="change"/>
 			        </p:selectOneRadio>
 				</div>
 			</div>
 
 			<div class="control-group">
-				<label class="control-label">
-<!-- 					<h:outputText value="#{msg['label.cliente.cpf']}" /> -->
-<!-- 					<h:outputText id="cpfCnpjLabel" value="#{clienteMB.cliente.tipoPessoa}"/> -->
-					<h:outputText id="cpfCnpjLabel" value="#{clienteMB.cliente.tipoPessoa == 'F' ? msg['label.cliente.cpf'] : msg['label.cliente.cnpj']}" />
-				</label>
-				<div class="controls">
-<!-- 					<p:inputMask id="cpf" mask="999.999.999-99" value="#{clienteMB.cliente.numCpfCnpj}" required="true"  -->
-<!-- 						styleClass="input-large" size="14"/> -->
-					<p:inputMask id="cnpj" mask="#{clienteMB.cliente.tipoPessoa == 'J'? '99.999.999/9999-99' : '999.999.999-99'}" value="#{clienteMB.cliente.numCpfCnpj}" required="true" size="24" immediate="true" />
-						
-<!-- 				<p:outputPanel id="pnlPessoa"> -->
-<!-- 					<h:outputLabel id="lbCpf" value="CPF:" for="cpf" rendered="#{clienteMB.cliente.tipoPessoa=='F'}" style="float: right;" /> -->
-<!--                             <p:inputMask mask="999.999.999-99" id="cpf" size="25" rendered="#{clienteMB.cliente.tipoPessoa=='F'}" value="#{clienteMB.cliente.numCpfCnpj}" /> -->
-<!-- 					<p:inputMask id="cpf" mask="999.999.999-99" rendered="#{clienteMB.cliente.tipoPessoa=='F'}" value="#{clienteMB.cliente.numCpfCnpj}" required="true" styleClass="input-large" size="14"/> -->
-				
-<!--                      <h:outputLabel id="lbCnpj" value="CNPJ:" for="cnpj" rendered="#{clienteMB.cliente.tipoPessoa=='J'}" style="float: right;" />  -->
-<!--                     <p:inputMask mask="99.999.999/9999-99" id="cnpj" size="25" rendered="#{clienteMB.cliente.tipoPessoa=='J'}" value="#{clienteMB.cliente.numCpfCnpj}" /> -->
-<!-- 				</p:outputPanel> -->
-				</div>
+				<p:outputPanel id="panelGeral">
+					<label class="control-label">
+						<h:outputText id="cpfCnpjLabel" value="#{clienteMB.cliente.tipoPessoa == 'F' ? msg['label.cliente.cpf'] : msg['label.cliente.cnpj']}" />
+					</label>
+					<div class="controls">
+						<p:inputMask id="cnpj" mask="#{clienteMB.cliente.tipoPessoa == 'J'? '99.999.999/9999-99' : '999.999.999-99'}" value="#{clienteMB.cliente.numCpfCnpj}" 
+							required="true" immediate="true" styleClass="input-large" />
+					</div>
+					
+					<label class="control-label">
+						<h:outputText value="#{msg['label.cliente.dsrazaosocial']}" rendered="#{clienteMB.cliente.tipoPessoa == 'J'}" />
+					</label>
+					<div class="controls">
+						<h:inputText id="rzSocial" value="#{clienteMB.cliente.descRazaoSocial}" label="#{msg['label.cliente.dsrazaosocial']}" required="true"  
+								rendered="#{clienteMB.cliente.tipoPessoa == 'J'}" styleClass="input-large"/>
+					</div>
+				</p:outputPanel>
 			</div>
 
 			<div class="control-group">
@@ -64,8 +61,7 @@
 					<h:outputText value="#{msg['label.cliente.dtnascimento']}" />
 				</label>
 				<div class="controls">
-					<p:inputMask id="date" value="#{clienteMB.cliente.dataNascimento}" mask="99/99/9999"
-						 label="#{msg['label.cliente.dtnascimento']}" required="true" size="10" styleClass="input-small">
+					<p:inputMask id="date" value="#{clienteMB.cliente.dataNascimento}" mask="99/99/9999" label="#{msg['label.cliente.dtnascimento']}" required="true" size="10" styleClass="input-small">
 						 <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
 					</p:inputMask>
 				</div>
@@ -82,19 +78,26 @@
 			        </p:selectOneRadio>
 				</div>
 			</div>
+			
+			<!-- Endereço -->
+			<div class="control-group">
+				<label class="control-label">
+					<h:outputText value="#{msg['label.cliente.endereco']}" />
+				</label>
+				<div class="controls">
+			        <h:inputText value="#{clienteMB.endereco.descEndereco}" label="#{msg['label.cliente.endereco']}" required="true" styleClass="input-large"/>
+				</div>
+			</div>
 		</fieldset>
 
 		<div class="control-group">
 			<div class="controls">
-				<p:commandButton value="#{msg['button.salvar']}"
-					action="#{clienteMB.salvar}" styleClass="btn btn-success" onclick="PF('dlg').show();" 
+				<p:commandButton value="#{msg['button.salvar']}" action="#{clienteMB.salvar}" styleClass="btn btn-success" onclick="PF('dlg').show();" 
 					oncomplete="dlg.hide();" rendered="#{clienteMB.cliente != null}" />
 				
 				<p:button value="#{msg['button.cancelar']}" outcome="lista_cliente" styleClass="btn" />
 				
-				<p:commandButton value="#{msg['button.excluir']}" onclick="PF('confirmation').show();"
-					rendered="#{clienteMB.cliente.id != null}" immediate="true" styleClass="btn btn-danger" />
-					
+				<p:commandButton value="#{msg['button.excluir']}" onclick="PF('confirmation').show();" rendered="#{clienteMB.cliente.id != null}" immediate="true" styleClass="btn btn-danger" />
 			</div>
 		</div>
 		
@@ -102,14 +105,9 @@
 	    	<h:outputText value="#{msg['dialog.emexecucao.aguarde']}" />  
 		</p:dialog>
 		
-		<p:confirmDialog id="confirmDialog" message="#{msg['excluir.cliente.confirma']}"
-			header="#{msg['excluir.cliente']}" severity="alert" widgetVar="confirmation">  
-			
-	        <p:commandButton id="confirm" value="#{msg['confirma.sim']}" update="messages" 
-	        	oncomplete="PF('confirmation').hide()" action="#{clienteMB.remover}" />  
-	        	
-	        <p:commandButton id="decline" value="#{msg['confirma.nao']}" update="messages" 
-	        	onclick="PF('confirmation').hide()" type="button" />
+		<p:confirmDialog id="confirmDialog" message="#{msg['excluir.cliente.confirma']}" header="#{msg['excluir.cliente']}" severity="alert" widgetVar="confirmation">  
+	        <p:commandButton id="confirm" value="#{msg['confirma.sim']}" update="messages" oncomplete="PF('confirmation').hide()" action="#{clienteMB.remover}" />  
+	        <p:commandButton id="decline" value="#{msg['confirma.nao']}" update="messages" onclick="PF('confirmation').hide()" type="button" />
 	    </p:confirmDialog>
 	
 		<p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />

@@ -2,7 +2,9 @@ package br.com.clay.entidade;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,6 +12,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -19,7 +22,7 @@ import br.com.clay.enums.TipoPessoa;
 import br.com.clay.enums.TipoSexo;
 
 @Entity
-@Table(name = "PESSOA", schema = "public")
+@Table(name = "PESSOA")
 @SequenceGenerator(name = "seqpessoa", sequenceName = "seqpessoa", allocationSize = 1)
 public class Pessoa implements ClayEntidade {
 	private static final long serialVersionUID = -8922414503953244338L;
@@ -53,6 +56,9 @@ public class Pessoa implements ClayEntidade {
 	@Column(name = "dataCadastro")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar dataCadastro;
+	
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+    private List<Endereco> listaEndereco;
 
 	public Long getId() {
 		return id;
@@ -116,5 +122,13 @@ public class Pessoa implements ClayEntidade {
 
 	public void setDataCadastro(Calendar dataCadastro) {
 		this.dataCadastro = dataCadastro;
+	}
+
+	public List<Endereco> getListaEndereco() {
+		return listaEndereco;
+	}
+
+	public void setListaEndereco(List<Endereco> listaEndereco) {
+		this.listaEndereco = listaEndereco;
 	}
 }

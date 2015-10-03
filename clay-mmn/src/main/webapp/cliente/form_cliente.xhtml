@@ -82,10 +82,67 @@
 			<!-- Endereço -->
 			<div class="control-group">
 				<label class="control-label">
+					<h:outputText value="#{msg['label.cliente.endereco.cep']}" />
+				</label>
+				<div class="controls">
+			        <h:inputText value="#{clienteMB.endereco.numCep}" label="#{msg['label.cliente.endereco.cep']}" required="true" styleClass="input-small"/>
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<label class="control-label">
 					<h:outputText value="#{msg['label.cliente.endereco']}" />
 				</label>
 				<div class="controls">
 			        <h:inputText value="#{clienteMB.endereco.descEndereco}" label="#{msg['label.cliente.endereco']}" required="true" styleClass="input-large"/>
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<label class="control-label">
+					<h:outputText value="#{msg['label.cliente.endereco.num']}" />
+				</label>
+				<div class="controls">
+			        <h:inputText value="#{clienteMB.endereco.descNumero}" label="#{msg['label.cliente.endereco.num']}" required="true" styleClass="input-large"/>
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<label class="control-label">
+					<h:outputText value="#{msg['label.cliente.endereco.compl']}" />
+				</label>
+				<div class="controls">
+			        <h:inputText value="#{clienteMB.endereco.descComplemento}" label="#{msg['label.cliente.endereco.compl']}" styleClass="input-large"/>
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<label class="control-label">
+					<h:outputText value="#{msg['label.cliente.endereco.bairro']}" />
+				</label>
+				<div class="controls">
+			        <h:inputText value="#{clienteMB.endereco.descBairro}" label="#{msg['label.cliente.endereco.bairro']}" required="true" styleClass="input-large"/>
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<label class="control-label">
+					<h:outputText value="#{msg['label.cliente.endereco.cidade']}" />
+				</label>
+				<div class="controls">
+			        <h:inputText value="#{clienteMB.endereco.descCidade}" label="#{msg['label.cliente.endereco.cidade']}" required="true" styleClass="input-large"/>
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<label class="control-label">
+					<h:outputText value="#{msg['label.cliente.endereco.estado']}" />
+				</label>
+				<div class="controls">
+					<p:selectOneMenu id="uf" value="#{clienteMB.endereco.uf}" converter="entityConverter" >
+		                <f:selectItem itemLabel="Selecione o estado..." itemValue="" noSelectionOption="true" />
+		                <f:selectItems value="#{clienteMB.listaUfs}" var="uf" itemLabel="#{uf.descUf}" itemValue="#{uf}"/>
+	    	        </p:selectOneMenu>
 				</div>
 			</div>
 		</fieldset>

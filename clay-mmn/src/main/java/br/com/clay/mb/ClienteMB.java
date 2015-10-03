@@ -15,11 +15,14 @@ import javax.faces.context.FacesContext;
 
 import br.com.clay.entidade.Endereco;
 import br.com.clay.entidade.Pessoa;
+import br.com.clay.entidade.TipoEndereco;
+import br.com.clay.entidade.UF;
 import br.com.clay.servico.ClienteServicoEJB;
 
 @ManagedBean(name = "clienteMB")
 @SessionScoped
-public class ClienteMB {
+public class ClienteMB extends BaseMB  {
+	private static final long serialVersionUID = -6556028968452915346L;
 
 	@EJB
 	ClienteServicoEJB ejb;
@@ -31,6 +34,10 @@ public class ClienteMB {
 	private List<Pessoa> clientes;
 	
 	private Endereco endereco;
+	
+	private List<UF> listaUfs;
+	
+	private UF uf;
 
 	public ClienteMB() {
 	}
@@ -42,9 +49,15 @@ public class ClienteMB {
 		if (!FacesContext.getCurrentInstance().isPostback()) {
 			cliente = new Pessoa();
 			endereco = new Endereco();
-			endereco.setPessoa(cliente);;
+			endereco.setPessoa(cliente);
+			
+			TipoEndereco tpEndereco = new TipoEndereco();
+			tpEndereco.setId(TipoEndereco.RESIDENCIAL);
+			endereco.setTipoEndereco(tpEndereco);
 			cliente.setListaEndereco(new ArrayList<Endereco>());
 			cliente.getListaEndereco().add(endereco);
+			
+			listaUfs = ejb.listarUfs();
 		}
 	}
 
@@ -123,6 +136,18 @@ public class ClienteMB {
 
 	public Endereco getEndereco() {
 		return endereco;
+	}
+	
+	public UF getUf() {
+		return uf;
+	}
+
+	public void setUf(UF uf) {
+		this.uf = uf;
+	}
+
+	public List<UF> getListaUfs() {
+		return listaUfs;
 	}
 
 }

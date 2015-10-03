@@ -14,7 +14,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ENDERECOPESSOA")
 @SequenceGenerator(name = "seqenderecopessoa", sequenceName = "seqenderecopessoa", allocationSize = 1)
-public class Endereco {
+public class Endereco  implements ClayEntidade {
+	private static final long serialVersionUID = 3017364402878640980L;
 
 	@Id
 	@Column(name = "IDENDERECOPESSOA")

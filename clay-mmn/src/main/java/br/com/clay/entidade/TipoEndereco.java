@@ -7,7 +7,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "TIPOENDERECO")
-public class TipoEndereco {
+public class TipoEndereco implements ClayEntidade {
+	private static final long serialVersionUID = 5493317362445950406L;
+
+	public static final short RESIDENCIAL = 1;
 
 	@Id
     @Column(name = "IDTIPOENDERECO", unique = true, nullable = false)

@@ -39,10 +39,10 @@
 			<div class="control-group">
 				<p:outputPanel id="panelGeral">
 					<label class="control-label">
-						<h:outputText id="cpfCnpjLabel" value="#{clienteMB.cliente.tipoPessoa == 'F' ? msg['label.cliente.cpf'] : msg['label.cliente.cnpj']}" />
+						<h:outputText id="cpfCnpjLabel" value="#{clienteMB.cliente.tipoPessoa == 'J' ? msg['label.cliente.cnpj'] : msg['label.cliente.cpf']}" />
 					</label>
 					<div class="controls">
-						<p:inputMask id="cnpj" mask="#{clienteMB.cliente.tipoPessoa == 'J'? '99.999.999/9999-99' : '999.999.999-99'}" value="#{clienteMB.cliente.numCpfCnpj}" 
+						<p:inputMask id="cnpj" mask="#{clienteMB.cliente.tipoPessoa == 'J' ? '99.999.999/9999-99' : '999.999.999-99'}" value="#{clienteMB.cliente.numCpfCnpj}" 
 							required="true" immediate="true" styleClass="input-large" />
 					</div>
 					
@@ -61,7 +61,7 @@
 					<h:outputText value="#{msg['label.cliente.dtnascimento']}" />
 				</label>
 				<div class="controls">
-					<p:inputMask id="date" value="#{clienteMB.cliente.dataNascimento}" mask="99/99/9999" label="#{msg['label.cliente.dtnascimento']}" required="true" size="10" styleClass="input-small">
+					<p:inputMask id="date" value="#{clienteMB.cliente.dataNascimento}" mask="99/99/9999" label="#{msg['label.cliente.dtnascimento']}" required="true" styleClass="input-small">
 						 <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
 					</p:inputMask>
 				</div>
@@ -85,7 +85,7 @@
 					<h:outputText value="#{msg['label.cliente.endereco.cep']}" />
 				</label>
 				<div class="controls">
-			        <h:inputText value="#{clienteMB.endereco.numCep}" label="#{msg['label.cliente.endereco.cep']}" required="true" styleClass="input-small"/>
+			        <p:inputMask mask="99999-999" value="#{clienteMB.endereco.numCep}" required="true" styleClass="input-small" />
 				</div>
 			</div>
 			
@@ -103,7 +103,7 @@
 					<h:outputText value="#{msg['label.cliente.endereco.num']}" />
 				</label>
 				<div class="controls">
-			        <h:inputText value="#{clienteMB.endereco.descNumero}" label="#{msg['label.cliente.endereco.num']}" required="true" styleClass="input-large"/>
+			        <h:inputText value="#{clienteMB.endereco.descNumero}" label="#{msg['label.cliente.endereco.num']}" required="true" styleClass="input-small"/>
 				</div>
 			</div>
 			
@@ -141,16 +141,18 @@
 				<div class="controls">
 					<p:selectOneMenu id="uf" value="#{clienteMB.endereco.uf}" converter="entityConverter" >
 		                <f:selectItem itemLabel="Selecione o estado..." itemValue="" noSelectionOption="true" />
-		                <f:selectItems value="#{clienteMB.listaUfs}" var="uf" itemLabel="#{uf.descUf}" itemValue="#{uf}"/>
+		                <f:selectItems value="#{clienteMB.listaUfs}" var="uf" itemLabel="#{uf.descUf}" />
 	    	        </p:selectOneMenu>
 				</div>
 			</div>
+			
+			<!-- Contato -->
 		</fieldset>
 
 		<div class="control-group">
 			<div class="controls">
 				<p:commandButton value="#{msg['button.salvar']}" action="#{clienteMB.salvar}" styleClass="btn btn-success" onclick="PF('dlg').show();" 
-					oncomplete="dlg.hide();" rendered="#{clienteMB.cliente != null}" />
+					oncomplete="PF('dlg').hide();" rendered="#{clienteMB.cliente != null}" />
 				
 				<p:button value="#{msg['button.cancelar']}" outcome="lista_cliente" styleClass="btn" />
 				

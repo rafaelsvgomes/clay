@@ -16,6 +16,7 @@ public class TipoEndereco implements ClayEntidade {
     @Column(name = "IDTIPOENDERECO", unique = true, nullable = false)
 	private Short id;
 	
+	@Column(name = "dsTipoEndereco")
 	private String descTipoEndereco;
 
 	public Short getId() {

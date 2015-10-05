@@ -57,7 +57,7 @@ public class ClienteMB extends BaseMB {
             cliente.setListaEndereco(new ArrayList<Endereco>());
             cliente.getListaEndereco().add(endereco);
 
-            listaUfs = ejb.listarUfs();
+            // listaUfs = ejb.listarUfs();
         }
     }
 
@@ -66,8 +66,7 @@ public class ClienteMB extends BaseMB {
             if (idSelecionado == null) {
                 return;
             }
-            cliente = ejb.find(idSelecionado);
-            //Verificar como buscar este endereo pois no MB a sessao ejb já foi finalizada.
+            cliente = ejb.obterPessoa(idSelecionado);
             endereco = cliente.getListaEndereco().get(0);
         }
     }
@@ -102,6 +101,14 @@ public class ClienteMB extends BaseMB {
         return "lista_cliente";
     }
 
+    // TODO: rafael - Verificar motivo de estar chamando duas vezes a listar
+    public List<Pessoa> getClientes() {
+        if (!FacesContext.getCurrentInstance().isPostback() || clientes == null) {
+            clientes = ejb.findAll();
+        }
+        return clientes;
+    }
+
     /**
      * @param key
      * @return Recupera a mensagem do arquivo properties <code>ResourceBundle</code>.
@@ -133,11 +140,6 @@ public class ClienteMB extends BaseMB {
         return cliente;
     }
 
-    public List<Pessoa> getClientes() {
-        clientes = ejb.findAll();
-        return clientes;
-    }
-
     public Endereco getEndereco() {
         return endereco;
     }
@@ -151,6 +153,9 @@ public class ClienteMB extends BaseMB {
     }
 
     public List<UF> getListaUfs() {
+        if (listaUfs == null) {
+            listaUfs = ejb.listarUfs();
+        }
         return listaUfs;
     }
 

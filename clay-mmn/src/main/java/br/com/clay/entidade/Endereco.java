@@ -1,6 +1,5 @@
 package br.com.clay.entidade;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,126 +7,131 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "ENDERECOPESSOA")
 @SequenceGenerator(name = "seqenderecopessoa", sequenceName = "seqenderecopessoa", allocationSize = 1)
-public class Endereco  implements ClayEntidade {
-	private static final long serialVersionUID = 3017364402878640980L;
+@NamedQueries({ @NamedQuery(name = Endereco.LISTAR_POR_ID_PESSOA, query = "SELECT e FROM Endereco e WHERE e.pessoa.id = :idPessoa") })
+public class Endereco implements ClayEntidade {
+    private static final long serialVersionUID = 3017364402878640980L;
 
-	@Id
-	@Column(name = "IDENDERECOPESSOA")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqenderecopessoa")
-	private Long id;
-	
-	@ManyToOne(cascade = CascadeType.ALL)
+    public static final String LISTAR_POR_ID_PESSOA = "listarPorIdPessoa";
+
+    @Id
+    @Column(name = "IDENDERECOPESSOA")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqenderecopessoa")
+    private Long id;
+
+    @ManyToOne
     @JoinColumn(name = "IDPESSOA", nullable = false)
-	private Pessoa pessoa;
-	
-	@ManyToOne
+    private Pessoa pessoa;
+
+    @ManyToOne
     @JoinColumn(name = "IDTIPOENDERECO", nullable = false)
-	private TipoEndereco tipoEndereco;
-	
-	@Column(name = "dsEndereco")
-	private String descEndereco;
-	
-	@Column(name = "dsNumero")
-	private String descNumero;
-	
-	@Column(name = "dsComplemento")
-	private String descComplemento;
-	
-	@Column(name = "dsBairro")
-	private String descBairro;
-	
-	@Column(name = "dsCidade")
-	private String descCidade;
-	
-	private String numCep;
-	
-	@ManyToOne
+    private TipoEndereco tipoEndereco;
+
+    @Column(name = "dsEndereco")
+    private String descEndereco;
+
+    @Column(name = "dsNumero")
+    private String descNumero;
+
+    @Column(name = "dsComplemento")
+    private String descComplemento;
+
+    @Column(name = "dsBairro")
+    private String descBairro;
+
+    @Column(name = "dsCidade")
+    private String descCidade;
+
+    private String numCep;
+
+    @ManyToOne
     @JoinColumn(name = "IDUF", nullable = false)
-	private UF uf;
+    private UF uf;
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public Pessoa getPessoa() {
-		return pessoa;
-	}
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
 
-	public void setPessoa(Pessoa pessoa) {
-		this.pessoa = pessoa;
-	}
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
 
-	public TipoEndereco getTipoEndereco() {
-		return tipoEndereco;
-	}
+    public TipoEndereco getTipoEndereco() {
+        return tipoEndereco;
+    }
 
-	public void setTipoEndereco(TipoEndereco tipoEndereco) {
-		this.tipoEndereco = tipoEndereco;
-	}
+    public void setTipoEndereco(TipoEndereco tipoEndereco) {
+        this.tipoEndereco = tipoEndereco;
+    }
 
-	public String getDescEndereco() {
-		return descEndereco;
-	}
+    public String getDescEndereco() {
+        return descEndereco;
+    }
 
-	public void setDescEndereco(String descEndereco) {
-		this.descEndereco = descEndereco;
-	}
+    public void setDescEndereco(String descEndereco) {
+        this.descEndereco = descEndereco;
+    }
 
-	public String getDescNumero() {
-		return descNumero;
-	}
+    public String getDescNumero() {
+        return descNumero;
+    }
 
-	public void setDescNumero(String descNumero) {
-		this.descNumero = descNumero;
-	}
+    public void setDescNumero(String descNumero) {
+        this.descNumero = descNumero;
+    }
 
-	public String getDescComplemento() {
-		return descComplemento;
-	}
+    public String getDescComplemento() {
+        return descComplemento;
+    }
 
-	public void setDescComplemento(String descComplemento) {
-		this.descComplemento = descComplemento;
-	}
+    public void setDescComplemento(String descComplemento) {
+        this.descComplemento = descComplemento;
+    }
 
-	public String getDescBairro() {
-		return descBairro;
-	}
+    public String getDescBairro() {
+        return descBairro;
+    }
 
-	public void setDescBairro(String descBairro) {
-		this.descBairro = descBairro;
-	}
+    public void setDescBairro(String descBairro) {
+        this.descBairro = descBairro;
+    }
 
-	public String getDescCidade() {
-		return descCidade;
-	}
+    public String getDescCidade() {
+        return descCidade;
+    }
 
-	public void setDescCidade(String descCidade) {
-		this.descCidade = descCidade;
-	}
+    public void setDescCidade(String descCidade) {
+        this.descCidade = descCidade;
+    }
 
-	public String getNumCep() {
-		return numCep;
-	}
+    public String getNumCep() {
+        return numCep;
+    }
 
-	public void setNumCep(String numCep) {
-		this.numCep = numCep;
-	}
+    public void setNumCep(String numCep) {
+        this.numCep = numCep;
+    }
 
-	public UF getUf() {
-		return uf;
-	}
+    public UF getUf() {
+        return uf;
+    }
 
-	public void setUf(UF uf) {
-		this.uf = uf;
-	}
+    public void setUf(UF uf) {
+        this.uf = uf;
+    }
 }

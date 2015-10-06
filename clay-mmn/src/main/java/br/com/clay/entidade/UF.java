@@ -17,17 +17,17 @@ public class UF implements ClayEntidade {
 
     @Id
     @Column(name = "IDUF", unique = true, nullable = false)
-    private Short id;
+    private String codUf;
 
     @Column(name = "dsuf")
     private String descUf;
 
-    public Short getId() {
-        return id;
+    public String getCodUf() {
+        return codUf;
     }
 
-    public void setId(Short id) {
-        this.id = id;
+    public void setCodUf(String cod) {
+        this.codUf = cod;
     }
 
     public String getDescUf() {
@@ -49,7 +49,7 @@ public class UF implements ClayEntidade {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((codUf == null) ? 0 : codUf.hashCode());
         return result;
     }
 
@@ -68,13 +68,23 @@ public class UF implements ClayEntidade {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ClayEntidade other = (ClayEntidade) obj;
-        if (id == null) {
-            if (other.getId() != null)
+        UF other = (UF) obj;
+        if (codUf == null) {
+            if (other.getCodUf() != null)
                 return false;
-        } else if (!id.equals(other.getId()))
+        } else if (!codUf.equals(other.getCodUf()))
             return false;
         return true;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see br.com.clay.entidade.ClayEntidade#getId()
+     */
+    @Override
+    public Number getId() {
+        return null;
     }
 
 }

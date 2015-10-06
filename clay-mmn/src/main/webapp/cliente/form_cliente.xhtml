@@ -139,7 +139,7 @@
 					<h:outputText value="#{msg['label.cliente.endereco.estado']}" />
 				</label>
 				<div class="controls">
-					<p:selectOneMenu id="uf" value="#{clienteMB.endereco.uf}" converter="entityConverter" >
+					<p:selectOneMenu value="#{clienteMB.endereco.uf}" converter="ufConverter" >
 		                <f:selectItem itemLabel="Selecione o estado..." itemValue="" noSelectionOption="true" />
 		                <f:selectItems value="#{clienteMB.listaUfs}" var="uf" itemLabel="#{uf.descUf}" />
 	    	        </p:selectOneMenu>

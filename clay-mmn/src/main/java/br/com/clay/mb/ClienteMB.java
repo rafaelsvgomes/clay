@@ -37,8 +37,6 @@ public class ClienteMB extends BaseMB {
 
     private List<UF> listaUfs;
 
-    private UF uf;
-
     public ClienteMB() {
     }
 
@@ -142,14 +140,6 @@ public class ClienteMB extends BaseMB {
 
     public Endereco getEndereco() {
         return endereco;
-    }
-
-    public UF getUf() {
-        return uf;
-    }
-
-    public void setUf(UF uf) {
-        this.uf = uf;
     }
 
     public List<UF> getListaUfs() {

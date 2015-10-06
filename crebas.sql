@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     28/09/2015 13:26:17                          */
+/* Created on:     06/10/2015 10:35:55                          */
 /*==============================================================*/
 
 
@@ -184,7 +184,7 @@ create table ENDERECOPESSOA (
    DSBAIRRO             VARCHAR(40)          null,
    DSCIDADE             VARCHAR(40)          null,
    NUMCEP               VARCHAR(10)          null,
-   IDUF                 VARCHAR(2)           null,
+   CODUF                VARCHAR(2)           null,
    constraint PK_ENDERECOPESSOA primary key (IDENDERECOPESSOA)
 );
 
@@ -493,16 +493,16 @@ IDTIPOTELEFONE
 /* Table: UF                                                    */
 /*==============================================================*/
 create table UF (
-   IDUF                 VARCHAR(2)           not null,
+   CODUF                VARCHAR(2)           not null,
    DSUF                 VARCHAR(40)          not null,
-   constraint PK_UF primary key (IDUF)
+   constraint PK_UF primary key (CODUF)
 );
 
 /*==============================================================*/
 /* Index: INDEX_16                                              */
 /*==============================================================*/
 create unique index INDEX_16 on UF (
-IDUF
+CODUF
 );
 
 /*==============================================================*/
@@ -589,8 +589,8 @@ alter table ENDERECOPESSOA
       on delete restrict on update restrict;
 
 alter table ENDERECOPESSOA
-   add constraint FK_ENDERECO_REFERENCE_UF foreign key (IDUF)
-      references UF (IDUF)
+   add constraint FK_ENDERECO_REFERENCE_UF foreign key (CODUF)
+      references UF (CODUF)
       on delete restrict on update restrict;
 
 alter table ENDERECOPESSOA

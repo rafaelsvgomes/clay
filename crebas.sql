@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     06/10/2015 10:35:55                          */
+/* Created on:     07/10/2015 13:00:56                          */
 /*==============================================================*/
 
 
@@ -57,10 +57,6 @@ drop table SITUACAOPESSOA;
 drop index INDEX_11;
 
 drop table TELEFONE;
-
-drop index INDEX_12;
-
-drop table TELEFONEOPERADORA;
 
 drop index INDEX_5;
 
@@ -266,6 +262,7 @@ create table PESSOA (
       constraint CKC_CODSEXO_PESSOA check (CODSEXO is null or (CODSEXO in ('M','F'))),
    DATANASCIMENTO       DATE                 null,
    DATACADASTRO         DATE                 null,
+   DSEMAIL              VARCHAR(50)          null,
    constraint PK_PESSOA primary key (IDPESSOA)
 );
 
@@ -396,8 +393,7 @@ IDSITUACAOPESSOA
 create table TELEFONE (
    IDTELEFONE           INT8                 not null,
    IDTIPOTELEFONE       INT4                 null,
-   IDTELEFONEOPERADORA  INT4                 null,
-   IDPESSOA             INT8                 null,
+   IDPESSOA             INT8                 not null,
    DSTELEFONE           VARCHAR(15)          not null,
    constraint PK_TELEFONE primary key (IDTELEFONE)
 );
@@ -407,22 +403,6 @@ create table TELEFONE (
 /*==============================================================*/
 create unique index INDEX_11 on TELEFONE (
 IDTELEFONE
-);
-
-/*==============================================================*/
-/* Table: TELEFONEOPERADORA                                     */
-/*==============================================================*/
-create table TELEFONEOPERADORA (
-   IDTELEFONEOPERADORA  INT4                 not null,
-   DSTELEFONEOPERADORA  VARCHAR(30)          not null,
-   constraint PK_TELEFONEOPERADORA primary key (IDTELEFONEOPERADORA)
-);
-
-/*==============================================================*/
-/* Index: INDEX_12                                              */
-/*==============================================================*/
-create unique index INDEX_12 on TELEFONEOPERADORA (
-IDTELEFONEOPERADORA
 );
 
 /*==============================================================*/
@@ -681,11 +661,6 @@ alter table PRODUTO
 alter table TELEFONE
    add constraint FK_TELEFONE_REFERENCE_TIPOTELE foreign key (IDTIPOTELEFONE)
       references TIPOTELEFONE (IDTIPOTELEFONE)
-      on delete restrict on update restrict;
-
-alter table TELEFONE
-   add constraint FK_TELEFONE_REFERENCE_TELEFONE foreign key (IDTELEFONEOPERADORA)
-      references TELEFONEOPERADORA (IDTELEFONEOPERADORA)
       on delete restrict on update restrict;
 
 alter table TELEFONE

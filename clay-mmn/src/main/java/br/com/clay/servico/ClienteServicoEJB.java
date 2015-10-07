@@ -10,6 +10,7 @@ import javax.persistence.Query;
 
 import br.com.clay.entidade.Endereco;
 import br.com.clay.entidade.Pessoa;
+import br.com.clay.entidade.TipoTelefone;
 import br.com.clay.entidade.UF;
 
 /**
@@ -18,6 +19,7 @@ import br.com.clay.entidade.UF;
 
 @Stateless
 @LocalBean
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class ClienteServicoEJB extends BasePersistencia<Pessoa, Long> {
 
     @PersistenceContext
@@ -35,16 +37,28 @@ public class ClienteServicoEJB extends BasePersistencia<Pessoa, Long> {
         super(Pessoa.class);
     }
 
-    @SuppressWarnings("unchecked")
+    /**
+     * @return List<UF>
+     */
     public List<UF> listarUfs() {
         Query query = em.createNamedQuery(UF.LISTAR);
         return query.getResultList();
     }
 
-    @SuppressWarnings("unchecked")
+    /**
+     * @param id
+     * @return Pessoa
+     */
     public Pessoa obterPessoa(Long id) {
         Pessoa pessoa = em.find(Pessoa.class, id);
         pessoa.setListaEndereco(em.createNamedQuery(Endereco.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", id).getResultList());
         return pessoa;
+    }
+
+    /**
+     * @return List<TipoTelefone>
+     */
+    public List<TipoTelefone> listarTipoTelefone() {
+        return new BasePersistenciaGenerico(em).findAll(TipoTelefone.class);
     }
 }

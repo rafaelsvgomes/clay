@@ -12,6 +12,13 @@ public class TipoEndereco implements ClayEntidade {
 
     public static final short RESIDENCIAL = 1;
 
+    public TipoEndereco() {
+    }
+
+    public TipoEndereco(short idTipoEndereco) {
+        this.id = idTipoEndereco;
+    }
+
     @Id
     @Column(name = "IDTIPOENDERECO", unique = true, nullable = false)
     private Short id;

@@ -10,6 +10,16 @@ import javax.persistence.Table;
 public class TipoTelefone implements ClayEntidade {
     private static final long serialVersionUID = -4114897303647563942L;
 
+    public static final Short RESIDENCIAL = 1;
+    public static final Short CELULAR = 2;
+
+    public TipoTelefone() {
+    }
+
+    public TipoTelefone(Short idTipoTelefone) {
+        this.id = idTipoTelefone;
+    }
+
     @Id
     @Column(name = "IDTIPOTELEFONE", unique = true, nullable = false)
     private Short id;

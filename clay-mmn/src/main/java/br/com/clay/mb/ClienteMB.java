@@ -15,7 +15,9 @@ import javax.faces.context.FacesContext;
 
 import br.com.clay.entidade.Endereco;
 import br.com.clay.entidade.Pessoa;
+import br.com.clay.entidade.Telefone;
 import br.com.clay.entidade.TipoEndereco;
+import br.com.clay.entidade.TipoTelefone;
 import br.com.clay.entidade.UF;
 import br.com.clay.servico.ClienteServicoEJB;
 
@@ -31,9 +33,13 @@ public class ClienteMB extends BaseMB {
 
     private Pessoa cliente;
 
-    private List<Pessoa> clientes;
-
     private Endereco endereco;
+
+    private Telefone telefone;
+
+    private Telefone celular;
+
+    private List<Pessoa> clientes;
 
     private List<UF> listaUfs;
 
@@ -46,17 +52,30 @@ public class ClienteMB extends BaseMB {
         // }
         if (!FacesContext.getCurrentInstance().isPostback()) {
             cliente = new Pessoa();
-            endereco = new Endereco();
-            endereco.setPessoa(cliente);
-
-            TipoEndereco tpEndereco = new TipoEndereco();
-            tpEndereco.setId(TipoEndereco.RESIDENCIAL);
-            endereco.setTipoEndereco(tpEndereco);
-            cliente.setListaEndereco(new ArrayList<Endereco>());
-            cliente.getListaEndereco().add(endereco);
-
-            // listaUfs = ejb.listarUfs();
+            setEnderecoPessoa();
+            setTelefonePessoa();
         }
+    }
+
+    private void setEnderecoPessoa() {
+        endereco = new Endereco();
+        endereco.setPessoa(cliente);
+
+        endereco.setTipoEndereco(new TipoEndereco(TipoEndereco.RESIDENCIAL));
+        cliente.setListaEndereco(new ArrayList<Endereco>());
+        cliente.getListaEndereco().add(endereco);
+    }
+
+    private void setTelefonePessoa() {
+        telefone = new Telefone();
+        celular = new Telefone();
+
+        telefone.setTipoTelefone(new TipoTelefone(TipoTelefone.RESIDENCIAL));
+        celular.setTipoTelefone(new TipoTelefone(TipoTelefone.CELULAR));
+
+        cliente.setListaTelefone(new ArrayList<Telefone>());
+        cliente.getListaTelefone().add(telefone);
+        cliente.getListaTelefone().add(celular);
     }
 
     public void editar() {
@@ -126,6 +145,13 @@ public class ClienteMB extends BaseMB {
         getCurrentInstance().addMessage(null, new FacesMessage(summary, summary.concat("<br/>").concat(detail)));
     }
 
+    public List<UF> getListaUfs() {
+        if (listaUfs == null) {
+            listaUfs = ejb.listarUfs();
+        }
+        return listaUfs;
+    }
+
     public Long getIdSelecionado() {
         return idSelecionado;
     }
@@ -142,11 +168,11 @@ public class ClienteMB extends BaseMB {
         return endereco;
     }
 
-    public List<UF> getListaUfs() {
-        if (listaUfs == null) {
-            listaUfs = ejb.listarUfs();
-        }
-        return listaUfs;
+    public Telefone getTelefone() {
+        return telefone;
     }
 
+    public Telefone getCelular() {
+        return celular;
+    }
 }

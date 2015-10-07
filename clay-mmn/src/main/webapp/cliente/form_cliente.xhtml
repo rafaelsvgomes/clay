@@ -3,6 +3,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
+	
+	<h:outputScript library="primefaces" name="jquery.js" />
 
 	<h:form styleClass="form-horizontal">
 		<fieldset>
@@ -31,13 +33,13 @@
 			        <p:selectOneRadio id="tppessoa" value="#{clienteMB.cliente.tipoPessoa}" >
 			            <f:selectItem itemLabel="Pessoa Física" itemValue="F" />
 			            <f:selectItem itemLabel="Pessoa Jurídica" itemValue="J" />
-			            <p:ajax update="cpfCnpjLabel, cnpj, panelGeral" event="change"/>
+			            <p:ajax update="cpfCnpjLabel, cnpj, painelCpfCnpj" event="change"/>
 			        </p:selectOneRadio>
 				</div>
 			</div>
 
 			<div class="control-group">
-				<p:outputPanel id="panelGeral">
+				<p:outputPanel id="painelCpfCnpj">
 					<label class="control-label">
 						<h:outputText id="cpfCnpjLabel" value="#{clienteMB.cliente.tipoPessoa == 'J' ? msg['label.cliente.cnpj'] : msg['label.cliente.cpf']}" />
 					</label>
@@ -147,6 +149,24 @@
 			</div>
 			
 			<!-- Contato -->
+			<div class="control-group">
+				<label class="control-label">
+					<h:outputText value="#{msg['label.cliente.telefone']}" />
+				</label>
+				<div class="controls">
+			        <p:inputMask mask="(99)99999999?9" value="#{clienteMB.telefone.descTelefone}" label="#{msg['label.cliente.telefone']}" required="true" styleClass="input-large" />
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<label class="control-label">
+					<h:outputText value="#{msg['label.cliente.celular']}" />
+				</label>
+				<div class="controls">
+			        <p:inputMask mask="(99)99999999?9" value="#{clienteMB.celular.descTelefone}" label="#{msg['label.cliente.celular']}" required="true" styleClass="input-large" />
+				</div>
+			</div>
+			
 		</fieldset>
 
 		<div class="control-group">

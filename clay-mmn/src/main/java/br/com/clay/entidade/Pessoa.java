@@ -25,110 +25,121 @@ import br.com.clay.enums.TipoSexo;
 @Table(name = "PESSOA")
 @SequenceGenerator(name = "seqpessoa", sequenceName = "seqpessoa", allocationSize = 1)
 public class Pessoa implements ClayEntidade {
-	private static final long serialVersionUID = -8922414503953244338L;
+    private static final long serialVersionUID = -8922414503953244338L;
 
-	@Id
-	@Column(name = "idPessoa")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqpessoa")
-	private Long id;
+    @Id
+    @Column(name = "idPessoa")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqpessoa")
+    private Long id;
 
-	private String nomePessoa;
+    private String nomePessoa;
 
-	@Column(name = "dsRazaoSocial")
-	private String descRazaoSocial;
+    @Column(name = "dsRazaoSocial")
+    private String descRazaoSocial;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "codTipoPessoa")
-	private TipoPessoa tipoPessoa;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "codTipoPessoa")
+    private TipoPessoa tipoPessoa;
 
-	// private SituacaoPessoa situacaoPessoa;
-	// private PlanoAssinatura planoAssinatura;
+    // private SituacaoPessoa situacaoPessoa;
+    // private PlanoAssinatura planoAssinatura;
 
-	private String numCpfCnpj;
+    private String numCpfCnpj;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "codSexo")
-	private TipoSexo tipoSexo;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "codSexo")
+    private TipoSexo tipoSexo;
 
-	@Column(name = "dataNascimento")
-	private Date dataNascimento;
+    @Column(name = "dataNascimento")
+    private Date dataNascimento;
 
-	@Column(name = "dataCadastro")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Calendar dataCadastro;
-	
-	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+    @Column(name = "dataCadastro")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar dataCadastro;
+
+    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
     private List<Endereco> listaEndereco;
 
-	public Long getId() {
-		return id;
-	}
+    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+    private List<Telefone> listaTelefone;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getNomePessoa() {
-		return nomePessoa;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setNomePessoa(String nomePessoa) {
-		this.nomePessoa = nomePessoa;
-	}
+    public String getNomePessoa() {
+        return nomePessoa;
+    }
 
-	public String getDescRazaoSocial() {
-		return descRazaoSocial;
-	}
+    public void setNomePessoa(String nomePessoa) {
+        this.nomePessoa = nomePessoa;
+    }
 
-	public void setDescRazaoSocial(String descRazaoSocial) {
-		this.descRazaoSocial = descRazaoSocial;
-	}
+    public String getDescRazaoSocial() {
+        return descRazaoSocial;
+    }
 
-	public TipoPessoa getTipoPessoa() {
-		return tipoPessoa;
-	}
+    public void setDescRazaoSocial(String descRazaoSocial) {
+        this.descRazaoSocial = descRazaoSocial;
+    }
 
-	public void setTipoPessoa(TipoPessoa tipoPessoa) {
-		this.tipoPessoa = tipoPessoa;
-	}
+    public TipoPessoa getTipoPessoa() {
+        return tipoPessoa;
+    }
 
-	public String getNumCpfCnpj() {
-		return numCpfCnpj;
-	}
+    public void setTipoPessoa(TipoPessoa tipoPessoa) {
+        this.tipoPessoa = tipoPessoa;
+    }
 
-	public void setNumCpfCnpj(String numCpfCnpj) {
-		this.numCpfCnpj = numCpfCnpj;
-	}
+    public String getNumCpfCnpj() {
+        return numCpfCnpj;
+    }
 
-	public TipoSexo getTipoSexo() {
-		return tipoSexo;
-	}
+    public void setNumCpfCnpj(String numCpfCnpj) {
+        this.numCpfCnpj = numCpfCnpj;
+    }
 
-	public void setTipoSexo(TipoSexo tipoSexo) {
-		this.tipoSexo = tipoSexo;
-	}
+    public TipoSexo getTipoSexo() {
+        return tipoSexo;
+    }
 
-	public Date getDataNascimento() {
-		return dataNascimento;
-	}
+    public void setTipoSexo(TipoSexo tipoSexo) {
+        this.tipoSexo = tipoSexo;
+    }
 
-	public void setDataNascimento(Date dataNascimento) {
-		this.dataNascimento = dataNascimento;
-	}
+    public Date getDataNascimento() {
+        return dataNascimento;
+    }
 
-	public Calendar getDataCadastro() {
-		return dataCadastro;
-	}
+    public void setDataNascimento(Date dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
 
-	public void setDataCadastro(Calendar dataCadastro) {
-		this.dataCadastro = dataCadastro;
-	}
+    public Calendar getDataCadastro() {
+        return dataCadastro;
+    }
 
-	public List<Endereco> getListaEndereco() {
-		return listaEndereco;
-	}
+    public void setDataCadastro(Calendar dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
 
-	public void setListaEndereco(List<Endereco> listaEndereco) {
-		this.listaEndereco = listaEndereco;
-	}
+    public List<Endereco> getListaEndereco() {
+        return listaEndereco;
+    }
+
+    public void setListaEndereco(List<Endereco> listaEndereco) {
+        this.listaEndereco = listaEndereco;
+    }
+
+    public List<Telefone> getListaTelefone() {
+        return listaTelefone;
+    }
+
+    public void setListaTelefone(List<Telefone> listaTelefone) {
+        this.listaTelefone = listaTelefone;
+    }
 }

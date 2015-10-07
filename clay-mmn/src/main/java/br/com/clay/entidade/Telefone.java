@@ -30,7 +30,7 @@ public class Telefone implements ClayEntidade {
     private TipoTelefone tipoTelefone;
 
     @ManyToOne
-    @JoinColumn(name = "idTelefoneOperadora", nullable = false)
+    @JoinColumn(name = "idTelefoneOperadora")
     private TelefoneOperadora telefoneOperadora;
 
     @ManyToOne

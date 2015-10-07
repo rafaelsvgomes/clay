@@ -52,7 +52,7 @@ public class Endereco implements ClayEntidade {
     private String numCep;
 
     @ManyToOne
-    @JoinColumn(name = "IDUF", nullable = false)
+    @JoinColumn(name = "CODUF", nullable = false)
     private UF uf;
 
     public Long getId() {

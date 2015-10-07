@@ -16,7 +16,7 @@ public class UF implements ClayEntidade {
     public static final String LISTAR = "UF.Listar";
 
     @Id
-    @Column(name = "IDUF", unique = true, nullable = false)
+    @Column(name = "CODUF", unique = true, nullable = false)
     private String codUf;
 
     @Column(name = "dsuf")

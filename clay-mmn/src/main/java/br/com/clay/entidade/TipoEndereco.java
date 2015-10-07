@@ -8,30 +8,30 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "TIPOENDERECO")
 public class TipoEndereco implements ClayEntidade {
-	private static final long serialVersionUID = 5493317362445950406L;
+    private static final long serialVersionUID = 5493317362445950406L;
 
-	public static final short RESIDENCIAL = 1;
+    public static final short RESIDENCIAL = 1;
 
-	@Id
+    @Id
     @Column(name = "IDTIPOENDERECO", unique = true, nullable = false)
-	private Short id;
-	
-	@Column(name = "dsTipoEndereco")
-	private String descTipoEndereco;
+    private Short id;
 
-	public Short getId() {
-		return id;
-	}
+    @Column(name = "dsTipoEndereco", nullable = false)
+    private String descTipoEndereco;
 
-	public void setId(Short id) {
-		this.id = id;
-	}
+    public Short getId() {
+        return id;
+    }
 
-	public String getDescTipoEndereco() {
-		return descTipoEndereco;
-	}
+    public void setId(Short id) {
+        this.id = id;
+    }
 
-	public void setDescTipoEndereco(String descTipoEndereco) {
-		this.descTipoEndereco = descTipoEndereco;
-	}
+    public String getDescTipoEndereco() {
+        return descTipoEndereco;
+    }
+
+    public void setDescTipoEndereco(String descTipoEndereco) {
+        this.descTipoEndereco = descTipoEndereco;
+    }
 }

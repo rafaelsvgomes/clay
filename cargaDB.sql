@@ -27,3 +27,7 @@ INSERT INTO uf values ('SE','Sergipe (SE)');
 INSERT INTO uf values ('TO','Tocantins (TO)');
 
 INSERT INTO tipoendereco values (1, 'Residencial');
+
+INSERT INTO tipotelefone values (1, 'Residencial');
+INSERT INTO tipotelefone values (2, 'Celular');
+INSERT INTO tipotelefone values (3, 'Comercial');

@@ -19,11 +19,11 @@ import br.com.clay.entidade.ClayEntidade;
  * 
  * @author rafael.silva
  */
-public class BasePersistenciaGenerico<T extends ClayEntidade> {
+public class ClayPersistenciaGenerico<T extends ClayEntidade> {
 
     EntityManager em;
 
-    public BasePersistenciaGenerico(EntityManager entityManager) {
+    public ClayPersistenciaGenerico(EntityManager entityManager) {
         em = entityManager;
     }
 

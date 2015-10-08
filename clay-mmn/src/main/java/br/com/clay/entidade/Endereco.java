@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Table(name = "ENDERECOPESSOA")
 @SequenceGenerator(name = "seqenderecopessoa", sequenceName = "seqenderecopessoa", allocationSize = 1)
 @NamedQueries({ @NamedQuery(name = Endereco.LISTAR_POR_ID_PESSOA, query = "SELECT e FROM Endereco e WHERE e.pessoa.id = :idPessoa") })
-public class Endereco implements ClayEntidade {
+public class Endereco extends ClayEntidade {
     private static final long serialVersionUID = 3017364402878640980L;
 
     public static final String LISTAR_POR_ID_PESSOA = "listarPorIdPessoa";

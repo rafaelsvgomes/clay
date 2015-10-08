@@ -23,7 +23,7 @@ import br.com.clay.servico.ClienteServicoEJB;
 
 @ManagedBean(name = "clienteMB")
 @SessionScoped
-public class ClienteMB extends BaseMB {
+public class ClienteMB extends ClayMB {
     private static final long serialVersionUID = -6556028968452915346L;
 
     @EJB

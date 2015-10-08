@@ -20,7 +20,7 @@
 				</label>
 				<div class="controls">
 					<h:inputText value="#{clienteMB.cliente.nomePessoa}" label="#{msg['label.cliente.nome']}" required="true" styleClass="input-large">
-						<f:validateLength minimum="5" maximum="60" />
+						<f:validateLength minimum="5" maximum="100" />
 					</h:inputText>
 				</div>
 			</div>
@@ -78,6 +78,36 @@
 			            <f:selectItem itemLabel="Masculino" itemValue="M" />
 			            <f:selectItem itemLabel="Feminino" itemValue="F" />
 			        </p:selectOneRadio>
+				</div>
+			</div>
+			
+			<!-- Contato -->
+			<div class="control-group">
+				<label class="control-label">
+					<h:outputText value="#{msg['label.cliente.telefone']}" />
+				</label>
+				<div class="controls">
+			        <p:inputMask mask="(99)99999999?9" value="#{clienteMB.telefone.descTelefone}" label="#{msg['label.cliente.telefone']}" required="true" styleClass="input-large" />
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<label class="control-label">
+					<h:outputText value="#{msg['label.cliente.celular']}" />
+				</label>
+				<div class="controls">
+			        <p:inputMask mask="(99)99999999?9" value="#{clienteMB.celular.descTelefone}" label="#{msg['label.cliente.celular']}" required="true" styleClass="input-large" />
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<label class="control-label">
+					<h:outputText value="#{msg['label.cliente.email']}" />
+				</label>
+				<div class="controls">
+					<h:inputText value="#{clienteMB.cliente.descEmail}" label="#{msg['label.cliente.email']}" required="true" styleClass="input-large">
+						<f:validateLength minimum="5" maximum="100" />
+					</h:inputText>
 				</div>
 			</div>
 			
@@ -147,25 +177,7 @@
 	    	        </p:selectOneMenu>
 				</div>
 			</div>
-			
-			<!-- Contato -->
-			<div class="control-group">
-				<label class="control-label">
-					<h:outputText value="#{msg['label.cliente.telefone']}" />
-				</label>
-				<div class="controls">
-			        <p:inputMask mask="(99)99999999?9" value="#{clienteMB.telefone.descTelefone}" label="#{msg['label.cliente.telefone']}" required="true" styleClass="input-large" />
-				</div>
-			</div>
-			
-			<div class="control-group">
-				<label class="control-label">
-					<h:outputText value="#{msg['label.cliente.celular']}" />
-				</label>
-				<div class="controls">
-			        <p:inputMask mask="(99)99999999?9" value="#{clienteMB.celular.descTelefone}" label="#{msg['label.cliente.celular']}" required="true" styleClass="input-large" />
-				</div>
-			</div>
+			<!-- Conta Bancária -->
 			
 		</fieldset>
 

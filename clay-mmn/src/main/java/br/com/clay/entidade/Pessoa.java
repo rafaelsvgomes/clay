@@ -24,12 +24,12 @@ import br.com.clay.enums.TipoSexo;
 @Entity
 @Table(name = "PESSOA")
 @SequenceGenerator(name = "seqpessoa", sequenceName = "seqpessoa", allocationSize = 1)
-public class Pessoa implements ClayEntidade {
+public class Pessoa extends ClayEntidade {
     private static final long serialVersionUID = -8922414503953244338L;
 
     @Id
-    @Column(name = "idPessoa")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqpessoa")
+    @Column(name = "idPessoa", unique = true, nullable = false)
     private Long id;
 
     private String nomePessoa;
@@ -52,6 +52,9 @@ public class Pessoa implements ClayEntidade {
 
     @Column(name = "dataNascimento")
     private Date dataNascimento;
+
+    @Column(name = "dsEmail")
+    private String descEmail;
 
     @Column(name = "dataCadastro")
     @Temporal(TemporalType.TIMESTAMP)
@@ -141,5 +144,13 @@ public class Pessoa implements ClayEntidade {
 
     public void setListaTelefone(List<Telefone> listaTelefone) {
         this.listaTelefone = listaTelefone;
+    }
+
+    public String getDescEmail() {
+        return descEmail;
+    }
+
+    public void setDescEmail(String descEmail) {
+        this.descEmail = descEmail;
     }
 }

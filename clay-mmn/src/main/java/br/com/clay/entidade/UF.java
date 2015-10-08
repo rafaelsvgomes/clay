@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "UF")
 @NamedQueries({ @NamedQuery(name = UF.LISTAR, query = "SELECT u FROM UF u") })
-public class UF implements ClayEntidade {
+public class UF extends ClayEntidade {
     private static final long serialVersionUID = -8342220191530234596L;
 
     public static final String LISTAR = "UF.Listar";

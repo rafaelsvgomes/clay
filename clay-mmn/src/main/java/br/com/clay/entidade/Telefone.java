@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "TELEFONE")
 @SequenceGenerator(name = "seqtelefone", sequenceName = "seqtelefone", allocationSize = 1)
-public class Telefone implements ClayEntidade {
+public class Telefone extends ClayEntidade {
     private static final long serialVersionUID = 1L;
 
     @Id

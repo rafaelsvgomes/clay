@@ -20,7 +20,7 @@ import br.com.clay.entidade.UF;
 @Stateless
 @LocalBean
 @SuppressWarnings({ "rawtypes", "unchecked" })
-public class ClienteServicoEJB extends BasePersistencia<Pessoa, Long> {
+public class ClienteServicoEJB extends ClayPersistencia<Pessoa, Long> {
 
     @PersistenceContext
     private EntityManager em;
@@ -59,6 +59,6 @@ public class ClienteServicoEJB extends BasePersistencia<Pessoa, Long> {
      * @return List<TipoTelefone>
      */
     public List<TipoTelefone> listarTipoTelefone() {
-        return new BasePersistenciaGenerico(em).findAll(TipoTelefone.class);
+        return new ClayPersistenciaGenerico(em).findAll(TipoTelefone.class);
     }
 }

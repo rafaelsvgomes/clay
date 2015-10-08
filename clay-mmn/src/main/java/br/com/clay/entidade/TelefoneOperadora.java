@@ -11,7 +11,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "TELEFONEOPERADORA")
-public class TelefoneOperadora implements ClayEntidade {
+public class TelefoneOperadora extends ClayEntidade {
     private static final long serialVersionUID = 1L;
 
     @Id

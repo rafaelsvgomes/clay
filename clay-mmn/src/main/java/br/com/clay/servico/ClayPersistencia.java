@@ -14,7 +14,7 @@ import br.com.clay.entidade.ClayEntidade;
  * <code>JPA</code>.
  * 
  */
-public abstract class BasePersistencia<T extends ClayEntidade, PK extends Number> {
+public abstract class ClayPersistencia<T extends ClayEntidade, PK extends Number> {
 
 	/**
 	 * Classe da entidade, necessário para o método
@@ -22,7 +22,7 @@ public abstract class BasePersistencia<T extends ClayEntidade, PK extends Number
 	 */
 	private Class<T> entityClass;
 
-	public BasePersistencia(Class<T> entityClass) {
+	public ClayPersistencia(Class<T> entityClass) {
 		this.entityClass = entityClass;
 	}
 

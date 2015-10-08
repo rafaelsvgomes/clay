@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     07/10/2015 13:00:56                          */
+/* Created on:     08/10/2015 10:09:11                          */
 /*==============================================================*/
 
 
@@ -138,16 +138,16 @@ increment 1;
 /* Table: BANCO                                                 */
 /*==============================================================*/
 create table BANCO (
-   IDBANCO              INT4                 not null,
+   CODBANCO             INT4                 not null,
    DSBANCO              VARCHAR(40)          not null,
-   constraint PK_BANCO primary key (IDBANCO)
+   constraint PK_BANCO primary key (CODBANCO)
 );
 
 /*==============================================================*/
 /* Index: INDEX_7                                               */
 /*==============================================================*/
 create unique index INDEX_7 on BANCO (
-IDBANCO
+CODBANCO
 );
 
 /*==============================================================*/
@@ -280,7 +280,7 @@ create table PESSOACONTA (
    IDPESSOACONTA        INT8                 not null,
    IDPESSOA             INT8                 null,
    IDTIPOCONTA          INT4                 null,
-   IDBANCO              INT4                 null,
+   CODBANCO             INT4                 null,
    NUMAGENCIA           VARCHAR(10)          null,
    NUMCONTA             DECIMAL(15,15)       null,
    BOLCONTAPRINCIPAL    BOOL                 null,
@@ -624,8 +624,8 @@ alter table PESSOACONTA
       on delete restrict on update restrict;
 
 alter table PESSOACONTA
-   add constraint FK_PESSOACO_REFERENCE_BANCO foreign key (IDBANCO)
-      references BANCO (IDBANCO)
+   add constraint FK_PESSOACO_REFERENCE_BANCO foreign key (CODBANCO)
+      references BANCO (CODBANCO)
       on delete restrict on update restrict;
 
 alter table PESSOAREDE

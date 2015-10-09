@@ -68,6 +68,13 @@ public abstract class ClayPersistencia<T extends ClayEntidade, PK extends Number
         return ((Long) q.getSingleResult()).intValue();
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public List findAll(Class entityClass) {
+        CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        cq.select(cq.from(entityClass));
+        return getEntityManager().createQuery(cq).getResultList();
+    }
+
     /**
      * Exige a definição do <code>EntityManager</code> responsável pelas operaçõees de persistência.
      */

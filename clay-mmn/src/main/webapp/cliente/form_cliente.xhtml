@@ -4,8 +4,6 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 	
-	<h:outputScript library="primefaces" name="jquery.js" />
-
 	<h:form styleClass="form-horizontal">
 		<fieldset>
 			<legend>
@@ -178,6 +176,47 @@
 				</div>
 			</div>
 			<!-- Conta Bancária -->
+			<div class="control-group">
+				<label class="control-label">
+					<h:outputText value="#{msg['label.cliente.banco']}" />
+				</label>
+				<div class="controls">
+					<p:selectOneMenu value="#{clienteMB.pessoaConta.banco}" converter="bancoConverter" label="#{msg['label.cliente.banco']}">
+<!-- 		                <f:selectItem itemLabel="Selecione o banco..." itemValue="" noSelectionOption="true" /> -->
+		                <f:selectItems value="#{clienteMB.listaBancos}" var="bc" itemLabel="#{bc.descBanco}" />
+	    	        </p:selectOneMenu>
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<label class="control-label">
+					<h:outputText value="#{msg['label.cliente.tpconta']}" />
+				</label>
+				<div class="controls">
+					<p:selectOneMenu value="#{clienteMB.pessoaConta.tipoConta}" converter="entityConverter" label="#{msg['label.cliente.tpconta']}">
+		                <f:selectItem itemLabel="Selecione o tipo de conta..." itemValue="" noSelectionOption="true" />
+		                <f:selectItems value="#{clienteMB.listaTipoConta}" var="tpConta" itemLabel="#{tpConta.descTipoConta}" />
+	    	        </p:selectOneMenu>
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<label class="control-label">
+					<h:outputText value="#{msg['label.cliente.agencia']}" />
+				</label>
+				<div class="controls">
+			        <h:inputText value="#{clienteMB.pessoaConta.numAgencia}" label="#{msg['label.cliente.agencia']}" required="true" styleClass="input-small"/>
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<label class="control-label">
+					<h:outputText value="#{msg['label.cliente.conta']}" />
+				</label>
+				<div class="controls">
+			        <h:inputText value="#{clienteMB.pessoaConta.numConta}" label="#{msg['label.cliente.conta']}" required="true" styleClass="input-small"/>
+				</div>
+			</div>
 			
 		</fieldset>
 

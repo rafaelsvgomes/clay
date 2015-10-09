@@ -66,6 +66,9 @@ public class Pessoa extends ClayEntidade {
     @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
     private List<Telefone> listaTelefone;
 
+    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+    private List<PessoaConta> listaPessoaConta;
+
     public Long getId() {
         return id;
     }
@@ -152,5 +155,13 @@ public class Pessoa extends ClayEntidade {
 
     public void setDescEmail(String descEmail) {
         this.descEmail = descEmail;
+    }
+
+    public List<PessoaConta> getListaPessoaConta() {
+        return listaPessoaConta;
+    }
+
+    public void setListaPessoaConta(List<PessoaConta> listaPessoaConta) {
+        this.listaPessoaConta = listaPessoaConta;
     }
 }

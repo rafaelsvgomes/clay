@@ -13,9 +13,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import br.com.clay.entidade.Banco;
 import br.com.clay.entidade.Endereco;
 import br.com.clay.entidade.Pessoa;
+import br.com.clay.entidade.PessoaConta;
 import br.com.clay.entidade.Telefone;
+import br.com.clay.entidade.TipoConta;
 import br.com.clay.entidade.TipoEndereco;
 import br.com.clay.entidade.TipoTelefone;
 import br.com.clay.entidade.UF;
@@ -39,9 +42,15 @@ public class ClienteMB extends ClayMB {
 
     private Telefone celular;
 
+    private PessoaConta pessoaConta;
+
     private List<Pessoa> clientes;
 
     private List<UF> listaUfs;
+
+    private List<Banco> listaBancos;
+
+    private List<TipoConta> listaTipoConta;
 
     public ClienteMB() {
     }
@@ -52,8 +61,9 @@ public class ClienteMB extends ClayMB {
         // }
         if (!FacesContext.getCurrentInstance().isPostback()) {
             cliente = new Pessoa();
-            setEnderecoPessoa();
             setTelefonePessoa();
+            setEnderecoPessoa();
+            setPessoaConta();
         }
     }
 
@@ -68,7 +78,9 @@ public class ClienteMB extends ClayMB {
 
     private void setTelefonePessoa() {
         telefone = new Telefone();
+        telefone.setPessoa(cliente);
         celular = new Telefone();
+        celular.setPessoa(cliente);
 
         telefone.setTipoTelefone(new TipoTelefone(TipoTelefone.RESIDENCIAL));
         celular.setTipoTelefone(new TipoTelefone(TipoTelefone.CELULAR));
@@ -76,6 +88,15 @@ public class ClienteMB extends ClayMB {
         cliente.setListaTelefone(new ArrayList<Telefone>());
         cliente.getListaTelefone().add(telefone);
         cliente.getListaTelefone().add(celular);
+    }
+
+    private void setPessoaConta() {
+        pessoaConta = new PessoaConta();
+        pessoaConta.setPessoa(cliente);
+        pessoaConta.setBanco(new Banco());
+        pessoaConta.setTipoConta(new TipoConta());
+        cliente.setListaPessoaConta(new ArrayList<PessoaConta>());
+        cliente.getListaPessoaConta().add(pessoaConta);
     }
 
     public void editar() {
@@ -145,11 +166,28 @@ public class ClienteMB extends ClayMB {
         getCurrentInstance().addMessage(null, new FacesMessage(summary, summary.concat("<br/>").concat(detail)));
     }
 
+    @SuppressWarnings("unchecked")
     public List<UF> getListaUfs() {
         if (listaUfs == null) {
-            listaUfs = ejb.listarUfs();
+            listaUfs = ejb.findAll(UF.class);
         }
         return listaUfs;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Banco> getListaBancos() {
+        if (listaBancos == null) {
+            listaBancos = ejb.findAll(Banco.class);
+        }
+        return listaBancos;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<TipoConta> getListaTipoConta() {
+        if (listaTipoConta == null) {
+            listaTipoConta = ejb.findAll(TipoConta.class);
+        }
+        return listaTipoConta;
     }
 
     public Long getIdSelecionado() {
@@ -174,5 +212,9 @@ public class ClienteMB extends ClayMB {
 
     public Telefone getCelular() {
         return celular;
+    }
+
+    public PessoaConta getPessoaConta() {
+        return pessoaConta;
     }
 }

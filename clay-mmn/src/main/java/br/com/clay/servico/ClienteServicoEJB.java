@@ -10,7 +10,6 @@ import javax.persistence.Query;
 
 import br.com.clay.entidade.Endereco;
 import br.com.clay.entidade.Pessoa;
-import br.com.clay.entidade.TipoTelefone;
 import br.com.clay.entidade.UF;
 
 /**
@@ -19,7 +18,6 @@ import br.com.clay.entidade.UF;
 
 @Stateless
 @LocalBean
-@SuppressWarnings({ "rawtypes", "unchecked" })
 public class ClienteServicoEJB extends ClayPersistencia<Pessoa, Long> {
 
     @PersistenceContext
@@ -53,12 +51,5 @@ public class ClienteServicoEJB extends ClayPersistencia<Pessoa, Long> {
         Pessoa pessoa = em.find(Pessoa.class, id);
         pessoa.setListaEndereco(em.createNamedQuery(Endereco.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", id).getResultList());
         return pessoa;
-    }
-
-    /**
-     * @return List<TipoTelefone>
-     */
-    public List<TipoTelefone> listarTipoTelefone() {
-        return new ClayPersistenciaGenerico(em).findAll(TipoTelefone.class);
     }
 }

@@ -40,6 +40,45 @@ public class Banco extends ClayEntidade {
     /*
      * (non-Javadoc)
      * 
+     * @see java.lang.Object#hashCode()
+     * 
+     * Sobrescrevendo para ser encontrado via converter
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((codBanco == null) ? 0 : codBanco.hashCode());
+        return result;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     * 
+     * Sobrescrevendo para ser encontrado via converter
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Banco other = (Banco) obj;
+        if (codBanco == null) {
+            if (other.getCodBanco() != null)
+                return false;
+        } else if (!codBanco.equals(other.getCodBanco()))
+            return false;
+        return true;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see br.com.clay.entidade.ClayEntidade#getId()
      */
     @Override

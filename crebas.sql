@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     09/10/2015 09:14:09                          */
+/* Created on:     09/10/2015 18:20:00                          */
 /*==============================================================*/
 
 
@@ -159,9 +159,9 @@ CODBANCO
 /* Table: CATEGORIA                                             */
 /*==============================================================*/
 create table CATEGORIA (
-   IDCATEGORIA          INT8                 not null,
+   IDCATEGORIA          BIGINT               not null,
    DSCATEGORIA          VARCHAR(40)          not null,
-   IDCATEGORIAPAI       INT8                 null,
+   IDCATEGORIAPAI       BIGINT               null,
    constraint PK_CATEGORIA primary key (IDCATEGORIA)
 );
 
@@ -176,16 +176,16 @@ IDCATEGORIA
 /* Table: ENDERECOPESSOA                                        */
 /*==============================================================*/
 create table ENDERECOPESSOA (
-   IDENDERECOPESSOA     INT8                 not null,
-   IDPESSOA             INT8                 null,
-   IDTIPOENDERECO       INT4                 null,
-   DSENDERECO           VARCHAR(50)          null,
-   DSNUMERO             VARCHAR(10)          null,
+   IDENDERECOPESSOA     BIGINT               not null,
+   IDPESSOA             BIGINT               not null,
+   IDTIPOENDERECO       BIGINT               not null,
+   DSENDERECO           VARCHAR(50)          not null,
+   DSNUMERO             VARCHAR(10)          not null,
    DSCOMPLEMENTO        VARCHAR(50)          null,
-   DSBAIRRO             VARCHAR(40)          null,
-   DSCIDADE             VARCHAR(40)          null,
+   DSBAIRRO             VARCHAR(40)          not null,
+   DSCIDADE             VARCHAR(40)          not null,
    NUMCEP               VARCHAR(10)          null,
-   CODUF                VARCHAR(2)           null,
+   CODUF                VARCHAR(2)           not null,
    constraint PK_ENDERECOPESSOA primary key (IDENDERECOPESSOA)
 );
 
@@ -200,7 +200,7 @@ IDENDERECOPESSOA
 /* Table: FORNECEDOR                                            */
 /*==============================================================*/
 create table FORNECEDOR (
-   IDFORNECEDOR         INT8                 not null,
+   IDFORNECEDOR         BIGINT               not null,
    constraint PK_FORNECEDOR primary key (IDFORNECEDOR)
 );
 
@@ -215,14 +215,14 @@ IDFORNECEDOR
 /* Table: PEDIDO                                                */
 /*==============================================================*/
 create table PEDIDO (
-   IDPEDIDO             INT8                 not null,
-   IDTIPOPEDIDO         INT8                 null,
-   IDPESSOA             INT8                 null,
+   IDPEDIDO             BIGINT               not null,
+   IDTIPOPEDIDO         BIGINT               null,
+   IDPESSOA             BIGINT               null,
    DATAPEDIDO           TIMESTAMP            null,
    VLTOTALBRUTO         MONEY                null,
    VLTOTALLIQUIDO       MONEY                null,
    VLFRETE              MONEY                null,
-   STPEDIDO             INT2                 null,
+   STPEDIDO             BIGINT               null,
    constraint PK_PEDIDO primary key (IDPEDIDO)
 );
 
@@ -237,10 +237,10 @@ IDPEDIDO
 /* Table: PEDIDOPRODUTO                                         */
 /*==============================================================*/
 create table PEDIDOPRODUTO (
-   IDPEDIDOPRODUTO      INT8                 not null,
-   IDPEDIDO             INT8                 null,
-   IDPRODUTO            INT8                 null,
-   QTPRODUTO            INT8                 null,
+   IDPEDIDOPRODUTO      BIGINT               not null,
+   IDPEDIDO             BIGINT               null,
+   IDPRODUTO            BIGINT               null,
+   QTPRODUTO            BIGINT               null,
    constraint PK_PEDIDOPRODUTO primary key (IDPEDIDOPRODUTO)
 );
 
@@ -255,18 +255,18 @@ IDPEDIDOPRODUTO
 /* Table: PESSOA                                                */
 /*==============================================================*/
 create table PESSOA (
-   IDPESSOA             INT8                 not null,
+   IDPESSOA             BIGINT               not null,
    NOMEPESSOA           VARCHAR(50)          not null,
    DSRAZAOSOCIAL        VARCHAR(50)          null,
-   CODTIPOPESSOA        CHAR(1)              null
-      constraint CKC_CODTIPOPESSOA_PESSOA check (CODTIPOPESSOA is null or (CODTIPOPESSOA in ('F','J'))),
-   IDSITUACAOPESSOA     INT4                 null,
-   IDPLANOASSINATURA    INT4                 null,
+   CODTIPOPESSOA        CHAR(1)              not null
+      constraint CKC_CODTIPOPESSOA_PESSOA check (CODTIPOPESSOA in ('F','J')),
+   IDSITUACAOPESSOA     BIGINT               null,
+   IDPLANOASSINATURA    BIGINT               null,
    NUMCPFCNPJ           VARCHAR(14)          not null,
    CODSEXO              CHAR(1)              null
       constraint CKC_CODSEXO_PESSOA check (CODSEXO is null or (CODSEXO in ('M','F'))),
    DATANASCIMENTO       DATE                 null,
-   DATACADASTRO         DATE                 null,
+   DATACADASTRO         DATE                 not null,
    DSEMAIL              VARCHAR(50)          null,
    constraint PK_PESSOA primary key (IDPESSOA)
 );
@@ -282,13 +282,13 @@ IDPESSOA
 /* Table: PESSOACONTA                                           */
 /*==============================================================*/
 create table PESSOACONTA (
-   IDPESSOACONTA        INT8                 not null,
-   IDPESSOA             INT8                 null,
-   IDTIPOCONTA          INT4                 null,
-   CODBANCO             INT4                 null,
-   NUMAGENCIA           VARCHAR(10)          null,
-   NUMCONTA             DECIMAL(15,15)       null,
-   BOLCONTAPRINCIPAL    BOOL                 null,
+   IDPESSOACONTA        BIGINT               not null,
+   IDPESSOA             BIGINT               not null,
+   IDTIPOCONTA          BIGINT               null,
+   CODBANCO             INT4                 not null,
+   NUMAGENCIA           VARCHAR(10)          not null,
+   NUMCONTA             BIGINT               not null,
+   BOLCONTAPRINCIPAL    BOOL                 not null,
    constraint PK_PESSOACONTA primary key (IDPESSOACONTA)
 );
 
@@ -303,10 +303,10 @@ IDPESSOACONTA
 /* Table: PESSOAREDE                                            */
 /*==============================================================*/
 create table PESSOAREDE (
-   IDPESSOAREDE         INT8                 not null,
-   IDPESSOA             INT8                 not null,
-   IDPESSOAPAI          INT8                 not null,
-   IDPESSOAINDICACAO    INT8                 not null,
+   IDPESSOAREDE         BIGINT               not null,
+   IDPESSOA             BIGINT               not null,
+   IDPESSOAPAI          BIGINT               not null,
+   IDPESSOAINDICACAO    BIGINT               not null,
    constraint PK_PESSOAREDE primary key (IDPESSOAREDE)
 );
 
@@ -330,13 +330,13 @@ IDPESSOAINDICACAO
 /* Table: PLANOASSINATURA                                       */
 /*==============================================================*/
 create table PLANOASSINATURA (
-   IDPLANOASSINATURA    INT4                 not null,
+   IDPLANOASSINATURA    BIGINT               not null,
    NOMEPLANOASSINATURA  VARCHAR(30)          not null,
    DSPLANOASSINATURA    TEXT                 null,
    VLADESAO             MONEY                null,
    VLRENOVACAO          MONEY                null,
    VLCOMPRAMINIMA       MONEY                null,
-   BOLATIVO             BOOL                 null,
+   BOLATIVO             BOOL                 not null,
    constraint PK_PLANOASSINATURA primary key (IDPLANOASSINATURA)
 );
 
@@ -354,18 +354,17 @@ IDPLANOASSINATURA
 /* Table: PRODUTO                                               */
 /*==============================================================*/
 create table PRODUTO (
-   IDPRODUTO            INT8                 not null,
-   IDCATEGORIA          INT8                 null,
-   IDUNIDADEVENDA       INT8                 null,
-   IDFORNECEDOR         INT8                 null,
-   NOMEPRODUTO          VARCHAR(40)          null,
+   IDPRODUTO            BIGINT               not null,
+   IDCATEGORIA          BIGINT               null,
+   IDUNIDADEVENDA       BIGINT               not null,
+   IDFORNECEDOR         BIGINT               null,
+   NOMEPRODUTO          VARCHAR(40)          not null,
    DSPRODUTO            TEXT                 null,
    PERCMARGEMVENDA      MONEY                null,
-   QTDPESO              NUMERIC(8,4)         null,
-   QTDALTURA            NUMERIC(8,4)         null,
-   QTDLARGURA           NUMERIC(8,4)         null,
+   QTDPESO              NUMERIC(10,4)        null,
+   QTDALTURA            NUMERIC(10,4)        null,
+   QTDLARGURA           NUMERIC(10,4)        null,
    BOLVISIVEL           BOOL                 null,
-   VLPONTOPRODUTO       INT8                 null,
    constraint PK_PRODUTO primary key (IDPRODUTO)
 );
 
@@ -380,7 +379,7 @@ IDPRODUTO
 /* Table: SITUACAOPESSOA                                        */
 /*==============================================================*/
 create table SITUACAOPESSOA (
-   IDSITUACAOPESSOA     INT4                 not null,
+   IDSITUACAOPESSOA     BIGINT               not null,
    DSSITUACAOPESSOA     VARCHAR(30)          not null,
    constraint PK_SITUACAOPESSOA primary key (IDSITUACAOPESSOA)
 );
@@ -396,9 +395,9 @@ IDSITUACAOPESSOA
 /* Table: TELEFONE                                              */
 /*==============================================================*/
 create table TELEFONE (
-   IDTELEFONE           INT8                 not null,
-   IDTIPOTELEFONE       INT4                 null,
-   IDPESSOA             INT8                 not null,
+   IDTELEFONE           BIGINT               not null,
+   IDTIPOTELEFONE       BIGINT               null,
+   IDPESSOA             BIGINT               not null,
    DSTELEFONE           VARCHAR(15)          not null,
    constraint PK_TELEFONE primary key (IDTELEFONE)
 );
@@ -414,7 +413,7 @@ IDTELEFONE
 /* Table: TIPOCONTA                                             */
 /*==============================================================*/
 create table TIPOCONTA (
-   IDTIPOCONTA          INT4                 not null,
+   IDTIPOCONTA          BIGINT               not null,
    DSTIPOCONTA          VARCHAR(30)          not null,
    constraint PK_TIPOCONTA primary key (IDTIPOCONTA)
 );
@@ -430,8 +429,8 @@ IDTIPOCONTA
 /* Table: TIPOENDERECO                                          */
 /*==============================================================*/
 create table TIPOENDERECO (
-   IDTIPOENDERECO       INT4                 not null,
-   DSTIPOENDERECO       VARCHAR(30)          null,
+   IDTIPOENDERECO       BIGINT               not null,
+   DSTIPOENDERECO       VARCHAR(30)          not null,
    constraint PK_TIPOENDERECO primary key (IDTIPOENDERECO)
 );
 
@@ -446,7 +445,7 @@ IDTIPOENDERECO
 /* Table: TIPOPEDIDO                                            */
 /*==============================================================*/
 create table TIPOPEDIDO (
-   IDTIPOPEDIDO         INT8                 not null,
+   IDTIPOPEDIDO         BIGINT               not null,
    DSTIPOPEDIDO         VARCHAR(50)          null,
    constraint PK_TIPOPEDIDO primary key (IDTIPOPEDIDO)
 );
@@ -462,7 +461,7 @@ IDTIPOPEDIDO
 /* Table: TIPOTELEFONE                                          */
 /*==============================================================*/
 create table TIPOTELEFONE (
-   IDTIPOTELEFONE       INT4                 not null,
+   IDTIPOTELEFONE       BIGINT               not null,
    DSTIPOTELEFONE       VARCHAR(30)          not null,
    constraint PK_TIPOTELEFONE primary key (IDTIPOTELEFONE)
 );
@@ -494,7 +493,7 @@ CODUF
 /* Table: UNIDADEVENDA                                          */
 /*==============================================================*/
 create table UNIDADEVENDA (
-   IDUNIDADEVENDA       INT8                 not null,
+   IDUNIDADEVENDA       BIGINT               not null,
    DSUNIDADEVENDA       VARCHAR(50)          null,
    constraint PK_UNIDADEVENDA primary key (IDUNIDADEVENDA)
 );
@@ -513,9 +512,9 @@ IDUNIDADEVENDA
 /* Table: USUARIO                                               */
 /*==============================================================*/
 create table USUARIO (
-   IDUSUARIO            INT8                 not null,
-   DSUSUARIO            VARCHAR(50)          null,
-   DSSENHA              VARCHAR(30)          null,
+   IDUSUARIO            BIGINT               not null,
+   DSUSUARIO            VARCHAR(50)          not null,
+   DSSENHA              VARCHAR(30)          not null,
    constraint PK_USUARIO primary key (IDUSUARIO)
 );
 
@@ -530,9 +529,9 @@ IDUSUARIO
 /* Table: USUARIOPESSOA                                         */
 /*==============================================================*/
 create table USUARIOPESSOA (
-   IDUSUARIOPESSOA      INT8                 not null,
-   IDPESSOA             INT8                 null,
-   IDUSUARIO            INT8                 null,
+   IDUSUARIOPESSOA      BIGINT               not null,
+   IDPESSOA             BIGINT               not null,
+   IDUSUARIO            BIGINT               not null,
    constraint PK_USUARIOPESSOA primary key (IDUSUARIOPESSOA)
 );
 
@@ -547,8 +546,8 @@ IDUSUARIOPESSOA
 /* Table: VALORPRODUTO                                          */
 /*==============================================================*/
 create table VALORPRODUTO (
-   IDVALORPRODUTO       INT8                 not null,
-   IDPRODUTO            INT8                 null,
+   IDVALORPRODUTO       BIGINT               not null,
+   IDPRODUTO            BIGINT               null,
    VLCUSTO              MONEY                null,
    VLPRODUTO            MONEY                null,
    VLDESCONTO           MONEY                null,

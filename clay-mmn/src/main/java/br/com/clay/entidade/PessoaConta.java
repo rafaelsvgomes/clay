@@ -34,7 +34,7 @@ public class PessoaConta extends ClayEntidade {
     private TipoConta tipoConta;
 
     @ManyToOne
-    @JoinColumn(name = "idBanco", nullable = false)
+    @JoinColumn(name = "codBanco", nullable = false)
     private Banco banco;
 
     @Column(nullable = false)

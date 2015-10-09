@@ -27,7 +27,18 @@ INSERT INTO uf values ('SE','Sergipe (SE)');
 INSERT INTO uf values ('TO','Tocantins (TO)');
 
 INSERT INTO tipoendereco values (1, 'Residencial');
+INSERT INTO tipoendereco values (2, 'Comercial');
 
 INSERT INTO tipotelefone values (1, 'Residencial');
 INSERT INTO tipotelefone values (2, 'Celular');
 INSERT INTO tipotelefone values (3, 'Comercial');
+
+--TipoConta
+INSERT INTO tipoconta values (1, 'Conta Corrente');
+INSERT INTO tipoconta values (2, 'Poupança');
+
+--Banco
+insert into banco values (001, 'Banco do Brasil S.A.');
+insert into banco values (237, 'Banco Bradesco S.A.');
+insert into banco values (341, 'Itaú Unibanco S.A.');
+insert into banco values (104, 'Caixa Econômica Federal');

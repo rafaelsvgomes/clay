@@ -15,19 +15,11 @@ public class Banco extends ClayEntidade {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "idBanco", unique = true, nullable = false)
-    private Short id;
+    @Column(name = "codBanco", unique = true, nullable = false)
+    private Short codBanco;
 
     @Column(name = "dsBanco", nullable = false)
     private String descBanco;
-
-    public Short getId() {
-        return id;
-    }
-
-    public void setId(Short id) {
-        this.id = id;
-    }
 
     public String getDescBanco() {
         return descBanco;
@@ -35,6 +27,24 @@ public class Banco extends ClayEntidade {
 
     public void setDescBanco(String descBanco) {
         this.descBanco = descBanco;
+    }
+
+    public Short getCodBanco() {
+        return codBanco;
+    }
+
+    public void setCodBanco(Short codBanco) {
+        this.codBanco = codBanco;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see br.com.clay.entidade.ClayEntidade#getId()
+     */
+    @Override
+    public Number getId() {
+        return null;
     }
 
 }

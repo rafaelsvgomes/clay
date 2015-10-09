@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     08/10/2015 10:09:11                          */
+/* Created on:     09/10/2015 09:14:09                          */
 /*==============================================================*/
 
 
@@ -104,6 +104,8 @@ drop sequence SEQPESSOAREDE;
 
 drop sequence SEQPLANOASSINATURA;
 
+drop sequence SEQPRODUTO;
+
 drop sequence SEQTELEFONE;
 
 drop sequence SEQUSUARIO;
@@ -123,6 +125,9 @@ create sequence SEQPESSOAREDE
 increment 1;
 
 create sequence SEQPLANOASSINATURA
+increment 1;
+
+create sequence SEQPRODUTO
 increment 1;
 
 create sequence SEQTELEFONE

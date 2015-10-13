@@ -4,13 +4,16 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 	
+	<div>
+		<h3>
+			<h:outputText value="#{msg['label.cliente']}" />
+			<small> <h:outputText value="#{subtitle}" /></small>
+		</h3>
+	</div>
 	<h:form styleClass="form-horizontal">
 		<fieldset>
 			<legend>
-				<h3>
-					<h:outputText value="#{msg['label.cliente']}" />
-					<small> <h:outputText value="#{subtitle}" /></small>
-				</h3>
+				<small> <h:outputText value="Dados Pessoais" /></small>
 			</legend>
 			<div class="control-group">
 				<label class="control-label">
@@ -35,7 +38,7 @@
 			        </p:selectOneRadio>
 				</div>
 			</div>
-
+	
 			<div class="control-group">
 				<p:outputPanel id="painelCpfCnpj">
 					<label class="control-label">
@@ -55,7 +58,7 @@
 					</div>
 				</p:outputPanel>
 			</div>
-
+	
 			<div class="control-group">
 				<label class="control-label">
 					<h:outputText value="#{msg['label.cliente.dtnascimento']}" />
@@ -78,8 +81,13 @@
 			        </p:selectOneRadio>
 				</div>
 			</div>
-			
-			<!-- Contato -->
+		</fieldset>
+		
+		<!-- Contato -->
+		<fieldset>
+			<legend>
+				<small> <h:outputText value="Informações para Contato" /></small>
+			</legend>
 			<div class="control-group">
 				<label class="control-label">
 					<h:outputText value="#{msg['label.cliente.telefone']}" />
@@ -108,8 +116,13 @@
 					</h:inputText>
 				</div>
 			</div>
-			
-			<!-- Endereço -->
+		</fieldset>
+		
+		<!-- Endereço -->
+		<fieldset>
+			<legend>
+				<small> <h:outputText value="Endereço" /></small>
+			</legend>
 			<div class="control-group">
 				<label class="control-label">
 					<h:outputText value="#{msg['label.cliente.endereco.cep']}" />
@@ -175,14 +188,20 @@
 	    	        </p:selectOneMenu>
 				</div>
 			</div>
-			<!-- Conta Bancária -->
+		</fieldset>
+		
+		<!-- Conta Bancária -->
+		<fieldset>
+			<legend>
+				<small> <h:outputText value="Informações de Conta" /></small>
+			</legend>
 			<div class="control-group">
 				<label class="control-label">
 					<h:outputText value="#{msg['label.cliente.banco']}" />
 				</label>
 				<div class="controls">
 					<p:selectOneMenu value="#{clienteMB.pessoaConta.banco}" converter="bancoConverter" label="#{msg['label.cliente.banco']}">
-<!-- 		                <f:selectItem itemLabel="Selecione o banco..." itemValue="" noSelectionOption="true" /> -->
+		                <f:selectItem itemLabel="Selecione o banco..." itemValue="" noSelectionOption="true" />
 		                <f:selectItems value="#{clienteMB.listaBancos}" var="bc" itemLabel="#{bc.descBanco}" />
 	    	        </p:selectOneMenu>
 				</div>
@@ -217,7 +236,6 @@
 			        <h:inputText value="#{clienteMB.pessoaConta.numConta}" label="#{msg['label.cliente.conta']}" required="true" styleClass="input-small"/>
 				</div>
 			</div>
-			
 		</fieldset>
 
 		<div class="control-group">

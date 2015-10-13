@@ -95,6 +95,7 @@ public class ClienteMB extends ClayMB {
         pessoaConta.setPessoa(cliente);
         pessoaConta.setBanco(new Banco());
         pessoaConta.setTipoConta(new TipoConta());
+        pessoaConta.setBolContaPrincipal(Boolean.TRUE);
         cliente.setListaPessoaConta(new ArrayList<PessoaConta>());
         cliente.getListaPessoaConta().add(pessoaConta);
     }
@@ -106,6 +107,15 @@ public class ClienteMB extends ClayMB {
             }
             cliente = ejb.obterPessoa(idSelecionado);
             endereco = cliente.getListaEndereco().get(0);
+            pessoaConta = cliente.getListaPessoaConta().get(0);
+
+            for (Telefone tel : cliente.getListaTelefone()) {
+                if (tel.getTipoTelefone().getId().equals(TipoTelefone.RESIDENCIAL)) {
+                    telefone = tel;
+                } else {
+                    celular = tel;
+                }
+            }
         }
     }
 
@@ -141,9 +151,9 @@ public class ClienteMB extends ClayMB {
 
     // TODO: rafael - Verificar motivo de estar chamando duas vezes a listar
     public List<Pessoa> getClientes() {
-        if (!FacesContext.getCurrentInstance().isPostback() || clientes == null) {
-            clientes = ejb.findAll();
-        }
+        // if (!FacesContext.getCurrentInstance().isPostback() || clientes == null) {
+        clientes = ejb.findAll();
+        // }
         return clientes;
     }
 

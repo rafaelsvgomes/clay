@@ -17,6 +17,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 import br.com.clay.enums.TipoPessoa;
 import br.com.clay.enums.TipoSexo;
@@ -53,6 +56,8 @@ public class Pessoa extends ClayEntidade {
     @Column(name = "dataNascimento")
     private Date dataNascimento;
 
+    @NotEmpty
+    @Pattern(regexp = ".+@.+\\.[a-z]+")
     @Column(name = "dsEmail")
     private String descEmail;
 

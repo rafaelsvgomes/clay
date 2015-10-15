@@ -42,3 +42,8 @@ insert into banco values (001, 'Banco do Brasil S.A.');
 insert into banco values (237, 'Banco Bradesco S.A.');
 insert into banco values (341, 'Itaú Unibanco S.A.');
 insert into banco values (104, 'Caixa Econômica Federal');
+
+--PlanoAssinatura
+insert into public.planoassinatura values (nextval('seqplanoassinatura'), 'Plano 1', 'Desc Plano 1', 100.00, 100.00, 100.00, true);
+insert into public.planoassinatura values (nextval('seqplanoassinatura'), 'Plano 2', 'Desc Plano 2', 100.00, 100.00, 100.00, true);
+insert into public.planoassinatura values (nextval('seqplanoassinatura'), 'Plano 3', 'Desc Plano 3', 100.00, 100.00, 100.00, true);

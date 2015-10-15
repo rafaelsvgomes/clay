@@ -12,6 +12,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -35,6 +37,7 @@ public class Pessoa extends ClayEntidade {
     @Column(name = "idPessoa", unique = true, nullable = false)
     private Long id;
 
+    @NotEmpty(message = "{pessoa.nome.vazio}")
     private String nomePessoa;
 
     @Column(name = "dsRazaoSocial")
@@ -45,7 +48,9 @@ public class Pessoa extends ClayEntidade {
     private TipoPessoa tipoPessoa;
 
     // private SituacaoPessoa situacaoPessoa;
-    // private PlanoAssinatura planoAssinatura;
+    @ManyToOne
+    @JoinColumn(name = "idPlanoAssinatura")
+    private PlanoAssinatura planoAssinatura;
 
     private String numCpfCnpj;
 
@@ -168,5 +173,13 @@ public class Pessoa extends ClayEntidade {
 
     public void setListaPessoaConta(List<PessoaConta> listaPessoaConta) {
         this.listaPessoaConta = listaPessoaConta;
+    }
+
+    public PlanoAssinatura getPlanoAssinatura() {
+        return planoAssinatura;
+    }
+
+    public void setPlanoAssinatura(PlanoAssinatura planoAssinatura) {
+        this.planoAssinatura = planoAssinatura;
     }
 }

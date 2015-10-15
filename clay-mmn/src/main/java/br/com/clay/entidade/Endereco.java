@@ -12,8 +12,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import br.com.clay.entidade.validation.Cep;
-
 @Entity
 @Table(name = "ENDERECOPESSOA")
 @SequenceGenerator(name = "seqenderecopessoa", sequenceName = "seqenderecopessoa", allocationSize = 1)
@@ -51,7 +49,7 @@ public class Endereco extends ClayEntidade {
     @Column(name = "dsCidade")
     private String descCidade;
 
-    @Cep
+    // @Cep
     private String numCep;
 
     @ManyToOne

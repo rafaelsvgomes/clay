@@ -17,6 +17,7 @@ import br.com.clay.entidade.Banco;
 import br.com.clay.entidade.Endereco;
 import br.com.clay.entidade.Pessoa;
 import br.com.clay.entidade.PessoaConta;
+import br.com.clay.entidade.PlanoAssinatura;
 import br.com.clay.entidade.Telefone;
 import br.com.clay.entidade.TipoConta;
 import br.com.clay.entidade.TipoEndereco;
@@ -51,6 +52,8 @@ public class ClienteMB extends ClayMB {
     private List<Banco> listaBancos;
 
     private List<TipoConta> listaTipoConta;
+
+    private List<PlanoAssinatura> listaPlanoAssinatura;
 
     public ClienteMB() {
     }
@@ -200,6 +203,14 @@ public class ClienteMB extends ClayMB {
         return listaTipoConta;
     }
 
+    @SuppressWarnings("unchecked")
+    public List<PlanoAssinatura> getListaPlanoAssinatura() {
+        if (listaPlanoAssinatura == null) {
+            listaPlanoAssinatura = ejb.findAll(PlanoAssinatura.class);
+        }
+        return listaPlanoAssinatura;
+    }
+
     public Long getIdSelecionado() {
         return idSelecionado;
     }
@@ -227,4 +238,5 @@ public class ClienteMB extends ClayMB {
     public PessoaConta getPessoaConta() {
         return pessoaConta;
     }
+
 }

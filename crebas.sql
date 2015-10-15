@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     09/10/2015 18:20:00                          */
+/* Created on:     15/10/2015 13:57:58                          */
 /*==============================================================*/
 
 
@@ -49,6 +49,14 @@ drop table PLANOASSINATURA;
 drop index INDEX_22;
 
 drop table PRODUTO;
+
+drop index INDEX_12;
+
+drop table PRODUTOCOMPOSICAO;
+
+drop index INDEX_17;
+
+drop table SITUACAOPEDIDO;
 
 drop index INDEX_10;
 
@@ -106,6 +114,8 @@ drop sequence SEQPLANOASSINATURA;
 
 drop sequence SEQPRODUTO;
 
+drop sequence SEQPRODUTOCOMPOSICAO;
+
 drop sequence SEQTELEFONE;
 
 drop sequence SEQUSUARIO;
@@ -128,6 +138,9 @@ create sequence SEQPLANOASSINATURA
 increment 1;
 
 create sequence SEQPRODUTO
+increment 1;
+
+create sequence SEQPRODUTOCOMPOSICAO
 increment 1;
 
 create sequence SEQTELEFONE
@@ -218,11 +231,11 @@ create table PEDIDO (
    IDPEDIDO             BIGINT               not null,
    IDTIPOPEDIDO         BIGINT               null,
    IDPESSOA             BIGINT               null,
+   IDSITUACAOPEDIDO     INT                  null,
    DATAPEDIDO           TIMESTAMP            null,
-   VLTOTALBRUTO         MONEY                null,
-   VLTOTALLIQUIDO       MONEY                null,
-   VLFRETE              MONEY                null,
-   STPEDIDO             BIGINT               null,
+   VLTOTALBRUTO         NUMERIC(12,2)        null,
+   VLTOTALLIQUIDO       NUMERIC(12,2)        null,
+   VLFRETE              NUMERIC(12,2)        null,
    constraint PK_PEDIDO primary key (IDPEDIDO)
 );
 
@@ -360,19 +373,63 @@ create table PRODUTO (
    IDFORNECEDOR         BIGINT               null,
    NOMEPRODUTO          VARCHAR(40)          not null,
    DSPRODUTO            TEXT                 null,
-   PERCMARGEMVENDA      MONEY                null,
+   PERCMARGEMVENDA      NUMERIC(10,4)        null,
    QTDPESO              NUMERIC(10,4)        null,
    QTDALTURA            NUMERIC(10,4)        null,
    QTDLARGURA           NUMERIC(10,4)        null,
+   VLPONTOPRODUTO       BIGINT               null,
    BOLVISIVEL           BOOL                 null,
+   BOLCOMPOSICAO        BOOL                 not null,
    constraint PK_PRODUTO primary key (IDPRODUTO)
 );
+
+comment on column PRODUTO.VLPONTOPRODUTO is
+'VALOR DO PRODUTO EM PONTOS PARA O MMN';
+
+comment on column PRODUTO.BOLCOMPOSICAO is
+'VERIFICA SE O PRODUTO É UMA COMPOSIÇÃO DE OUTROS PRODUTOS';
 
 /*==============================================================*/
 /* Index: INDEX_22                                              */
 /*==============================================================*/
 create unique index INDEX_22 on PRODUTO (
 IDPRODUTO
+);
+
+/*==============================================================*/
+/* Table: PRODUTOCOMPOSICAO                                     */
+/*==============================================================*/
+create table PRODUTOCOMPOSICAO (
+   IDPRODUTOCOMPOSICAO  SERIAL               not null,
+   IDPRODUTO            BIGINT               not null,
+   QTPRODUTOCOMPOSICAO  BIGINT               not null,
+   constraint PK_PRODUTOCOMPOSICAO primary key (IDPRODUTOCOMPOSICAO)
+);
+
+/*==============================================================*/
+/* Index: INDEX_12                                              */
+/*==============================================================*/
+create unique index INDEX_12 on PRODUTOCOMPOSICAO (
+IDPRODUTOCOMPOSICAO
+);
+
+/*==============================================================*/
+/* Table: SITUACAOPEDIDO                                        */
+/*==============================================================*/
+create table SITUACAOPEDIDO (
+   IDSITUACAOPEDIDO     INT                  not null,
+   DSSITUACAOPEDIDO     VARCHAR(30)          not null,
+   constraint PK_SITUACAOPEDIDO primary key (IDSITUACAOPEDIDO)
+);
+
+comment on table SITUACAOPEDIDO is
+'SITUAÇÃO DO PEDIDO (ABERTO, APROVADO)';
+
+/*==============================================================*/
+/* Index: INDEX_17                                              */
+/*==============================================================*/
+create unique index INDEX_17 on SITUACAOPEDIDO (
+IDSITUACAOPEDIDO
 );
 
 /*==============================================================*/
@@ -547,11 +604,11 @@ IDUSUARIOPESSOA
 /*==============================================================*/
 create table VALORPRODUTO (
    IDVALORPRODUTO       BIGINT               not null,
-   IDPRODUTO            BIGINT               null,
-   VLCUSTO              MONEY                null,
-   VLPRODUTO            MONEY                null,
-   VLDESCONTO           MONEY                null,
-   DTATUALIZACAO        TIMESTAMP            null,
+   IDPRODUTO            BIGINT               not null,
+   VLCUSTO              NUMERIC(12,2)        null,
+   VLPRODUTO            NUMERIC(12,2)        not null,
+   VLDESCONTO           NUMERIC(12,2)        null,
+   DTATUALIZACAO        TIMESTAMP            not null,
    constraint PK_VALORPRODUTO primary key (IDVALORPRODUTO)
 );
 
@@ -595,6 +652,11 @@ alter table PEDIDO
 alter table PEDIDO
    add constraint FK_PEDIDO_REFERENCE_PESSOA foreign key (IDPESSOA)
       references PESSOA (IDPESSOA)
+      on delete restrict on update restrict;
+
+alter table PEDIDO
+   add constraint FK_PEDIDO_REFERENCE_SITUACAO foreign key (IDSITUACAOPEDIDO)
+      references SITUACAOPEDIDO (IDSITUACAOPEDIDO)
       on delete restrict on update restrict;
 
 alter table PEDIDOPRODUTO
@@ -660,6 +722,11 @@ alter table PRODUTO
 alter table PRODUTO
    add constraint FK_PRODUTO_REFERENCE_FORNECED foreign key (IDFORNECEDOR)
       references FORNECEDOR (IDFORNECEDOR)
+      on delete restrict on update restrict;
+
+alter table PRODUTOCOMPOSICAO
+   add constraint FK_PRODUTOC_REFERENCE_PRODUTO foreign key (IDPRODUTO)
+      references PRODUTO (IDPRODUTO)
       on delete restrict on update restrict;
 
 alter table TELEFONE

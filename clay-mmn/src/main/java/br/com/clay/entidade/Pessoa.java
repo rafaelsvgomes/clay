@@ -12,6 +12,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -28,6 +30,7 @@ import br.com.clay.enums.TipoSexo;
 
 @Entity
 @Table(name = "PESSOA")
+@Inheritance(strategy=InheritanceType.JOINED)
 @SequenceGenerator(name = "seqpessoa", sequenceName = "seqpessoa", allocationSize = 1)
 public class Pessoa extends ClayEntidade {
     private static final long serialVersionUID = -8922414503953244338L;
@@ -35,7 +38,7 @@ public class Pessoa extends ClayEntidade {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqpessoa")
     @Column(name = "idPessoa", unique = true, nullable = false)
-    private Long id;
+    protected Long id;
 
     @NotEmpty(message = "{pessoa.nome.vazio}")
     private String nomePessoa;

@@ -1,0 +1,105 @@
+package br.com.clay.entidade;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+/**
+ * Entity implementation class for Entity: PessoaConta
+ *
+ */
+@Entity
+@Table(name = "PessoaConta")
+@SequenceGenerator(name = "seqpessoaconta", sequenceName = "seqpessoaconta", allocationSize = 1)
+public class PessoaConta extends ClayEntidade {
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqpessoaconta")
+    @Column(name = "idPessoaConta", unique = true, nullable = false)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "idPessoa", nullable = false)
+    private Pessoa pessoa;
+
+    @ManyToOne
+    @JoinColumn(name = "idTipoConta", nullable = false)
+    private TipoConta tipoConta;
+
+    @ManyToOne
+    @JoinColumn(name = "codBanco", nullable = false)
+    private Banco banco;
+
+    @Column(nullable = false)
+    private String numAgencia;
+
+    @Column(nullable = false)
+    private Long numConta;
+
+    @Column(nullable = false)
+    private Boolean bolContaPrincipal;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
+    public TipoConta getTipoConta() {
+        return tipoConta;
+    }
+
+    public void setTipoConta(TipoConta tipoConta) {
+        this.tipoConta = tipoConta;
+    }
+
+    public Banco getBanco() {
+        return banco;
+    }
+
+    public void setBanco(Banco banco) {
+        this.banco = banco;
+    }
+
+    public String getNumAgencia() {
+        return numAgencia;
+    }
+
+    public void setNumAgencia(String numAgencia) {
+        this.numAgencia = numAgencia;
+    }
+
+    public Long getNumConta() {
+        return numConta;
+    }
+
+    public void setNumConta(Long numConta) {
+        this.numConta = numConta;
+    }
+
+    public Boolean getBolContaPrincipal() {
+        return bolContaPrincipal;
+    }
+
+    public void setBolContaPrincipal(Boolean bolContaPrincipal) {
+        this.bolContaPrincipal = bolContaPrincipal;
+    }
+
+}

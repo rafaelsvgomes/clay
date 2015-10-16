@@ -77,7 +77,7 @@
 				</label>
 				<div class="controls">
 					<p:selectOneMenu id="dropCategoria" value="#{produtoMB.categoria}" converter="entityConverter">
-		                <f:selectItem itemLabel="Selecione a categoria..." itemValue="" noSelectionOption="true" />
+		                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 		                <f:selectItems value="#{produtoMB.listaCategorias}" var="c" itemLabel="#{c.dsCategoria}" />
 	    	        </p:selectOneMenu>
 				</div>
@@ -90,7 +90,7 @@
 				</label>
 				<div class="controls">
 					<p:selectOneMenu id="dropFornecedor" value="#{produtoMB.fornecedor}" converter="entityConverter">
-		                <f:selectItem itemLabel="Selecione o fornecedor..." itemValue="" noSelectionOption="true" />
+		                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 		                <f:selectItems value="#{produtoMB.listaFornecedores}" var="f" itemLabel="#{f.nomePessoa}" />
 	    	        </p:selectOneMenu>
 				</div>
@@ -103,7 +103,7 @@
 				</label>
 				<div class="controls">
 					<p:selectOneMenu id="dropUnidadeVenda" value="#{produtoMB.unidadeVenda}" converter="entityConverter">
-		                <f:selectItem itemLabel="Selecione a unidade de venda..." itemValue="" noSelectionOption="true" />
+		                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 		                <f:selectItems value="#{produtoMB.listaUnidadeVendas}" var="uv" itemLabel="#{uv.dsUnidadeVenda}" />
 	    	        </p:selectOneMenu>
 				</div>

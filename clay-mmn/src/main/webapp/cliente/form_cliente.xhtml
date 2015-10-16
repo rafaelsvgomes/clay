@@ -201,7 +201,7 @@
 				</label>
 				<div class="controls">
 					<p:selectOneMenu value="#{clienteMB.endereco.uf}" converter="ufConverter" label="#{msg['label.pessoa.endereco.estado']}">
-		                <f:selectItem itemLabel="Selecione o estado..." itemValue="" noSelectionOption="true" />
+		                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 		                <f:selectItems value="#{clienteMB.listaUfs}" var="uf" itemLabel="#{uf.descUf}" />
 	    	        </p:selectOneMenu>
 				</div>
@@ -219,7 +219,7 @@
 				</label>
 				<div class="controls">
 					<p:selectOneMenu value="#{clienteMB.pessoaConta.banco}" converter="bancoConverter" label="#{msg['label.pessoa.banco']}">
-		                <f:selectItem itemLabel="Selecione o banco..." itemValue="" noSelectionOption="true" />
+		                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 		                <f:selectItems value="#{clienteMB.listaBancos}" var="bc" itemLabel="#{bc.descBanco}" />
 	    	        </p:selectOneMenu>
 				</div>
@@ -231,7 +231,7 @@
 				</label>
 				<div class="controls">
 					<p:selectOneMenu value="#{clienteMB.pessoaConta.tipoConta}" converter="entityConverter" label="#{msg['label.pessoa.tpconta']}">
-		                <f:selectItem itemLabel="Selecione o tipo de conta..." itemValue="" noSelectionOption="true" />
+		                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 		                <f:selectItems value="#{clienteMB.listaTipoConta}" var="tpConta" itemLabel="#{tpConta.descTipoConta}" />
 	    	        </p:selectOneMenu>
 				</div>

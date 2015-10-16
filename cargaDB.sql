@@ -42,3 +42,15 @@ insert into banco values (001, 'Banco do Brasil S.A.');
 insert into banco values (237, 'Banco Bradesco S.A.');
 insert into banco values (341, 'Itaú Unibanco S.A.');
 insert into banco values (104, 'Caixa Econômica Federal');
+
+--SituacaoPedido
+insert into situacaopedido (1,'Aberto');
+insert into situacaopedido (2,'Aguardando pagamento');
+insert into situacaopedido (3,'Aguardando retirada');
+insert into situacaopedido (4,'Finalizado');
+
+--Categoria
+insert into categoria (1,'Cosméticos',null);
+insert into categoria (2,'Creme',1);
+insert into categoria (3,'Shampoo',1);
+

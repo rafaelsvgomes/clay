@@ -7,7 +7,7 @@
 	<ul class="nav nav-list" style="padding-top: 15px;">
 		<li><em><h:outputText value="#{msg['label.clientes']}" /></em></li>
 
-		<li class="#{empty param.active || param.active == 'listaCliente' ? 'active' : ''}">
+		<li class="#{param.active == 'listaCliente' ? 'active' : ''}">
 			<h:link outcome="/cliente/lista_cliente">
 				<h:outputText value="#{msg['menu.lista']}" escape="false" />
 				<f:param name="active" value="listaCliente" />
@@ -22,7 +22,7 @@
 		
 		<li><em><h:outputText value="#{msg['label.fornecedores']}" /></em></li>
 
-		<li class="#{empty param.active || param.active == 'listaFornecedor' ? 'active' : ''}">
+		<li class="#{param.active == 'listaFornecedor' ? 'active' : ''}">
 			<h:link outcome="/fornecedor/lista_fornecedor">
 				<h:outputText value="#{msg['menu.lista']}" escape="false" />
 				<f:param name="active" value="listaFornecedor" />
@@ -37,7 +37,7 @@
 		
 		<li><em><h:outputText value="#{msg['label.produtos']}" /></em></li>
 
-		<li class="#{empty param.active || param.active == 'listaProduto' ? 'active' : ''}">
+		<li class="#{param.active == 'listaProduto' ? 'active' : ''}">
 			<h:link outcome="/produto/lista_produto">
 				<h:outputText value="#{msg['menu.lista']}" escape="false" />
 				<f:param name="active" value="listaProduto" />
@@ -50,7 +50,7 @@
 			</h:link>
 		</li>
 		
-		<li class="divider"></li>
+		<li class="divider" />
 		<li class="#{param.active == 'sobre' ? 'active' : ''}">
 			<h:link outcome="/cliente/sobre">
 				<h:outputText value="#{msg['menu.sobre']}" escape="false" />

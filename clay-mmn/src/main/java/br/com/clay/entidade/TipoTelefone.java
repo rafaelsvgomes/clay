@@ -10,13 +10,14 @@ import javax.persistence.Table;
 public class TipoTelefone extends ClayEntidade {
     private static final long serialVersionUID = -4114897303647563942L;
 
-    public static final Short RESIDENCIAL = 1;
-    public static final Short CELULAR = 2;
+    public static final short RESIDENCIAL = 1;
+    public static final short CELULAR = 2;
+    public static final short COMERCIAL = 3;
 
     public TipoTelefone() {
     }
 
-    public TipoTelefone(Short idTipoTelefone) {
+    public TipoTelefone(short idTipoTelefone) {
         this.id = idTipoTelefone;
     }
 

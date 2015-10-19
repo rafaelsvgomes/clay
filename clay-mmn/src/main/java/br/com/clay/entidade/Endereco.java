@@ -19,7 +19,7 @@ import javax.persistence.Table;
 public class Endereco extends ClayEntidade {
     private static final long serialVersionUID = 3017364402878640980L;
 
-    public static final String LISTAR_POR_ID_PESSOA = "listarPorIdPessoa";
+    public static final String LISTAR_POR_ID_PESSOA = "listarEnderecoPorIdPessoa";
 
     @Id
     @Column(name = "IDENDERECOPESSOA")
@@ -49,6 +49,7 @@ public class Endereco extends ClayEntidade {
     @Column(name = "dsCidade")
     private String descCidade;
 
+    // @Cep
     private String numCep;
 
     @ManyToOne

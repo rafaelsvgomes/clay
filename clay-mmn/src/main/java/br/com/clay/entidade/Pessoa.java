@@ -12,17 +12,25 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 import br.com.clay.enums.TipoPessoa;
 import br.com.clay.enums.TipoSexo;
 
 @Entity
 @Table(name = "PESSOA")
+@Inheritance(strategy=InheritanceType.JOINED)
 @SequenceGenerator(name = "seqpessoa", sequenceName = "seqpessoa", allocationSize = 1)
 public class Pessoa extends ClayEntidade {
     private static final long serialVersionUID = -8922414503953244338L;
@@ -30,8 +38,9 @@ public class Pessoa extends ClayEntidade {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqpessoa")
     @Column(name = "idPessoa", unique = true, nullable = false)
-    private Long id;
+    protected Long id;
 
+    @NotEmpty(message = "{pessoa.nome.vazio}")
     private String nomePessoa;
 
     @Column(name = "dsRazaoSocial")
@@ -42,7 +51,9 @@ public class Pessoa extends ClayEntidade {
     private TipoPessoa tipoPessoa;
 
     // private SituacaoPessoa situacaoPessoa;
-    // private PlanoAssinatura planoAssinatura;
+    @ManyToOne
+    @JoinColumn(name = "idPlanoAssinatura")
+    private PlanoAssinatura planoAssinatura;
 
     private String numCpfCnpj;
 
@@ -53,6 +64,8 @@ public class Pessoa extends ClayEntidade {
     @Column(name = "dataNascimento")
     private Date dataNascimento;
 
+    @NotEmpty
+    @Pattern(regexp = ".+@.+\\.[a-z]+")
     @Column(name = "dsEmail")
     private String descEmail;
 
@@ -163,5 +176,13 @@ public class Pessoa extends ClayEntidade {
 
     public void setListaPessoaConta(List<PessoaConta> listaPessoaConta) {
         this.listaPessoaConta = listaPessoaConta;
+    }
+
+    public PlanoAssinatura getPlanoAssinatura() {
+        return planoAssinatura;
+    }
+
+    public void setPlanoAssinatura(PlanoAssinatura planoAssinatura) {
+        this.planoAssinatura = planoAssinatura;
     }
 }

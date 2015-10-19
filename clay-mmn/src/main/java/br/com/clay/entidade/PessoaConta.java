@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -17,8 +19,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "PessoaConta")
 @SequenceGenerator(name = "seqpessoaconta", sequenceName = "seqpessoaconta", allocationSize = 1)
+@NamedQueries({ @NamedQuery(name = PessoaConta.LISTAR_POR_ID_PESSOA, query = "SELECT p FROM PessoaConta p WHERE p.pessoa.id = :idPessoa") })
 public class PessoaConta extends ClayEntidade {
     private static final long serialVersionUID = 1L;
+
+    public static final String LISTAR_POR_ID_PESSOA = "listarPessoaContaPorIdPessoa";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqpessoaconta")

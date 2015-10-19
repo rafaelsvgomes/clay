@@ -43,6 +43,11 @@ insert into banco values (237, 'Banco Bradesco S.A.');
 insert into banco values (341, 'Itaú Unibanco S.A.');
 insert into banco values (104, 'Caixa Econômica Federal');
 
+--PlanoAssinatura
+insert into public.planoassinatura values (nextval('seqplanoassinatura'), 'Plano 1', 'Desc Plano 1', 100.00, 100.00, 100.00, true);
+insert into public.planoassinatura values (nextval('seqplanoassinatura'), 'Plano 2', 'Desc Plano 2', 100.00, 100.00, 100.00, true);
+insert into public.planoassinatura values (nextval('seqplanoassinatura'), 'Plano 3', 'Desc Plano 3', 100.00, 100.00, 100.00, true);
+
 --SituacaoPedido
 insert into situacaopedido (1,'Aberto');
 insert into situacaopedido (2,'Aguardando pagamento');
@@ -54,3 +59,4 @@ insert into categoria (1,'Cosméticos',null);
 insert into categoria (2,'Creme',1);
 insert into categoria (3,'Shampoo',1);
 
+--Teste

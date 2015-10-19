@@ -4,53 +4,74 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 	
+	<div>
+		<h3>
+			<h:outputText value="#{msg['label.cliente']}" />
+			<small> <h:outputText value="#{subtitle}" /></small>
+		</h3>
+	</div>
 	<h:form styleClass="form-horizontal">
 		<fieldset>
 			<legend>
-				<h3>
-					<h:outputText value="#{msg['label.cliente']}" />
-					<small> <h:outputText value="#{subtitle}" /></small>
-				</h3>
+				<small> <h:outputText value="Plano de Assinatura" /></small>
 			</legend>
-			<div class="control-group">
-				<label class="control-label">
-					<h:outputText value="#{msg['label.cliente.nome']}" />
+		<div class="control-group">
+				<label class="control-label">				
+					<h:outputText value="#{msg['label.pessoa.planoassinatura']}" />
 				</label>
 				<div class="controls">
-					<h:inputText value="#{clienteMB.cliente.nomePessoa}" label="#{msg['label.cliente.nome']}" required="true" styleClass="input-large">
-						<f:validateLength minimum="5" maximum="100" />
-					</h:inputText>
+					<p:selectOneMenu value="#{clienteMB.cliente.planoAssinatura}" converter="entityConverter" label="#{msg['label.pessoa.planoassinatura']}">
+		                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+		                <f:selectItems value="#{clienteMB.listaPlanoAssinatura}" var="plnAssinatura" itemLabel="#{plnAssinatura.nomePlanoAssinatura}" />
+	    	        </p:selectOneMenu>
 				</div>
 			</div>
 			
 			<div class="control-group">
 				<label class="control-label">
-					<h:outputText value="#{msg['label.cliente.tppessoa']}" />
+					<h:outputText value="#{msg['label.pessoa.tppessoa']}" />
 				</label>
 				<div class="controls">
-			        <p:selectOneRadio id="tppessoa" value="#{clienteMB.cliente.tipoPessoa}" >
+			        <p:selectOneRadio id="tppessoa" value="#{clienteMB.cliente.tipoPessoa}" label="#{msg['label.pessoa.tppessoa']}">
 			            <f:selectItem itemLabel="Pessoa Física" itemValue="F" />
 			            <f:selectItem itemLabel="Pessoa Jurídica" itemValue="J" />
 			            <p:ajax update="cpfCnpjLabel, cnpj, painelCpfCnpj" event="change"/>
 			        </p:selectOneRadio>
 				</div>
 			</div>
-
+		</fieldset>
+	
+		<fieldset>
+			<legend>
+				<small> <h:outputText value="Dados Pessoais" /></small>
+			</legend>
+			<div class="control-group">
+				<label class="control-label">
+					<h:outputText value="#{msg['label.pessoa.nome']}" />
+				</label>
+				<div class="controls">
+					<h:inputText value="#{clienteMB.cliente.nomePessoa}" label="#{msg['label.pessoa.nome']}" required="true" styleClass="input-large">
+						<f:validateLength minimum="5" maximum="100" />
+					</h:inputText>
+				</div>
+			</div>
+	
 			<div class="control-group">
 				<p:outputPanel id="painelCpfCnpj">
 					<label class="control-label">
-						<h:outputText id="cpfCnpjLabel" value="#{clienteMB.cliente.tipoPessoa == 'J' ? msg['label.cliente.cnpj'] : msg['label.cliente.cpf']}" />
+						<h:outputText id="cpfCnpjLabel" value="#{clienteMB.cliente.tipoPessoa == 'J' ? msg['label.pessoa.cnpj'] : msg['label.pessoa.cpf']}" />
 					</label>
 					<div class="controls">
-						<p:inputMask id="cnpj" mask="#{clienteMB.cliente.tipoPessoa == 'J' ? '99.999.999/9999-99' : '999.999.999-99'}" value="#{clienteMB.cliente.numCpfCnpj}" 
+						<p:inputMask id="cnpj" mask="#{clienteMB.cliente.tipoPessoa == 'J' ? '99.999.999/9999-99' : '999.999.999-99'}" 
+						label="#{clienteMB.cliente.tipoPessoa == 'J' ? msg['label.pessoa.cnpj'] : msg['label.pessoa.cpf']}" value="#{clienteMB.cliente.numCpfCnpj}" 
 							required="true" immediate="true" styleClass="input-large" />
 					</div>
 					
 					<label class="control-label">
-						<h:outputText value="#{msg['label.cliente.dsrazaosocial']}" rendered="#{clienteMB.cliente.tipoPessoa == 'J'}" />
+						<h:outputText value="#{msg['label.pessoa.dsrazaosocial']}" rendered="#{clienteMB.cliente.tipoPessoa == 'J'}" />
 					</label>
 					<div class="controls">
-						<h:inputText id="rzSocial" value="#{clienteMB.cliente.descRazaoSocial}" label="#{msg['label.cliente.dsrazaosocial']}" required="true"  
+						<h:inputText id="rzSocial" value="#{clienteMB.cliente.descRazaoSocial}" label="#{msg['label.pessoa.dsrazaosocial']}" required="true"  
 								rendered="#{clienteMB.cliente.tipoPessoa == 'J'}" styleClass="input-large"/>
 					</div>
 				</p:outputPanel>
@@ -58,10 +79,10 @@
 
 			<div class="control-group">
 				<label class="control-label">
-					<h:outputText value="#{msg['label.cliente.dtnascimento']}" />
+					<h:outputText value="#{msg['label.pessoa.dtnascimento']}" />
 				</label>
 				<div class="controls">
-					<p:inputMask id="date" value="#{clienteMB.cliente.dataNascimento}" mask="99/99/9999" label="#{msg['label.cliente.dtnascimento']}" required="true" styleClass="input-small">
+					<p:inputMask id="date" value="#{clienteMB.cliente.dataNascimento}" mask="99/99/9999" label="#{msg['label.pessoa.dtnascimento']}" required="true" styleClass="input-small">
 						 <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
 					</p:inputMask>
 				</div>
@@ -69,120 +90,136 @@
 			
 			<div class="control-group">
 				<label class="control-label">
-					<h:outputText value="#{msg['label.cliente.sexo']}" />
+					<h:outputText value="#{msg['label.pessoa.sexo']}" />
 				</label>
 				<div class="controls">
-			        <p:selectOneRadio id="sexo" value="#{clienteMB.cliente.tipoSexo}">
+			        <p:selectOneRadio id="sexo" value="#{clienteMB.cliente.tipoSexo}" label="#{msg['label.pessoa.sexo']}">
 			            <f:selectItem itemLabel="Masculino" itemValue="M" />
 			            <f:selectItem itemLabel="Feminino" itemValue="F" />
 			        </p:selectOneRadio>
 				</div>
 			</div>
-			
-			<!-- Contato -->
+		</fieldset>
+		
+		<!-- Contato -->
+		<fieldset>
+			<legend>
+				<small> <h:outputText value="Informações para Contato" /></small>
+			</legend>
 			<div class="control-group">
 				<label class="control-label">
-					<h:outputText value="#{msg['label.cliente.telefone']}" />
+					<h:outputText value="#{msg['label.pessoa.telefone']}" />
 				</label>
 				<div class="controls">
-			        <p:inputMask mask="(99)99999999?9" value="#{clienteMB.telefone.descTelefone}" label="#{msg['label.cliente.telefone']}" required="true" styleClass="input-large" />
+			        <p:inputMask mask="(99)99999999?9" value="#{clienteMB.telefone.descTelefone}" label="#{msg['label.pessoa.telefone']}" required="true" styleClass="input-large" />
 				</div>
 			</div>
 			
 			<div class="control-group">
 				<label class="control-label">
-					<h:outputText value="#{msg['label.cliente.celular']}" />
+					<h:outputText value="#{msg['label.pessoa.celular']}" />
 				</label>
 				<div class="controls">
-			        <p:inputMask mask="(99)99999999?9" value="#{clienteMB.celular.descTelefone}" label="#{msg['label.cliente.celular']}" required="true" styleClass="input-large" />
+			        <p:inputMask mask="(99)99999999?9" value="#{clienteMB.celular.descTelefone}" label="#{msg['label.pessoa.celular']}" required="true" styleClass="input-large" />
 				</div>
 			</div>
 			
 			<div class="control-group">
 				<label class="control-label">
-					<h:outputText value="#{msg['label.cliente.email']}" />
+					<h:outputText value="#{msg['label.pessoa.email']}" />
 				</label>
 				<div class="controls">
-					<h:inputText value="#{clienteMB.cliente.descEmail}" label="#{msg['label.cliente.email']}" required="true" styleClass="input-large">
+					<h:inputText value="#{clienteMB.cliente.descEmail}" label="#{msg['label.pessoa.email']}" required="true" styleClass="input-large">
 						<f:validateLength minimum="5" maximum="100" />
 					</h:inputText>
 				</div>
 			</div>
-			
-			<!-- Endereço -->
+		</fieldset>
+		
+		<!-- Endereço -->
+		<fieldset>
+			<legend>
+				<small> <h:outputText value="Endereço" /></small>
+			</legend>
 			<div class="control-group">
 				<label class="control-label">
-					<h:outputText value="#{msg['label.cliente.endereco.cep']}" />
+					<h:outputText value="#{msg['label.pessoa.endereco.cep']}" />
 				</label>
 				<div class="controls">
-			        <p:inputMask mask="99999-999" value="#{clienteMB.endereco.numCep}" required="true" styleClass="input-small" />
+			        <p:inputMask mask="99999-999" value="#{clienteMB.endereco.numCep}" label="#{msg['label.pessoa.endereco.cep']}" required="true" styleClass="input-small" />
 				</div>
 			</div>
 			
 			<div class="control-group">
 				<label class="control-label">
-					<h:outputText value="#{msg['label.cliente.endereco']}" />
+					<h:outputText value="#{msg['label.pessoa.endereco']}" />
 				</label>
 				<div class="controls">
-			        <h:inputText value="#{clienteMB.endereco.descEndereco}" label="#{msg['label.cliente.endereco']}" required="true" styleClass="input-large"/>
+			        <h:inputText value="#{clienteMB.endereco.descEndereco}" label="#{msg['label.pessoa.endereco']}" required="true" styleClass="input-large"/>
 				</div>
 			</div>
 			
 			<div class="control-group">
 				<label class="control-label">
-					<h:outputText value="#{msg['label.cliente.endereco.num']}" />
+					<h:outputText value="#{msg['label.pessoa.endereco.num']}" />
 				</label>
 				<div class="controls">
-			        <h:inputText value="#{clienteMB.endereco.descNumero}" label="#{msg['label.cliente.endereco.num']}" required="true" styleClass="input-small"/>
+			        <h:inputText value="#{clienteMB.endereco.descNumero}" label="#{msg['label.pessoa.endereco.num']}" required="true" styleClass="input-small"/>
 				</div>
 			</div>
 			
 			<div class="control-group">
 				<label class="control-label">
-					<h:outputText value="#{msg['label.cliente.endereco.compl']}" />
+					<h:outputText value="#{msg['label.pessoa.endereco.compl']}" />
 				</label>
 				<div class="controls">
-			        <h:inputText value="#{clienteMB.endereco.descComplemento}" label="#{msg['label.cliente.endereco.compl']}" styleClass="input-large"/>
+			        <h:inputText value="#{clienteMB.endereco.descComplemento}" label="#{msg['label.pessoa.endereco.compl']}" styleClass="input-large"/>
 				</div>
 			</div>
 			
 			<div class="control-group">
 				<label class="control-label">
-					<h:outputText value="#{msg['label.cliente.endereco.bairro']}" />
+					<h:outputText value="#{msg['label.pessoa.endereco.bairro']}" />
 				</label>
 				<div class="controls">
-			        <h:inputText value="#{clienteMB.endereco.descBairro}" label="#{msg['label.cliente.endereco.bairro']}" required="true" styleClass="input-large"/>
+			        <h:inputText value="#{clienteMB.endereco.descBairro}" label="#{msg['label.pessoa.endereco.bairro']}" required="true" styleClass="input-large"/>
 				</div>
 			</div>
 			
 			<div class="control-group">
 				<label class="control-label">
-					<h:outputText value="#{msg['label.cliente.endereco.cidade']}" />
+					<h:outputText value="#{msg['label.pessoa.endereco.cidade']}" />
 				</label>
 				<div class="controls">
-			        <h:inputText value="#{clienteMB.endereco.descCidade}" label="#{msg['label.cliente.endereco.cidade']}" required="true" styleClass="input-large"/>
+			        <h:inputText value="#{clienteMB.endereco.descCidade}" label="#{msg['label.pessoa.endereco.cidade']}" required="true" styleClass="input-large"/>
 				</div>
 			</div>
 			
 			<div class="control-group">
 				<label class="control-label">
-					<h:outputText value="#{msg['label.cliente.endereco.estado']}" />
+					<h:outputText value="#{msg['label.pessoa.endereco.estado']}" />
 				</label>
 				<div class="controls">
-					<p:selectOneMenu value="#{clienteMB.endereco.uf}" converter="ufConverter" >
-		                <f:selectItem itemLabel="Selecione o estado..." itemValue="" noSelectionOption="true" />
+					<p:selectOneMenu value="#{clienteMB.endereco.uf}" converter="ufConverter" label="#{msg['label.pessoa.endereco.estado']}">
+		                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 		                <f:selectItems value="#{clienteMB.listaUfs}" var="uf" itemLabel="#{uf.descUf}" />
 	    	        </p:selectOneMenu>
 				</div>
 			</div>
-			<!-- Conta Bancária -->
+		</fieldset>
+		
+		<!-- Conta Bancária -->
+		<fieldset>
+			<legend>
+				<small> <h:outputText value="Informações de Conta" /></small>
+			</legend>
 			<div class="control-group">
 				<label class="control-label">
-					<h:outputText value="#{msg['label.cliente.banco']}" />
+					<h:outputText value="#{msg['label.pessoa.banco']}" />
 				</label>
 				<div class="controls">
-					<p:selectOneMenu value="#{clienteMB.pessoaConta.banco}" converter="bancoConverter" label="#{msg['label.cliente.banco']}">
-<!-- 		                <f:selectItem itemLabel="Selecione o banco..." itemValue="" noSelectionOption="true" /> -->
+					<p:selectOneMenu value="#{clienteMB.pessoaConta.banco}" converter="bancoConverter" label="#{msg['label.pessoa.banco']}">
+		                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 		                <f:selectItems value="#{clienteMB.listaBancos}" var="bc" itemLabel="#{bc.descBanco}" />
 	    	        </p:selectOneMenu>
 				</div>
@@ -190,11 +227,11 @@
 			
 			<div class="control-group">
 				<label class="control-label">
-					<h:outputText value="#{msg['label.cliente.tpconta']}" />
+					<h:outputText value="#{msg['label.pessoa.tpconta']}" />
 				</label>
 				<div class="controls">
-					<p:selectOneMenu value="#{clienteMB.pessoaConta.tipoConta}" converter="entityConverter" label="#{msg['label.cliente.tpconta']}">
-		                <f:selectItem itemLabel="Selecione o tipo de conta..." itemValue="" noSelectionOption="true" />
+					<p:selectOneMenu value="#{clienteMB.pessoaConta.tipoConta}" converter="entityConverter" label="#{msg['label.pessoa.tpconta']}">
+		                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 		                <f:selectItems value="#{clienteMB.listaTipoConta}" var="tpConta" itemLabel="#{tpConta.descTipoConta}" />
 	    	        </p:selectOneMenu>
 				</div>
@@ -202,19 +239,19 @@
 			
 			<div class="control-group">
 				<label class="control-label">
-					<h:outputText value="#{msg['label.cliente.agencia']}" />
+					<h:outputText value="#{msg['label.pessoa.agencia']}" />
 				</label>
 				<div class="controls">
-			        <h:inputText value="#{clienteMB.pessoaConta.numAgencia}" label="#{msg['label.cliente.agencia']}" required="true" styleClass="input-small"/>
+			        <h:inputText value="#{clienteMB.pessoaConta.numAgencia}" label="#{msg['label.pessoa.agencia']}" required="true" styleClass="input-small"/>
 				</div>
 			</div>
 			
 			<div class="control-group">
 				<label class="control-label">
-					<h:outputText value="#{msg['label.cliente.conta']}" />
+					<h:outputText value="#{msg['label.pessoa.conta']}" />
 				</label>
 				<div class="controls">
-			        <h:inputText value="#{clienteMB.pessoaConta.numConta}" label="#{msg['label.cliente.conta']}" required="true" styleClass="input-small"/>
+			        <h:inputText value="#{clienteMB.pessoaConta.numConta}" label="#{msg['label.pessoa.conta']}" required="true" styleClass="input-small"/>
 				</div>
 			</div>
 			

@@ -1,3 +1,10 @@
+/**
+ * Projeto:         Clay Cosméticos
+ * Camada Projeto:  clay-mmn
+ * Pacote:          br.com.clay.mb
+ * Arquivo:         FornecedorMB.java
+ * Data Criação:    10 de out de 2015
+ */
 package br.com.clay.mb;
 
 import java.util.ArrayList;
@@ -11,56 +18,51 @@ import javax.faces.context.FacesContext;
 
 import br.com.clay.entidade.Banco;
 import br.com.clay.entidade.Endereco;
+import br.com.clay.entidade.Fornecedor;
 import br.com.clay.entidade.Pessoa;
 import br.com.clay.entidade.PessoaConta;
-import br.com.clay.entidade.PlanoAssinatura;
+import br.com.clay.entidade.Produto;
 import br.com.clay.entidade.Telefone;
 import br.com.clay.entidade.TipoConta;
 import br.com.clay.entidade.TipoEndereco;
 import br.com.clay.entidade.TipoTelefone;
 import br.com.clay.entidade.UF;
-import br.com.clay.servico.ClienteServicoEJB;
+import br.com.clay.enums.TipoPessoa;
+import br.com.clay.servico.FornecedorServicoEJB;
 import br.com.clay.util.MensagemUtil;
 
-@ManagedBean(name = "clienteMB")
+/**
+ * FornecedorMB é responsável por 
+ * 
+ * @author Felipe
+ */
+@ManagedBean(name = "fornecedorMB")
 @SessionScoped
-public class ClienteMB extends ClayMB {
-    private static final long serialVersionUID = -6556028968452915346L;
+public class FornecedorMB extends ClayMB {
+	private static final long serialVersionUID = -3619457549690706465L;
+
+	private static final String LISTA_FORNECEDOR = "lista_fornecedor";
 
     @EJB
-    ClienteServicoEJB ejb;
-
+    FornecedorServicoEJB ejb;
+    
     private Long idSelecionado;
-
-    private Pessoa cliente;
-
+    private Fornecedor fornecedor;
+    private List<Fornecedor> fornecedores;
     private Endereco endereco;
-
     private Telefone telefone;
-
-    private Telefone celular;
-
     private PessoaConta pessoaConta;
-
-    private List<Pessoa> clientes;
-
     private List<UF> listaUfs;
-
     private List<Banco> listaBancos;
-
     private List<TipoConta> listaTipoConta;
-
-    private List<PlanoAssinatura> listaPlanoAssinatura;
-
-    public ClienteMB() {
+    private List<Produto> listaProduto;
+    
+    public FornecedorMB() {
     }
 
     public void incluir() {
-        // if (FacesContext.getCurrentInstance().getPartialViewContext().isAjaxRequest()) {
-        // return; // Skip ajax requests.
-        // }
         if (!FacesContext.getCurrentInstance().isPostback()) {
-            cliente = new Pessoa();
+            fornecedor = new Fornecedor();
             setTelefonePessoa();
             setEnderecoPessoa();
             setPessoaConta();
@@ -69,35 +71,31 @@ public class ClienteMB extends ClayMB {
 
     private void setEnderecoPessoa() {
         endereco = new Endereco();
-        endereco.setPessoa(cliente);
+        endereco.setPessoa(fornecedor);
 
-        endereco.setTipoEndereco(new TipoEndereco(TipoEndereco.RESIDENCIAL));
-        cliente.setListaEndereco(new ArrayList<Endereco>());
-        cliente.getListaEndereco().add(endereco);
+        endereco.setTipoEndereco(new TipoEndereco(TipoEndereco.COMERCIAL));
+        fornecedor.setListaEndereco(new ArrayList<Endereco>());
+        fornecedor.getListaEndereco().add(endereco);
     }
 
     private void setTelefonePessoa() {
         telefone = new Telefone();
-        telefone.setPessoa(cliente);
-        celular = new Telefone();
-        celular.setPessoa(cliente);
+        telefone.setPessoa(fornecedor);
 
-        telefone.setTipoTelefone(new TipoTelefone(TipoTelefone.RESIDENCIAL));
-        celular.setTipoTelefone(new TipoTelefone(TipoTelefone.CELULAR));
+        telefone.setTipoTelefone(new TipoTelefone(TipoTelefone.COMERCIAL));
 
-        cliente.setListaTelefone(new ArrayList<Telefone>());
-        cliente.getListaTelefone().add(telefone);
-        cliente.getListaTelefone().add(celular);
+        fornecedor.setListaTelefone(new ArrayList<Telefone>());
+        fornecedor.getListaTelefone().add(telefone);
     }
 
     private void setPessoaConta() {
         pessoaConta = new PessoaConta();
-        pessoaConta.setPessoa(cliente);
+        pessoaConta.setPessoa(fornecedor);
         pessoaConta.setBanco(new Banco());
         pessoaConta.setTipoConta(new TipoConta());
         pessoaConta.setBolContaPrincipal(Boolean.TRUE);
-        cliente.setListaPessoaConta(new ArrayList<PessoaConta>());
-        cliente.getListaPessoaConta().add(pessoaConta);
+        fornecedor.setListaPessoaConta(new ArrayList<PessoaConta>());
+        fornecedor.getListaPessoaConta().add(pessoaConta);
     }
 
     public void editar() {
@@ -105,58 +103,50 @@ public class ClienteMB extends ClayMB {
             if (idSelecionado == null) {
                 return;
             }
-            cliente = ejb.obterPessoa(idSelecionado);
-            endereco = cliente.getListaEndereco().get(0);
-            pessoaConta = cliente.getListaPessoaConta().get(0);
-
-            for (Telefone tel : cliente.getListaTelefone()) {
-                if (tel.getTipoTelefone().getId().equals(TipoTelefone.RESIDENCIAL)) {
-                    telefone = tel;
-                } else {
-                    celular = tel;
-                }
-            }
+            fornecedor = ejb.obterFornecedor(idSelecionado);
+            endereco = fornecedor.getListaEndereco().get(0);
+            pessoaConta = fornecedor.getListaPessoaConta().get(0);
+            telefone = fornecedor.getListaTelefone().get(0);
         }
     }
 
     public String salvar() {
         try {
-            cliente.setDataCadastro(Calendar.getInstance());
+            fornecedor.setDataCadastro(Calendar.getInstance());
 
             // TODO: rafael - Substituir replaces por Validator
-            cliente.setNumCpfCnpj(cliente.getNumCpfCnpj().replace("-", "").replace(".", "").replace("/", ""));
-            cliente.getListaEndereco().get(0).setNumCep(cliente.getListaEndereco().get(0).getNumCep().replace("-", ""));
-
-            ejb.save(cliente);
+            fornecedor.setNumCpfCnpj(fornecedor.getNumCpfCnpj().replace("-", "").replace(".", "").replace("/", ""));
+            fornecedor.getListaEndereco().get(0).setNumCep(fornecedor.getListaEndereco().get(0).getNumCep().replace("-", ""));
+            
+            fornecedor.setTipoPessoa(TipoPessoa.J);
+            
+            ejb.save(fornecedor);
         } catch (Exception ex) {
             ex.printStackTrace();
-            MensagemUtil.addMensagem("msg.erro.salvar.cliente", ex.getMessage());
+            MensagemUtil.addMensagem("msg.erro.salvar.fornecedor", ex.getMessage());
             return "";
         }
 
-        return "lista_cliente";
+        return LISTA_FORNECEDOR;
     }
-
+    
     public String remover() {
         try {
-            ejb.remove(cliente);
-            System.out.println("Cliente removido");
+            ejb.remove(fornecedor);
+            System.out.println("fornecedor removido");
         } catch (Exception ex) {
             ex.printStackTrace();
-            MensagemUtil.addMensagem("msg.erro.remover.cliente", ex.getMessage());
+            MensagemUtil.addMensagem("msg.erro.remover.fornecedor", ex.getMessage());
             return "";
         }
-        return "lista_cliente";
+        return LISTA_FORNECEDOR;
     }
-
-    // TODO: rafael - Verificar motivo de estar chamando duas vezes a listar
-    public List<Pessoa> getClientes() {
-        // if (!FacesContext.getCurrentInstance().isPostback() || clientes == null) {
-        clientes = ejb.findAll();
-        // }
-        return clientes;
+    
+    public List<Fornecedor> getFornecedores() {
+        fornecedores = ejb.findAll();
+        return fornecedores;
     }
-
+    
     @SuppressWarnings("unchecked")
     public List<UF> getListaUfs() {
         if (listaUfs == null) {
@@ -182,13 +172,13 @@ public class ClienteMB extends ClayMB {
     }
 
     @SuppressWarnings("unchecked")
-    public List<PlanoAssinatura> getListaPlanoAssinatura() {
-        if (listaPlanoAssinatura == null) {
-            listaPlanoAssinatura = ejb.findAll(PlanoAssinatura.class);
+    public List<Produto> getListaProduto() {
+        if (listaProduto == null) {
+            listaProduto = ejb.findAll(Produto.class);
         }
-        return listaPlanoAssinatura;
+        return listaProduto;
     }
-
+    
     public Long getIdSelecionado() {
         return idSelecionado;
     }
@@ -197,8 +187,8 @@ public class ClienteMB extends ClayMB {
         this.idSelecionado = idSelecionado;
     }
 
-    public Pessoa getCliente() {
-        return cliente;
+    public Pessoa getFornecedor() {
+        return fornecedor;
     }
 
     public Endereco getEndereco() {
@@ -209,12 +199,8 @@ public class ClienteMB extends ClayMB {
         return telefone;
     }
 
-    public Telefone getCelular() {
-        return celular;
-    }
-
     public PessoaConta getPessoaConta() {
         return pessoaConta;
     }
-
+    
 }

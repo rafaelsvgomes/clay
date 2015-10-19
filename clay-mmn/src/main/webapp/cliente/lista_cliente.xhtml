@@ -20,7 +20,7 @@
 			<p:dataTable id="dataTable" var="cliente"
 				value="#{clienteMB.clientes}" paginator="true" rows="10"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="10,20,50" emptyMessage="#{msg['alerta.nehum.cliente.encontrado']}" >
+				rowsPerPageTemplate="10,20,50" emptyMessage="#{msg['alerta.nenhum.cliente.encontrado']}" >
 				<p:column>
 					<f:facet name="header">#</f:facet>
 					<h:outputText value="#{cliente.id}" />
@@ -28,7 +28,7 @@
 	
 				<p:column sortBy="#{cliente.nomePessoa}">
 					<f:facet name="header">
-						<h:outputText value="#{msg['label.cliente.nome']}" />
+						<h:outputText value="#{msg['label.pessoa.nome']}" />
 					</f:facet>
 					<h:link outcome="editar_cliente" value="#{cliente.nomePessoa}"
 						title="#{msg['label.editar']} #{cliente.nomePessoa}">
@@ -38,21 +38,21 @@
 				
 				<p:column sortBy="#{cliente.tipoPessoa.descTipoPessoa}">
 					<f:facet name="header">
-						<h:outputText value="#{msg['label.cliente.tppessoa']}" />
+						<h:outputText value="#{msg['label.pessoa.tppessoa']}" />
 					</f:facet>
 					<h:outputText value="#{cliente.tipoPessoa.descTipoPessoa}" />
 				</p:column>
 	
 				<p:column sortBy="#{cliente.numCpfCnpj}">
 					<f:facet name="header">
-						<h:outputText value="#{msg['label.cliente.cpf']}" />
+						<h:outputText value="#{msg['label.pessoa.cpf.cnpj']}" />
 					</f:facet>
 					<h:outputText value="#{cliente.numCpfCnpj}" />
 				</p:column>
 	
 				<p:column sortBy="#{cliente.dataNascimento}">
 					<f:facet name="header">
-						<h:outputText value="#{msg['label.cliente.dtnascimento']}" />
+						<h:outputText value="#{msg['label.pessoa.dtnascimento']}" />
 					</f:facet>
 					<h:outputText value="#{cliente.dataNascimento}" >
 						 <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
@@ -61,7 +61,7 @@
 				
 				<p:column sortBy="#{cliente.tipoSexo.descTipoSexo}">
 					<f:facet name="header">
-						<h:outputText value="#{msg['label.cliente.sexo']}" />
+						<h:outputText value="#{msg['label.pessoa.sexo']}" />
 					</f:facet>
 					<h:outputText value="#{cliente.tipoSexo.descTipoSexo}" />
 				</p:column>

@@ -1,0 +1,117 @@
+package br.com.clay.entidade;
+
+import java.io.Serializable;
+
+import javax.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+/**
+ * The persistent class for the unidadevenda database table.
+ * 
+ */
+@Entity
+@NamedQuery(name="UnidadeVenda.findAll", query="SELECT u FROM UnidadeVenda u")
+public class UnidadeVenda extends ClayEntidade implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@Column(name = "idunidadevenda")
+	private Long id;
+
+	private String dsUnidadeVenda;
+
+	//bi-directional many-to-one association to Produto
+	@OneToMany(mappedBy="unidadeVenda")
+	private List<Produto> listaProduto;
+
+	public UnidadeVenda() {
+	}
+
+	public void setIdUnidadeVenda(Long idUnidadeVenda) {
+		this.id = idUnidadeVenda;
+	}
+
+	public String getDsUnidadeVenda() {
+		return this.dsUnidadeVenda;
+	}
+
+	public void setDsunidadevenda(String dsUnidadeVenda) {
+		this.dsUnidadeVenda = dsUnidadeVenda;
+	}
+
+	public List<Produto> getListaProduto() {
+		return this.listaProduto;
+	}
+
+	public void setListaProduto(List<Produto> listaProduto) {
+		this.listaProduto = listaProduto;
+	}
+
+	public Produto addProduto(Produto produto) {
+		if(getListaProduto() == null) {
+			setListaProduto(new ArrayList<Produto>());
+		}
+		getListaProduto().add(produto);
+		produto.setUnidadeVenda(this);
+
+		return produto;
+	}
+
+	public Produto removeProduto(Produto produto) {
+		getListaProduto().remove(produto);
+		produto.setUnidadeVenda(null);
+
+		return produto;
+	}
+
+    /* (non-Javadoc)
+     * @see br.com.clay.entidade.ClayEntidade#getId()
+     */
+    @Override
+    public Number getId() {
+        return this.id;
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     * 
+     * Sobrescrevendo para ser encontrado via converter
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     * 
+     * Sobrescrevendo para ser encontrado via converter
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        UnidadeVenda other = (UnidadeVenda) obj;
+        if (id == null) {
+            if (other.getId() != null)
+                return false;
+        } else if (!id.equals(other.getId()))
+            return false;
+        return true;
+    }
+
+}

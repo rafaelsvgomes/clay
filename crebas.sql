@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     09/10/2015 18:20:00                          */
+/* Created on:     16/10/2015 15:07:43                          */
 /*==============================================================*/
 
 
@@ -11,6 +11,14 @@ drop table BANCO;
 drop index INDEX_13;
 
 drop table CATEGORIA;
+
+drop index INDEX_26;
+
+drop table CLIENTE;
+
+drop index INDEX_6;
+
+drop table CLIENTEREDE;
 
 drop index INDEX_8;
 
@@ -36,12 +44,6 @@ drop index INDEX_4;
 
 drop table PESSOACONTA;
 
-drop index INDEX_19;
-
-drop index INDEX_6;
-
-drop table PESSOAREDE;
-
 drop index INDEX_9;
 
 drop table PLANOASSINATURA;
@@ -50,9 +52,17 @@ drop index INDEX_22;
 
 drop table PRODUTO;
 
+drop index INDEX_12;
+
+drop table PRODUTOCOMPOSICAO;
+
 drop index INDEX_10;
 
-drop table SITUACAOPESSOA;
+drop table SITUACAOCLIENTE;
+
+drop index INDEX_17;
+
+drop table SITUACAOPEDIDO;
 
 drop index INDEX_11;
 
@@ -96,6 +106,10 @@ drop table VALORPRODUTO;
 
 drop sequence SEQENDERECOPESSOA;
 
+drop sequence SEQPEDIDO;
+
+drop sequence SEQPEDIDOPRODUTO;
+
 drop sequence SEQPESSOA;
 
 drop sequence SEQPESSOACONTA;
@@ -106,6 +120,8 @@ drop sequence SEQPLANOASSINATURA;
 
 drop sequence SEQPRODUTO;
 
+drop sequence SEQPRODUTOCOMPOSICAO;
+
 drop sequence SEQTELEFONE;
 
 drop sequence SEQUSUARIO;
@@ -113,6 +129,12 @@ drop sequence SEQUSUARIO;
 drop sequence SEQVALORPRODUTO;
 
 create sequence SEQENDERECOPESSOA
+increment 1;
+
+create sequence SEQPEDIDO
+increment 1;
+
+create sequence SEQPEDIDOPRODUTO
 increment 1;
 
 create sequence SEQPESSOA
@@ -128,6 +150,9 @@ create sequence SEQPLANOASSINATURA
 increment 1;
 
 create sequence SEQPRODUTO
+increment 1;
+
+create sequence SEQPRODUTOCOMPOSICAO
 increment 1;
 
 create sequence SEQTELEFONE
@@ -170,6 +195,41 @@ create table CATEGORIA (
 /*==============================================================*/
 create unique index INDEX_13 on CATEGORIA (
 IDCATEGORIA
+);
+
+/*==============================================================*/
+/* Table: CLIENTE                                               */
+/*==============================================================*/
+create table CLIENTE (
+   IDCLIENTE            BIGINT               not null,
+   IDPLANOASSINATURA    BIGINT               not null,
+   IDSITUACAOCLIENTE    BIGINT               not null,
+   constraint PK_CLIENTE primary key (IDCLIENTE)
+);
+
+/*==============================================================*/
+/* Index: INDEX_26                                              */
+/*==============================================================*/
+create unique index INDEX_26 on CLIENTE (
+IDCLIENTE
+);
+
+/*==============================================================*/
+/* Table: CLIENTEREDE                                           */
+/*==============================================================*/
+create table CLIENTEREDE (
+   IDCLIENTEREDE        BIGINT               not null,
+   IDCLIENTE            BIGINT               not null,
+   IDCLIENTEPAI         BIGINT               null,
+   IDCLIENTEINDICACAO   BIGINT               null,
+   constraint PK_CLIENTEREDE primary key (IDCLIENTEREDE)
+);
+
+/*==============================================================*/
+/* Index: INDEX_6                                               */
+/*==============================================================*/
+create unique index INDEX_6 on CLIENTEREDE (
+IDCLIENTEREDE
 );
 
 /*==============================================================*/
@@ -217,12 +277,12 @@ IDFORNECEDOR
 create table PEDIDO (
    IDPEDIDO             BIGINT               not null,
    IDTIPOPEDIDO         BIGINT               null,
-   IDPESSOA             BIGINT               null,
+   IDSITUACAOPEDIDO     INT                  null,
+   IDCLIENTE            BIGINT               null,
    DATAPEDIDO           TIMESTAMP            null,
-   VLTOTALBRUTO         MONEY                null,
-   VLTOTALLIQUIDO       MONEY                null,
-   VLFRETE              MONEY                null,
-   STPEDIDO             BIGINT               null,
+   VLTOTALBRUTO         NUMERIC(12,2)        null,
+   VLTOTALLIQUIDO       NUMERIC(12,2)        null,
+   VLFRETE              NUMERIC(12,2)        null,
    constraint PK_PEDIDO primary key (IDPEDIDO)
 );
 
@@ -238,9 +298,11 @@ IDPEDIDO
 /*==============================================================*/
 create table PEDIDOPRODUTO (
    IDPEDIDOPRODUTO      BIGINT               not null,
-   IDPEDIDO             BIGINT               null,
-   IDPRODUTO            BIGINT               null,
-   QTPRODUTO            BIGINT               null,
+   IDPEDIDO             BIGINT               not null,
+   IDPRODUTO            BIGINT               not null,
+   IDVALORPRODUTO       BIGINT               null,
+   QTPRODUTO            BIGINT               not null,
+   VLDESCONTO           NUMERIC(12,2)        null,
    constraint PK_PEDIDOPRODUTO primary key (IDPEDIDOPRODUTO)
 );
 
@@ -260,8 +322,6 @@ create table PESSOA (
    DSRAZAOSOCIAL        VARCHAR(50)          null,
    CODTIPOPESSOA        CHAR(1)              not null
       constraint CKC_CODTIPOPESSOA_PESSOA check (CODTIPOPESSOA in ('F','J')),
-   IDSITUACAOPESSOA     BIGINT               null,
-   IDPLANOASSINATURA    BIGINT               null,
    NUMCPFCNPJ           VARCHAR(14)          not null,
    CODSEXO              CHAR(1)              null
       constraint CKC_CODSEXO_PESSOA check (CODSEXO is null or (CODSEXO in ('M','F'))),
@@ -300,33 +360,6 @@ IDPESSOACONTA
 );
 
 /*==============================================================*/
-/* Table: PESSOAREDE                                            */
-/*==============================================================*/
-create table PESSOAREDE (
-   IDPESSOAREDE         BIGINT               not null,
-   IDPESSOA             BIGINT               not null,
-   IDPESSOAPAI          BIGINT               not null,
-   IDPESSOAINDICACAO    BIGINT               not null,
-   constraint PK_PESSOAREDE primary key (IDPESSOAREDE)
-);
-
-/*==============================================================*/
-/* Index: INDEX_6                                               */
-/*==============================================================*/
-create  index INDEX_6 on PESSOAREDE (
-IDPESSOAREDE
-);
-
-/*==============================================================*/
-/* Index: INDEX_19                                              */
-/*==============================================================*/
-create unique index INDEX_19 on PESSOAREDE (
-IDPESSOA,
-IDPESSOAPAI,
-IDPESSOAINDICACAO
-);
-
-/*==============================================================*/
 /* Table: PLANOASSINATURA                                       */
 /*==============================================================*/
 create table PLANOASSINATURA (
@@ -360,13 +393,21 @@ create table PRODUTO (
    IDFORNECEDOR         BIGINT               null,
    NOMEPRODUTO          VARCHAR(40)          not null,
    DSPRODUTO            TEXT                 null,
-   PERCMARGEMVENDA      MONEY                null,
+   PERCMARGEMVENDA      NUMERIC(10,4)        null,
    QTDPESO              NUMERIC(10,4)        null,
    QTDALTURA            NUMERIC(10,4)        null,
    QTDLARGURA           NUMERIC(10,4)        null,
+   VLPONTOPRODUTO       BIGINT               null,
    BOLVISIVEL           BOOL                 null,
+   BOLCOMPOSICAO        BOOL                 not null,
    constraint PK_PRODUTO primary key (IDPRODUTO)
 );
+
+comment on column PRODUTO.VLPONTOPRODUTO is
+'VALOR DO PRODUTO EM PONTOS PARA O MMN';
+
+comment on column PRODUTO.BOLCOMPOSICAO is
+'VERIFICA SE O PRODUTO É UMA COMPOSIÇÃO DE OUTROS PRODUTOS';
 
 /*==============================================================*/
 /* Index: INDEX_22                                              */
@@ -376,19 +417,55 @@ IDPRODUTO
 );
 
 /*==============================================================*/
-/* Table: SITUACAOPESSOA                                        */
+/* Table: PRODUTOCOMPOSICAO                                     */
 /*==============================================================*/
-create table SITUACAOPESSOA (
-   IDSITUACAOPESSOA     BIGINT               not null,
-   DSSITUACAOPESSOA     VARCHAR(30)          not null,
-   constraint PK_SITUACAOPESSOA primary key (IDSITUACAOPESSOA)
+create table PRODUTOCOMPOSICAO (
+   IDPRODUTOCOMPOSICAO  SERIAL               not null,
+   IDPRODUTO            BIGINT               not null,
+   QTPRODUTOCOMPOSICAO  BIGINT               not null,
+   constraint PK_PRODUTOCOMPOSICAO primary key (IDPRODUTOCOMPOSICAO)
+);
+
+/*==============================================================*/
+/* Index: INDEX_12                                              */
+/*==============================================================*/
+create unique index INDEX_12 on PRODUTOCOMPOSICAO (
+IDPRODUTOCOMPOSICAO
+);
+
+/*==============================================================*/
+/* Table: SITUACAOCLIENTE                                       */
+/*==============================================================*/
+create table SITUACAOCLIENTE (
+   IDSITUACAOCLIENTE    BIGINT               not null,
+   DSSITUACAOCLIENTE    VARCHAR(30)          not null,
+   constraint PK_SITUACAOCLIENTE primary key (IDSITUACAOCLIENTE)
 );
 
 /*==============================================================*/
 /* Index: INDEX_10                                              */
 /*==============================================================*/
-create unique index INDEX_10 on SITUACAOPESSOA (
-IDSITUACAOPESSOA
+create unique index INDEX_10 on SITUACAOCLIENTE (
+IDSITUACAOCLIENTE
+);
+
+/*==============================================================*/
+/* Table: SITUACAOPEDIDO                                        */
+/*==============================================================*/
+create table SITUACAOPEDIDO (
+   IDSITUACAOPEDIDO     INT                  not null,
+   DSSITUACAOPEDIDO     VARCHAR(30)          not null,
+   constraint PK_SITUACAOPEDIDO primary key (IDSITUACAOPEDIDO)
+);
+
+comment on table SITUACAOPEDIDO is
+'SITUAÇÃO DO PEDIDO (ABERTO, APROVADO)';
+
+/*==============================================================*/
+/* Index: INDEX_17                                              */
+/*==============================================================*/
+create unique index INDEX_17 on SITUACAOPEDIDO (
+IDSITUACAOPEDIDO
 );
 
 /*==============================================================*/
@@ -547,11 +624,11 @@ IDUSUARIOPESSOA
 /*==============================================================*/
 create table VALORPRODUTO (
    IDVALORPRODUTO       BIGINT               not null,
-   IDPRODUTO            BIGINT               null,
-   VLCUSTO              MONEY                null,
-   VLPRODUTO            MONEY                null,
-   VLDESCONTO           MONEY                null,
-   DTATUALIZACAO        TIMESTAMP            null,
+   IDPRODUTO            BIGINT               not null,
+   VLCUSTO              NUMERIC(12,2)        null,
+   VLPRODUTO            NUMERIC(12,2)        not null,
+   VLDESCONTO           NUMERIC(12,2)        null,
+   DTATUALIZACAO        TIMESTAMP            not null,
    constraint PK_VALORPRODUTO primary key (IDVALORPRODUTO)
 );
 
@@ -565,6 +642,36 @@ IDVALORPRODUTO
 alter table CATEGORIA
    add constraint FK_CATEGORI_REFERENCE_CATEGORI foreign key (IDCATEGORIAPAI)
       references CATEGORIA (IDCATEGORIA)
+      on delete restrict on update restrict;
+
+alter table CLIENTE
+   add constraint FK_CLIENTE_REFERENCE_PESSOA foreign key (IDCLIENTE)
+      references PESSOA (IDPESSOA)
+      on delete restrict on update restrict;
+
+alter table CLIENTE
+   add constraint FK_CLIENTE_REFERENCE_PLANOASS foreign key (IDPLANOASSINATURA)
+      references PLANOASSINATURA (IDPLANOASSINATURA)
+      on delete restrict on update restrict;
+
+alter table CLIENTE
+   add constraint FK_CLIENTE_REFERENCE_SITUACAO foreign key (IDSITUACAOCLIENTE)
+      references SITUACAOCLIENTE (IDSITUACAOCLIENTE)
+      on delete restrict on update restrict;
+
+alter table CLIENTEREDE
+   add constraint FK_CLIENTE_CLIENTEREDEIND foreign key (IDCLIENTEINDICACAO)
+      references CLIENTE (IDCLIENTE)
+      on delete restrict on update restrict;
+
+alter table CLIENTEREDE
+   add constraint FK_CLIENTE_CLIENTEREDEPAI foreign key (IDCLIENTEPAI)
+      references CLIENTE (IDCLIENTE)
+      on delete restrict on update restrict;
+
+alter table CLIENTEREDE
+   add constraint FK_CLIENTE_CLIREDE foreign key (IDCLIENTE)
+      references CLIENTE (IDCLIENTE)
       on delete restrict on update restrict;
 
 alter table ENDERECOPESSOA
@@ -593,8 +700,13 @@ alter table PEDIDO
       on delete restrict on update restrict;
 
 alter table PEDIDO
-   add constraint FK_PEDIDO_REFERENCE_PESSOA foreign key (IDPESSOA)
-      references PESSOA (IDPESSOA)
+   add constraint FK_PEDIDO_REFERENCE_SITUACAO foreign key (IDSITUACAOPEDIDO)
+      references SITUACAOPEDIDO (IDSITUACAOPEDIDO)
+      on delete restrict on update restrict;
+
+alter table PEDIDO
+   add constraint FK_PEDIDO_REFERENCE_CLIENTE foreign key (IDCLIENTE)
+      references CLIENTE (IDCLIENTE)
       on delete restrict on update restrict;
 
 alter table PEDIDOPRODUTO
@@ -607,14 +719,9 @@ alter table PEDIDOPRODUTO
       references PRODUTO (IDPRODUTO)
       on delete restrict on update restrict;
 
-alter table PESSOA
-   add constraint FK_PESSOA_REFERENCE_SITUACAO foreign key (IDSITUACAOPESSOA)
-      references SITUACAOPESSOA (IDSITUACAOPESSOA)
-      on delete restrict on update restrict;
-
-alter table PESSOA
-   add constraint FK_PESSOA_REFERENCE_PLANOASS foreign key (IDPLANOASSINATURA)
-      references PLANOASSINATURA (IDPLANOASSINATURA)
+alter table PEDIDOPRODUTO
+   add constraint FK_PEDIDOPR_REFERENCE_VALORPRO foreign key (IDVALORPRODUTO)
+      references VALORPRODUTO (IDVALORPRODUTO)
       on delete restrict on update restrict;
 
 alter table PESSOACONTA
@@ -632,21 +739,6 @@ alter table PESSOACONTA
       references BANCO (CODBANCO)
       on delete restrict on update restrict;
 
-alter table PESSOAREDE
-   add constraint FK_PESSOARE_FK_PESSOA_PESSOA foreign key (IDPESSOA)
-      references PESSOA (IDPESSOA)
-      on delete restrict on update restrict;
-
-alter table PESSOAREDE
-   add constraint FK_PESSOARE_REFERENCE_PESSOAIND foreign key (IDPESSOAINDICACAO)
-      references PESSOA (IDPESSOA)
-      on delete restrict on update restrict;
-
-alter table PESSOAREDE
-   add constraint FK_PESSOARE_REFERENCE_PESSOAPAI foreign key (IDPESSOAPAI)
-      references PESSOA (IDPESSOA)
-      on delete set default on update set default;
-
 alter table PRODUTO
    add constraint FK_PRODUTO_REFERENCE_CATEGORI foreign key (IDCATEGORIA)
       references CATEGORIA (IDCATEGORIA)
@@ -660,6 +752,11 @@ alter table PRODUTO
 alter table PRODUTO
    add constraint FK_PRODUTO_REFERENCE_FORNECED foreign key (IDFORNECEDOR)
       references FORNECEDOR (IDFORNECEDOR)
+      on delete restrict on update restrict;
+
+alter table PRODUTOCOMPOSICAO
+   add constraint FK_PRODUTOC_REFERENCE_PRODUTO foreign key (IDPRODUTO)
+      references PRODUTO (IDPRODUTO)
       on delete restrict on update restrict;
 
 alter table TELEFONE

@@ -47,3 +47,14 @@ insert into banco values (104, 'Caixa Econômica Federal');
 insert into public.planoassinatura values (nextval('seqplanoassinatura'), 'Plano 1', 'Desc Plano 1', 100.00, 100.00, 100.00, true);
 insert into public.planoassinatura values (nextval('seqplanoassinatura'), 'Plano 2', 'Desc Plano 2', 100.00, 100.00, 100.00, true);
 insert into public.planoassinatura values (nextval('seqplanoassinatura'), 'Plano 3', 'Desc Plano 3', 100.00, 100.00, 100.00, true);
+
+--SituacaoPedido
+insert into situacaopedido (1,'Aberto');
+insert into situacaopedido (2,'Aguardando pagamento');
+insert into situacaopedido (3,'Aguardando retirada');
+insert into situacaopedido (4,'Finalizado');
+
+--Categoria
+insert into categoria (1,'Cosméticos',null);
+insert into categoria (2,'Creme',1);
+insert into categoria (3,'Shampoo',1);

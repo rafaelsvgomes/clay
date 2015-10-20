@@ -1,0 +1,50 @@
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form>
+		<h:panelGrid id="grid" columns="3" cellpadding="5">
+			<p:outputLabel for="default" value="Default:" />
+			<p:inputText id="default" required="true" />
+			<p:message for="default" />
+
+			<p:outputLabel for="txt" value="Text:" />
+			<p:inputText id="txt" required="true" />
+			<p:message for="txt" display="text" />
+
+			<p:outputLabel for="icon" value="Icon:" />
+			<p:inputText id="icon" required="true" />
+			<p:message for="icon" display="icon" />
+
+			<p:outputLabel for="tt" value="Tooltip:" />
+			<p:inputText id="tt" required="true" />
+			<p:message for="tt" display="tooltip" />
+		</h:panelGrid>
+
+		<p:commandButton id="submitButton" value="Submit" update="grid" />
+	</h:form>
+	
+	<h:form styleClass="form-horizontal" id="formCadCliente">
+		<fieldset>
+			<legend>
+				<small> <h:outputText value="Dados Pessoais" /></small>
+			</legend>
+			<div class="control-group">
+				<label class="control-label">
+					<h:outputText value="#{msg['label.cliente.nome']}" />
+				</label>
+				<div class="controls">
+					<h:inputText id="nomePessoa" value="#{clienteMB.cliente.nomePessoa}" label="#{msg['label.cliente.nome']}" required="true" styleClass="input-large">
+						<f:validateLength minimum="5" maximum="100" />
+					</h:inputText>
+				</div>
+				<div class="controls">
+					<h:outputText value="XXXX" />
+				</div>
+				<p:message for="nomePessoa" display="icon" styleClass="input-small"/>
+			</div>
+		</fieldset>
+		</h:form>
+</ui:fragment>

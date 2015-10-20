@@ -9,7 +9,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import br.com.clay.entidade.Pessoa;
+import br.com.clay.entidade.Cliente;
 
 public class PessoaTeste {
 
@@ -23,21 +23,21 @@ public class PessoaTeste {
 
     @Test
     public void test() {
-        Pessoa p = new Pessoa();
+        Cliente p = new Cliente();
         p.setDescEmail("rafaelsvgomes@gmail.com");
 
-        Set<ConstraintViolation<Pessoa>> constraintViolations = validator.validate(p);
+        Set<ConstraintViolation<Cliente>> constraintViolations = validator.validate(p);
         Assert.assertEquals(1, constraintViolations.size());
         Assert.assertEquals("Nome é obrigatório", constraintViolations.iterator().next().getMessage());
     }
 
     @Test
     public void testNomeMin() {
-        Pessoa p = new Pessoa();
+        Cliente p = new Cliente();
         p.setNomePessoa("Rafa");
         p.setDescEmail("rafaelsvgomes@gmail.com");
 
-        Set<ConstraintViolation<Pessoa>> constraintViolations = validator.validate(p);
+        Set<ConstraintViolation<Cliente>> constraintViolations = validator.validate(p);
         Assert.assertEquals(1, constraintViolations.size());
         Assert.assertEquals("Nome deve conter no mínimo 5 caracteres", constraintViolations.iterator().next().getMessage());
     }

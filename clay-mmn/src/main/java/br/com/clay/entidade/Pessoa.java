@@ -1,6 +1,5 @@
 package br.com.clay.entidade;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -14,8 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -30,9 +27,9 @@ import br.com.clay.enums.TipoSexo;
 
 @Entity
 @Table(name = "PESSOA")
-@Inheritance(strategy=InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.JOINED)
 @SequenceGenerator(name = "seqpessoa", sequenceName = "seqpessoa", allocationSize = 1)
-public class Pessoa extends ClayEntidade {
+public abstract class Pessoa extends ClayEntidade {
     private static final long serialVersionUID = -8922414503953244338L;
 
     @Id
@@ -50,11 +47,6 @@ public class Pessoa extends ClayEntidade {
     @Column(name = "codTipoPessoa")
     private TipoPessoa tipoPessoa;
 
-    // private SituacaoPessoa situacaoPessoa;
-    @ManyToOne
-    @JoinColumn(name = "idPlanoAssinatura")
-    private PlanoAssinatura planoAssinatura;
-
     private String numCpfCnpj;
 
     @Enumerated(EnumType.STRING)
@@ -71,7 +63,7 @@ public class Pessoa extends ClayEntidade {
 
     @Column(name = "dataCadastro")
     @Temporal(TemporalType.TIMESTAMP)
-    private Calendar dataCadastro;
+    private Date dataCadastro;
 
     @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
     private List<Endereco> listaEndereco;
@@ -138,11 +130,11 @@ public class Pessoa extends ClayEntidade {
         this.dataNascimento = dataNascimento;
     }
 
-    public Calendar getDataCadastro() {
+    public Date getDataCadastro() {
         return dataCadastro;
     }
 
-    public void setDataCadastro(Calendar dataCadastro) {
+    public void setDataCadastro(Date dataCadastro) {
         this.dataCadastro = dataCadastro;
     }
 
@@ -176,13 +168,5 @@ public class Pessoa extends ClayEntidade {
 
     public void setListaPessoaConta(List<PessoaConta> listaPessoaConta) {
         this.listaPessoaConta = listaPessoaConta;
-    }
-
-    public PlanoAssinatura getPlanoAssinatura() {
-        return planoAssinatura;
-    }
-
-    public void setPlanoAssinatura(PlanoAssinatura planoAssinatura) {
-        this.planoAssinatura = planoAssinatura;
     }
 }

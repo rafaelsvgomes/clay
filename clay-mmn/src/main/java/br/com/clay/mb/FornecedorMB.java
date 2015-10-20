@@ -8,7 +8,7 @@
 package br.com.clay.mb;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -32,20 +32,20 @@ import br.com.clay.servico.FornecedorServicoEJB;
 import br.com.clay.util.MensagemUtil;
 
 /**
- * FornecedorMB é responsável por 
+ * FornecedorMB é responsável por
  * 
  * @author Felipe
  */
 @ManagedBean(name = "fornecedorMB")
 @SessionScoped
 public class FornecedorMB extends ClayMB {
-	private static final long serialVersionUID = -3619457549690706465L;
+    private static final long serialVersionUID = -3619457549690706465L;
 
-	private static final String LISTA_FORNECEDOR = "lista_fornecedor";
+    private static final String LISTA_FORNECEDOR = "lista_fornecedor";
 
     @EJB
     FornecedorServicoEJB ejb;
-    
+
     private Long idSelecionado;
     private Fornecedor fornecedor;
     private List<Fornecedor> fornecedores;
@@ -56,7 +56,7 @@ public class FornecedorMB extends ClayMB {
     private List<Banco> listaBancos;
     private List<TipoConta> listaTipoConta;
     private List<Produto> listaProduto;
-    
+
     public FornecedorMB() {
     }
 
@@ -112,14 +112,14 @@ public class FornecedorMB extends ClayMB {
 
     public String salvar() {
         try {
-            fornecedor.setDataCadastro(Calendar.getInstance());
+            fornecedor.setDataCadastro(new Date());
 
             // TODO: rafael - Substituir replaces por Validator
             fornecedor.setNumCpfCnpj(fornecedor.getNumCpfCnpj().replace("-", "").replace(".", "").replace("/", ""));
             fornecedor.getListaEndereco().get(0).setNumCep(fornecedor.getListaEndereco().get(0).getNumCep().replace("-", ""));
-            
+
             fornecedor.setTipoPessoa(TipoPessoa.J);
-            
+
             ejb.save(fornecedor);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -129,7 +129,7 @@ public class FornecedorMB extends ClayMB {
 
         return LISTA_FORNECEDOR;
     }
-    
+
     public String remover() {
         try {
             ejb.remove(fornecedor);
@@ -141,12 +141,12 @@ public class FornecedorMB extends ClayMB {
         }
         return LISTA_FORNECEDOR;
     }
-    
+
     public List<Fornecedor> getFornecedores() {
         fornecedores = ejb.findAll();
         return fornecedores;
     }
-    
+
     @SuppressWarnings("unchecked")
     public List<UF> getListaUfs() {
         if (listaUfs == null) {
@@ -178,7 +178,7 @@ public class FornecedorMB extends ClayMB {
         }
         return listaProduto;
     }
-    
+
     public Long getIdSelecionado() {
         return idSelecionado;
     }
@@ -202,5 +202,5 @@ public class FornecedorMB extends ClayMB {
     public PessoaConta getPessoaConta() {
         return pessoaConta;
     }
-    
+
 }

@@ -50,6 +50,7 @@ public class Banco extends ClayEntidade {
         int result = 1;
         result = prime * result + ((codBanco == null) ? 0 : codBanco.hashCode());
         return result;
+        //
     }
 
     /*

@@ -7,8 +7,8 @@ import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 
 public final class MensagemUtil {
-	
-	/**
+
+    /**
      * @param key
      * @return Recupera a mensagem do arquivo properties <code>ResourceBundle</code>.
      */
@@ -23,15 +23,15 @@ public final class MensagemUtil {
      * @param summary
      * @param detail
      */
-    public static void addMessage(String summary, String detail) {
+    private static void addMessage(String summary, String detail) {
         getCurrentInstance().addMessage(null, new FacesMessage(summary, summary.concat("<br/>").concat(detail)));
     }
-	
+
     /**
      * @param resumo
      * @param detalhe
      */
     public static void addMensagem(String chave, String detalhe) {
-    	addMensagem(getMessageFromI18N(chave), detalhe);
+        addMessage(getMessageFromI18N(chave), detalhe);
     }
 }

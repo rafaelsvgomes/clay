@@ -97,13 +97,13 @@
 							<h:outputText value="#{msg['label.pessoa.telefone']}" />
 						</label>
 						<div class="controls">
-					        <p:inputMask mask="(99)99999999?9" value="#{clienteMB.telefone.descTelefone}" label="#{msg['label.pessoa.telefone']}" required="true" styleClass="input-large" />
+					        <p:inputMask mask="(99)99999999?9" value="#{clienteMB.telefone.descTelefone}" label="#{msg['label.pessoa.telefone']}" styleClass="input-large" />
 						</div>
 					</div>
 					
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.pessoa.celular']}" />
+							<h:outputText value="#{msg['label.pessoa.celular']} *" />
 						</label>
 						<div class="controls">
 					        <p:inputMask mask="(99)99999999?9" value="#{clienteMB.celular.descTelefone}" label="#{msg['label.pessoa.celular']}" required="true" styleClass="input-large" />
@@ -112,7 +112,7 @@
 					
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.pessoa.email']}" />
+							<h:outputText value="#{msg['label.pessoa.email']} *" />
 						</label>
 						<div class="controls">
 							<p:inputText value="#{clienteMB.cliente.descEmail}" label="#{msg['label.pessoa.email']}" required="true" styleClass="input-large">
@@ -273,7 +273,7 @@
 					</legend>
 					
 					<h:panelGrid id="pnlConfirmacao" columns="3" columnClasses="grid,grid">
-						<h:panelGrid columns="2" columnClasses="label,value">
+						<h:panelGrid columns="2" columnClasses="label,value" border="1">
 							<h:outputText value="#{msg['label.pessoa.tppessoa']}" />
 							<h:outputText value="#{clienteMB.cliente.tipoPessoa.descTipoPessoa}" styleClass="outputLabel"/>
 							
@@ -290,11 +290,14 @@
 							<h:outputText value="#{clienteMB.cliente.tipoSexo.descTipoSexo}" styleClass="outputLabel"/>
 							
 							<h:outputText value="#{msg['label.pessoa.telefone']}" />
+							<h:outputText value="#{clienteMB.telefone.descTelefone}" styleClass="outputLabel"/>
+							
 							<h:outputText value="#{msg['label.pessoa.celular']}" />
+							<h:outputText value="#{clienteMB.celular.descTelefone}" styleClass="outputLabel"/>
+							
 							<h:outputText value="#{msg['label.pessoa.email']}" />
-							
-							
-							<!-- Conta -->
+							<h:outputText value="#{clienteMB.cliente.descEmail}" styleClass="outputLabel"/>
+
 							<h:outputText value="#{msg['label.pessoa.banco']}" />
 							<h:outputText value="#{clienteMB.pessoaConta.banco.descBanco}" styleClass="outputLabel"/>
 							
@@ -310,7 +313,7 @@
 						</h:panelGrid>
 						
 						
-						<h:panelGrid columns="2" columnClasses="label,value">
+						<h:panelGrid columns="2" columnClasses="label,value" border="1">
 							<h:outputText value="#{msg['label.pessoa.endereco.cep']}" />
 							<h:outputText value="#{clienteMB.endereco.numCep}" styleClass="outputLabel"/>
 							
@@ -334,6 +337,47 @@
 						</h:panelGrid>
 						
 					</h:panelGrid>
+				</fieldset>
+				
+				<fieldset>
+					<legend>
+						<small> <h:outputText value="Login" /></small>
+					</legend>
+					
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.usuario.login']}" />
+						</label>
+						<div class="controls">
+							<p:inputText value="#{clienteMB.cliente.descEmail}" label="#{msg['label.pessoa.email']}" styleClass="input-large" disabled="true" />
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.usuario.senha']}" />
+						</label>
+						<div class="controls">
+							<p:password value="" label="#{msg['label.usuario.senha']}" styleClass="input-small" />
+						</div>
+					</div>
+				</fieldset>
+				<fieldset>
+					<legend>
+						<small> <h:outputText value="Pagamento" /></small>
+					</legend>
+					
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="Número Cartão *" />
+						</label>
+						<div class="controls">
+							<p:inputText value="#" label="#" styleClass="input-large">
+								<f:validateLength minimum="5" maximum="100" />
+							</p:inputText>
+						</div>
+					</div>
+				</fieldset>
 					
 					<p:separator/>
 			
@@ -346,7 +390,6 @@
 						<p:commandButton value="#{msg['button.excluir']}" onclick="PF('confirmation').show();" rendered="#{clienteMB.cliente.id != null}" immediate="true" styleClass="btn btn-danger" />
 					</div>
 					
-				</fieldset>
 			</p:tab>
 		</p:wizard>
 		

@@ -58,3 +58,5 @@ insert into situacaopedido (4,'Finalizado');
 insert into categoria (1,'Cosméticos',null);
 insert into categoria (2,'Creme',1);
 insert into categoria (3,'Shampoo',1);
+
+--Teste

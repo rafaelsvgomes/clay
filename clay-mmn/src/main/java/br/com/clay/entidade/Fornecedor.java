@@ -1,53 +1,52 @@
 package br.com.clay.entidade;
 
-import java.io.Serializable;
-
-import javax.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 /**
  * The persistent class for the fornecedor database table.
  * 
  */
 @Entity
-@PrimaryKeyJoinColumn(name="idFornecedor", referencedColumnName="idPessoa")
-public class Fornecedor extends Pessoa implements Serializable {
-	private static final long serialVersionUID = 1L;
+@PrimaryKeyJoinColumn(name = "idFornecedor", referencedColumnName = "idPessoa")
+public class Fornecedor extends Pessoa {
+    private static final long serialVersionUID = 1L;
 
-	@OneToMany(mappedBy="fornecedor")
-	private List<Produto> listraProduto;
+    @OneToMany(mappedBy = "fornecedor")
+    private List<Produto> listraProduto;
 
-	public Fornecedor() {
-		super();
-	}
+    public Fornecedor() {
+        super();
+    }
 
-	public List<Produto> getListaProduto() {
-		return this.listraProduto;
-	}
+    public List<Produto> getListaProduto() {
+        return this.listraProduto;
+    }
 
-	public void setListaProduto(List<Produto> listaProduto) {
-		this.listraProduto = listaProduto;
-	}
+    public void setListaProduto(List<Produto> listaProduto) {
+        this.listraProduto = listaProduto;
+    }
 
-	public Produto addProduto(Produto produto) {
-		if(getListaProduto() == null) {
-			setListaProduto(new ArrayList<Produto>());
-		}
-		getListaProduto().add(produto);
-		produto.setFornecedor(this);
+    public Produto addProduto(Produto produto) {
+        if (getListaProduto() == null) {
+            setListaProduto(new ArrayList<Produto>());
+        }
+        getListaProduto().add(produto);
+        produto.setFornecedor(this);
 
-		return produto;
-	}
+        return produto;
+    }
 
-	public Produto removeProduto(Produto produto) {
-		getListaProduto().remove(produto);
-		produto.setFornecedor(null);
+    public Produto removeProduto(Produto produto) {
+        getListaProduto().remove(produto);
+        produto.setFornecedor(null);
 
-		return produto;
-	}
+        return produto;
+    }
 
     /*
      * (non-Javadoc)
@@ -88,5 +87,4 @@ public class Fornecedor extends Pessoa implements Serializable {
         return true;
     }
 
-	
 }

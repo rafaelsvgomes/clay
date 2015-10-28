@@ -5,8 +5,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import br.com.clay.entidade.Cliente;
 import br.com.clay.entidade.Endereco;
-import br.com.clay.entidade.Pessoa;
 import br.com.clay.entidade.PessoaConta;
 import br.com.clay.entidade.Telefone;
 
@@ -16,7 +16,7 @@ import br.com.clay.entidade.Telefone;
 
 @Stateless
 @LocalBean
-public class ClienteServicoEJB extends ClayPersistencia<Pessoa, Long> {
+public class ClienteServicoEJB extends ClayPersistencia<Cliente, Long> {
 
     @PersistenceContext
     private EntityManager em;
@@ -30,7 +30,7 @@ public class ClienteServicoEJB extends ClayPersistencia<Pessoa, Long> {
      * Default constructor.
      */
     public ClienteServicoEJB() {
-        super(Pessoa.class);
+        super(Cliente.class);
     }
 
     /**
@@ -38,11 +38,11 @@ public class ClienteServicoEJB extends ClayPersistencia<Pessoa, Long> {
      * @return Pessoa
      */
     @SuppressWarnings("unchecked")
-    public Pessoa obterPessoa(Long id) {
-        Pessoa pessoa = em.find(Pessoa.class, id);
-        pessoa.setListaEndereco(em.createNamedQuery(Endereco.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", id).getResultList());
-        pessoa.setListaTelefone(em.createNamedQuery(Telefone.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", id).getResultList());
-        pessoa.setListaPessoaConta(em.createNamedQuery(PessoaConta.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", id).getResultList());
-        return pessoa;
+    public Cliente obterPessoa(Long id) {
+        Cliente cliente = em.find(Cliente.class, id);
+        cliente.setListaEndereco(em.createNamedQuery(Endereco.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", id).getResultList());
+        cliente.setListaTelefone(em.createNamedQuery(Telefone.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", id).getResultList());
+        cliente.setListaPessoaConta(em.createNamedQuery(PessoaConta.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", id).getResultList());
+        return cliente;
     }
 }

@@ -5,6 +5,6 @@
 </head>
 
 <body>
-	<% response.sendRedirect("/clay-mmn/cliente/lista_cliente.xhtml"); %>
+	<% response.sendRedirect("/clay-mmn/layout/home.xhtml"); %>
 </body>
 </html>

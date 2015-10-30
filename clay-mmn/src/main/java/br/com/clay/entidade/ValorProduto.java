@@ -1,6 +1,7 @@
 package br.com.clay.entidade;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Calendar;
 
 import javax.persistence.Column;
@@ -28,14 +29,18 @@ public class ValorProduto extends ClayEntidade implements Serializable {
 	@Column(name = "idvalorproduto")
 	private Long id;
 
+	@Column(name = "dtatualizacao")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Calendar dtAtualizacao;
+	private Calendar dataAtualizacao;
 
-	private double vlCusto;
+	@Column(name = "vlcusto")
+	private BigDecimal valorCusto;
 
-	private double vlDesconto;
+	@Column(name = "vldesconto")
+	private BigDecimal valorDesconto;
 
-	private double vlProduto;
+	@Column(name = "vlproduto")
+	private BigDecimal valorProduto;
 
 	//bi-directional many-to-one association to Produto
 	@ManyToOne
@@ -49,36 +54,36 @@ public class ValorProduto extends ClayEntidade implements Serializable {
 		this.id = idValorProduto;
 	}
 
-	public Calendar getDtAtualizacao() {
-		return this.dtAtualizacao;
+	public Calendar getDataAtualizacao() {
+		return this.dataAtualizacao;
 	}
 
-	public void setDtAtualizacao(Calendar dtAtualizacao) {
-		this.dtAtualizacao = dtAtualizacao;
+	public void setDataAtualizacao(Calendar dataAtualizacao) {
+		this.dataAtualizacao = dataAtualizacao;
 	}
 
-	public double getVlCusto() {
-		return this.vlCusto;
+	public BigDecimal getValorCusto() {
+		return this.valorCusto;
 	}
 
-	public void setVlCusto(double vlCusto) {
-		this.vlCusto = vlCusto;
+	public void setValorCusto(BigDecimal valorCusto) {
+		this.valorCusto = valorCusto;
 	}
 
-	public double getVlDesconto() {
-		return this.vlDesconto;
+	public BigDecimal getValorDesconto() {
+		return this.valorDesconto;
 	}
 
-	public void setVlDesconto(double vlDesconto) {
-		this.vlDesconto = vlDesconto;
+	public void setValorDesconto(BigDecimal valorDesconto) {
+		this.valorDesconto = valorDesconto;
 	}
 
-	public double getVlProduto() {
-		return this.vlProduto;
+	public BigDecimal getValorProduto() {
+		return this.valorProduto;
 	}
 
-	public void setVlProduto(double vlProduto) {
-		this.vlProduto = vlProduto;
+	public void setValorProduto(BigDecimal valorProduto) {
+		this.valorProduto = valorProduto;
 	}
 
 	public Produto getProduto() {

@@ -28,7 +28,7 @@
 					<h:outputText value="#{msg['label.produto.dsproduto']}" />
 				</label>
 				<div class="controls">
-					<p:inputMask value="#{produtoMB.produto.dsProduto}" label="#{msg['label.produto.dsproduto']}" required="true" styleClass="input-large">
+					<p:inputMask value="#{produtoMB.produto.descProduto}" label="#{msg['label.produto.dsproduto']}" required="true" styleClass="input-large">
 						 <f:validateLength minimum="5" maximum="100" />
 					</p:inputMask>
 				</div>
@@ -78,7 +78,7 @@
 				<div class="controls">
 					<p:selectOneMenu id="dropCategoria" value="#{produtoMB.categoria}" converter="entityConverter">
 		                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
-		                <f:selectItems value="#{produtoMB.listaCategorias}" var="c" itemLabel="#{c.dsCategoria}" />
+		                <f:selectItems value="#{produtoMB.listaCategorias}" var="c" itemLabel="#{c.descCategoria}" />
 	    	        </p:selectOneMenu>
 				</div>
 			</div>
@@ -104,7 +104,7 @@
 				<div class="controls">
 					<p:selectOneMenu id="dropUnidadeVenda" value="#{produtoMB.unidadeVenda}" converter="entityConverter">
 		                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
-		                <f:selectItems value="#{produtoMB.listaUnidadeVendas}" var="uv" itemLabel="#{uv.dsUnidadeVenda}" />
+		                <f:selectItems value="#{produtoMB.listaUnidadeVendas}" var="uv" itemLabel="#{uv.descUnidadeVenda}" />
 	    	        </p:selectOneMenu>
 				</div>
 			</div>
@@ -119,7 +119,7 @@
 					<h:outputText value="#{msg['label.produto.valorproduto.vlcusto']}" />
 				</label>
 				<div class="controls">
-			        <h:inputText value="#{produtoMB.valorProduto.vlCusto}" label="#{msg['label.produto.valorproduto.vlcusto']}" required="true" styleClass="input-large"/>
+			        <h:inputText value="#{produtoMB.valorProduto.valorCusto}" label="#{msg['label.produto.valorproduto.vlcusto']}" required="true" styleClass="input-large"/>
 				</div>
 			</div>
 			
@@ -128,7 +128,7 @@
 					<h:outputText value="#{msg['label.produto.valorproduto.vldesconto']}" />
 				</label>
 				<div class="controls">
-			        <h:inputText value="#{produtoMB.valorProduto.vlDesconto}" label="#{msg['label.produto.valorproduto.vldesconto']}" required="true" styleClass="input-large"/>
+			        <h:inputText value="#{produtoMB.valorProduto.valorDesconto}" label="#{msg['label.produto.valorproduto.vldesconto']}" required="true" styleClass="input-large"/>
 				</div>
 			</div>
 			
@@ -137,7 +137,7 @@
 					<h:outputText value="#{msg['label.produto.valorproduto.vlproduto']}" />
 				</label>
 				<div class="controls">
-			        <h:inputText value="#{produtoMB.valorProduto.vlProduto}" label="#{msg['label.produto.valorproduto.vlproduto']}" required="true" styleClass="input-large"/>
+			        <h:inputText value="#{produtoMB.valorProduto.valorProduto}" label="#{msg['label.produto.valorproduto.vlproduto']}" required="true" styleClass="input-large"/>
 				</div>
 			</div>
 			

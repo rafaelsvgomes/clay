@@ -21,7 +21,8 @@ public class UnidadeVenda extends ClayEntidade implements Serializable {
 	@Column(name = "idunidadevenda")
 	private Long id;
 
-	private String dsUnidadeVenda;
+	@Column(name = "dsunidadevenda")
+	private String descUnidadeVenda;
 
 	//bi-directional many-to-one association to Produto
 	@OneToMany(mappedBy="unidadeVenda")
@@ -34,12 +35,12 @@ public class UnidadeVenda extends ClayEntidade implements Serializable {
 		this.id = idUnidadeVenda;
 	}
 
-	public String getDsUnidadeVenda() {
-		return this.dsUnidadeVenda;
+	public String getDescUnidadeVenda() {
+		return this.descUnidadeVenda;
 	}
 
-	public void setDsunidadevenda(String dsUnidadeVenda) {
-		this.dsUnidadeVenda = dsUnidadeVenda;
+	public void setDescUnidadeVenda(String descUnidadeVenda) {
+		this.descUnidadeVenda = descUnidadeVenda;
 	}
 
 	public List<Produto> getListaProduto() {

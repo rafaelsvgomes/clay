@@ -36,11 +36,11 @@
 					</h:link>
 				</p:column>
 				
-				<p:column sortBy="#{produto.dsProduto}">
+				<p:column sortBy="#{produto.descProduto}">
 					<f:facet name="header">
 						<h:outputText value="#{msg['label.produto.dsproduto']}" />
 					</f:facet>
-					<h:outputText value="#{produto.dsProduto}" />
+					<h:outputText value="#{produto.descProduto}" />
 				</p:column>
 	
 				<p:column sortBy="#{produto.fornecedor.nomePessoa}">
@@ -50,11 +50,11 @@
 					<h:outputText value="#{produto.fornecedor.nomePessoa}" />
 				</p:column>
 	
-				<p:column sortBy="#{produto.categoria.dsCategoria}">
+				<p:column sortBy="#{produto.categoria.descCategoria}">
 					<f:facet name="header">
 						<h:outputText value="#{msg['label.categoria']}" />
 					</f:facet>
-					<h:outputText value="#{produto.categoria.dsCategoria}" />
+					<h:outputText value="#{produto.categoria.descCategoria}" />
 				</p:column>
 			</p:dataTable>
 		</h:form>

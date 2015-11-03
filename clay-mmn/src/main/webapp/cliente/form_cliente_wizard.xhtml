@@ -128,22 +128,20 @@
 							</p:inputText>
 						</div>
 					</div>
+					
+					<legend>
+						<small> <h:outputText value="Indicação" /></small>
+					</legend>
+					<div class="control-group">
+							<label class="control-label">
+								<h:outputText value="#{msg['label.pessoa.codindicador']} *" />
+							</label>
+							<div class="controls">
+								<p:inputText value="#{clienteMB.codIndicador}" label="#{msg['label.pessoa.codindicador']}" styleClass="input-small" />
+							</div>
+						</div>
 				</fieldset>
 				
-<!-- 				<fieldset> -->
-<!-- 					<legend> -->
-<!-- 						<small><h:outputText value="Indicação" /></small> -->
-<!-- 					</legend> -->
-					
-<!-- 					<div class="control-group"> -->
-<!-- 						<label class="control-label"> -->
-<!-- 							<h:outputText value="#{msg['label.pessoa.codindicador']} *" /> -->
-<!-- 						</label> -->
-<!-- 						<div class="controls"> -->
-<!-- 							<p:inputText value="#{clienteMB.codIndicador}" label="#{msg['label.pessoa.codindicador']}" styleClass="input-large" /> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</fieldset> -->
 			</p:tab>
 			
 			<p:tab id="endereco" title="Endereço">

@@ -229,4 +229,8 @@ public class ClienteMB extends ClayMB {
         return codIndicador;
     }
 
+    public void setCodIndicador(Long codIndicador) {
+        this.codIndicador = codIndicador;
+    }
+
 }

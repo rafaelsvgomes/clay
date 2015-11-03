@@ -44,9 +44,9 @@ insert into banco values (341, 'Itaú Unibanco S.A.');
 insert into banco values (104, 'Caixa Econômica Federal');
 
 --UnidadeVenda
-insert into unidadevenda values (1, 'Frasco')
-insert into unidadevenda values (2, 'Pacote')
-insert into unidadevenda values (3, 'Kit')
+insert into unidadevenda values (1, 'Frasco');
+insert into unidadevenda values (2, 'Pacote');
+insert into unidadevenda values (3, 'Kit');
 
 --Categoria
 insert into categoria values (1,'Cosméticos',null);
@@ -55,26 +55,26 @@ insert into categoria values (3,'Shampoo',1);
 insert into categoria values (4,'Kit Adesão',null);
 
 --Produto
-insert into produto values (1,4,3,null,'Kit Plano 1','Kit de adesão, referente ao plano 1',10,0,0,0,20,0,1)
-insert into produto values (2,4,3,null,'Kit Plano 2','Kit de adesão, referente ao plano 2',10,0,0,0,20,0,1)
-insert into produto values (3,4,3,null,'Kit Plano 3','Kit de adesão, referente ao plano 3',10,0,0,0,20,0,1)
-insert into produto values (4,2,1,null,'Creme para as mãos','Creme suave para uso diário',10,0,0,0,30,1,0)
-insert into produto values (5,3,1,null,'Shampoo de argila','Shampoo para cabelos secos',15,0,0,0,25,1,0)
+insert into produto values (1,4,3,null,'Kit Plano 1','Kit de adesão, referente ao plano 1',10,0,0,0,20,false,true);
+insert into produto values (2,4,3,null,'Kit Plano 2','Kit de adesão, referente ao plano 2',10,0,0,0,20,false,true);
+insert into produto values (3,4,3,null,'Kit Plano 3','Kit de adesão, referente ao plano 3',10,0,0,0,20,false,true);
+insert into produto values (4,2,1,null,'Creme para as mãos','Creme suave para uso diário',10,0,0,0,30,true,false);
+insert into produto values (5,3,1,null,'Shampoo de argila','Shampoo para cabelos secos',15,0,0,0,25,true,false);
 
 --ProdutoComposicao
-insert into produtocomposicao values (1,1,4,1)
-insert into produtocomposicao values (1,1,5,1)
-insert into produtocomposicao values (1,2,4,2)
-insert into produtocomposicao values (1,2,5,2)
-insert into produtocomposicao values (1,3,4,3)
-insert into produtocomposicao values (1,3,5,3)
+insert into produtocomposicao values (1,1,4,1);
+insert into produtocomposicao values (2,1,5,1);
+insert into produtocomposicao values (3,2,4,2);
+insert into produtocomposicao values (4,2,5,2);
+insert into produtocomposicao values (5,3,4,3);
+insert into produtocomposicao values (6,3,5,3);
 
 --ValorProduto
-insert into valorproduto values (1,1,10,20,0,'2015-10-28')
-insert into valorproduto values (2,2,20,40,0,'2015-10-28')
-insert into valorproduto values (3,3,30,60,0,'2015-10-28')
-insert into valorproduto values (4,4,8,15,1,'2015-10-28')
-insert into valorproduto values (5,5,12,19.30,2,'2015-10-28')
+insert into valorproduto values (1,1,10,20,0,'2015-10-28');
+insert into valorproduto values (2,2,20,40,0,'2015-10-28');
+insert into valorproduto values (3,3,30,60,0,'2015-10-28');
+insert into valorproduto values (4,4,8,15,1,'2015-10-28');
+insert into valorproduto values (5,5,12,19.30,2,'2015-10-28');
 
 
 --PlanoAssinatura

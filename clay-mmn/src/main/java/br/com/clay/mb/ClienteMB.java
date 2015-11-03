@@ -55,6 +55,8 @@ public class ClienteMB extends ClayMB {
 
     private List<PlanoAssinatura> listaPlanoAssinatura;
 
+    private Long codIndicador;
+
     public ClienteMB() {
     }
 
@@ -130,6 +132,7 @@ public class ClienteMB extends ClayMB {
             // TODO: rafael - Substituir replaces por Validator
             cliente.setNumCpfCnpj(cliente.getNumCpfCnpj().replace("-", "").replace(".", "").replace("/", ""));
             cliente.getListaEndereco().get(0).setNumCep(cliente.getListaEndereco().get(0).getNumCep().replace("-", ""));
+            cliente.setDataAtualizacao(new Date());
 
             cliente.setSituacaoCliente(new SituacaoCliente(1l));
             ejb.save(cliente);
@@ -220,6 +223,10 @@ public class ClienteMB extends ClayMB {
 
     public PessoaConta getPessoaConta() {
         return pessoaConta;
+    }
+
+    public Long getCodIndicador() {
+        return codIndicador;
     }
 
 }

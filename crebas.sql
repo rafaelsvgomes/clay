@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     26/10/2015 14:05:51                          */
+/* Created on:     28/10/2015 13:50:15                          */
 /*==============================================================*/
 
 
@@ -206,6 +206,7 @@ create table CLIENTE (
    IDCLIENTE            BIGINT               not null,
    IDPLANOASSINATURA    BIGINT               not null,
    IDSITUACAOCLIENTE    BIGINT               not null,
+   DATAATUALIZACAO      DATE                 not null,
    constraint PK_CLIENTE primary key (IDCLIENTE)
 );
 
@@ -423,7 +424,7 @@ IDPRODUTO
 /* Table: PRODUTOCOMPOSICAO                                     */
 /*==============================================================*/
 create table PRODUTOCOMPOSICAO (
-   IDPRODUTOCOMPOSICAO  SERIAL               not null,
+   IDPRODUTOCOMPOSICAO  BIGINT               not null,
    IDPRODUTO            BIGINT               not null,
    IDPRODUTOITEMCOMP    BIGINT               not null,
    QTPRODUTOCOMPOSICAO  BIGINT               not null,

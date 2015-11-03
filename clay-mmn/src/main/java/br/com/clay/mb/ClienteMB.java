@@ -21,6 +21,7 @@ import br.com.clay.entidade.TipoConta;
 import br.com.clay.entidade.TipoEndereco;
 import br.com.clay.entidade.TipoTelefone;
 import br.com.clay.entidade.UF;
+import br.com.clay.enums.TipoPessoa;
 import br.com.clay.servico.ClienteServicoEJB;
 import br.com.clay.util.MensagemUtil;
 
@@ -63,6 +64,7 @@ public class ClienteMB extends ClayMB {
         // }
         if (!FacesContext.getCurrentInstance().isPostback()) {
             cliente = new Cliente();
+            cliente.setTipoPessoa(TipoPessoa.F);
             setTelefonePessoa();
             setEnderecoPessoa();
             setPessoaConta();

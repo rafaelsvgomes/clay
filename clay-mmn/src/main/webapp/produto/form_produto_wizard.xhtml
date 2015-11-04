@@ -1,0 +1,239 @@
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<div>
+		<h3>
+			<h:outputText value="#{msg['label.produto']}" />
+			<small> <h:outputText value="#{subtitle}" /></small>
+		</h3>
+	</div>
+	
+	<h:form styleClass="form-horizontal">
+		<p:wizard nextLabel="Avançar" backLabel="Voltar">
+			<p:tab id="dadosProduto" title="Dados">
+				<fieldset>
+					<legend>
+						<small> <h:outputText value="Dados Básicos" /></small>
+					</legend>
+
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.produto.nome']}" />
+						</label>
+						<div class="controls">
+							<h:inputText value="#{produtoMB.produto.nomeProduto}" label="#{msg['label.produto.nome']}" required="true" styleClass="input-large">
+								<f:validateLength minimum="5" maximum="100" />
+							</h:inputText>
+						</div>
+					</div>
+		
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.produto.dsproduto']}" />
+						</label>
+						<div class="controls">
+							<p:inputMask value="#{produtoMB.produto.descProduto}" label="#{msg['label.produto.dsproduto']}" required="true" styleClass="input-large">
+								 <f:validateLength minimum="5" maximum="100" />
+							</p:inputMask>
+						</div>
+					</div>		
+				</fieldset>
+				
+				<fieldset>
+					<legend>
+						<small> <h:outputText value="Dimensões" /></small>
+					</legend>
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.produto.qtdaltura']}" />
+						</label>
+						<div class="controls">
+					        <p:inputMask value="#{produtoMB.produto.qtdAltura}" required="true" styleClass="input-small" />
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.produto.qtdlargura']}" />
+						</label>
+						<div class="controls">
+					        <p:inputMask value="#{produtoMB.produto.qtdLargura}" required="true" styleClass="input-small" />
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.produto.qtdpeso']}" />
+						</label>
+						<div class="controls">
+					        <p:inputMask value="#{produtoMB.produto.qtdPeso}" required="true" styleClass="input-small" />
+						</div>
+					</div>
+				</fieldset>
+			</p:tab>
+			
+			<p:tab id="tabVenda" title="Venda">
+				<fieldset>
+					<legend>
+						<small> <h:outputText value="#{msg['label.categoria']}" /></small>
+					</legend>
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.categoria']}" />
+						</label>
+						<div class="controls">
+							<p:selectOneMenu id="dropCategoria" value="#{produtoMB.categoria}" converter="entityConverter">
+				                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+				                <f:selectItems value="#{produtoMB.listaCategorias}" var="c" itemLabel="#{c.descCategoria}" />
+			    	        </p:selectOneMenu>
+						</div>
+					</div>
+					
+					<legend>
+						<small> <h:outputText value="#{msg['label.fornecedor']}" /></small>
+					</legend>
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.fornecedor']}" />
+						</label>
+						<div class="controls">
+							<p:selectOneMenu id="dropFornecedor" value="#{produtoMB.fornecedor}" converter="entityConverter">
+				                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+				                <f:selectItems value="#{produtoMB.listaFornecedores}" var="f" itemLabel="#{f.nomePessoa}" />
+			    	        </p:selectOneMenu>
+						</div>
+					</div>
+					
+					<legend>
+						<small> <h:outputText value="#{msg['label.produto.unidadevenda']}" /></small>
+					</legend>
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.produto.unidadevenda']}" />
+						</label>
+						<div class="controls">
+							<p:selectOneMenu id="dropUnidadeVenda" value="#{produtoMB.unidadeVenda}" converter="entityConverter">
+				                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+				                <f:selectItems value="#{produtoMB.listaUnidadeVendas}" var="uv" itemLabel="#{uv.descUnidadeVenda}" />
+			    	        </p:selectOneMenu>
+						</div>
+					</div>
+				</fieldset>
+			</p:tab>
+			
+			<p:tab id="tabValor" title="Valor">
+				<fieldset>
+					<legend>
+						<small> <h:outputText value="#{msg['label.produto.valorproduto']}" /></small>
+					</legend>
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.produto.valorproduto.vlcusto']}" />
+						</label>
+						<div class="controls">
+					        <h:inputText value="#{produtoMB.valorProduto.valorCusto}" label="#{msg['label.produto.valorproduto.vlcusto']}" required="true" styleClass="input-large"/>
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.produto.valorproduto.vldesconto']}" />
+						</label>
+						<div class="controls">
+					        <h:inputText value="#{produtoMB.valorProduto.valorDesconto}" label="#{msg['label.produto.valorproduto.vldesconto']}" required="true" styleClass="input-large"/>
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.produto.valorproduto.vlproduto']}" />
+						</label>
+						<div class="controls">
+					        <h:inputText value="#{produtoMB.valorProduto.valorProduto}" label="#{msg['label.produto.valorproduto.vlproduto']}" required="true" styleClass="input-large"/>
+						</div>
+					</div>
+				</fieldset>
+			</p:tab>
+			
+			<p:tab id="tabConfirmacao" title="Confirmação">
+				<fieldset>
+					<legend>
+						<small> <h:outputText value="Informações de Cadastro" /></small>
+					</legend>
+					
+					<h:panelGrid id="pnlConfirmacao" columns="3" columnClasses="grid,grid">
+						<h:panelGrid columns="2" columnClasses="label,value" border="1">
+							<h:outputText value="#{msg['label.produto.nome']}" />
+							<h:outputText value="#{produtoMB.produto.nomeProduto}" styleClass="outputLabel"/>
+							
+							<h:outputText value="#{msg['label.produto.dsproduto']}" />
+							<h:outputText value="#{produtoMB.produto.descProduto}" styleClass="outputLabel"/>
+							
+							<h:outputText value="#{msg['label.produto.percmargemvenda']}" />
+							<h:outputText value="#{produtoMB.produto.percMargemVenda}" styleClass="outputLabel"/>
+							
+							<h:outputText value="#{msg['label.produto.qtdaltura']}" />
+							<h:outputText value="#{produtoMB.produto.qtdAltura}" styleClass="outputLabel"/>
+
+							<h:outputText value="#{msg['label.produto.qtdlargura']}" />
+							<h:outputText value="#{produtoMB.produto.qtdLargura}" styleClass="outputLabel"/>
+							
+							<h:outputText value="#{msg['label.produto.qtdpeso']}" />
+							<h:outputText value="#{produtoMB.produto.qtdPeso}" styleClass="outputLabel"/>		
+						</h:panelGrid>
+						
+						
+						<h:panelGrid columns="2" columnClasses="label,value" border="1">
+							<h:outputText value="#{msg['label.categoria']}" />
+							<h:outputText value="#{produtoMB.produto.categoria.descCategoria}" styleClass="outputLabel"/>
+							
+							<h:outputText value="#{msg['label.fornecedor']}" />
+							<h:outputText value="#{produtoMB.produto.fornecedor.nomePessoa}" styleClass="outputLabel"/>
+							
+							<h:outputText value="#{msg['label.produto.unidadevenda']}" />
+							<h:outputText value="#{produtoMB.produto.unidadeVenda.descUnidadeVenda}" styleClass="outputLabel"/>
+						</h:panelGrid>
+						
+						<h:panelGrid columns="2" columnClasses="label,value" border="1">
+							<h:outputText value="#{msg['label.produto.valorproduto.vlcusto']}" />
+							<h:outputText value="#{produtoMB.produto.valorProdutos.get(0).valorCusto}" styleClass="outputLabel"/>
+							
+							<h:outputText value="#{msg['label.produto.valorproduto.vldesconto']}" />
+							<h:outputText value="#{produtoMB.produto.valorProdutos.get(0).valorDesconto}" styleClass="outputLabel"/>
+							
+							<h:outputText value="#{msg['label.produto.valorproduto.vlproduto']}" />
+							<h:outputText value="#{produtoMB.produto.valorProdutos.get(0).valorProduto}" styleClass="outputLabel"/>
+						</h:panelGrid>
+					</h:panelGrid>
+				</fieldset>
+					
+				<p:separator/>
+		
+				<div class="controls">
+					<p:commandButton value="#{msg['button.salvar']}" action="#{produtoMB.salvar}" styleClass="btn btn-success" onclick="PF('dlg').show();" 
+						oncomplete="PF('dlg').hide();" rendered="#{produtoMB.produto != null}" />
+					
+					<p:button value="#{msg['button.cancelar']}" outcome="lista_produto" styleClass="btn" />
+					
+					<p:commandButton value="#{msg['button.excluir']}" onclick="PF('confirmation').show();" rendered="#{produtoMB.produto.id != null}" immediate="true" styleClass="btn btn-danger" />
+				</div>
+					
+			</p:tab>
+		</p:wizard>
+		
+		<p:dialog id="dialog" header="#{msg['dialog.emexecucao.titulo']}" widgetVar="dlg" dynamic="true" modal="true">  
+	    	<h:outputText value="#{msg['dialog.emexecucao.aguarde']}" />  
+		</p:dialog>
+		
+		<p:confirmDialog id="confirmDialog" message="#{msg['excluir.produto.confirma']}" header="#{msg['excluir.produto']}" severity="alert" widgetVar="confirmation">  
+	        <p:commandButton id="confirm" value="#{msg['confirma.sim']}" update="messages" oncomplete="PF('confirmation').hide()" action="#{produtoMB.remover}" />  
+	        <p:commandButton id="decline" value="#{msg['confirma.nao']}" update="messages" onclick="PF('confirmation').hide()" type="button" />
+	    </p:confirmDialog>
+	    
+	    <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
+		<h:inputHidden value="#{produtoMB.produto.id}" />
+	</h:form>
+</ui:fragment>

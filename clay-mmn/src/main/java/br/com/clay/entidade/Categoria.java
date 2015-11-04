@@ -21,7 +21,8 @@ public class Categoria extends ClayEntidade implements Serializable {
 	@Column(name = "idcategoria")
 	private Long id;
 
-	private String dsCategoria;
+	@Column(name = "dscategoria")
+	private String descCategoria;
 
 	//bi-directional many-to-one association to Categoria
 	@ManyToOne
@@ -42,12 +43,12 @@ public class Categoria extends ClayEntidade implements Serializable {
 		this.id = idcategoria;
 	}
 
-	public String getDsCategoria() {
-		return this.dsCategoria;
+	public String getDescCategoria() {
+		return this.descCategoria;
 	}
 
-	public void setDsCategoria(String dsCategoria) {
-		this.dsCategoria = dsCategoria;
+	public void setDescCategoria(String descCategoria) {
+		this.descCategoria = descCategoria;
 	}
 
 	public Categoria getCategoria() {

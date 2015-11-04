@@ -83,7 +83,7 @@ public class ProdutoMB extends ClayMB {
     
     private void setValorProduto() {
     	valorProduto = new ValorProduto();
-    	valorProduto.setDtAtualizacao(Calendar.getInstance());
+    	valorProduto.setDataAtualizacao(Calendar.getInstance());
     	produto.addValorProduto(valorProduto);
     	valorProduto.setProduto(produto);
     }

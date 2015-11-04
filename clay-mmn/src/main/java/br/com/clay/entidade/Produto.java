@@ -23,7 +23,8 @@ public class Produto extends ClayEntidade implements Serializable {
 
 	private Boolean bolVisivel;
 
-	private String dsProduto;
+	@Column(name = "dsproduto")
+	private String descProduto;
 
 	private String nomeProduto;
 
@@ -69,12 +70,12 @@ public class Produto extends ClayEntidade implements Serializable {
 		this.bolVisivel = bolVisivel;
 	}
 
-	public String getDsProduto() {
-		return this.dsProduto;
+	public String getDescProduto() {
+		return this.descProduto;
 	}
 
-	public void setDsProduto(String dsProduto) {
-		this.dsProduto = dsProduto;
+	public void setDescProduto(String descProduto) {
+		this.descProduto = descProduto;
 	}
 
 	public String getNomeProduto() {

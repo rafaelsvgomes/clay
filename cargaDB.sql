@@ -44,9 +44,9 @@ insert into banco values (341, 'Itaú Unibanco S.A.');
 insert into banco values (104, 'Caixa Econômica Federal');
 
 --UnidadeVenda
-insert into unidadevenda values (1, 'Frasco')
-insert into unidadevenda values (2, 'Pacote')
-insert into unidadevenda values (3, 'Kit')
+insert into unidadevenda values (1, 'Frasco');
+insert into unidadevenda values (2, 'Pacote');
+insert into unidadevenda values (3, 'Kit');
 
 --Categoria
 insert into categoria values (1,'Cosméticos',null);

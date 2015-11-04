@@ -21,6 +21,7 @@ import br.com.clay.entidade.TipoConta;
 import br.com.clay.entidade.TipoEndereco;
 import br.com.clay.entidade.TipoTelefone;
 import br.com.clay.entidade.UF;
+import br.com.clay.enums.TipoPessoa;
 import br.com.clay.servico.ClienteServicoEJB;
 import br.com.clay.util.MensagemUtil;
 
@@ -54,6 +55,8 @@ public class ClienteMB extends ClayMB {
 
     private List<PlanoAssinatura> listaPlanoAssinatura;
 
+    private Long codIndicador;
+
     public ClienteMB() {
     }
 
@@ -63,6 +66,7 @@ public class ClienteMB extends ClayMB {
         // }
         if (!FacesContext.getCurrentInstance().isPostback()) {
             cliente = new Cliente();
+            cliente.setTipoPessoa(TipoPessoa.F);
             setTelefonePessoa();
             setEnderecoPessoa();
             setPessoaConta();
@@ -128,6 +132,7 @@ public class ClienteMB extends ClayMB {
             // TODO: rafael - Substituir replaces por Validator
             cliente.setNumCpfCnpj(cliente.getNumCpfCnpj().replace("-", "").replace(".", "").replace("/", ""));
             cliente.getListaEndereco().get(0).setNumCep(cliente.getListaEndereco().get(0).getNumCep().replace("-", ""));
+            cliente.setDataAtualizacao(new Date());
 
             cliente.setSituacaoCliente(new SituacaoCliente(1l));
             ejb.save(cliente);
@@ -218,6 +223,14 @@ public class ClienteMB extends ClayMB {
 
     public PessoaConta getPessoaConta() {
         return pessoaConta;
+    }
+
+    public Long getCodIndicador() {
+        return codIndicador;
+    }
+
+    public void setCodIndicador(Long codIndicador) {
+        this.codIndicador = codIndicador;
     }
 
 }

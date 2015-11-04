@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     16/10/2015 15:07:43                          */
+/* Created on:     28/10/2015 13:50:15                          */
 /*==============================================================*/
 
 
@@ -53,6 +53,8 @@ drop index INDEX_22;
 drop table PRODUTO;
 
 drop index INDEX_12;
+
+drop index INDEX_19;
 
 drop table PRODUTOCOMPOSICAO;
 
@@ -204,6 +206,7 @@ create table CLIENTE (
    IDCLIENTE            BIGINT               not null,
    IDPLANOASSINATURA    BIGINT               not null,
    IDSITUACAOCLIENTE    BIGINT               not null,
+   DATAATUALIZACAO      DATE                 not null,
    constraint PK_CLIENTE primary key (IDCLIENTE)
 );
 
@@ -364,6 +367,7 @@ IDPESSOACONTA
 /*==============================================================*/
 create table PLANOASSINATURA (
    IDPLANOASSINATURA    BIGINT               not null,
+   IDPRODUTO            BIGINT               null,
    NOMEPLANOASSINATURA  VARCHAR(30)          not null,
    DSPLANOASSINATURA    TEXT                 null,
    VLADESAO             MONEY                null,
@@ -420,10 +424,19 @@ IDPRODUTO
 /* Table: PRODUTOCOMPOSICAO                                     */
 /*==============================================================*/
 create table PRODUTOCOMPOSICAO (
-   IDPRODUTOCOMPOSICAO  SERIAL               not null,
+   IDPRODUTOCOMPOSICAO  BIGINT               not null,
    IDPRODUTO            BIGINT               not null,
+   IDPRODUTOITEMCOMP    BIGINT               not null,
    QTPRODUTOCOMPOSICAO  BIGINT               not null,
    constraint PK_PRODUTOCOMPOSICAO primary key (IDPRODUTOCOMPOSICAO)
+);
+
+/*==============================================================*/
+/* Index: INDEX_19                                              */
+/*==============================================================*/
+create unique index INDEX_19 on PRODUTOCOMPOSICAO (
+IDPRODUTO,
+IDPRODUTOITEMCOMP
 );
 
 /*==============================================================*/
@@ -739,6 +752,11 @@ alter table PESSOACONTA
       references BANCO (CODBANCO)
       on delete restrict on update restrict;
 
+alter table PLANOASSINATURA
+   add constraint FK_PLANOASS_REFERENCE_PRODUTO foreign key (IDPRODUTO)
+      references PRODUTO (IDPRODUTO)
+      on delete restrict on update restrict;
+
 alter table PRODUTO
    add constraint FK_PRODUTO_REFERENCE_CATEGORI foreign key (IDCATEGORIA)
       references CATEGORIA (IDCATEGORIA)
@@ -755,7 +773,12 @@ alter table PRODUTO
       on delete restrict on update restrict;
 
 alter table PRODUTOCOMPOSICAO
-   add constraint FK_PRODUTOC_REFERENCE_PRODUTO foreign key (IDPRODUTO)
+   add constraint FK_PRODUTOCOMPOSICAO_PRODUTO foreign key (IDPRODUTO)
+      references PRODUTO (IDPRODUTO)
+      on delete restrict on update restrict;
+
+alter table PRODUTOCOMPOSICAO
+   add constraint FK_PRODUTOCOMPITEM_PRODUTO foreign key (IDPRODUTOITEMCOMP)
       references PRODUTO (IDPRODUTO)
       on delete restrict on update restrict;
 

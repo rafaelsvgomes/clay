@@ -69,12 +69,12 @@ insert into produtocomposicao values (4,2,5,2);
 insert into produtocomposicao values (5,3,4,3);
 insert into produtocomposicao values (6,3,5,3);
 
---ValorProduto
-insert into valorproduto values (1,1,10,20,0,'2015-10-28');
-insert into valorproduto values (2,2,20,40,0,'2015-10-28');
-insert into valorproduto values (3,3,30,60,0,'2015-10-28');
-insert into valorproduto values (4,4,8,15,1,'2015-10-28');
-insert into valorproduto values (5,5,12,19.30,2,'2015-10-28');
+--ProdutoValor
+insert into produtovalor values (1,1,10,20,0,'2015-10-28');
+insert into produtovalor values (2,2,20,40,0,'2015-10-28');
+insert into produtovalor values (3,3,30,60,0,'2015-10-28');
+insert into produtovalor values (4,4,8,15,1,'2015-10-28');
+insert into produtovalor values (5,5,12,19.30,2,'2015-10-28');
 
 
 --PlanoAssinatura
@@ -82,9 +82,15 @@ insert into planoassinatura values (nextval('seqplanoassinatura'), 1, 'Plano 1',
 insert into planoassinatura values (nextval('seqplanoassinatura'), 2, 'Plano 2', 'Desc Plano 2', 100.00, 100.00, 100.00, true);
 insert into planoassinatura values (nextval('seqplanoassinatura'), 3, 'Plano 3', 'Desc Plano 3', 100.00, 100.00, 100.00, true);
 
---SituacaoPedido
-insert into situacaopedido values (1,'Aberto');
-insert into situacaopedido values (2,'Aguardando pagamento');
-insert into situacaopedido values (3,'Aguardando retirada');
-insert into situacaopedido values (4,'Finalizado');
+--PedidoSituacao
+insert into pedidosituacao values (1,'Aberto');
+insert into pedidosituacao values (2,'Aguardando pagamento');
+insert into pedidosituacao values (3,'Aguardando retirada');
+insert into pedidosituacao values (4,'Finalizado');
+
+--ClienteSituacao
+insert into clientesituacao values (1,'Cadastrado');
+insert into clientesituacao values (2,'Ativo');
+insert into clientesituacao values (3,'Inativo');
+insert into clientesituacao values (4,'Bloqueado');
 

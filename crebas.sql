@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     04/11/2015 19:31:52                          */
+/* Created on:     10/11/2015 10:07:56                          */
 /*==============================================================*/
 
 
@@ -106,8 +106,6 @@ drop index INDEX_2;
 
 drop table USUARIOPESSOA;
 
-drop sequence SEQENDERECOPESSOA;
-
 drop sequence SEQPEDIDO;
 
 drop sequence SEQPEDIDOPRODUTO;
@@ -115,6 +113,8 @@ drop sequence SEQPEDIDOPRODUTO;
 drop sequence SEQPESSOA;
 
 drop sequence SEQPESSOACONTA;
+
+drop sequence SEQPESSOAENDERECO;
 
 drop sequence SEQPESSOAREDE;
 
@@ -124,14 +124,11 @@ drop sequence SEQPRODUTO;
 
 drop sequence SEQPRODUTOCOMPOSICAO;
 
+drop sequence SEQPRODUTOVALOR;
+
 drop sequence SEQTELEFONE;
 
 drop sequence SEQUSUARIO;
-
-drop sequence SEQVALORPRODUTO;
-
-create sequence SEQENDERECOPESSOA
-increment 1;
 
 create sequence SEQPEDIDO
 increment 1;
@@ -143,6 +140,9 @@ create sequence SEQPESSOA
 increment 1;
 
 create sequence SEQPESSOACONTA
+increment 1;
+
+create sequence SEQPESSOAENDERECO
 increment 1;
 
 create sequence SEQPESSOAREDE
@@ -157,13 +157,13 @@ increment 1;
 create sequence SEQPRODUTOCOMPOSICAO
 increment 1;
 
+create sequence SEQPRODUTOVALOR
+increment 1;
+
 create sequence SEQTELEFONE
 increment 1;
 
 create sequence SEQUSUARIO
-increment 1;
-
-create sequence SEQVALORPRODUTO
 increment 1;
 
 /*==============================================================*/

@@ -13,6 +13,8 @@ import javax.persistence.Table;
 @Table(name = "Banco")
 public class Banco extends ClayEntidade {
     private static final long serialVersionUID = 1L;
+	
+	//Teste
 
     @Id
     @Column(name = "codBanco", unique = true, nullable = false)

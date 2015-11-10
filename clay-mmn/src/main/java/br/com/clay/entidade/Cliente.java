@@ -1,5 +1,7 @@
 package br.com.clay.entidade;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,6 +24,8 @@ public class Cliente extends Pessoa {
     @JoinColumn(name = "idSituacaoCliente", nullable = true)
     private SituacaoCliente situacaoCliente;
 
+    private Date dataAtualizacao;
+
     public PlanoAssinatura getPlanoAssinatura() {
         return planoAssinatura;
     }
@@ -36,6 +40,14 @@ public class Cliente extends Pessoa {
 
     public void setSituacaoCliente(SituacaoCliente situacaoCliente) {
         this.situacaoCliente = situacaoCliente;
+    }
+
+    public Date getDataAtualizacao() {
+        return dataAtualizacao;
+    }
+
+    public void setDataAtualizacao(Date dataAtualizacao) {
+        this.dataAtualizacao = dataAtualizacao;
     }
 
 }

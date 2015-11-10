@@ -1,0 +1,313 @@
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<div>
+		<h3>
+			<h:outputText value="#{msg['label.fornecedor']}" />
+			<small> <h:outputText value="#{subtitle}" /></small>
+		</h3>
+	</div>
+	
+	<h:form styleClass="form-horizontal">
+		<p:wizard nextLabel="Avançar" backLabel="Voltar">
+			<p:tab id="dadosFornecedor" title="Dados">
+				<fieldset>
+					<legend>
+						<small> <h:outputText value="Dados Básicos" /></small>
+					</legend>
+
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.pessoa.nome']}" />
+						</label>
+						<div class="controls">
+							<h:inputText value="#{fornecedorMB.fornecedor.nomePessoa}" label="#{msg['label.pessoa.nome']}" required="true" styleClass="input-large">
+								<f:validateLength minimum="5" maximum="100" />
+							</h:inputText>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.pessoa.dsrazaosocial']}" />
+						</label>
+						<div class="controls">
+							<h:inputText id="rzSocial" value="#{fornecedorMB.fornecedor.descRazaoSocial}" label="#{msg['label.pessoa.dsrazaosocial']}" required="true" styleClass="input-large"/>
+						</div>				
+					</div>
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.pessoa.cnpj']}" />
+						</label>
+						<div class="controls">
+							<p:inputMask id="cnpj" mask="99.999.999/9999-99" value="#{fornecedorMB.fornecedor.numCpfCnpj}" 
+								required="true" immediate="true" styleClass="input-large" />
+						</div>
+					</div>		
+				</fieldset>
+				
+				<fieldset>
+					<legend>
+						<small> <h:outputText value="Informações para Contato" /></small>
+					</legend>
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.pessoa.telefone']}" />
+						</label>
+						<div class="controls">
+					        <p:inputMask mask="(99)99999999?9" value="#{fornecedorMB.telefone.descTelefone}" label="#{msg['label.pessoa.telefone']}" required="true" styleClass="input-large" />
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.pessoa.email']}" />
+						</label>
+						<div class="controls">
+							<h:inputText value="#{fornecedorMB.fornecedor.descEmail}" label="#{msg['label.pessoa.email']}" required="true" styleClass="input-large">
+								<f:validateLength minimum="5" maximum="100" />
+							</h:inputText>
+						</div>
+					</div>
+				</fieldset>
+			</p:tab>
+			
+			<p:tab id="endereco" title="Endereço">
+				<fieldset>
+					<legend>
+						<small> <h:outputText value="Endereço" /></small>
+					</legend>
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.pessoa.endereco.cep']}" />
+						</label>
+						<div class="controls">
+					        <p:inputMask mask="99999-999" value="#{fornecedorMB.endereco.numCep}" required="true" styleClass="input-small" />
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.pessoa.endereco']}" />
+						</label>
+						<div class="controls">
+					        <h:inputText value="#{fornecedorMB.endereco.descEndereco}" label="#{msg['label.pessoa.endereco']}" required="true" styleClass="input-large"/>
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.pessoa.endereco.num']}" />
+						</label>
+						<div class="controls">
+					        <h:inputText value="#{fornecedorMB.endereco.descNumero}" label="#{msg['label.pessoa.endereco.num']}" required="true" styleClass="input-small"/>
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.pessoa.endereco.compl']}" />
+						</label>
+						<div class="controls">
+					        <h:inputText value="#{fornecedorMB.endereco.descComplemento}" label="#{msg['label.pessoa.endereco.compl']}" styleClass="input-large"/>
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.pessoa.endereco.bairro']}" />
+						</label>
+						<div class="controls">
+					        <h:inputText value="#{fornecedorMB.endereco.descBairro}" label="#{msg['label.pessoa.endereco.bairro']}" required="true" styleClass="input-large"/>
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.pessoa.endereco.cidade']}" />
+						</label>
+						<div class="controls">
+					        <h:inputText value="#{fornecedorMB.endereco.descCidade}" label="#{msg['label.pessoa.endereco.cidade']}" required="true" styleClass="input-large"/>
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.pessoa.endereco.estado']}" />
+						</label>
+						<div class="controls">
+							<p:selectOneMenu value="#{fornecedorMB.endereco.uf}" converter="ufConverter" >
+				                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+				                <f:selectItems value="#{fornecedorMB.listaUfs}" var="uf" itemLabel="#{uf.descUf}" />
+			    	        </p:selectOneMenu>
+						</div>
+					</div>
+				</fieldset>
+			</p:tab>
+			
+			<p:tab id="tabContaBancaria" title="Conta Bancária">
+				<fieldset>
+					<legend>
+						<small> <h:outputText value="Informações de Conta" /></small>
+					</legend>
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.pessoa.banco']}" />
+						</label>
+						<div class="controls">
+							<p:selectOneMenu value="#{fornecedorMB.pessoaConta.banco}" converter="bancoConverter" label="#{msg['label.pessoa.banco']}">
+				                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+				                <f:selectItems value="#{fornecedorMB.listaBancos}" var="bc" itemLabel="#{bc.descBanco}" />
+			    	        </p:selectOneMenu>
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.pessoa.tpconta']}" />
+						</label>
+						<div class="controls">
+							<p:selectOneMenu value="#{fornecedorMB.pessoaConta.tipoConta}" converter="entityConverter" label="#{msg['label.pessoa.tpconta']}">
+				                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+				                <f:selectItems value="#{fornecedorMB.listaTipoConta}" var="tpConta" itemLabel="#{tpConta.descTipoConta}" />
+			    	        </p:selectOneMenu>
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.pessoa.agencia']}" />
+						</label>
+						<div class="controls">
+					        <h:inputText value="#{fornecedorMB.pessoaConta.numAgencia}" label="#{msg['label.pessoa.agencia']}" required="true" styleClass="input-small"/>
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.pessoa.conta']}" />
+						</label>
+						<div class="controls">
+					        <h:inputText value="#{fornecedorMB.pessoaConta.numConta}" label="#{msg['label.pessoa.conta']}" required="true" styleClass="input-small"/>
+						</div>
+					</div>
+				</fieldset>
+			</p:tab>
+			
+			<p:tab id="tabConfirmacao" title="Confirmação">
+				<fieldset>
+					<legend>
+						<small> <h:outputText value="Informações de Cadastro" /></small>
+					</legend>
+					
+					<h:panelGrid id="pnlConfirmacao" columns="3" columnClasses="grid,grid">
+						<h:panelGrid columns="2" columnClasses="label,value" border="1">
+							<h:outputText value="#{msg['label.pessoa.nome']}" />
+							<h:outputText value="#{fornecedorMB.fornecedor.nomePessoa}" styleClass="outputLabel"/>
+							
+							<h:outputText value="#{fornecedorMB.fornecedor.tipoPessoa == 'J' ? msg['label.pessoa.cnpj'] : msg['label.pessoa.cpf']}" />
+							<h:outputText value="#{fornecedorMB.fornecedor.numCpfCnpj}" styleClass="outputLabel"/>
+							
+							<h:outputText value="#{msg['label.pessoa.dsrazaosocial']}" />
+							<h:outputText value="#{fornecedorMB.fornecedor.descRazaoSocial}" styleClass="outputLabel"/>
+							
+							<h:outputText value="#{msg['label.pessoa.telefone']}" />
+							<h:outputText value="#{fornecedorMB.telefone.descTelefone}" styleClass="outputLabel"/>
+							
+							<h:outputText value="#{msg['label.pessoa.email']}" />
+							<h:outputText value="#{fornecedorMB.fornecedor.descEmail}" styleClass="outputLabel"/>
+
+							<h:outputText value="#{msg['label.pessoa.banco']}" />
+							<h:outputText value="#{fornecedorMB.pessoaConta.banco.descBanco}" styleClass="outputLabel"/>
+							
+							<h:outputText value="#{msg['label.pessoa.tpconta']}" />
+							<h:outputText value="#{fornecedorMB.pessoaConta.tipoConta.descTipoConta}" styleClass="outputLabel"/>
+							
+							<h:outputText value="#{msg['label.pessoa.agencia']}" />
+							<h:outputText value="#{fornecedorMB.pessoaConta.numAgencia}" styleClass="outputLabel"/>
+						
+							<h:outputText value="#{msg['label.pessoa.conta']}" />
+							<h:outputText value="#{fornecedorMB.pessoaConta.numConta}" styleClass="outputLabel"/>
+							
+						</h:panelGrid>
+						
+						
+						<h:panelGrid columns="2" columnClasses="label,value" border="1">
+							<h:outputText value="#{msg['label.pessoa.endereco.cep']}" />
+							<h:outputText value="#{fornecedorMB.endereco.numCep}" styleClass="outputLabel"/>
+							
+							<h:outputText value="#{msg['label.pessoa.endereco']}" />
+							<h:outputText value="#{fornecedorMB.endereco.descEndereco}" styleClass="outputLabel"/>
+							
+							<h:outputText value="#{msg['label.pessoa.endereco.num']}" />
+							<h:outputText value="#{fornecedorMB.endereco.descNumero}" styleClass="outputLabel"/>
+							
+							<h:outputText value="#{msg['label.pessoa.endereco.compl']}" />
+							<h:outputText value="#{fornecedorMB.endereco.descComplemento}" styleClass="outputLabel"/>
+							
+							<h:outputText value="#{msg['label.pessoa.endereco.bairro']}" />
+							<h:outputText value="#{fornecedorMB.endereco.descBairro}" styleClass="outputLabel"/>
+							
+							<h:outputText value="#{msg['label.pessoa.endereco.cidade']}" />
+							<h:outputText value="#{fornecedorMB.endereco.descCidade}" styleClass="outputLabel"/>
+							
+							<h:outputText value="#{msg['label.pessoa.endereco.estado']}" />
+							<h:outputText value="#{fornecedorMB.endereco.uf.codUf}" styleClass="outputLabel"/>
+						</h:panelGrid>
+						
+					</h:panelGrid>
+				</fieldset>
+				
+				<fieldset>
+					<legend>
+						<small> <h:outputText value="Login" /></small>
+					</legend>
+					
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.usuario.login']}" />
+						</label>
+						<div class="controls">
+							<p:inputText value="#{fornecedorMB.fornecedor.descEmail}" label="#{msg['label.pessoa.email']}" styleClass="input-large" disabled="true" />
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.usuario.senha']}" />
+						</label>
+						<div class="controls">
+							<p:password value="" label="#{msg['label.usuario.senha']}" styleClass="input-small" />
+						</div>
+					</div>
+				</fieldset>
+					
+				<p:separator/>
+		
+				<div class="controls">
+					<p:commandButton value="#{msg['button.salvar']}" action="#{fornecedorMB.salvar}" styleClass="btn btn-success" onclick="PF('dlg').show();" 
+						oncomplete="PF('dlg').hide();" rendered="#{fornecedorMB.fornecedor != null}" />
+					
+					<p:button value="#{msg['button.cancelar']}" outcome="lista_fornecedor" styleClass="btn" />
+					
+					<p:commandButton value="#{msg['button.excluir']}" onclick="PF('confirmation').show();" rendered="#{fornecedorMB.fornecedor.id != null}" immediate="true" styleClass="btn btn-danger" />
+				</div>
+					
+			</p:tab>
+		</p:wizard>
+		
+		<p:dialog id="dialog" header="#{msg['dialog.emexecucao.titulo']}" widgetVar="dlg" dynamic="true" modal="true">  
+	    	<h:outputText value="#{msg['dialog.emexecucao.aguarde']}" />  
+		</p:dialog>
+		
+		<p:confirmDialog id="confirmDialog" message="#{msg['excluir.fornecedor.confirma']}" header="#{msg['excluir.fornecedor']}" severity="alert" widgetVar="confirmation">  
+	        <p:commandButton id="confirm" value="#{msg['confirma.sim']}" update="messages" oncomplete="PF('confirmation').hide()" action="#{fornecedorMB.remover}" />  
+	        <p:commandButton id="decline" value="#{msg['confirma.nao']}" update="messages" onclick="PF('confirmation').hide()" type="button" />
+	    </p:confirmDialog>
+	    
+	    <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
+		<h:inputHidden value="#{fornecedorMB.fornecedor.id}" />
+	</h:form>
+</ui:fragment>

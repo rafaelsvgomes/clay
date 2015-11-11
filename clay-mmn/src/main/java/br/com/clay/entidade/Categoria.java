@@ -34,7 +34,7 @@ public class Categoria extends ClayEntidade implements Serializable {
 	private List<Categoria> categorias;
 
 	@OneToMany(mappedBy="categoria")
-	private List<Produto> produtos;
+	private List<Produto> listaProduto;
 
 	public Categoria() {
 	}
@@ -81,26 +81,26 @@ public class Categoria extends ClayEntidade implements Serializable {
 		return categoria;
 	}
 
-	public List<Produto> getProdutos() {
-		return this.produtos;
+	public List<Produto> getListaProduto() {
+		return this.listaProduto;
 	}
 
-	public void setProdutos(List<Produto> produtos) {
-		this.produtos = produtos;
+	public void setListaProduto(List<Produto> listaProduto) {
+		this.listaProduto = listaProduto;
 	}
 
 	public Produto addProduto(Produto produto) {
-		if(getProdutos() == null) {
-			setProdutos(new ArrayList<Produto>());
+		if(getListaProduto() == null) {
+			setListaProduto(new ArrayList<Produto>());
 		}
-		getProdutos().add(produto);
+		getListaProduto().add(produto);
 		produto.setCategoria(this);
 
 		return produto;
 	}
 
 	public Produto removeProduto(Produto produto) {
-		getProdutos().remove(produto);
+		getListaProduto().remove(produto);
 		produto.setCategoria(null);
 
 		return produto;

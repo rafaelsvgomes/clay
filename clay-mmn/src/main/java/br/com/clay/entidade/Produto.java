@@ -1,12 +1,17 @@
 package br.com.clay.entidade;
 
-import java.io.Serializable;
-
-import javax.persistence.*;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 
 /**
@@ -14,7 +19,8 @@ import java.util.List;
  * 
  */
 @Entity
-public class Produto extends ClayEntidade implements Serializable {
+@Table(name = "PRODUTO")
+public class Produto extends ClayEntidade{
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -53,7 +59,7 @@ public class Produto extends ClayEntidade implements Serializable {
 
 	//bi-directional many-to-one association to ValorProduto
 	@OneToMany(mappedBy="produto")
-	private List<ValorProduto> valorProdutos;
+	private List<ProdutoValor> listaProdutoValor;
 
 	public Produto() {
 	}
@@ -142,29 +148,29 @@ public class Produto extends ClayEntidade implements Serializable {
 		this.unidadeVenda = unidadeVenda;
 	}
 
-	public List<ValorProduto> getValorProdutos() {
-		return this.valorProdutos;
+	public List<ProdutoValor> getListaProdutoValor() {
+		return this.listaProdutoValor;
 	}
 
-	public void setValorProdutos(List<ValorProduto> valorProdutos) {
-		this.valorProdutos = valorProdutos;
+	public void setListaProdutoValor(List<ProdutoValor> listaProdutoValor) {
+		this.listaProdutoValor = listaProdutoValor;
 	}
 
-	public ValorProduto addValorProduto(ValorProduto valorProduto) {
-		if(getValorProdutos() == null) {
-			setValorProdutos(new ArrayList<ValorProduto>());
+	public ProdutoValor addProdutoValor(ProdutoValor produtoValor) {
+		if(getListaProdutoValor() == null) {
+			setListaProdutoValor(new ArrayList<ProdutoValor>());
 		}
-		getValorProdutos().add(valorProduto);
-		valorProduto.setProduto(this);
+		getListaProdutoValor().add(produtoValor);
+		produtoValor.setProduto(this);
 
-		return valorProduto;
+		return produtoValor;
 	}
 
-	public ValorProduto removeValorProduto(ValorProduto valorProduto) {
-		getValorProdutos().remove(valorProduto);
-		valorProduto.setProduto(null);
+	public ProdutoValor removeProdutoValor(ProdutoValor produtoValor) {
+		getListaProdutoValor().remove(produtoValor);
+		produtoValor.setProduto(null);
 
-		return valorProduto;
+		return produtoValor;
 	}
 
     /* (non-Javadoc)
@@ -175,4 +181,42 @@ public class Produto extends ClayEntidade implements Serializable {
         return this.id;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     * 
+     * Sobrescrevendo para ser encontrado via converter
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     * 
+     * Sobrescrevendo para ser encontrado via converter
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Produto other = (Produto) obj;
+        if (id == null) {
+            if (other.getId() != null)
+                return false;
+        } else if (!id.equals(other.getId()))
+            return false;
+        return true;
+    }
 }

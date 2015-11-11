@@ -13,7 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import br.com.clay.entidade.Produto;
-import br.com.clay.entidade.ValorProduto;
+import br.com.clay.entidade.ProdutoValor;
 
 /**
  * ProdutoServicoEJB é responsável por 
@@ -49,7 +49,7 @@ public class ProdutoServicoEJB extends ClayPersistencia<Produto, Long> {
     @SuppressWarnings("unchecked")
     public Produto obterProduto(Long id) {
     	Produto produto = em.find(Produto.class, id);
-        produto.setValorProdutos(em.createNamedQuery(ValorProduto.LISTAR_POR_ID_PRODUTO).setParameter("idProduto", id).getResultList());
+        produto.setListaProdutoValor(em.createNamedQuery(ProdutoValor.LISTAR_POR_ID_PRODUTO).setParameter("idProduto", id).getResultList());
         return produto;
     }
     

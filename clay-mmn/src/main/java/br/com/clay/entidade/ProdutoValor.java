@@ -1,6 +1,5 @@
 package br.com.clay.entidade;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
@@ -10,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -19,14 +19,15 @@ import javax.persistence.TemporalType;
  * 
  */
 @Entity
-@NamedQuery(name = ValorProduto.LISTAR_POR_ID_PRODUTO, query = "SELECT vp FROM ValorProduto vp WHERE vp.produto.id = :idProduto")
-public class ValorProduto extends ClayEntidade implements Serializable {
+@Table(name = "PRODUTOVALOR")
+@NamedQuery(name = ProdutoValor.LISTAR_POR_ID_PRODUTO, query = "SELECT pv FROM ProdutoValor pv WHERE pv.produto.id = :idProduto")
+public class ProdutoValor extends ClayEntidade{
 	private static final long serialVersionUID = 1L;
 
 	public static final String LISTAR_POR_ID_PRODUTO = "listarValorProdutoPorIdProduto";
 	
 	@Id
-	@Column(name = "idvalorproduto")
+	@Column(name = "idProdutoValor")
 	private Long id;
 
 	@Column(name = "dtatualizacao")
@@ -47,7 +48,7 @@ public class ValorProduto extends ClayEntidade implements Serializable {
 	@JoinColumn(name="idproduto")
 	private Produto produto;
 
-	public ValorProduto() {
+	public ProdutoValor() {
 	}
 	
 	public void setIdValorProduto(Long idValorProduto) {
@@ -102,4 +103,42 @@ public class ValorProduto extends ClayEntidade implements Serializable {
         return this.id;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     * 
+     * Sobrescrevendo para ser encontrado via converter
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     * 
+     * Sobrescrevendo para ser encontrado via converter
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ProdutoValor other = (ProdutoValor) obj;
+        if (id == null) {
+            if (other.getId() != null)
+                return false;
+        } else if (!id.equals(other.getId()))
+            return false;
+        return true;
+    }
 }

@@ -18,8 +18,8 @@ import javax.faces.context.FacesContext;
 import br.com.clay.entidade.Categoria;
 import br.com.clay.entidade.Fornecedor;
 import br.com.clay.entidade.Produto;
+import br.com.clay.entidade.ProdutoValor;
 import br.com.clay.entidade.UnidadeVenda;
-import br.com.clay.entidade.ValorProduto;
 import br.com.clay.servico.ProdutoServicoEJB;
 import br.com.clay.util.MensagemUtil;
 
@@ -41,15 +41,17 @@ public class ProdutoMB extends ClayMB {
     private Long idSelecionado;    
     private Produto produto;
     private List<Produto> produtos;
-    private List<Fornecedor> listaFornecedores;
-    private List<Categoria> listaCategorias;
-    private List<UnidadeVenda> listaUnidadeVendas;
+    private List<Fornecedor> listaFornecedore;
+    private List<Categoria> listaCategoria;
+    private List<UnidadeVenda> listaUnidadeVenda;
     
     private Fornecedor fornecedor;
     private Categoria categoria;
 	private UnidadeVenda unidadeVenda;
-	private ValorProduto valorProduto;
+	private ProdutoValor produtoValor;
     
+	private Boolean kit;
+	
     public ProdutoMB() {
     }
 
@@ -82,10 +84,10 @@ public class ProdutoMB extends ClayMB {
     }
     
     private void setValorProduto() {
-    	valorProduto = new ValorProduto();
-    	valorProduto.setDataAtualizacao(Calendar.getInstance());
-    	produto.addValorProduto(valorProduto);
-    	valorProduto.setProduto(produto);
+    	produtoValor = new ProdutoValor();
+    	produtoValor.setDataAtualizacao(Calendar.getInstance());
+    	produto.addProdutoValor(produtoValor);
+    	produtoValor.setProduto(produto);
     }
     
     public void editar() {
@@ -96,7 +98,7 @@ public class ProdutoMB extends ClayMB {
         fornecedor = produto.getFornecedor();
         categoria = produto.getCategoria();
     	unidadeVenda = produto.getUnidadeVenda();
-    	valorProduto = produto.getValorProdutos().get(0);
+    	produtoValor = produto.getListaProdutoValor().get(0);
     }
     
     public String salvar() {
@@ -146,8 +148,8 @@ public class ProdutoMB extends ClayMB {
 		return unidadeVenda;
 	}
 
-	public ValorProduto getValorProduto() {
-		return valorProduto;
+	public ProdutoValor getProdutoValor() {
+		return produtoValor;
 	}
 
 	public Long getIdSelecionado() {
@@ -159,32 +161,41 @@ public class ProdutoMB extends ClayMB {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Fornecedor> getListaFornecedores() {
-		if(listaFornecedores == null) {
-			listaFornecedores = ejb.findAll(Fornecedor.class);
+	public List<Fornecedor> getListaFornecedor() {
+		if(listaFornecedore == null) {
+			listaFornecedore = ejb.findAll(Fornecedor.class);
 		}
-		return listaFornecedores;
+		return listaFornecedore;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Categoria> getListaCategorias() {
-		if(listaCategorias == null) {
-			listaCategorias = ejb.findAll(Categoria.class);
+	public List<Categoria> getListaCategoria() {
+		if(listaCategoria == null) {
+			listaCategoria = ejb.findAll(Categoria.class);
 		}
-		return listaCategorias;
+		return listaCategoria;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<UnidadeVenda> getListaUnidadeVendas() {
-		if(listaUnidadeVendas == null) {
-			listaUnidadeVendas = ejb.findAll(UnidadeVenda.class);
+	public List<UnidadeVenda> getListaUnidadeVenda() {
+		if(listaUnidadeVenda == null) {
+			listaUnidadeVenda = ejb.findAll(UnidadeVenda.class);
 		}
-		return listaUnidadeVendas;
+		return listaUnidadeVenda;
 	}
 
 	public void setProdutos(List<Produto> produtos) {
 		this.produtos = produtos;
 	}
+
+	public Boolean getKit() {
+		return kit;
+	}
+
+	public void setKit(Boolean kit) {
+		this.kit = kit;
+	}
     
+	
     
 }

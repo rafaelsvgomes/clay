@@ -12,6 +12,7 @@
 	</div>
 	
 	<h:form styleClass="form-horizontal">
+		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 		<p:wizard nextLabel="Avançar" backLabel="Voltar">
 			<p:tab id="dadosProduto" title="Dados">
 				<fieldset>
@@ -39,7 +40,25 @@
 								 <f:validateLength minimum="5" maximum="100" />
 							</p:inputMask>
 						</div>
-					</div>		
+					</div>
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.produto.percmargemvenda']}" />
+						</label>
+						<div class="controls">
+							<h:inputText value="#{produtoMB.produto.percMargemVenda}" label="#{msg['label.produto.percmargemvenda']}" required="true" styleClass="input-large"/>
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.produto.kit']}" />
+						</label>
+						<div class="controls">
+	                    	<h:selectBooleanCheckbox value="#{produtoMB.kit}" />
+	                    </div>
+	                </div>
+					
 				</fieldset>
 				
 				<fieldset>
@@ -75,23 +94,16 @@
 				</fieldset>
 			</p:tab>
 			
-			<p:tab id="tabVenda" title="Venda">
+			<p:tab id="tabKit" title="Kit" disabled="#{produtoMB.kit}">
 				<fieldset>
 					<legend>
-						<small> <h:outputText value="#{msg['label.categoria']}" /></small>
+						<small> <h:outputText value="KIT" /></small>
 					</legend>
-					<div class="control-group">
-						<label class="control-label">
-							<h:outputText value="#{msg['label.categoria']}" />
-						</label>
-						<div class="controls">
-							<p:selectOneMenu id="dropCategoria" value="#{produtoMB.categoria}" converter="entityConverter">
-				                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
-				                <f:selectItems value="#{produtoMB.listaCategorias}" var="c" itemLabel="#{c.descCategoria}" />
-			    	        </p:selectOneMenu>
-						</div>
-					</div>
-					
+				</fieldset>
+			</p:tab>
+			
+			<p:tab id="tabVenda" title="Venda">
+				<fieldset>
 					<legend>
 						<small> <h:outputText value="#{msg['label.fornecedor']}" /></small>
 					</legend>
@@ -100,9 +112,24 @@
 							<h:outputText value="#{msg['label.fornecedor']}" />
 						</label>
 						<div class="controls">
-							<p:selectOneMenu id="dropFornecedor" value="#{produtoMB.fornecedor}" converter="entityConverter">
+							<p:selectOneMenu id="dropFornecedor" value="#{produtoMB.produto.fornecedor}" converter="entityConverter" filter="true" filterMatchMode="startsWith">
 				                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
-				                <f:selectItems value="#{produtoMB.listaFornecedores}" var="f" itemLabel="#{f.nomePessoa}" />
+				                <f:selectItems value="#{produtoMB.listaFornecedor}" var="fornecedor" itemLabel="#{fornecedor.nomePessoa}" itemValue="#{fornecedor}"/>
+			    	        </p:selectOneMenu>
+						</div>
+					</div>
+					
+					<legend>
+						<small> <h:outputText value="#{msg['label.categoria']}" /></small>
+					</legend>
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.categoria']}" />
+						</label>
+						<div class="controls">
+							<p:selectOneMenu id="dropCategoria" value="#{produtoMB.produto.categoria}" converter="entityConverter" filter="true" filterMatchMode="startsWith">
+				                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+				                <f:selectItems value="#{produtoMB.listaCategoria}" var="categoria" itemLabel="#{categoria.descCategoria}"/>
 			    	        </p:selectOneMenu>
 						</div>
 					</div>
@@ -115,9 +142,9 @@
 							<h:outputText value="#{msg['label.produto.unidadevenda']}" />
 						</label>
 						<div class="controls">
-							<p:selectOneMenu id="dropUnidadeVenda" value="#{produtoMB.unidadeVenda}" converter="entityConverter">
+							<p:selectOneMenu id="dropUnidadeVenda" value="#{produtoMB.produto.unidadeVenda}" converter="entityConverter" filter="true" filterMatchMode="startsWith">
 				                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
-				                <f:selectItems value="#{produtoMB.listaUnidadeVendas}" var="uv" itemLabel="#{uv.descUnidadeVenda}" />
+				                <f:selectItems value="#{produtoMB.listaUnidadeVenda}" var="unidadeVenda" itemLabel="#{unidadeVenda.descUnidadeVenda}" itemValue="#{unidadeVenda}"/>
 			    	        </p:selectOneMenu>
 						</div>
 					</div>
@@ -127,32 +154,32 @@
 			<p:tab id="tabValor" title="Valor">
 				<fieldset>
 					<legend>
-						<small> <h:outputText value="#{msg['label.produto.valorproduto']}" /></small>
+						<small> <h:outputText value="#{msg['label.produto.produtovalor']}" /></small>
 					</legend>
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.produto.valorproduto.vlcusto']}" />
+							<h:outputText value="#{msg['label.produto.produtovalor.vlcusto']}" />
 						</label>
 						<div class="controls">
-					        <h:inputText value="#{produtoMB.valorProduto.valorCusto}" label="#{msg['label.produto.valorproduto.vlcusto']}" required="true" styleClass="input-large"/>
+					        <h:inputText value="#{produtoMB.produtoValor.valorCusto}" label="#{msg['label.produto.produtovalor.vlcusto']}" required="true" styleClass="input-large"/>
 						</div>
 					</div>
 					
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.produto.valorproduto.vldesconto']}" />
+							<h:outputText value="#{msg['label.produto.produtovalor.vldesconto']}" />
 						</label>
 						<div class="controls">
-					        <h:inputText value="#{produtoMB.valorProduto.valorDesconto}" label="#{msg['label.produto.valorproduto.vldesconto']}" required="true" styleClass="input-large"/>
+					        <h:inputText value="#{produtoMB.produtoValor.valorDesconto}" label="#{msg['label.produto.produtovalor.vldesconto']}" required="true" styleClass="input-large"/>
 						</div>
 					</div>
 					
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.produto.valorproduto.vlproduto']}" />
+							<h:outputText value="#{msg['label.produto.produtovalor.vlproduto']}" />
 						</label>
 						<div class="controls">
-					        <h:inputText value="#{produtoMB.valorProduto.valorProduto}" label="#{msg['label.produto.valorproduto.vlproduto']}" required="true" styleClass="input-large"/>
+					        <h:inputText value="#{produtoMB.produtoValor.valorProduto}" label="#{msg['label.produto.produtovalor.vlproduto']}" required="true" styleClass="input-large"/>
 						</div>
 					</div>
 				</fieldset>
@@ -164,7 +191,7 @@
 						<small> <h:outputText value="Informações de Cadastro" /></small>
 					</legend>
 					
-					<h:panelGrid id="pnlConfirmacao" columns="3" columnClasses="grid,grid">
+					<h:panelGrid id="pnlConfirmacao" columns="3" columnClasses="grid,grid,grid">
 						<h:panelGrid columns="2" columnClasses="label,value" border="1">
 							<h:outputText value="#{msg['label.produto.nome']}" />
 							<h:outputText value="#{produtoMB.produto.nomeProduto}" styleClass="outputLabel"/>
@@ -198,14 +225,14 @@
 						</h:panelGrid>
 						
 						<h:panelGrid columns="2" columnClasses="label,value" border="1">
-							<h:outputText value="#{msg['label.produto.valorproduto.vlcusto']}" />
-							<h:outputText value="#{produtoMB.produto.valorProdutos.get(0).valorCusto}" styleClass="outputLabel"/>
+							<h:outputText value="#{msg['label.produto.produtovalor.vlcusto']}" />
+							<h:outputText value="#{produtoMB.produto.listaProdutoValor.get(0).valorCusto}" styleClass="outputLabel"/>
 							
-							<h:outputText value="#{msg['label.produto.valorproduto.vldesconto']}" />
-							<h:outputText value="#{produtoMB.produto.valorProdutos.get(0).valorDesconto}" styleClass="outputLabel"/>
+							<h:outputText value="#{msg['label.produto.produtovalor.vldesconto']}" />
+							<h:outputText value="#{produtoMB.produto.listaProdutoValor.get(0).valorDesconto}" styleClass="outputLabel"/>
 							
-							<h:outputText value="#{msg['label.produto.valorproduto.vlproduto']}" />
-							<h:outputText value="#{produtoMB.produto.valorProdutos.get(0).valorProduto}" styleClass="outputLabel"/>
+							<h:outputText value="#{msg['label.produto.produtovalor.vlproduto']}" />
+							<h:outputText value="#{produtoMB.produto.listaProdutoValor.get(0).valorProduto}" styleClass="outputLabel"/>
 						</h:panelGrid>
 					</h:panelGrid>
 				</fieldset>
@@ -220,7 +247,7 @@
 					
 					<p:commandButton value="#{msg['button.excluir']}" onclick="PF('confirmation').show();" rendered="#{produtoMB.produto.id != null}" immediate="true" styleClass="btn btn-danger" />
 				</div>
-					
+				
 			</p:tab>
 		</p:wizard>
 		
@@ -233,7 +260,6 @@
 	        <p:commandButton id="decline" value="#{msg['confirma.nao']}" update="messages" onclick="PF('confirmation').hide()" type="button" />
 	    </p:confirmDialog>
 	    
-	    <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
 		<h:inputHidden value="#{produtoMB.produto.id}" />
 	</h:form>
 </ui:fragment>

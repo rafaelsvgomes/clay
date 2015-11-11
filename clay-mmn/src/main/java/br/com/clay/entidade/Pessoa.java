@@ -66,10 +66,10 @@ public abstract class Pessoa extends ClayEntidade {
     private Date dataCadastro;
 
     @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
-    private List<Endereco> listaEndereco;
+    private List<PessoaEndereco> listaEndereco;
 
     @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
-    private List<Telefone> listaTelefone;
+    private List<PessoaTelefone> listaTelefone;
 
     @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
     private List<PessoaConta> listaPessoaConta;
@@ -138,19 +138,19 @@ public abstract class Pessoa extends ClayEntidade {
         this.dataCadastro = dataCadastro;
     }
 
-    public List<Endereco> getListaEndereco() {
+    public List<PessoaEndereco> getListaEndereco() {
         return listaEndereco;
     }
 
-    public void setListaEndereco(List<Endereco> listaEndereco) {
+    public void setListaEndereco(List<PessoaEndereco> listaEndereco) {
         this.listaEndereco = listaEndereco;
     }
 
-    public List<Telefone> getListaTelefone() {
+    public List<PessoaTelefone> getListaTelefone() {
         return listaTelefone;
     }
 
-    public void setListaTelefone(List<Telefone> listaTelefone) {
+    public void setListaTelefone(List<PessoaTelefone> listaTelefone) {
         this.listaTelefone = listaTelefone;
     }
 

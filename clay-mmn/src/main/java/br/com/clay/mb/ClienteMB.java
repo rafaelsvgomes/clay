@@ -11,12 +11,12 @@ import javax.faces.context.FacesContext;
 
 import br.com.clay.entidade.Banco;
 import br.com.clay.entidade.Cliente;
-import br.com.clay.entidade.Endereco;
+import br.com.clay.entidade.PessoaEndereco;
 import br.com.clay.entidade.Pessoa;
 import br.com.clay.entidade.PessoaConta;
 import br.com.clay.entidade.PlanoAssinatura;
-import br.com.clay.entidade.SituacaoCliente;
-import br.com.clay.entidade.Telefone;
+import br.com.clay.entidade.ClienteSituacao;
+import br.com.clay.entidade.PessoaTelefone;
 import br.com.clay.entidade.TipoConta;
 import br.com.clay.entidade.TipoEndereco;
 import br.com.clay.entidade.TipoTelefone;
@@ -37,11 +37,11 @@ public class ClienteMB extends ClayMB {
 
     private Cliente cliente;
 
-    private Endereco endereco;
+    private PessoaEndereco endereco;
 
-    private Telefone telefone;
+    private PessoaTelefone telefone;
 
-    private Telefone celular;
+    private PessoaTelefone celular;
 
     private PessoaConta pessoaConta;
 
@@ -74,24 +74,24 @@ public class ClienteMB extends ClayMB {
     }
 
     private void setEnderecoPessoa() {
-        endereco = new Endereco();
+        endereco = new PessoaEndereco();
         endereco.setPessoa(cliente);
 
         endereco.setTipoEndereco(new TipoEndereco(TipoEndereco.RESIDENCIAL));
-        cliente.setListaEndereco(new ArrayList<Endereco>());
+        cliente.setListaEndereco(new ArrayList<PessoaEndereco>());
         cliente.getListaEndereco().add(endereco);
     }
 
     private void setTelefonePessoa() {
-        telefone = new Telefone();
+        telefone = new PessoaTelefone();
         telefone.setPessoa(cliente);
-        celular = new Telefone();
+        celular = new PessoaTelefone();
         celular.setPessoa(cliente);
 
         telefone.setTipoTelefone(new TipoTelefone(TipoTelefone.RESIDENCIAL));
         celular.setTipoTelefone(new TipoTelefone(TipoTelefone.CELULAR));
 
-        cliente.setListaTelefone(new ArrayList<Telefone>());
+        cliente.setListaTelefone(new ArrayList<PessoaTelefone>());
         cliente.getListaTelefone().add(telefone);
         cliente.getListaTelefone().add(celular);
     }
@@ -115,7 +115,7 @@ public class ClienteMB extends ClayMB {
             endereco = cliente.getListaEndereco().get(0);
             pessoaConta = cliente.getListaPessoaConta().get(0);
 
-            for (Telefone tel : cliente.getListaTelefone()) {
+            for (PessoaTelefone tel : cliente.getListaTelefone()) {
                 if (tel.getTipoTelefone().getId().equals(TipoTelefone.RESIDENCIAL)) {
                     telefone = tel;
                 } else {
@@ -134,7 +134,7 @@ public class ClienteMB extends ClayMB {
             cliente.getListaEndereco().get(0).setNumCep(cliente.getListaEndereco().get(0).getNumCep().replace("-", ""));
             cliente.setDataAtualizacao(new Date());
 
-            cliente.setSituacaoCliente(new SituacaoCliente(1l));
+            cliente.setClienteSituacao(new ClienteSituacao(1l));
             ejb.save(cliente);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -209,15 +209,15 @@ public class ClienteMB extends ClayMB {
         return cliente;
     }
 
-    public Endereco getEndereco() {
+    public PessoaEndereco getEndereco() {
         return endereco;
     }
 
-    public Telefone getTelefone() {
+    public PessoaTelefone getTelefone() {
         return telefone;
     }
 
-    public Telefone getCelular() {
+    public PessoaTelefone getCelular() {
         return celular;
     }
 

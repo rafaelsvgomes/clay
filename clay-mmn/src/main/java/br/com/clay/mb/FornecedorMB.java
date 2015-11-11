@@ -17,12 +17,12 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import br.com.clay.entidade.Banco;
-import br.com.clay.entidade.Endereco;
+import br.com.clay.entidade.PessoaEndereco;
 import br.com.clay.entidade.Fornecedor;
 import br.com.clay.entidade.Pessoa;
 import br.com.clay.entidade.PessoaConta;
 import br.com.clay.entidade.Produto;
-import br.com.clay.entidade.Telefone;
+import br.com.clay.entidade.PessoaTelefone;
 import br.com.clay.entidade.TipoConta;
 import br.com.clay.entidade.TipoEndereco;
 import br.com.clay.entidade.TipoTelefone;
@@ -49,8 +49,8 @@ public class FornecedorMB extends ClayMB {
     private Long idSelecionado;
     private Fornecedor fornecedor;
     private List<Fornecedor> fornecedores;
-    private Endereco endereco;
-    private Telefone telefone;
+    private PessoaEndereco endereco;
+    private PessoaTelefone telefone;
     private PessoaConta pessoaConta;
     private List<UF> listaUfs;
     private List<Banco> listaBancos;
@@ -70,21 +70,21 @@ public class FornecedorMB extends ClayMB {
     }
 
     private void setEnderecoPessoa() {
-        endereco = new Endereco();
+        endereco = new PessoaEndereco();
         endereco.setPessoa(fornecedor);
 
         endereco.setTipoEndereco(new TipoEndereco(TipoEndereco.COMERCIAL));
-        fornecedor.setListaEndereco(new ArrayList<Endereco>());
+        fornecedor.setListaEndereco(new ArrayList<PessoaEndereco>());
         fornecedor.getListaEndereco().add(endereco);
     }
 
     private void setTelefonePessoa() {
-        telefone = new Telefone();
+        telefone = new PessoaTelefone();
         telefone.setPessoa(fornecedor);
 
         telefone.setTipoTelefone(new TipoTelefone(TipoTelefone.COMERCIAL));
 
-        fornecedor.setListaTelefone(new ArrayList<Telefone>());
+        fornecedor.setListaTelefone(new ArrayList<PessoaTelefone>());
         fornecedor.getListaTelefone().add(telefone);
     }
 
@@ -191,11 +191,11 @@ public class FornecedorMB extends ClayMB {
         return fornecedor;
     }
 
-    public Endereco getEndereco() {
+    public PessoaEndereco getEndereco() {
         return endereco;
     }
 
-    public Telefone getTelefone() {
+    public PessoaTelefone getTelefone() {
         return telefone;
     }
 

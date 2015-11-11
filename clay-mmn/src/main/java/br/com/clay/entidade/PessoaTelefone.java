@@ -17,16 +17,16 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "TELEFONE")
+@Table(name = "PessoaTelefone")
 @SequenceGenerator(name = "seqtelefone", sequenceName = "seqtelefone", allocationSize = 1)
-@NamedQueries({ @NamedQuery(name = Telefone.LISTAR_POR_ID_PESSOA, query = "SELECT t FROM Telefone t WHERE t.pessoa.id = :idPessoa") })
-public class Telefone extends ClayEntidade {
+@NamedQueries({ @NamedQuery(name = PessoaTelefone.LISTAR_POR_ID_PESSOA, query = "SELECT t FROM PessoaTelefone t WHERE t.pessoa.id = :idPessoa") })
+public class PessoaTelefone extends ClayEntidade {
     private static final long serialVersionUID = 1L;
 
     public static final String LISTAR_POR_ID_PESSOA = "listarTelefonePorIdPessoa";
 
     @Id
-    @Column(name = "IDTELEFONE")
+    @Column(name = "IDPessoaTelefone")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqtelefone")
     private Long id;
 

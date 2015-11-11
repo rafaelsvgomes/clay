@@ -12,10 +12,10 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import br.com.clay.entidade.Endereco;
+import br.com.clay.entidade.PessoaEndereco;
 import br.com.clay.entidade.Fornecedor;
 import br.com.clay.entidade.PessoaConta;
-import br.com.clay.entidade.Telefone;
+import br.com.clay.entidade.PessoaTelefone;
 
 /**
  * FonecedorServicoEJB é responsável por 
@@ -51,8 +51,8 @@ public class FornecedorServicoEJB extends ClayPersistencia<Fornecedor, Long> {
     @SuppressWarnings("unchecked")
     public Fornecedor obterFornecedor(Long id) {
         Fornecedor fornecedor = em.find(Fornecedor.class, id);
-        fornecedor.setListaEndereco(em.createNamedQuery(Endereco.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", id).getResultList());
-        fornecedor.setListaTelefone(em.createNamedQuery(Telefone.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", id).getResultList());
+        fornecedor.setListaEndereco(em.createNamedQuery(PessoaEndereco.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", id).getResultList());
+        fornecedor.setListaTelefone(em.createNamedQuery(PessoaTelefone.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", id).getResultList());
         fornecedor.setListaPessoaConta(em.createNamedQuery(PessoaConta.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", id).getResultList());
         return fornecedor;
     }

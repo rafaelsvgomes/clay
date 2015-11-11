@@ -21,8 +21,8 @@ public class Cliente extends Pessoa {
     private PlanoAssinatura planoAssinatura;
 
     @ManyToOne
-    @JoinColumn(name = "idSituacaoCliente", nullable = true)
-    private SituacaoCliente situacaoCliente;
+    @JoinColumn(name = "idClienteSituacao", nullable = true)
+    private ClienteSituacao clienteSituacao;
 
     private Date dataAtualizacao;
 
@@ -34,12 +34,12 @@ public class Cliente extends Pessoa {
         this.planoAssinatura = planoAssinatura;
     }
 
-    public SituacaoCliente getSituacaoCliente() {
-        return situacaoCliente;
+    public ClienteSituacao getClienteSituacao() {
+        return clienteSituacao;
     }
 
-    public void setSituacaoCliente(SituacaoCliente situacaoCliente) {
-        this.situacaoCliente = situacaoCliente;
+    public void setClienteSituacao(ClienteSituacao clienteSituacao) {
+        this.clienteSituacao = clienteSituacao;
     }
 
     public Date getDataAtualizacao() {

@@ -36,9 +36,9 @@
 							<h:outputText value="#{msg['label.produto.dsproduto']}" />
 						</label>
 						<div class="controls">
-							<p:inputMask value="#{produtoMB.produto.descProduto}" label="#{msg['label.produto.dsproduto']}" required="true" styleClass="input-large">
+							<h:inputText value="#{produtoMB.produto.descProduto}" label="#{msg['label.produto.dsproduto']}" required="true" styleClass="input-large">
 								 <f:validateLength minimum="5" maximum="100" />
-							</p:inputMask>
+							</h:inputText>
 						</div>
 					</div>
 					<div class="control-group">

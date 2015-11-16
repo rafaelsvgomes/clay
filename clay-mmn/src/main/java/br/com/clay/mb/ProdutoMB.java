@@ -61,7 +61,7 @@ public class ProdutoMB extends ClayMB {
     		setFornecedor();
     		setCategoria();
     		setUnidadeVenda();
-    		setValorProduto();
+    		setProdutoValor();
     	}
     }
     
@@ -83,7 +83,7 @@ public class ProdutoMB extends ClayMB {
     	unidadeVenda.addProduto(produto);
     }
     
-    private void setValorProduto() {
+    private void setProdutoValor() {
     	produtoValor = new ProdutoValor();
     	produtoValor.setDataAtualizacao(Calendar.getInstance());
     	produto.addProdutoValor(produtoValor);
@@ -127,6 +127,10 @@ public class ProdutoMB extends ClayMB {
     
     public Produto getProduto() {
     	return produto;
+    }
+    
+    public void setProduto(Produto produto) {
+    	this.produto = produto;
     }
     
     public List<Produto> getProdutos() {

@@ -6,11 +6,14 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 
@@ -20,14 +23,18 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "PRODUTO")
+@SequenceGenerator(name = "seqproduto", sequenceName = "seqproduto", allocationSize = 1)
 public class Produto extends ClayEntidade{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "idproduto")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqproduto")
+    @Column(name = "idproduto", unique = true, nullable = false)
 	private Long id;
 
-	private Boolean bolVisivel;
+	private boolean bolVisivel;
+	
+	private boolean bolComposicao;
 
 	@Column(name = "dsproduto")
 	private String descProduto;
@@ -64,16 +71,24 @@ public class Produto extends ClayEntidade{
 	public Produto() {
 	}
 
-	public void setIdProduto(Long idProduto) {
-		this.id = idProduto;
+	public void setId(Long id) {
+		this.id = id;
 	}
-
-	public Boolean getBolVisivel() {
+	
+	public boolean getBolVisivel() {
 		return this.bolVisivel;
 	}
-
-	public void setBolVisivel(Boolean bolVisivel) {
+	
+	public void setBolVisivel(boolean bolVisivel) {
 		this.bolVisivel = bolVisivel;
+	}
+	
+	public boolean isBolComposicao() {
+		return bolComposicao;
+	}
+
+	public void setBolComposicao(boolean bolComposicao) {
+		this.bolComposicao = bolComposicao;
 	}
 
 	public String getDescProduto() {
@@ -177,46 +192,8 @@ public class Produto extends ClayEntidade{
      * @see br.com.clay.entidade.ClayEntidade#getId()
      */
     @Override
-    public Number getId() {
+    public Long getId() {
         return this.id;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#hashCode()
-     * 
-     * Sobrescrevendo para ser encontrado via converter
-     */
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     * 
-     * Sobrescrevendo para ser encontrado via converter
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Produto other = (Produto) obj;
-        if (id == null) {
-            if (other.getId() != null)
-                return false;
-        } else if (!id.equals(other.getId()))
-            return false;
-        return true;
-    }
 }

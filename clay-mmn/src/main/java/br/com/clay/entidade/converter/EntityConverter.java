@@ -7,9 +7,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import br.com.clay.entidade.IClayEntidade;
+import br.com.clay.entidade.ClayEntidade;
 
-@FacesConverter(value = "entityConverter", forClass = IClayEntidade.class)
+@FacesConverter(value = "entityConverter", forClass = ClayEntidade.class)
 public class EntityConverter implements Converter {
 
     public Object getAsObject(FacesContext ctx, UIComponent component, String value) {
@@ -22,7 +22,7 @@ public class EntityConverter implements Converter {
     public String getAsString(FacesContext ctx, UIComponent component, Object value) {
 
         if (value != null && !"".equals(value)) {
-        	IClayEntidade entity = (IClayEntidade) value;
+            ClayEntidade entity = (ClayEntidade) value;
 
             if (entity.getId() != null) {
                 this.addAttribute(component, entity);
@@ -36,7 +36,7 @@ public class EntityConverter implements Converter {
         return "";
     }
 
-    private void addAttribute(UIComponent component, IClayEntidade o) {
+    private void addAttribute(UIComponent component, ClayEntidade o) {
         this.getAttributesFrom(component).put(o.getId().toString(), o);
     }
 

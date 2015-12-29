@@ -294,10 +294,10 @@
 					</legend>
 					
 					<h:panelGrid id="pnlConfirmacao" columns="4" columnClasses="label,value,label,value">
-						<h:outputText value="#{msg['label.pessoa.tppessoa']}: " />
+						<h:outputText value="#{msg['label.pessoa.tppessoa']}" />
 						<h:outputText value="#{clienteMB.cliente.tipoPessoa.descTipoPessoa}" styleClass="outputLabel"/>
 						
-						<h:outputText value="#{clienteMB.cliente.tipoPessoa == 'J' ? msg['label.pessoa.cnpj'] : msg['label.pessoa.cpf']}: " />
+						<h:outputText value="#{clienteMB.cliente.tipoPessoa == 'J' ? msg['label.pessoa.cnpj'] : msg['label.pessoa.cpf']}" />
 						<h:outputText value="#{clienteMB.cliente.numCpfCnpj}" styleClass="outputLabel"/>
 						
 						<h:outputText value="#{msg['label.pessoa.nome']}" />

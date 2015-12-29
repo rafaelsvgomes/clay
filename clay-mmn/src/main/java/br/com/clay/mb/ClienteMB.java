@@ -11,12 +11,13 @@ import javax.faces.context.FacesContext;
 
 import br.com.clay.entidade.Banco;
 import br.com.clay.entidade.Cliente;
-import br.com.clay.entidade.PessoaEndereco;
+import br.com.clay.entidade.ClienteRede;
 import br.com.clay.entidade.Pessoa;
 import br.com.clay.entidade.PessoaConta;
-import br.com.clay.entidade.PlanoAssinatura;
-import br.com.clay.entidade.ClienteSituacao;
+import br.com.clay.entidade.PessoaEndereco;
 import br.com.clay.entidade.PessoaTelefone;
+import br.com.clay.entidade.PlanoAssinatura;
+import br.com.clay.entidade.SituacaoCliente;
 import br.com.clay.entidade.TipoConta;
 import br.com.clay.entidade.TipoEndereco;
 import br.com.clay.entidade.TipoTelefone;
@@ -106,6 +107,19 @@ public class ClienteMB extends ClayMB {
         cliente.getListaPessoaConta().add(pessoaConta);
     }
 
+    /**
+     * Método responsável por void
+     * 
+     */
+    private void setClienteRede() {
+        ClienteRede clienteRede = new ClienteRede();
+        clienteRede.setCliente(cliente);
+        clienteRede.setClienteIndicador(new Cliente(codIndicador));
+
+        cliente.setListaClienteRede(new ArrayList<ClienteRede>());
+        cliente.getListaClienteRede().add(clienteRede);
+    }
+
     public void editar() {
         if (!FacesContext.getCurrentInstance().isPostback()) {
             if (idSelecionado == null) {
@@ -133,8 +147,10 @@ public class ClienteMB extends ClayMB {
             cliente.setNumCpfCnpj(cliente.getNumCpfCnpj().replace("-", "").replace(".", "").replace("/", ""));
             cliente.getListaEndereco().get(0).setNumCep(cliente.getListaEndereco().get(0).getNumCep().replace("-", ""));
             cliente.setDataAtualizacao(new Date());
+            cliente.setSituacaoCliente(new SituacaoCliente(SituacaoCliente.CADASTRADO));
 
-            cliente.setClienteSituacao(new ClienteSituacao(1l));
+            setClienteRede();
+
             ejb.save(cliente);
         } catch (Exception ex) {
             ex.printStackTrace();

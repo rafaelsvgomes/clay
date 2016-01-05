@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="../layout/template.xhtml">
+	<ui:define name="pageTitle">
+		<h:outputText value="#{msg['page.title.lista.produto']}" />
+	</ui:define>
+
+	<ui:define name="content">
+		<div style="border-bottom: 1px solid #E5E5E5;">
+			<h3>
+				<h:outputText value="#{msg['label.produto']}" />
+				<small> <h:outputText value="#{msg['label.produto.selecionarProdutos']}" /></small>
+			</h3>
+		</div>
+		<h:form>
+			<p:dataTable id="dtProdutosDisponiveis" value="#{produtoMB.listaProdutoDisponivelKit}" 
+				var="produto" selection="#{produtoMB.listaProdutosSelecionadosKit}" rowKey="#{produto.id}"
+				emptyMessage="#{msg['alerta.nenhum.produto.disponivel']}">
+				<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+			    <p:column headerText="#{msg['label.produto.selecionarProdutos']}">
+			        <h:outputText value="#{produto.id} - #{produto.nomeProduto} - #{produto.descProduto} - #{produto.listaProdutoValor.get(0).valorProduto}" style="display:inline-block"/>
+			    </p:column>
+			    <p:column style="width:32px;text-align: center">
+		             <p:commandButton update=":form:detalheProduto" oncomplete="PF('detalheProdutoDialog').show()" icon="ui-icon-search" title="#{msg['button.detalhar']}">
+<!-- 		                <f:setPropertyActionListener value="#{produto}" /> -->
+		            </p:commandButton>
+		        </p:column>
+			    <f:facet name="footer">
+			        <p:commandButton process="dtProdutosDisponiveis" icon="ui-icon-circle-plus" value="#{msg['button.incluir']}" oncomplete="PF('confirmaInlcluirProdutos').show()" />
+			    </f:facet>
+			</p:dataTable>
+		    
+			<p:dialog header="#{msg['page.title.detalhe.produto']}" widgetVar="detalheProdutoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+		        <p:outputPanel id="detalheProduto" style="text-align:center;">
+		            
+		        </p:outputPanel>
+		    </p:dialog>
+		    <p:confirmDialog header="#{msg['incluir.produtos.selecionados']}" widgetVar="confirmaInlcluirProdutos" message="#{msg['incluir.produtos.selecionados.confirma']}" severity="alert">  
+		        <p:commandButton value="#{msg['confirma.sim']}" oncomplete="PF('confirmaIncluirProdutos').hide()" />  
+		        <p:commandButton value="#{msg['confirma.nao']}" onclick="PF('confirmaIncluirProdutos').hide()" type="button" />
+		    </p:confirmDialog>
+		</h:form>
+		<h:messages />
+	</ui:define>
+</ui:composition>
+</html>

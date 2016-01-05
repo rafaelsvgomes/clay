@@ -7,12 +7,15 @@
  */
 package br.com.clay.servico;
 
+import java.util.List;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import br.com.clay.entidade.Produto;
+import br.com.clay.entidade.ProdutoComposicao;
 import br.com.clay.entidade.ProdutoValor;
 
 /**
@@ -53,4 +56,13 @@ public class ProdutoServicoEJB extends ClayPersistencia<Produto, Long> {
         return produto;
     }
     
+    @SuppressWarnings("unchecked")
+	public List<ProdutoComposicao> obterProdutoInclusoKit(Long idProduto) {
+    	return em.createNamedQuery(ProdutoComposicao.LISTAR_PRODUTOS_INCLUSOS).setParameter("idProduto", idProduto).getResultList();
+    }
+    
+    @SuppressWarnings("unchecked")
+	public List<Produto> listarProdutoDisponivelKit() {
+    	return em.createNamedQuery(Produto.LISTAR_PRODUTO_DISPONIVEL_KIT).getResultList();
+    }
 }

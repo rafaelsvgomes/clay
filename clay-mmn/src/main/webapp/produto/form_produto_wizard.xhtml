@@ -13,7 +13,7 @@
 	
 	<h:form styleClass="form-horizontal">
 		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
-		<p:wizard nextLabel="Avançar" backLabel="Voltar">
+		<p:wizard nextLabel="Avançar" backLabel="Voltar" flowListener="#{produtoMB.tratarAbas}">
 			<p:tab id="dadosProduto" title="Dados">
 				<fieldset>
 					<legend>
@@ -49,16 +49,14 @@
 							<h:inputText value="#{produtoMB.produto.percMargemVenda}" label="#{msg['label.produto.percmargemvenda']}" required="true" styleClass="input-large"/>
 						</div>
 					</div>
-					
 					<div class="control-group">
 						<label class="control-label">
 							<h:outputText value="#{msg['label.produto.kit']}" />
 						</label>
 						<div class="controls">
-	                    	<h:selectBooleanCheckbox value="#{produtoMB.kit}" />
-	                    </div>
-	                </div>
-					
+                    		<h:selectBooleanCheckbox value="#{produtoMB.kit}" />
+                    	</div>
+                    </div>
 				</fieldset>
 				
 				<fieldset>
@@ -91,14 +89,6 @@
 					        <p:inputMask value="#{produtoMB.produto.qtdPeso}" required="true" styleClass="input-small" />
 						</div>
 					</div>
-				</fieldset>
-			</p:tab>
-			
-			<p:tab id="tabKit" title="Kit" disabled="#{produtoMB.kit}">
-				<fieldset>
-					<legend>
-						<small> <h:outputText value="KIT" /></small>
-					</legend>
 				</fieldset>
 			</p:tab>
 			
@@ -149,6 +139,49 @@
 						</div>
 					</div>
 				</fieldset>
+			</p:tab>
+					
+			<p:tab id="tabKit" title="#{msg['label.produto.kit']}">
+				<fieldset>
+					<legend>
+						<small> <h:outputText value="#{msg['label.produto.kit']}" /></small>
+					</legend>
+					<h:form>
+						<p:dataTable id="dtProdutosSelecionados" value="#{produtoMB.listaProdutoComposicaoFilho}" 
+							var="produtoComposicao" selection="#{produtoMB.listaProdutosSelecionadosKit}" rowKey="#{produtoComposicao.id}"
+							emptyMessage="#{msg['alerta.nenhum.produto.selecionado']}">
+							<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+						    <p:column headerText="#{msg['label.produto.produtosSelecionados']}">
+						        <h:outputText value="#{produtoComposicao.produtoFilho.id} - #{produtoComposicao.produtoFilho.nomeProduto} - #{produtoComposicao.produtoFilho.descProduto} - #{produtoComposicao.qtdProdutoComposicao}" style="display:inline-block"/>
+						    </p:column>
+						    <p:column style="width:32px;text-align: center">
+					             <p:commandButton update=":form:detalheProduto" oncomplete="PF('detalheProdutoDialog').show()" icon="ui-icon-search" title="#{msg['button.detalhar']}">
+					                <f:setPropertyActionListener value="#{produtoComposicao}" target="#{produtoMB.produtoComposicaoSelecionado}" />
+					            </p:commandButton>
+					        </p:column>
+						    <f:facet name="footer">
+						        <p:commandButton process="dtProdutosSelecionados" icon="ui-icon-circle-plus" value="#{msg['button.incluir']}" oncomplete="PF('selecionarProdutoDialog').show()" />
+						        <p:commandButton icon="ui-icon-circle-close" value="#{msg['button.excluir']}" oncomplete="PF('confirmaExcluirProdutos').show()" />
+						    </f:facet>
+						</p:dataTable>
+					    
+						<p:dialog header="#{msg['page.title.detalhe.produto']}" widgetVar="detalheProdutoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+					        <p:outputPanel id="detalheProduto" style="text-align:center;">
+					            
+					        </p:outputPanel>
+					    </p:dialog>
+					    <p:dialog widgetVar="selecionarProdutoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+					        <p:outputPanel id="painelSelecionarProdutos" style="text-align:center;">
+								<ui:include src="selecionar_produto.xhtml"/>
+					        </p:outputPanel>
+					    </p:dialog>
+					    <p:confirmDialog header="#{msg['excluir.produtos.selecionados']}" widgetVar="confirmaExcluirProdutos" message="#{msg['excluir.produtos.selecionados.confirma']}" severity="alert">  
+					        <p:commandButton value="#{msg['confirma.sim']}" oncomplete="PF('confirmaExcluirProdutos').hide()" />  
+					        <p:commandButton value="#{msg['confirma.nao']}" onclick="PF('confirmaExcluirProdutos').hide()" type="button" />
+					    </p:confirmDialog>
+					</h:form>
+				</fieldset>
+				
 			</p:tab>
 			
 			<p:tab id="tabValor" title="Valor">

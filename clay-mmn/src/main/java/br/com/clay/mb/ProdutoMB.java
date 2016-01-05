@@ -7,6 +7,7 @@
  */
 package br.com.clay.mb;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -15,9 +16,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.event.FlowEvent;
+
 import br.com.clay.entidade.Categoria;
 import br.com.clay.entidade.Fornecedor;
 import br.com.clay.entidade.Produto;
+import br.com.clay.entidade.ProdutoComposicao;
 import br.com.clay.entidade.ProdutoValor;
 import br.com.clay.entidade.UnidadeVenda;
 import br.com.clay.servico.ProdutoServicoEJB;
@@ -40,16 +44,23 @@ public class ProdutoMB extends ClayMB {
 
     private Long idSelecionado;    
     private Produto produto;
-    private List<Produto> produtos;
-    private List<Fornecedor> listaFornecedore;
-    private List<Categoria> listaCategoria;
-    private List<UnidadeVenda> listaUnidadeVenda;
     
     private Fornecedor fornecedor;
     private Categoria categoria;
-	private UnidadeVenda unidadeVenda;
-	private ProdutoValor produtoValor;
+    private UnidadeVenda unidadeVenda;
+    private ProdutoValor produtoValor;
+    private ProdutoComposicao produtoComposicaoPai;
+    private ProdutoComposicao produtoComposicaoSelecionado;
+    private List<ProdutoComposicao> listaProdutoComposicaoFilho;
     
+    private List<Produto> listaProdutos;
+    private List<Produto> listaProdutoDisponivelKit;
+    private List<Produto> listaExcluirProdutosKit;
+    private List<Produto> listaProdutosSelecionadosKit;
+    private List<Fornecedor> listaFornecedore;
+    private List<Categoria> listaCategoria;
+    private List<UnidadeVenda> listaUnidadeVenda;
+
 	private Boolean kit;
 	
     public ProdutoMB() {
@@ -58,71 +69,12 @@ public class ProdutoMB extends ClayMB {
     public void incluir() {
     	if (!FacesContext.getCurrentInstance().isPostback()) {
     		produto = new Produto();
+    		kit = Boolean.FALSE;
     		setFornecedor();
     		setCategoria();
     		setUnidadeVenda();
     		setProdutoValor();
     	}
-    }
-    
-    private void setFornecedor() {
-    	fornecedor = new Fornecedor();
-    	produto.setFornecedor(fornecedor);
-    	fornecedor.addProduto(produto);
-    }
-    
-    private void setCategoria() {
-    	categoria = new Categoria();
-    	produto.setCategoria(categoria);
-    	categoria.addProduto(produto);
-    }
-    
-    private void setUnidadeVenda() {
-    	unidadeVenda = new UnidadeVenda();
-    	produto.setUnidadeVenda(unidadeVenda);
-    	unidadeVenda.addProduto(produto);
-    }
-    
-    private void setProdutoValor() {
-    	produtoValor = new ProdutoValor();
-    	produtoValor.setDataAtualizacao(Calendar.getInstance());
-    	produto.addProdutoValor(produtoValor);
-    	produtoValor.setProduto(produto);
-    }
-    
-    public void editar() {
-    	if (idSelecionado == null) {
-            return;
-        }
-    	produto = ejb.obterProduto(idSelecionado);
-        fornecedor = produto.getFornecedor();
-        categoria = produto.getCategoria();
-    	unidadeVenda = produto.getUnidadeVenda();
-    	produtoValor = produto.getListaProdutoValor().get(0);
-    }
-    
-    public String salvar() {
-    	try {
-            ejb.save(produto);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            MensagemUtil.addMensagem("msg.erro.salvar.produto", ex.getMessage());
-            return "";
-        }
-    	
-        return LISTA_PRODUTO;
-    }
-    
-    public String remover() {
-    	try {
-            ejb.remove(produto);
-            System.out.println("produto removido");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            MensagemUtil.addMensagem("msg.erro.remover.produto", ex.getMessage());
-            return "";
-        }
-        return LISTA_PRODUTO;
     }
     
     public Produto getProduto() {
@@ -133,29 +85,72 @@ public class ProdutoMB extends ClayMB {
     	this.produto = produto;
     }
     
-    public List<Produto> getProdutos() {
-        if (!FacesContext.getCurrentInstance().isPostback() || produtos == null) {
-            produtos = ejb.findAll();
-        }
-        return produtos;
-    }  
-    
 	public Fornecedor getFornecedor() {
 		return fornecedor;
 	}
 
+    private void setFornecedor() {
+    	fornecedor = new Fornecedor();
+    	produto.setFornecedor(fornecedor);
+    	fornecedor.addProduto(produto);
+    }
+	
 	public Categoria getCategoria() {
 		return categoria;
 	}
+	
+    private void setCategoria() {
+    	categoria = new Categoria();
+    	produto.setCategoria(categoria);
+    	categoria.addProduto(produto);
+    }
 
 	public UnidadeVenda getUnidadeVenda() {
 		return unidadeVenda;
 	}
 
+    private void setUnidadeVenda() {
+    	unidadeVenda = new UnidadeVenda();
+    	produto.setUnidadeVenda(unidadeVenda);
+    	unidadeVenda.addProduto(produto);
+    }
+	
 	public ProdutoValor getProdutoValor() {
 		return produtoValor;
 	}
+	
+	private void setProdutoValor() {
+    	produtoValor = new ProdutoValor();
+    	produtoValor.setDataAtualizacao(Calendar.getInstance());
+    	produto.addProdutoValor(produtoValor);
+    	produtoValor.setProduto(produto);
+    }
 
+	public ProdutoComposicao getProdutoComposicaoPai() {
+		return produtoComposicaoPai;
+	}
+	
+	private void setProdutoComposicaoPai() {
+		produto.setBolComposicao(kit);
+		if(kit) {
+			produtoComposicaoPai = new ProdutoComposicao();
+			produto.setProdutoComposicao(produtoComposicaoPai);
+			setListaProdutoComposicaoFilho();
+		} else {
+			produto.setProdutoComposicao(null);
+			produto.setListaProdutoComposicaoFilho(null);
+		}
+	}
+	
+	public List<ProdutoComposicao> getListaProdutoComposicaoFilho() {
+		return listaProdutoComposicaoFilho;
+	}
+	
+	private void setListaProdutoComposicaoFilho() {
+		listaProdutoComposicaoFilho = new ArrayList<ProdutoComposicao>();
+		produto.setListaProdutoComposicaoFilho(listaProdutoComposicaoFilho);
+	}
+	
 	public Long getIdSelecionado() {
 		return idSelecionado;
 	}
@@ -164,6 +159,13 @@ public class ProdutoMB extends ClayMB {
 		this.idSelecionado = idSelecionado;
 	}
 
+    public List<Produto> getListaProdutos() {
+        if (!FacesContext.getCurrentInstance().isPostback() || listaProdutos == null) {
+            listaProdutos = ejb.findAll();
+        }
+        return listaProdutos;
+    }
+	
 	@SuppressWarnings("unchecked")
 	public List<Fornecedor> getListaFornecedor() {
 		if(listaFornecedore == null) {
@@ -188,8 +190,8 @@ public class ProdutoMB extends ClayMB {
 		return listaUnidadeVenda;
 	}
 
-	public void setProdutos(List<Produto> produtos) {
-		this.produtos = produtos;
+	public void setListaProdutos(List<Produto> listaProdutos) {
+		this.listaProdutos = listaProdutos;
 	}
 
 	public Boolean getKit() {
@@ -198,8 +200,87 @@ public class ProdutoMB extends ClayMB {
 
 	public void setKit(Boolean kit) {
 		this.kit = kit;
+		setProdutoComposicaoPai();
 	}
     
+	public List<Produto> getListaProdutoDisponivelKit() {
+		return listaProdutoDisponivelKit;
+	}
+
+	public void setListaProdutoDisponivelKit(List<Produto> listaProdutoDisponivelKit) {
+		this.listaProdutoDisponivelKit = listaProdutoDisponivelKit;
+	}
+
+	public List<Produto> getListaExcluirProdutosKit() {
+		return listaExcluirProdutosKit;
+	}
+
+	public void setListaExcluirProdutosKit(List<Produto> listaExcluirProdutosKit) {
+		this.listaExcluirProdutosKit = listaExcluirProdutosKit;
+	}
+
+	public List<Produto> getListaProdutosSelecionadosKit() {
+		return listaProdutosSelecionadosKit;
+	}
+
+	public void setListaProdutosSelecionadosKit(List<Produto> listaProdutosSelecionadosKit) {
+		this.listaProdutosSelecionadosKit = listaProdutosSelecionadosKit;
+	}
 	
+	public ProdutoComposicao getProdutoComposicaoSelecionado() {
+		return produtoComposicaoSelecionado;
+	}
+
+	public void setProdutoComposicaoSelecionado(ProdutoComposicao produtoComposicaoSelecionado) {
+		this.produtoComposicaoSelecionado = produtoComposicaoSelecionado;
+	}
+
+	public String tratarAbas(FlowEvent event) {
+		if(event.getNewStep().equalsIgnoreCase("tabKit") && !this.kit) {
+			if(event.getOldStep().equalsIgnoreCase("tabVenda")) {
+				return "tabValor";
+			} else {
+				return "tabVenda";				
+			}
+		} else {
+			return event.getNewStep();
+		}
+	}
     
+    public void editar() {
+    	if (idSelecionado == null) {
+            return;
+        }
+    	produto = ejb.obterProduto(idSelecionado);
+        fornecedor = produto.getFornecedor();
+        categoria = produto.getCategoria();
+    	unidadeVenda = produto.getUnidadeVenda();
+    	produtoValor = produto.getListaProdutoValor().get(0);
+    }
+    
+    public String salvar() {
+    	try {
+    		produto.setBolVisivel(Boolean.TRUE);
+            ejb.save(produto);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            MensagemUtil.addMensagem("msg.erro.salvar.produto", ex.getMessage());
+            return "";
+        }
+    	
+        return LISTA_PRODUTO;
+    }
+    
+    public String remover() {
+    	try {
+            ejb.remove(produto);
+            System.out.println("produto removido");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            MensagemUtil.addMensagem("msg.erro.remover.produto", ex.getMessage());
+            return "";
+        }
+        return LISTA_PRODUTO;
+    }
+	
 }

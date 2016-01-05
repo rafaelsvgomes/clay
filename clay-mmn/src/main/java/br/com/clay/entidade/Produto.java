@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -24,9 +26,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "PRODUTO")
 @SequenceGenerator(name = "seqproduto", sequenceName = "seqproduto", allocationSize = 1)
+@NamedQueries({
+	@NamedQuery(name = Produto.LISTAR_PRODUTO_DISPONIVEL_KIT, query = "SELECT p FROM Produto p WHERE p.bolComposicao = false")
+})
 public class Produto extends ClayEntidade{
 	private static final long serialVersionUID = 1L;
 
+	public static final String LISTAR_PRODUTO_DISPONIVEL_KIT = "Produto.listarProdutoDisponivelKit";
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqproduto")
     @Column(name = "idproduto", unique = true, nullable = false)
@@ -48,6 +55,9 @@ public class Produto extends ClayEntidade{
 	private BigDecimal qtdLargura;
 
 	private BigDecimal qtdPeso;
+	
+	@Column(name = "vlpontoproduto")
+	private BigDecimal valorPontoProduto;
 
 	//bi-directional many-to-one association to Categoria
 	@ManyToOne
@@ -67,6 +77,12 @@ public class Produto extends ClayEntidade{
 	//bi-directional many-to-one association to ValorProduto
 	@OneToMany(mappedBy="produto")
 	private List<ProdutoValor> listaProdutoValor;
+	
+	@OneToOne(mappedBy="produtoPai")
+	private ProdutoComposicao produtoComposicao;
+	
+	@OneToMany(mappedBy="produtoFilho")
+	private List<ProdutoComposicao> listaProdutoComposicaoFilho;
 
 	public Produto() {
 	}
@@ -138,6 +154,14 @@ public class Produto extends ClayEntidade{
 	public void setQtdPeso(BigDecimal qtdPeso) {
 		this.qtdPeso = qtdPeso;
 	}
+	
+	public BigDecimal getValorPontoProduto() {
+		return valorPontoProduto;
+	}
+
+	public void setValorPontoProduto(BigDecimal valorPontoProduto) {
+		this.valorPontoProduto = valorPontoProduto;
+	}
 
 	public Categoria getCategoria() {
 		return this.categoria;
@@ -177,18 +201,52 @@ public class Produto extends ClayEntidade{
 		}
 		getListaProdutoValor().add(produtoValor);
 		produtoValor.setProduto(this);
-
+		
 		return produtoValor;
 	}
-
+	
 	public ProdutoValor removeProdutoValor(ProdutoValor produtoValor) {
 		getListaProdutoValor().remove(produtoValor);
 		produtoValor.setProduto(null);
-
+		
 		return produtoValor;
 	}
 
-    /* (non-Javadoc)
+    public ProdutoComposicao getProdutoComposicao() {
+		return produtoComposicao;
+	}
+
+	public void setProdutoComposicao(ProdutoComposicao produtoComposicao) {
+		this.produtoComposicao = produtoComposicao;
+	}
+
+	public List<ProdutoComposicao> getListaProdutoComposicaoFilho() {
+		return listaProdutoComposicaoFilho;
+	}
+
+	public void setListaProdutoComposicaoFilho(List<ProdutoComposicao> listaProdutoComposicaoFilho) {
+		this.listaProdutoComposicaoFilho = listaProdutoComposicaoFilho;
+	}
+	
+	public ProdutoComposicao addProdutoComposicaoFilho(ProdutoComposicao produtoComposicaoFilho) {
+		if(getListaProdutoComposicaoFilho() == null) {
+			setListaProdutoComposicaoFilho(new ArrayList<ProdutoComposicao>());
+		}
+		getListaProdutoComposicaoFilho().add(produtoComposicaoFilho);
+		produtoComposicaoFilho.setProdutoPai(this);
+		
+		return produtoComposicaoFilho;
+	}
+	
+	public ProdutoComposicao removeProdutoComposicaoFilho(ProdutoComposicao produtoComposicaoFilho) {
+		getListaProdutoComposicaoFilho().remove(produtoComposicaoFilho);
+		produtoComposicaoFilho.setProdutoPai(null);
+		
+		return produtoComposicaoFilho;
+	}
+	
+
+	/* (non-Javadoc)
      * @see br.com.clay.entidade.ClayEntidade#getId()
      */
     @Override

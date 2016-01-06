@@ -15,6 +15,11 @@ public class ClienteSituacao extends ClayEntidade {
 
     private static final long serialVersionUID = 1L;
 
+    public static final long CADASTRADO = 1L;
+    public static final long ATIVO = 2L;
+    public static final long INATIVO = 3L;
+    public static final long BLOQUEADO = 4L;
+
     @Id
     @Column(name = "idClienteSituacao", nullable = false, unique = true)
     private Long id;

@@ -38,8 +38,8 @@ public class Cliente extends Pessoa {
     private PlanoAssinatura planoAssinatura;
 
     @ManyToOne
-    @JoinColumn(name = "idSituacaoCliente", nullable = true)
-    private SituacaoCliente situacaoCliente;
+    @JoinColumn(name = "idClienteSituacao", nullable = true)
+    private ClienteSituacao clienteSituacao;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<ClienteRede> listaClienteRede;
@@ -70,12 +70,12 @@ public class Cliente extends Pessoa {
         this.listaClienteRede = listaClienteRede;
     }
 
-    public SituacaoCliente getSituacaoCliente() {
-        return situacaoCliente;
+    public ClienteSituacao getClienteSituacao() {
+        return clienteSituacao;
     }
 
-    public void setSituacaoCliente(SituacaoCliente situacaoCliente) {
-        this.situacaoCliente = situacaoCliente;
+    public void setClienteSituacao(ClienteSituacao clienteSituacao) {
+        this.clienteSituacao = clienteSituacao;
     }
 
 }

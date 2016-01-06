@@ -12,12 +12,12 @@ import javax.faces.context.FacesContext;
 import br.com.clay.entidade.Banco;
 import br.com.clay.entidade.Cliente;
 import br.com.clay.entidade.ClienteRede;
+import br.com.clay.entidade.ClienteSituacao;
 import br.com.clay.entidade.Pessoa;
 import br.com.clay.entidade.PessoaConta;
 import br.com.clay.entidade.PessoaEndereco;
 import br.com.clay.entidade.PessoaTelefone;
 import br.com.clay.entidade.PlanoAssinatura;
-import br.com.clay.entidade.SituacaoCliente;
 import br.com.clay.entidade.TipoConta;
 import br.com.clay.entidade.TipoEndereco;
 import br.com.clay.entidade.TipoTelefone;
@@ -147,7 +147,7 @@ public class ClienteMB extends ClayMB {
             cliente.setNumCpfCnpj(cliente.getNumCpfCnpj().replace("-", "").replace(".", "").replace("/", ""));
             cliente.getListaEndereco().get(0).setNumCep(cliente.getListaEndereco().get(0).getNumCep().replace("-", ""));
             cliente.setDataAtualizacao(new Date());
-            cliente.setSituacaoCliente(new SituacaoCliente(SituacaoCliente.CADASTRADO));
+            cliente.setClienteSituacao(new ClienteSituacao(ClienteSituacao.CADASTRADO));
 
             setClienteRede();
 

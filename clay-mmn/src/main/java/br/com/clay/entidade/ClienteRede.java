@@ -6,7 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -17,24 +19,28 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "CLIENTEREDE")
 @SequenceGenerator(name = "seqpessoarede", sequenceName = "seqpessoarede", allocationSize = 1)
+@NamedQueries({ @NamedQuery(name = ClienteRede.LISTAR_POR_ID_CLIENTE, query = "SELECT cr FROM ClienteRede cr WHERE cr.cliente.id = :idCliente") })
 public class ClienteRede extends ClayEntidade {
     private static final long serialVersionUID = 1L;
+
+    public static final String LISTAR_POR_ID_CLIENTE = "listarClienteRedeIdCliente";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqpessoarede")
     @Column(name = "idClienteRede", unique = true, nullable = false)
     private Long id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "idCliente", nullable = false, updatable = false)
     private Cliente cliente;
 
-    @ManyToOne
-    @JoinColumn(name = "idCliente", nullable = true, insertable = false, updatable = false)
+    @OneToOne
+    @JoinColumn(name = "idClientePai", nullable = true)
     private Cliente clientePai;
+    // , insertable = false, updatable = false
 
-    @ManyToOne
-    @JoinColumn(name = "idCliente", nullable = true, insertable = false, updatable = false)
+    @OneToOne
+    @JoinColumn(name = "idClienteIndicacao", nullable = true)
     private Cliente clienteIndicador;
 
     public Long getId() {

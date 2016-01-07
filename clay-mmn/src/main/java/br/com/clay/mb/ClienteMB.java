@@ -23,6 +23,7 @@ import br.com.clay.entidade.TipoEndereco;
 import br.com.clay.entidade.TipoTelefone;
 import br.com.clay.entidade.UF;
 import br.com.clay.enums.TipoPessoa;
+import br.com.clay.exception.NegocioException;
 import br.com.clay.servico.ClienteServicoEJB;
 import br.com.clay.util.MensagemUtil;
 
@@ -68,9 +69,41 @@ public class ClienteMB extends ClayMB {
         if (!FacesContext.getCurrentInstance().isPostback()) {
             cliente = new Cliente();
             cliente.setTipoPessoa(TipoPessoa.F);
+            cliente.setClienteSituacao(new ClienteSituacao(ClienteSituacao.CADASTRADO));
             setTelefonePessoa();
             setEnderecoPessoa();
             setPessoaConta();
+            codIndicador = null;
+
+            ClienteRede clienteRede = new ClienteRede();
+            clienteRede.setCliente(cliente);
+
+            cliente.setListaClienteRede(new ArrayList<ClienteRede>());
+            cliente.getListaClienteRede().add(clienteRede);
+        }
+    }
+
+    public void editar() {
+        if (!FacesContext.getCurrentInstance().isPostback()) {
+            if (idSelecionado == null) {
+                return;
+            }
+            cliente = ejb.obterPessoa(idSelecionado);
+            endereco = cliente.getListaEndereco().get(0);
+            pessoaConta = cliente.getListaPessoaConta().get(0);
+            codIndicador = null;
+
+            for (PessoaTelefone tel : cliente.getListaTelefone()) {
+                if (tel.getTipoTelefone().getId().equals(TipoTelefone.RESIDENCIAL)) {
+                    telefone = tel;
+                } else {
+                    celular = tel;
+                }
+            }
+
+            if (cliente.getListaClienteRede() != null && !cliente.getListaClienteRede().isEmpty() && cliente.getListaClienteRede().get(0).getClienteIndicador() != null) {
+                codIndicador = cliente.getListaClienteRede().get(0).getClienteIndicador().getId();
+            }
         }
     }
 
@@ -108,35 +141,17 @@ public class ClienteMB extends ClayMB {
     }
 
     /**
-     * Método responsável por void
+     * 
+     * @throws NegocioException
      * 
      */
-    private void setClienteRede() {
-        ClienteRede clienteRede = new ClienteRede();
-        clienteRede.setCliente(cliente);
-        clienteRede.setClienteIndicador(new Cliente(codIndicador));
-
-        cliente.setListaClienteRede(new ArrayList<ClienteRede>());
-        cliente.getListaClienteRede().add(clienteRede);
-    }
-
-    public void editar() {
-        if (!FacesContext.getCurrentInstance().isPostback()) {
-            if (idSelecionado == null) {
-                return;
-            }
-            cliente = ejb.obterPessoa(idSelecionado);
-            endereco = cliente.getListaEndereco().get(0);
-            pessoaConta = cliente.getListaPessoaConta().get(0);
-
-            for (PessoaTelefone tel : cliente.getListaTelefone()) {
-                if (tel.getTipoTelefone().getId().equals(TipoTelefone.RESIDENCIAL)) {
-                    telefone = tel;
-                } else {
-                    celular = tel;
-                }
-            }
+    private void setClienteRede() throws NegocioException {
+        Cliente clienteIndicador = ejb.find(codIndicador);
+        if (clienteIndicador == null) {
+            throw new NegocioException("Cliente indicador n�o encontrado");
         }
+
+        cliente.getListaClienteRede().get(0).setClienteIndicador(clienteIndicador);
     }
 
     public String salvar() {
@@ -147,7 +162,6 @@ public class ClienteMB extends ClayMB {
             cliente.setNumCpfCnpj(cliente.getNumCpfCnpj().replace("-", "").replace(".", "").replace("/", ""));
             cliente.getListaEndereco().get(0).setNumCep(cliente.getListaEndereco().get(0).getNumCep().replace("-", ""));
             cliente.setDataAtualizacao(new Date());
-            cliente.setClienteSituacao(new ClienteSituacao(ClienteSituacao.CADASTRADO));
 
             setClienteRede();
 

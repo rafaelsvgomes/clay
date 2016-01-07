@@ -62,20 +62,20 @@ public class Cliente extends Pessoa {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    public List<ClienteRede> getListaClienteRede() {
-        return listaClienteRede;
-    }
-
-    public void setListaClienteRede(List<ClienteRede> listaClienteRede) {
-        this.listaClienteRede = listaClienteRede;
-    }
-
     public ClienteSituacao getClienteSituacao() {
         return clienteSituacao;
     }
 
     public void setClienteSituacao(ClienteSituacao clienteSituacao) {
         this.clienteSituacao = clienteSituacao;
+    }
+
+    public List<ClienteRede> getListaClienteRede() {
+        return listaClienteRede;
+    }
+
+    public void setListaClienteRede(List<ClienteRede> listaClienteRede) {
+        this.listaClienteRede = listaClienteRede;
     }
 
 }

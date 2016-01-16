@@ -18,7 +18,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-
 /**
  * The persistent class for the produto database table.
  * 
@@ -26,232 +25,231 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "PRODUTO")
 @SequenceGenerator(name = "seqproduto", sequenceName = "seqproduto", allocationSize = 1)
-@NamedQueries({
-	@NamedQuery(name = Produto.LISTAR_PRODUTO_DISPONIVEL_KIT, query = "SELECT p FROM Produto p WHERE p.bolComposicao = false")
-})
-public class Produto extends ClayEntidade{
-	private static final long serialVersionUID = 1L;
+@NamedQueries({ @NamedQuery(name = Produto.LISTAR_PRODUTO_DISPONIVEL_KIT, query = "SELECT p FROM Produto p WHERE p.bolComposicao = false") })
+public class Produto extends ClayEntidade {
+    private static final long serialVersionUID = 1L;
 
-	public static final String LISTAR_PRODUTO_DISPONIVEL_KIT = "Produto.listarProdutoDisponivelKit";
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqproduto")
+    public static final String LISTAR_PRODUTO_DISPONIVEL_KIT = "Produto.listarProdutoDisponivelKit";
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqproduto")
     @Column(name = "idproduto", unique = true, nullable = false)
-	private Long id;
+    private Long id;
 
-	private boolean bolVisivel;
-	
-	private boolean bolComposicao;
+    private boolean bolVisivel;
 
-	@Column(name = "dsproduto")
-	private String descProduto;
+    private boolean bolComposicao;
 
-	private String nomeProduto;
+    @Column(name = "dsproduto")
+    private String descProduto;
 
-	private double percMargemVenda;
+    private String nomeProduto;
 
-	private BigDecimal qtdAltura;
+    private double percMargemVenda;
 
-	private BigDecimal qtdLargura;
+    private BigDecimal qtdAltura;
 
-	private BigDecimal qtdPeso;
-	
-	@Column(name = "vlpontoproduto")
-	private BigDecimal valorPontoProduto;
+    private BigDecimal qtdLargura;
 
-	//bi-directional many-to-one association to Categoria
-	@ManyToOne
-	@JoinColumn(name="idcategoria")
-	private Categoria categoria;
+    private BigDecimal qtdPeso;
 
-	//bi-directional one-to-one association to Fornecedor
-	@OneToOne
-	@JoinColumn(name="idfornecedor")
-	private Fornecedor fornecedor;
+    @Column(name = "vlpontoproduto")
+    private BigDecimal valorPontoProduto;
 
-	//bi-directional many-to-one association to UnidadeVenda
-	@ManyToOne
-	@JoinColumn(name="idunidadevenda")
-	private UnidadeVenda unidadeVenda;
+    // bi-directional many-to-one association to Categoria
+    @ManyToOne
+    @JoinColumn(name = "idcategoria")
+    private Categoria categoria;
 
-	//bi-directional many-to-one association to ValorProduto
-	@OneToMany(mappedBy="produto")
-	private List<ProdutoValor> listaProdutoValor;
-	
-	@OneToOne(mappedBy="produtoPai")
-	private ProdutoComposicao produtoComposicao;
-	
-	@OneToMany(mappedBy="produtoFilho")
-	private List<ProdutoComposicao> listaProdutoComposicaoFilho;
+    // bi-directional one-to-one association to Fornecedor
+    @OneToOne
+    @JoinColumn(name = "idfornecedor")
+    private Fornecedor fornecedor;
 
-	public Produto() {
-	}
+    // bi-directional many-to-one association to UnidadeVenda
+    @ManyToOne
+    @JoinColumn(name = "idunidadevenda")
+    private UnidadeVenda unidadeVenda;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public boolean getBolVisivel() {
-		return this.bolVisivel;
-	}
-	
-	public void setBolVisivel(boolean bolVisivel) {
-		this.bolVisivel = bolVisivel;
-	}
-	
-	public boolean isBolComposicao() {
-		return bolComposicao;
-	}
+    // bi-directional many-to-one association to ValorProduto
+    @OneToMany(mappedBy = "produto")
+    private List<ProdutoValor> listaProdutoValor;
 
-	public void setBolComposicao(boolean bolComposicao) {
-		this.bolComposicao = bolComposicao;
-	}
+    @OneToMany(mappedBy = "produtoPai")
+    private List<ProdutoComposicao> listaProdutoComposicaoPai;
 
-	public String getDescProduto() {
-		return this.descProduto;
-	}
+    @OneToMany(mappedBy = "produtoFilho")
+    private List<ProdutoComposicao> listaProdutoComposicaoFilho;
 
-	public void setDescProduto(String descProduto) {
-		this.descProduto = descProduto;
-	}
+    public Produto() {
+    }
 
-	public String getNomeProduto() {
-		return this.nomeProduto;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setNomeProduto(String nomeProduto) {
-		this.nomeProduto = nomeProduto;
-	}
+    public boolean getBolVisivel() {
+        return this.bolVisivel;
+    }
 
-	public double getPercMargemVenda() {
-		return this.percMargemVenda;
-	}
+    public void setBolVisivel(boolean bolVisivel) {
+        this.bolVisivel = bolVisivel;
+    }
 
-	public void setPercMargemVenda(double percMargemVenda) {
-		this.percMargemVenda = percMargemVenda;
-	}
+    public boolean isBolComposicao() {
+        return bolComposicao;
+    }
 
-	public BigDecimal getQtdAltura() {
-		return this.qtdAltura;
-	}
+    public void setBolComposicao(boolean bolComposicao) {
+        this.bolComposicao = bolComposicao;
+    }
 
-	public void setQtdAltura(BigDecimal qtdAltura) {
-		this.qtdAltura = qtdAltura;
-	}
+    public String getDescProduto() {
+        return this.descProduto;
+    }
 
-	public BigDecimal getQtdLargura() {
-		return this.qtdLargura;
-	}
+    public void setDescProduto(String descProduto) {
+        this.descProduto = descProduto;
+    }
 
-	public void setQtdLargura(BigDecimal qtdLargura) {
-		this.qtdLargura = qtdLargura;
-	}
+    public String getNomeProduto() {
+        return this.nomeProduto;
+    }
 
-	public BigDecimal getQtdPeso() {
-		return this.qtdPeso;
-	}
+    public void setNomeProduto(String nomeProduto) {
+        this.nomeProduto = nomeProduto;
+    }
 
-	public void setQtdPeso(BigDecimal qtdPeso) {
-		this.qtdPeso = qtdPeso;
-	}
-	
-	public BigDecimal getValorPontoProduto() {
-		return valorPontoProduto;
-	}
+    public double getPercMargemVenda() {
+        return this.percMargemVenda;
+    }
 
-	public void setValorPontoProduto(BigDecimal valorPontoProduto) {
-		this.valorPontoProduto = valorPontoProduto;
-	}
+    public void setPercMargemVenda(double percMargemVenda) {
+        this.percMargemVenda = percMargemVenda;
+    }
 
-	public Categoria getCategoria() {
-		return this.categoria;
-	}
+    public BigDecimal getQtdAltura() {
+        return this.qtdAltura;
+    }
 
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
-	}
+    public void setQtdAltura(BigDecimal qtdAltura) {
+        this.qtdAltura = qtdAltura;
+    }
 
-	public Fornecedor getFornecedor() {
-		return this.fornecedor;
-	}
+    public BigDecimal getQtdLargura() {
+        return this.qtdLargura;
+    }
 
-	public void setFornecedor(Fornecedor fornecedor) {
-		this.fornecedor = fornecedor;
-	}
+    public void setQtdLargura(BigDecimal qtdLargura) {
+        this.qtdLargura = qtdLargura;
+    }
 
-	public UnidadeVenda getUnidadeVenda() {
-		return this.unidadeVenda;
-	}
+    public BigDecimal getQtdPeso() {
+        return this.qtdPeso;
+    }
 
-	public void setUnidadeVenda(UnidadeVenda unidadeVenda) {
-		this.unidadeVenda = unidadeVenda;
-	}
+    public void setQtdPeso(BigDecimal qtdPeso) {
+        this.qtdPeso = qtdPeso;
+    }
 
-	public List<ProdutoValor> getListaProdutoValor() {
-		return this.listaProdutoValor;
-	}
+    public BigDecimal getValorPontoProduto() {
+        return valorPontoProduto;
+    }
 
-	public void setListaProdutoValor(List<ProdutoValor> listaProdutoValor) {
-		this.listaProdutoValor = listaProdutoValor;
-	}
+    public void setValorPontoProduto(BigDecimal valorPontoProduto) {
+        this.valorPontoProduto = valorPontoProduto;
+    }
 
-	public ProdutoValor addProdutoValor(ProdutoValor produtoValor) {
-		if(getListaProdutoValor() == null) {
-			setListaProdutoValor(new ArrayList<ProdutoValor>());
-		}
-		getListaProdutoValor().add(produtoValor);
-		produtoValor.setProduto(this);
-		
-		return produtoValor;
-	}
-	
-	public ProdutoValor removeProdutoValor(ProdutoValor produtoValor) {
-		getListaProdutoValor().remove(produtoValor);
-		produtoValor.setProduto(null);
-		
-		return produtoValor;
-	}
+    public Categoria getCategoria() {
+        return this.categoria;
+    }
 
-    public ProdutoComposicao getProdutoComposicao() {
-		return produtoComposicao;
-	}
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
 
-	public void setProdutoComposicao(ProdutoComposicao produtoComposicao) {
-		this.produtoComposicao = produtoComposicao;
-	}
+    public Fornecedor getFornecedor() {
+        return this.fornecedor;
+    }
 
-	public List<ProdutoComposicao> getListaProdutoComposicaoFilho() {
-		return listaProdutoComposicaoFilho;
-	}
+    public void setFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
+    }
 
-	public void setListaProdutoComposicaoFilho(List<ProdutoComposicao> listaProdutoComposicaoFilho) {
-		this.listaProdutoComposicaoFilho = listaProdutoComposicaoFilho;
-	}
-	
-	public ProdutoComposicao addProdutoComposicaoFilho(ProdutoComposicao produtoComposicaoFilho) {
-		if(getListaProdutoComposicaoFilho() == null) {
-			setListaProdutoComposicaoFilho(new ArrayList<ProdutoComposicao>());
-		}
-		getListaProdutoComposicaoFilho().add(produtoComposicaoFilho);
-		produtoComposicaoFilho.setProdutoPai(this);
-		
-		return produtoComposicaoFilho;
-	}
-	
-	public ProdutoComposicao removeProdutoComposicaoFilho(ProdutoComposicao produtoComposicaoFilho) {
-		getListaProdutoComposicaoFilho().remove(produtoComposicaoFilho);
-		produtoComposicaoFilho.setProdutoPai(null);
-		
-		return produtoComposicaoFilho;
-	}
-	
+    public UnidadeVenda getUnidadeVenda() {
+        return this.unidadeVenda;
+    }
 
-	/* (non-Javadoc)
+    public void setUnidadeVenda(UnidadeVenda unidadeVenda) {
+        this.unidadeVenda = unidadeVenda;
+    }
+
+    public List<ProdutoValor> getListaProdutoValor() {
+        return this.listaProdutoValor;
+    }
+
+    public void setListaProdutoValor(List<ProdutoValor> listaProdutoValor) {
+        this.listaProdutoValor = listaProdutoValor;
+    }
+
+    public ProdutoValor addProdutoValor(ProdutoValor produtoValor) {
+        if (getListaProdutoValor() == null) {
+            setListaProdutoValor(new ArrayList<ProdutoValor>());
+        }
+        getListaProdutoValor().add(produtoValor);
+        produtoValor.setProduto(this);
+
+        return produtoValor;
+    }
+
+    public ProdutoValor removeProdutoValor(ProdutoValor produtoValor) {
+        getListaProdutoValor().remove(produtoValor);
+        produtoValor.setProduto(null);
+
+        return produtoValor;
+    }
+
+    public List<ProdutoComposicao> getListaProdutoComposicaoFilho() {
+        return listaProdutoComposicaoFilho;
+    }
+
+    public void setListaProdutoComposicaoFilho(List<ProdutoComposicao> listaProdutoComposicaoFilho) {
+        this.listaProdutoComposicaoFilho = listaProdutoComposicaoFilho;
+    }
+
+    public ProdutoComposicao addProdutoComposicaoFilho(ProdutoComposicao produtoComposicaoFilho) {
+        if (getListaProdutoComposicaoFilho() == null) {
+            setListaProdutoComposicaoFilho(new ArrayList<ProdutoComposicao>());
+        }
+        getListaProdutoComposicaoFilho().add(produtoComposicaoFilho);
+        produtoComposicaoFilho.setProdutoPai(this);
+
+        return produtoComposicaoFilho;
+    }
+
+    public ProdutoComposicao removeProdutoComposicaoFilho(ProdutoComposicao produtoComposicaoFilho) {
+        getListaProdutoComposicaoFilho().remove(produtoComposicaoFilho);
+        produtoComposicaoFilho.setProdutoPai(null);
+
+        return produtoComposicaoFilho;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see br.com.clay.entidade.ClayEntidade#getId()
      */
     @Override
     public Long getId() {
         return this.id;
+    }
+
+    public List<ProdutoComposicao> getListaProdutoComposicaoPai() {
+        return listaProdutoComposicaoPai;
+    }
+
+    public void setListaProdutoComposicaoPai(List<ProdutoComposicao> listaProdutoComposicaoPai) {
+        this.listaProdutoComposicaoPai = listaProdutoComposicaoPai;
     }
 
 }

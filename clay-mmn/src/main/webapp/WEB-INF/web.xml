@@ -23,49 +23,6 @@
 		<param-value>true</param-value>
 	</context-param>
 
-	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
-	</welcome-file-list>
-	
-	<!-- Protected Areas -->
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>Apenas admins</web-resource-name>
-            <url-pattern>/pages/admin/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>ADMIN</role-name>
-        </auth-constraint>
-    </security-constraint>
-    
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>Users and admins</web-resource-name>
-            <url-pattern>/pages/user/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>ADMIN</role-name>
-            <role-name>USER</role-name>
-        </auth-constraint>
-    </security-constraint>
-    
-    <!-- Validation By Form -->
-    <login-config>
-        <auth-method>FORM</auth-method>
-        <form-login-config>
-            <form-login-page>/pages/public/login.xhtml</form-login-page>
-            <form-error-page>/pages/public/loginError.xhtml</form-error-page>
-        </form-login-config>
-    </login-config>
-    
-    <!-- Allowed Roles -->
-    <security-role>
-        <role-name>ADMIN</role-name>
-    </security-role>
-    <security-role>
-        <role-name>USER</role-name>
-    </security-role>
-    
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -77,4 +34,59 @@
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
 
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+	<!-- Protected Areas -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Apenas admins</web-resource-name>
+			<url-pattern>/fornecedor/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>ADMIN</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Users and admins</web-resource-name>
+			<url-pattern>/cliente/*</url-pattern>
+			<url-pattern>/fornecedor/*</url-pattern>
+			<url-pattern>/layout/*</url-pattern>
+			<url-pattern>/produto/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>ADMIN</role-name>
+			<role-name>USER</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<!-- Validation By Form -->
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<form-login-config>
+			<form-login-page>/layout/login.xhtml</form-login-page>
+			<form-error-page>/layout/login_error.xhtml</form-error-page>
+		</form-login-config>
+	</login-config>
+
+	<!-- Allowed Roles -->
+	<security-role>
+		<role-name>ADMIN</role-name>
+	</security-role>
+	<security-role>
+		<role-name>USER</role-name>
+	</security-role>
+
+	<!-- Filter to get the user name and work with it -->
+<!-- 	<filter> -->
+<!-- 		<filter-name>LoginFilter</filter-name> -->
+<!-- 		<filter-class>br.com.clay.filtros.LoginFilter</filter-class> -->
+<!-- 	</filter> -->
+<!-- 	<filter-mapping> -->
+<!-- 		<filter-name>LoginFilter</filter-name> -->
+<!-- 		<url-pattern>/cliente/*</url-pattern> -->
+<!-- 	</filter-mapping> -->
 </web-app>

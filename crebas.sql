@@ -104,6 +104,14 @@ drop table USUARIO;
 
 drop index INDEX_2;
 
+drop index IDX_IDUSUARIOGRUPO;
+
+drop table USUARIOGRUPO;
+
+drop index IDX_IDGRUPO;
+
+drop table GRUPO;
+
 drop table USUARIOPESSOA;
 
 drop sequence SEQPEDIDO;
@@ -164,6 +172,9 @@ create sequence SEQTELEFONE
 increment 1;
 
 create sequence SEQUSUARIO
+increment 1;
+
+create sequence SEQUSUARIOGRUPO
 increment 1;
 
 /*==============================================================*/
@@ -624,7 +635,7 @@ IDUNIDADEVENDA
 create table USUARIO (
    IDUSUARIO            BIGINT               not null,
    DSUSUARIO            VARCHAR(50)          not null,
-   DSSENHA              VARCHAR(30)          not null,
+   DSSENHA              VARCHAR(200)          not null,
    constraint PK_USUARIO primary key (IDUSUARIO)
 );
 
@@ -650,6 +661,39 @@ create table USUARIOPESSOA (
 /*==============================================================*/
 create  index INDEX_2 on USUARIOPESSOA (
 IDUSUARIOPESSOA
+);
+
+/*==============================================================*/
+/* Table: GRUPO                                                 */
+/*==============================================================*/
+create table GRUPO (
+   IDGRUPO              BIGINT               not null,
+   DSGRUPO              VARCHAR(50)          not null,
+   constraint PK_GRUPO primary key (IDGRUPO)
+);
+
+/*==============================================================*/
+/* Index: IDX_IDGRUPO                                           */
+/*==============================================================*/
+create  index IDX_IDGRUPO on GRUPO (
+IDGRUPO
+);
+
+/*==============================================================*/
+/* Table: USUARIOGRUPO                                          */
+/*==============================================================*/
+create table USUARIOGRUPO (
+   IDUSUARIOGRUPO       BIGINT               not null,
+   IDUSUARIO            INBIGINTET           not null,
+   IDGRUPO              BIGINT               null,
+   constraint PK_USUARIOGRUPO primary key (IDUSUARIOGRUPO)
+);
+
+/*==============================================================*/
+/* Index: IDX_IDUSUARIOGRUPO                                    */
+/*==============================================================*/
+create  index IDX_IDUSUARIOGRUPO on USUARIOGRUPO (
+IDUSUARIOGRUPO
 );
 
 alter table CATEGORIA
@@ -807,3 +851,12 @@ alter table USUARIOPESSOA
       references USUARIO (IDUSUARIO)
       on delete restrict on update restrict;
 
+alter table USUARIOGRUPO
+   add constraint FK_USUARIOGRUPO_GRUPO foreign key (IDGRUPO)
+      references GRUPO (IDGRUPO)
+      on delete restrict on update restrict;
+
+alter table USUARIOGRUPO
+   add constraint FK_USUARIOGRUPO_USUARIO foreign key (IDUSUARIO)
+      references USUARIO (IDUSUARIO)
+      on delete restrict on update restrict;

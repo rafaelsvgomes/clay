@@ -1,13 +1,12 @@
 package br.com.clay.entidade;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 /**
@@ -41,8 +40,8 @@ public class Cliente extends Pessoa {
     @JoinColumn(name = "idClienteSituacao", nullable = true)
     private ClienteSituacao clienteSituacao;
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
-    private List<ClienteRede> listaClienteRede;
+    @OneToOne(optional = true, mappedBy = "cliente", cascade = CascadeType.ALL)
+    private ClienteRede clienteRede;
 
     private Date dataAtualizacao;
 
@@ -70,12 +69,12 @@ public class Cliente extends Pessoa {
         this.clienteSituacao = clienteSituacao;
     }
 
-    public List<ClienteRede> getListaClienteRede() {
-        return listaClienteRede;
+    public ClienteRede getClienteRede() {
+        return this.clienteRede;
     }
 
-    public void setListaClienteRede(List<ClienteRede> listaClienteRede) {
-        this.listaClienteRede = listaClienteRede;
+    public void setClienteRede(ClienteRede clienteRede) {
+        this.clienteRede = clienteRede;
     }
 
 }

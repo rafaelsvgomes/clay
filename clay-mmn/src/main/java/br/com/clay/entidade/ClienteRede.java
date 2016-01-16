@@ -37,7 +37,6 @@ public class ClienteRede extends ClayEntidade {
     @OneToOne
     @JoinColumn(name = "idClientePai", nullable = true)
     private Cliente clientePai;
-    // , insertable = false, updatable = false
 
     @OneToOne
     @JoinColumn(name = "idClienteIndicacao", nullable = true)

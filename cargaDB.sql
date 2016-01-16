@@ -94,3 +94,16 @@ insert into clientesituacao values (2,'Ativo');
 insert into clientesituacao values (3,'Inativo');
 insert into clientesituacao values (4,'Bloqueado');
 
+--GRUPO
+INSERT INTO GRUPO values (1, 'ADMIN');
+INSERT INTO GRUPO values (2, 'USER');
+
+--USUARIO
+INSERT INTO USUARIO values (nextval('sequsuario'), 'admin', '21232f297a57a5a743894a0e4a801fc3');
+INSERT INTO USUARIO values (nextval('sequsuario'), 'user', 'ee11cbb19052e40b07aac0ca060c23ee');
+
+--USUARIOGRUPO
+INSERT INTO USUARIOGRUPO VALUES (nextval('sequsuariogrupo'), 1, 1);
+INSERT INTO USUARIOGRUPO VALUES (nextval('sequsuariogrupo'), 2, 2);
+
+

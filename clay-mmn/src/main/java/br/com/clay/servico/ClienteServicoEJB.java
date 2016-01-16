@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import br.com.clay.entidade.Cliente;
-import br.com.clay.entidade.ClienteRede;
 import br.com.clay.entidade.PessoaConta;
 import br.com.clay.entidade.PessoaEndereco;
 import br.com.clay.entidade.PessoaTelefone;
@@ -44,7 +43,6 @@ public class ClienteServicoEJB extends ClayPersistencia<Cliente, Long> {
         cliente.setListaEndereco(em.createNamedQuery(PessoaEndereco.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", id).getResultList());
         cliente.setListaTelefone(em.createNamedQuery(PessoaTelefone.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", id).getResultList());
         cliente.setListaPessoaConta(em.createNamedQuery(PessoaConta.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", id).getResultList());
-        cliente.setListaClienteRede(em.createNamedQuery(ClienteRede.LISTAR_POR_ID_CLIENTE).setParameter("idCliente", id).getResultList());
         return cliente;
     }
 }

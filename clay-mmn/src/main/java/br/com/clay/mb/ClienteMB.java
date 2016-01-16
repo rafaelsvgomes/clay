@@ -77,9 +77,7 @@ public class ClienteMB extends ClayMB {
 
             ClienteRede clienteRede = new ClienteRede();
             clienteRede.setCliente(cliente);
-
-            cliente.setListaClienteRede(new ArrayList<ClienteRede>());
-            cliente.getListaClienteRede().add(clienteRede);
+            cliente.setClienteRede(clienteRede);
         }
     }
 
@@ -101,8 +99,8 @@ public class ClienteMB extends ClayMB {
                 }
             }
 
-            if (cliente.getListaClienteRede() != null && !cliente.getListaClienteRede().isEmpty() && cliente.getListaClienteRede().get(0).getClienteIndicador() != null) {
-                codIndicador = cliente.getListaClienteRede().get(0).getClienteIndicador().getId();
+            if (cliente.getClienteRede() != null && cliente.getClienteRede().getClienteIndicador() != null) {
+                codIndicador = cliente.getClienteRede().getClienteIndicador().getId();
             }
         }
     }
@@ -151,7 +149,7 @@ public class ClienteMB extends ClayMB {
             throw new NegocioException("Cliente indicador não encontrado");
         }
 
-        cliente.getListaClienteRede().get(0).setClienteIndicador(clienteIndicador);
+        cliente.getClienteRede().setClienteIndicador(clienteIndicador);
     }
 
     public String salvar() {

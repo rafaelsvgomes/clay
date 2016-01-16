@@ -5,46 +5,46 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<ul class="nav nav-list" style="padding-top: 15px;">
-		<li><em><h:outputText value="#{msg['label.clientes']}" /></em></li>
+		<li><em><h:outputText value="#{msg['label.clientes']}" rendered="#{request.isUserInRole('USER') || request.isUserInRole('ADMIN')}"/></em></li>
 
 		<li class="#{param.active == 'listaCliente' ? 'active' : ''}">
-			<h:link outcome="/cliente/lista_cliente">
+			<h:link outcome="/cliente/lista_cliente" rendered="#{request.isUserInRole('USER') || request.isUserInRole('ADMIN')}">
 				<h:outputText value="#{msg['menu.lista']}" escape="false" />
 				<f:param name="active" value="listaCliente" />
             </h:link>
 		</li>
 		<li class="#{param.active == 'incluirCliente' ? 'active' : ''}">
-			<h:link outcome="/cliente/incluir_cliente">
+			<h:link outcome="/cliente/incluir_cliente" rendered="#{request.isUserInRole('USER') || request.isUserInRole('ADMIN')}">
 				<h:outputText value="#{msg['menu.incluir']}" escape="false" />
 				<f:param name="active" value="incluirCliente" />
 			</h:link>
 		</li>
 		
-		<li><em><h:outputText value="#{msg['label.fornecedores']}" /></em></li>
+		<li><em><h:outputText value="#{msg['label.fornecedores']}" rendered="#{request.isUserInRole('USER') || request.isUserInRole('ADMIN')}"/></em></li>
 
 		<li class="#{param.active == 'listaFornecedor' ? 'active' : ''}">
-			<h:link outcome="/fornecedor/lista_fornecedor">
+			<h:link outcome="/fornecedor/lista_fornecedor" rendered="#{request.isUserInRole('USER') || request.isUserInRole('ADMIN')}">
 				<h:outputText value="#{msg['menu.lista']}" escape="false" />
 				<f:param name="active" value="listaFornecedor" />
             </h:link>
 		</li>
 		<li class="#{param.active == 'incluirForncedor' ? 'active' : ''}">
-			<h:link outcome="/fornecedor/incluir_fornecedor">
+			<h:link outcome="/fornecedor/incluir_fornecedor" rendered="#{request.isUserInRole('USER') || request.isUserInRole('ADMIN')}">
 				<h:outputText value="#{msg['menu.incluir']}" escape="false" />
 				<f:param name="active" value="incluirForncedor" />
 			</h:link>
 		</li>
 		
-		<li><em><h:outputText value="#{msg['label.produtos']}" /></em></li>
+		<li><em><h:outputText value="#{msg['label.produtos']}" rendered="#{request.isUserInRole('USER') || request.isUserInRole('ADMIN')}"/></em></li>
 
-		<li class="#{param.active == 'listaProduto' ? 'active' : ''}">
-			<h:link outcome="/produto/lista_produto">
+		<li class="#{param.active == 'listaProduto' ? 'active' : ''}" >
+			<h:link outcome="/produto/lista_produto" rendered="#{request.isUserInRole('USER') || request.isUserInRole('ADMIN')}">
 				<h:outputText value="#{msg['menu.lista']}" escape="false" />
 				<f:param name="active" value="listaProduto" />
             </h:link>
 		</li>
 		<li class="#{param.active == 'incluirProduto' ? 'active' : ''}">
-			<h:link outcome="/produto/incluir_produto">
+			<h:link outcome="/produto/incluir_produto" rendered="#{request.isUserInRole('USER') || request.isUserInRole('ADMIN')}">
 				<h:outputText value="#{msg['menu.incluir']}" escape="false" />
 				<f:param name="active" value="incluirProduto" />
 			</h:link>
@@ -56,6 +56,15 @@
 				<h:outputText value="#{msg['menu.sobre']}" escape="false" />
 				<f:param name="active" value="sobre" />
 			</h:link>
+			
+		</li>
+		<li class="divider" />
+		<li class="#{param.active == 'sair' ? 'active' : ''}">
+			<h:form>
+				<h:commandLink action="#{logoutMB.efetuarLogout()}" >
+					<h:outputText value="#{msg['menu.sair']}" escape="false" /> 
+				</h:commandLink>
+			</h:form>
 		</li>
 	</ul>
 

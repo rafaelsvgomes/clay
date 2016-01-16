@@ -22,8 +22,10 @@
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="10,20,50" emptyMessage="#{msg['alerta.nenhum.cliente.encontrado']}" >
 				<p:column>
-					<f:facet name="header">#</f:facet>
-					<h:outputText value="#{cliente.id}" />
+					<f:facet name="header">
+						<h:outputText value="#{msg['label.pessoa.cod']}" />
+					</f:facet>
+					<h:outputText value="#{cliente.id}" style="text-align: center;"/>
 				</p:column>
 	
 				<p:column sortBy="#{cliente.nomePessoa}">
@@ -49,22 +51,8 @@
 					</f:facet>
 					<h:outputText value="#{cliente.numCpfCnpj}" />
 				</p:column>
-	
-				<p:column sortBy="#{cliente.dataNascimento}">
-					<f:facet name="header">
-						<h:outputText value="#{msg['label.pessoa.dtnascimento']}" />
-					</f:facet>
-					<h:outputText value="#{cliente.dataNascimento}" >
-						 <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
-					</h:outputText>
-				</p:column>
 				
-				<p:column sortBy="#{cliente.tipoSexo.descTipoSexo}">
-					<f:facet name="header">
-						<h:outputText value="#{msg['label.pessoa.sexo']}" />
-					</f:facet>
-					<h:outputText value="#{cliente.tipoSexo.descTipoSexo}" />
-				</p:column>
+				<p:commandButton value="#{msg['button.excluir']}" onclick="PF('confirmation').show();" rendered="#{clienteMB.cliente.id != null}" immediate="true" styleClass="btn btn-danger" />
 			</p:dataTable>
 		</h:form>
 		<h:messages />

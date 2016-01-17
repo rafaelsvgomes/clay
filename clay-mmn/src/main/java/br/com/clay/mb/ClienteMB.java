@@ -13,6 +13,7 @@ import br.com.clay.entidade.Banco;
 import br.com.clay.entidade.Cliente;
 import br.com.clay.entidade.ClienteRede;
 import br.com.clay.entidade.ClienteSituacao;
+import br.com.clay.entidade.Grupo;
 import br.com.clay.entidade.Pessoa;
 import br.com.clay.entidade.PessoaConta;
 import br.com.clay.entidade.PessoaEndereco;
@@ -22,10 +23,14 @@ import br.com.clay.entidade.TipoConta;
 import br.com.clay.entidade.TipoEndereco;
 import br.com.clay.entidade.TipoTelefone;
 import br.com.clay.entidade.UF;
+import br.com.clay.entidade.Usuario;
+import br.com.clay.entidade.UsuarioGrupo;
+import br.com.clay.entidade.UsuarioPessoa;
 import br.com.clay.enums.TipoPessoa;
 import br.com.clay.exception.NegocioException;
 import br.com.clay.servico.ClienteServicoEJB;
 import br.com.clay.util.MensagemUtil;
+import br.com.clay.util.SenhaUtil;
 
 @ManagedBean(name = "clienteMB")
 @SessionScoped
@@ -152,6 +157,25 @@ public class ClienteMB extends ClayMB {
         cliente.getClienteRede().setClienteIndicador(clienteIndicador);
     }
 
+    private void setUsuario() {
+        Usuario usuario = new Usuario();
+        UsuarioPessoa usuarioPessoa = new UsuarioPessoa();
+        UsuarioGrupo usuarioGrupo = new UsuarioGrupo();
+        usuarioGrupo.setGrupo(new Grupo(Grupo.USER));
+
+        usuario.setDescUsuario(cliente.getDescEmail());
+        usuario.setDescSenha(SenhaUtil.gerarSenhaUsuario(cliente));
+        usuario.getListaUsuarioPessoa().add(usuarioPessoa);
+        usuario.getListaUsuarioGrupo().add(usuarioGrupo);
+
+        usuarioPessoa.setPessoa(cliente);
+        usuarioPessoa.setUsuario(usuario);
+
+        usuarioGrupo.setUsuario(usuario);
+
+        cliente.getListaUsuarioPessoa().add(usuarioPessoa);
+    }
+
     public String salvar() {
         try {
             cliente.setDataCadastro(new Date());
@@ -161,7 +185,10 @@ public class ClienteMB extends ClayMB {
             cliente.getListaEndereco().get(0).setNumCep(cliente.getListaEndereco().get(0).getNumCep().replace("-", ""));
             cliente.setDataAtualizacao(new Date());
 
-            setClienteRede();
+            if (codIndicador != null && !codIndicador.equals(0L)) {
+                setClienteRede();
+            }
+            setUsuario();
 
             ejb.save(cliente);
         } catch (Exception ex) {

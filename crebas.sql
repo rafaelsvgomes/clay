@@ -177,6 +177,9 @@ increment 1;
 create sequence SEQUSUARIOGRUPO
 increment 1;
 
+create sequence SEQUSUARIOPESSOA
+increment 1;
+
 /*==============================================================*/
 /* Table: BANCO                                                 */
 /*==============================================================*/
@@ -663,36 +666,37 @@ create  index INDEX_2 on USUARIOPESSOA (
 IDUSUARIOPESSOA
 );
 
+
 /*==============================================================*/
 /* Table: GRUPO                                                 */
 /*==============================================================*/
 create table GRUPO (
-   IDGRUPO              BIGINT               not null,
-   DSGRUPO              VARCHAR(50)          not null,
-   constraint PK_GRUPO primary key (IDGRUPO)
+   CDGRUPO              VARCHAR(50)          not null,
+   constraint PK_GRUPO primary key (CDGRUPO)
 );
 
 /*==============================================================*/
-/* Index: IDX_IDGRUPO                                           */
+/* Index: IDX_CDGRUPO                                           */
 /*==============================================================*/
-create  index IDX_IDGRUPO on GRUPO (
-IDGRUPO
+create  index IDX_CDGRUPO on GRUPO (
+CDGRUPO
 );
+
 
 /*==============================================================*/
 /* Table: USUARIOGRUPO                                          */
 /*==============================================================*/
 create table USUARIOGRUPO (
    IDUSUARIOGRUPO       BIGINT               not null,
-   IDUSUARIO            INBIGINTET           not null,
-   IDGRUPO              BIGINT               null,
+   CDGRUPO              VARCHAR(50)          not null,
+   IDUSUARIO            BIGINT               not null,
    constraint PK_USUARIOGRUPO primary key (IDUSUARIOGRUPO)
 );
 
 /*==============================================================*/
-/* Index: IDX_IDUSUARIOGRUPO                                    */
+/* Index: IDX_USUARIOGRUPO                                      */
 /*==============================================================*/
-create  index IDX_IDUSUARIOGRUPO on USUARIOGRUPO (
+create  index IDX_USUARIOGRUPO on USUARIOGRUPO (
 IDUSUARIOGRUPO
 );
 

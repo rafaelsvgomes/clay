@@ -1,5 +1,6 @@
 package br.com.clay.entidade;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -73,6 +74,9 @@ public abstract class Pessoa extends ClayEntidade {
 
     @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
     private List<PessoaConta> listaPessoaConta;
+
+    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+    private List<UsuarioPessoa> listaUsuarioPessoa;
 
     public Long getId() {
         return id;
@@ -168,5 +172,16 @@ public abstract class Pessoa extends ClayEntidade {
 
     public void setListaPessoaConta(List<PessoaConta> listaPessoaConta) {
         this.listaPessoaConta = listaPessoaConta;
+    }
+
+    public List<UsuarioPessoa> getListaUsuarioPessoa() {
+        if (listaUsuarioPessoa == null) {
+            listaUsuarioPessoa = new ArrayList<UsuarioPessoa>();
+        }
+        return listaUsuarioPessoa;
+    }
+
+    public void setListaUsuarioPessoa(List<UsuarioPessoa> listaUsuarioPessoa) {
+        this.listaUsuarioPessoa = listaUsuarioPessoa;
     }
 }

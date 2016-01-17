@@ -195,6 +195,8 @@ public class ClienteMB extends ClayMB {
             ex.printStackTrace();
             MensagemUtil.addMensagem("msg.erro.salvar.cliente", ex.getMessage());
             return "";
+        } finally {
+            // EmailUtil.enviaEmail(mensagem);
         }
 
         return "lista_cliente";
@@ -213,6 +215,7 @@ public class ClienteMB extends ClayMB {
     }
 
     // TODO: rafael - Verificar motivo de estar chamando duas vezes a listar
+    // Ao clicar no botão de proxima pagina esta buscando uma vez a cada item da lista.
     public List<Cliente> getClientes() {
         // if (!FacesContext.getCurrentInstance().isPostback() || clientes == null) {
         clientes = ejb.findAll();

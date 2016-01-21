@@ -18,17 +18,11 @@ import javax.persistence.PrimaryKeyJoinColumn;
 public class Cliente extends Pessoa {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * @param codIndicador
-     */
     public Cliente(Long codIndicador) {
         super();
         this.id = codIndicador;
     }
 
-    /**
-     * 
-     */
     public Cliente() {
     }
 
@@ -44,14 +38,6 @@ public class Cliente extends Pessoa {
     private ClienteRede clienteRede;
 
     private Date dataAtualizacao;
-
-    public PlanoAssinatura getPlanoAssinatura() {
-        return planoAssinatura;
-    }
-
-    public void setPlanoAssinatura(PlanoAssinatura planoAssinatura) {
-        this.planoAssinatura = planoAssinatura;
-    }
 
     public Date getDataAtualizacao() {
         return dataAtualizacao;
@@ -75,6 +61,14 @@ public class Cliente extends Pessoa {
 
     public void setClienteRede(ClienteRede clienteRede) {
         this.clienteRede = clienteRede;
+    }
+
+    public PlanoAssinatura getPlanoAssinatura() {
+        return planoAssinatura;
+    }
+
+    public void setPlanoAssinatura(PlanoAssinatura planoAssinatura) {
+        this.planoAssinatura = planoAssinatura;
     }
 
 }

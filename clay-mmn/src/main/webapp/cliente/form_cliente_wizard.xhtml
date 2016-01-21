@@ -12,7 +12,7 @@
 	</div>
 	
 	<h:form styleClass="form-horizontal">
-		<p:wizard nextLabel="Avançar" backLabel="Voltar">
+		<p:wizard nextLabel="Avançar" backLabel="Voltar" flowListener="#{clienteMB.onFlowProcess}">
 			<p:tab id="dadosPessoais" title="Dados Pessoais">
 				<fieldset>
 					<legend>
@@ -394,38 +394,8 @@
 								<h:outputText value="#{msg['label.cliente.pagamento']} *" />
 							</label>
 							
-							
 							<div class="controls">
-								<h:form>
-								     <span onclick="javascript:redirect()" class="linkClass"/>
-								</h:form>
-								<div style="display:none:"> <!-- If you want it hidden -->
-							    	<form method="post" target="pagseguro" action="https://pagseguro.uol.com.br/v2/checkout/payment.html">  
-								        <!-- Campos obrigatórios -->  
-								        <input name="receiverEmail" type="hidden" value="rafaelsvgomes@gmail.com" />  
-								        <input name="currency" type="hidden" value="BRL" />  
-								  
-								        <!-- Itens do pagamento (ao menos um item é obrigatório) -->  
-								        <input name="itemId1" type="hidden" value="0001" />  
-								        <input name="itemDescription1" type="hidden" value="Produto Teste" />  
-								        <input name="itemAmount1" type="hidden" value="1.00" />  
-								        <input name="itemQuantity1" type="hidden" value="1" />  
-										<input name="itemShippingCost1" type="hidden" value="0.00" />  
-								        <input name="itemWeight1" type="hidden" value="0" />  
-								        
-								        <!-- Código de referência do pagamento no seu sistema (opcional) -->  
-								        <input name="reference" type="hidden" value="TST0001" />  
-								          
-								        <!-- Dados do comprador (opcionais) -->  
-								        <input name="senderName" type="hidden" value="Rafael Gomes" />  
-								        <input name="senderAreaCode" type="hidden" value="61" />  
-								        <input name="senderPhone" type="hidden" value="92651271" />  
-								        <input name="senderEmail" type="hidden" value="rafawebhard@gmail.com" />  
-								  
-								        <!-- submit do form (obrigatório) -->  
-								        <input alt="Pague com PagSeguro" name="submit"  type="image" src="https://p.simg.uol.com.br/out/pagseguro/i/botoes/pagamentos/120x53-pagar.gif"/>  
-									</form>  
-								</div>
+								<ui:include src="/cliente/form_pagseguro.xhtml" />
 							</div>
 						</div>
 

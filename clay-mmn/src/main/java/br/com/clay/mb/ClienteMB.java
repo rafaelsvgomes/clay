@@ -9,6 +9,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.event.FlowEvent;
+
 import br.com.clay.entidade.Banco;
 import br.com.clay.entidade.Cliente;
 import br.com.clay.entidade.ClienteRede;
@@ -63,6 +65,8 @@ public class ClienteMB extends ClayMB {
     private List<PlanoAssinatura> listaPlanoAssinatura;
 
     private Long codIndicador;
+
+    private Boolean tabPagamento = Boolean.FALSE;
 
     public ClienteMB() {
     }
@@ -199,7 +203,20 @@ public class ClienteMB extends ClayMB {
             // EmailUtil.enviaEmail(mensagem);
         }
 
+        if (true) {
+            tabPagamento = true;
+        }
+
         return "lista_cliente";
+    }
+
+    public String onFlowProcess(FlowEvent event) {
+        if (tabPagamento) {
+            // skip = false; // reset in case user goes back
+            return "tabPagamento";
+        } else {
+            return event.getNewStep();
+        }
     }
 
     public String remover() {
@@ -275,6 +292,10 @@ public class ClienteMB extends ClayMB {
         return telefone;
     }
 
+    public String getDDDCelular() {
+        return celular.getDescTelefone().substring(0, 2);
+    }
+
     public PessoaTelefone getCelular() {
         return celular;
     }
@@ -289,6 +310,14 @@ public class ClienteMB extends ClayMB {
 
     public void setCodIndicador(Long codIndicador) {
         this.codIndicador = codIndicador;
+    }
+
+    public Boolean getTabPagamento() {
+        return tabPagamento;
+    }
+
+    public void setTabPagamento(Boolean tabPagamento) {
+        this.tabPagamento = tabPagamento;
     }
 
 }

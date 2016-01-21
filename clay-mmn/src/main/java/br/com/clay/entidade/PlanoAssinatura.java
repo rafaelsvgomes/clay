@@ -1,5 +1,7 @@
 package br.com.clay.entidade;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,14 +31,14 @@ public class PlanoAssinatura extends ClayEntidade {
     @Column(name = "dsplanoassinatura")
     private String descPlanoAssinatura;
 
-    // @Column(name = "vladesao", precision = 8, scale = 2)
-    // private BigDecimal valorAdesao;
-    //
-    // @Column(name = "vlRenovacao", precision = 8, scale = 2)
-    // private BigDecimal valorRenovacao;
-    //
-    // @Column(name = "vlCompraMinima", precision = 8, scale = 2)
-    // private BigDecimal valorCompraMinima;
+    @Column(name = "vladesao")
+    private BigDecimal valorAdesao;
+
+    @Column(name = "vlRenovacao")
+    private BigDecimal valorRenovacao;
+
+    @Column(name = "vlCompraMinima")
+    private BigDecimal valorCompraMinima;
 
     private Boolean bolAtivo;
 
@@ -101,6 +103,30 @@ public class PlanoAssinatura extends ClayEntidade {
 
     public void setDescPlanoAssinatura(String descPlanoAssinatura) {
         this.descPlanoAssinatura = descPlanoAssinatura;
+    }
+
+    public BigDecimal getValorAdesao() {
+        return valorAdesao;
+    }
+
+    public void setValorAdesao(BigDecimal valorAdesao) {
+        this.valorAdesao = valorAdesao;
+    }
+
+    public BigDecimal getValorRenovacao() {
+        return valorRenovacao;
+    }
+
+    public void setValorRenovacao(BigDecimal valorRenovacao) {
+        this.valorRenovacao = valorRenovacao;
+    }
+
+    public BigDecimal getValorCompraMinima() {
+        return valorCompraMinima;
+    }
+
+    public void setValorCompraMinima(BigDecimal valorCompraMinima) {
+        this.valorCompraMinima = valorCompraMinima;
     }
 
     public Boolean getBolAtivo() {

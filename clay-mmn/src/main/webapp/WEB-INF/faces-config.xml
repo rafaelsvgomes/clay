@@ -13,5 +13,10 @@
 			<base-name>messages_labels</base-name>
 			<var>msg</var>
 		</resource-bundle>
+		
+		<resource-bundle>
+			<base-name>propriedades</base-name>
+			<var>prp</var>
+		</resource-bundle>
 	</application>
 </faces-config>

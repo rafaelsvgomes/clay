@@ -1,116 +1,118 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     10/11/2015 10:07:56                          */
+/* Created on:     22/01/2016 13:30:03                          */
 /*==============================================================*/
 
 
-drop index INDEX_7;
+drop index IDX_CODBANCO;
 
 drop table BANCO;
 
-drop index INDEX_13;
+drop index IDX_IDCATEGORIA;
 
 drop table CATEGORIA;
 
-drop index INDEX_26;
+drop index IDX_IDCLIENTE;
 
 drop table CLIENTE;
 
-drop index INDEX_6;
+drop index IDX_IDCLIENTEREDE;
 
 drop table CLIENTEREDE;
 
-drop index INDEX_10;
+drop index IDX_IDCLIENTESITUACAO;
 
 drop table CLIENTESITUACAO;
 
-drop index INDEX_25;
+drop index IDX_IDFORNECEDOR;
 
 drop table FORNECEDOR;
 
-drop index INDEX_20;
+drop index IDX_CDGRUPO;
+
+drop table GRUPO;
+
+drop index IDX_IDPEDIDO;
 
 drop table PEDIDO;
 
-drop index INDEX_21;
+drop index IDX_IDPEDIDOPRODUTO;
 
 drop table PEDIDOPRODUTO;
 
-drop index INDEX_17;
+drop index IDX_IDPEDIDOSITUACAO;
 
 drop table PEDIDOSITUACAO;
 
-drop index INDEX_23;
+drop index IDX_IDPEDIDOTIPO;
 
 drop table PEDIDOTIPO;
 
-drop index INDEX_3;
+drop index IDX_IDPESSOA;
 
 drop table PESSOA;
 
-drop index INDEX_4;
+drop index IDX_IDPESSOACONTA;
 
 drop table PESSOACONTA;
 
-drop index INDEX_8;
+drop index IDX_IDPESSOAENDERECO;
 
 drop table PESSOAENDERECO;
 
-drop index INDEX_11;
+drop index IDX_IDPESSOATELEFONE;
 
 drop table PESSOATELEFONE;
 
-drop index INDEX_9;
+drop index IDX_IDPLANOASSINATURA;
 
 drop table PLANOASSINATURA;
 
-drop index INDEX_22;
+drop index IDX_IDPRODUTO;
 
 drop table PRODUTO;
 
-drop index INDEX_12;
+drop index IDX_IDPRODUTOCOMPOSICAO;
 
-drop index INDEX_19;
+drop index IDX_IDPROD_IDPRODITEM;
 
 drop table PRODUTOCOMPOSICAO;
 
-drop index INDEX_18;
+drop index IDX_IDPRODUTOVALOR;
 
 drop table PRODUTOVALOR;
 
-drop index INDEX_5;
+drop index IDX_IDTIPOCONTA;
 
 drop table TIPOCONTA;
 
-drop index INDEX_14;
+drop index IDX_IDTIPOENDERECO;
 
 drop table TIPOENDERECO;
 
-drop index INDEX_15;
+drop index IDX_IDTIPOTELEFONE;
 
 drop table TIPOTELEFONE;
 
-drop index INDEX_16;
+drop index IDX_CODUF;
 
 drop table UF;
 
-drop index INDEX_24;
+drop index IDX_IDUNIDADEVENDA;
 
 drop table UNIDADEVENDA;
 
-drop index INDEX_1;
+drop index IDX_UNQ_DSUSUARIO;
+
+drop index IDX_IDUSUARIO;
 
 drop table USUARIO;
-
-drop index INDEX_2;
 
 drop index IDX_IDUSUARIOGRUPO;
 
 drop table USUARIOGRUPO;
 
-drop index IDX_IDGRUPO;
-
-drop table GRUPO;
+drop index IDX_IDUSUARIOPESSOA;
 
 drop table USUARIOPESSOA;
 
@@ -174,12 +176,6 @@ increment 1;
 create sequence SEQUSUARIO
 increment 1;
 
-create sequence SEQUSUARIOGRUPO
-increment 1;
-
-create sequence SEQUSUARIOPESSOA
-increment 1;
-
 /*==============================================================*/
 /* Table: BANCO                                                 */
 /*==============================================================*/
@@ -190,9 +186,9 @@ create table BANCO (
 );
 
 /*==============================================================*/
-/* Index: INDEX_7                                               */
+/* Index: IDX_CODBANCO                                          */
 /*==============================================================*/
-create unique index INDEX_7 on BANCO (
+create unique index IDX_CODBANCO on BANCO (
 CODBANCO
 );
 
@@ -207,9 +203,9 @@ create table CATEGORIA (
 );
 
 /*==============================================================*/
-/* Index: INDEX_13                                              */
+/* Index: IDX_IDCATEGORIA                                       */
 /*==============================================================*/
-create unique index INDEX_13 on CATEGORIA (
+create unique index IDX_IDCATEGORIA on CATEGORIA (
 IDCATEGORIA
 );
 
@@ -225,9 +221,9 @@ create table CLIENTE (
 );
 
 /*==============================================================*/
-/* Index: INDEX_26                                              */
+/* Index: IDX_IDCLIENTE                                         */
 /*==============================================================*/
-create unique index INDEX_26 on CLIENTE (
+create unique index IDX_IDCLIENTE on CLIENTE (
 IDCLIENTE
 );
 
@@ -243,9 +239,9 @@ create table CLIENTEREDE (
 );
 
 /*==============================================================*/
-/* Index: INDEX_6                                               */
+/* Index: IDX_IDCLIENTEREDE                                     */
 /*==============================================================*/
-create unique index INDEX_6 on CLIENTEREDE (
+create unique index IDX_IDCLIENTEREDE on CLIENTEREDE (
 IDCLIENTEREDE
 );
 
@@ -259,9 +255,9 @@ create table CLIENTESITUACAO (
 );
 
 /*==============================================================*/
-/* Index: INDEX_10                                              */
+/* Index: IDX_IDCLIENTESITUACAO                                 */
 /*==============================================================*/
-create unique index INDEX_10 on CLIENTESITUACAO (
+create unique index IDX_IDCLIENTESITUACAO on CLIENTESITUACAO (
 IDCLIENTESITUACAO
 );
 
@@ -274,10 +270,25 @@ create table FORNECEDOR (
 );
 
 /*==============================================================*/
-/* Index: INDEX_25                                              */
+/* Index: IDX_IDFORNECEDOR                                      */
 /*==============================================================*/
-create unique index INDEX_25 on FORNECEDOR (
+create unique index IDX_IDFORNECEDOR on FORNECEDOR (
 IDFORNECEDOR
+);
+
+/*==============================================================*/
+/* Table: GRUPO                                                 */
+/*==============================================================*/
+create table GRUPO (
+   CDGRUPO              VARCHAR(50)          not null,
+   constraint PK_GRUPO primary key (CDGRUPO)
+);
+
+/*==============================================================*/
+/* Index: IDX_CDGRUPO                                           */
+/*==============================================================*/
+create  index IDX_CDGRUPO on GRUPO (
+CDGRUPO
 );
 
 /*==============================================================*/
@@ -296,9 +307,9 @@ create table PEDIDO (
 );
 
 /*==============================================================*/
-/* Index: INDEX_20                                              */
+/* Index: IDX_IDPEDIDO                                          */
 /*==============================================================*/
-create unique index INDEX_20 on PEDIDO (
+create unique index IDX_IDPEDIDO on PEDIDO (
 IDPEDIDO
 );
 
@@ -316,9 +327,9 @@ create table PEDIDOPRODUTO (
 );
 
 /*==============================================================*/
-/* Index: INDEX_21                                              */
+/* Index: IDX_IDPEDIDOPRODUTO                                   */
 /*==============================================================*/
-create unique index INDEX_21 on PEDIDOPRODUTO (
+create unique index IDX_IDPEDIDOPRODUTO on PEDIDOPRODUTO (
 IDPEDIDOPRODUTO
 );
 
@@ -335,9 +346,9 @@ comment on table PEDIDOSITUACAO is
 'SITUAÇÃO DO PEDIDO (ABERTO, APROVADO)';
 
 /*==============================================================*/
-/* Index: INDEX_17                                              */
+/* Index: IDX_IDPEDIDOSITUACAO                                  */
 /*==============================================================*/
-create unique index INDEX_17 on PEDIDOSITUACAO (
+create unique index IDX_IDPEDIDOSITUACAO on PEDIDOSITUACAO (
 IDPEDIDOSITUACAO
 );
 
@@ -351,9 +362,9 @@ create table PEDIDOTIPO (
 );
 
 /*==============================================================*/
-/* Index: INDEX_23                                              */
+/* Index: IDX_IDPEDIDOTIPO                                      */
 /*==============================================================*/
-create unique index INDEX_23 on PEDIDOTIPO (
+create unique index IDX_IDPEDIDOTIPO on PEDIDOTIPO (
 IDPEDIDOTIPO
 );
 
@@ -376,9 +387,9 @@ create table PESSOA (
 );
 
 /*==============================================================*/
-/* Index: INDEX_3                                               */
+/* Index: IDX_IDPESSOA                                          */
 /*==============================================================*/
-create  index INDEX_3 on PESSOA (
+create  index IDX_IDPESSOA on PESSOA (
 IDPESSOA
 );
 
@@ -397,9 +408,9 @@ create table PESSOACONTA (
 );
 
 /*==============================================================*/
-/* Index: INDEX_4                                               */
+/* Index: IDX_IDPESSOACONTA                                     */
 /*==============================================================*/
-create  index INDEX_4 on PESSOACONTA (
+create  index IDX_IDPESSOACONTA on PESSOACONTA (
 IDPESSOACONTA
 );
 
@@ -421,9 +432,9 @@ create table PESSOAENDERECO (
 );
 
 /*==============================================================*/
-/* Index: INDEX_8                                               */
+/* Index: IDX_IDPESSOAENDERECO                                  */
 /*==============================================================*/
-create unique index INDEX_8 on PESSOAENDERECO (
+create unique index IDX_IDPESSOAENDERECO on PESSOAENDERECO (
 IDPESSOAENDERECO
 );
 
@@ -439,9 +450,9 @@ create table PESSOATELEFONE (
 );
 
 /*==============================================================*/
-/* Index: INDEX_11                                              */
+/* Index: IDX_IDPESSOATELEFONE                                  */
 /*==============================================================*/
-create unique index INDEX_11 on PESSOATELEFONE (
+create unique index IDX_IDPESSOATELEFONE on PESSOATELEFONE (
 IDPESSOATELEFONE
 );
 
@@ -464,9 +475,9 @@ comment on column PLANOASSINATURA.DSPLANOASSINATURA is
 'DESCRIÇÃO DETALHADA DO PLANO';
 
 /*==============================================================*/
-/* Index: INDEX_9                                               */
+/* Index: IDX_IDPLANOASSINATURA                                 */
 /*==============================================================*/
-create unique index INDEX_9 on PLANOASSINATURA (
+create unique index IDX_IDPLANOASSINATURA on PLANOASSINATURA (
 IDPLANOASSINATURA
 );
 
@@ -497,9 +508,9 @@ comment on column PRODUTO.BOLCOMPOSICAO is
 'VERIFICA SE O PRODUTO É UMA COMPOSIÇÃO DE OUTROS PRODUTOS';
 
 /*==============================================================*/
-/* Index: INDEX_22                                              */
+/* Index: IDX_IDPRODUTO                                         */
 /*==============================================================*/
-create unique index INDEX_22 on PRODUTO (
+create unique index IDX_IDPRODUTO on PRODUTO (
 IDPRODUTO
 );
 
@@ -515,17 +526,17 @@ create table PRODUTOCOMPOSICAO (
 );
 
 /*==============================================================*/
-/* Index: INDEX_19                                              */
+/* Index: IDX_IDPROD_IDPRODITEM                                 */
 /*==============================================================*/
-create unique index INDEX_19 on PRODUTOCOMPOSICAO (
+create unique index IDX_IDPROD_IDPRODITEM on PRODUTOCOMPOSICAO (
 IDPRODUTO,
 IDPRODUTOITEMCOMP
 );
 
 /*==============================================================*/
-/* Index: INDEX_12                                              */
+/* Index: IDX_IDPRODUTOCOMPOSICAO                               */
 /*==============================================================*/
-create unique index INDEX_12 on PRODUTOCOMPOSICAO (
+create unique index IDX_IDPRODUTOCOMPOSICAO on PRODUTOCOMPOSICAO (
 IDPRODUTOCOMPOSICAO
 );
 
@@ -543,9 +554,9 @@ create table PRODUTOVALOR (
 );
 
 /*==============================================================*/
-/* Index: INDEX_18                                              */
+/* Index: IDX_IDPRODUTOVALOR                                    */
 /*==============================================================*/
-create  index INDEX_18 on PRODUTOVALOR (
+create  index IDX_IDPRODUTOVALOR on PRODUTOVALOR (
 IDPRODUTOVALOR
 );
 
@@ -559,9 +570,9 @@ create table TIPOCONTA (
 );
 
 /*==============================================================*/
-/* Index: INDEX_5                                               */
+/* Index: IDX_IDTIPOCONTA                                       */
 /*==============================================================*/
-create  index INDEX_5 on TIPOCONTA (
+create  index IDX_IDTIPOCONTA on TIPOCONTA (
 IDTIPOCONTA
 );
 
@@ -575,9 +586,9 @@ create table TIPOENDERECO (
 );
 
 /*==============================================================*/
-/* Index: INDEX_14                                              */
+/* Index: IDX_IDTIPOENDERECO                                    */
 /*==============================================================*/
-create unique index INDEX_14 on TIPOENDERECO (
+create unique index IDX_IDTIPOENDERECO on TIPOENDERECO (
 IDTIPOENDERECO
 );
 
@@ -591,9 +602,9 @@ create table TIPOTELEFONE (
 );
 
 /*==============================================================*/
-/* Index: INDEX_15                                              */
+/* Index: IDX_IDTIPOTELEFONE                                    */
 /*==============================================================*/
-create unique index INDEX_15 on TIPOTELEFONE (
+create unique index IDX_IDTIPOTELEFONE on TIPOTELEFONE (
 IDTIPOTELEFONE
 );
 
@@ -607,9 +618,9 @@ create table UF (
 );
 
 /*==============================================================*/
-/* Index: INDEX_16                                              */
+/* Index: IDX_CODUF                                             */
 /*==============================================================*/
-create unique index INDEX_16 on UF (
+create unique index IDX_CODUF on UF (
 CODUF
 );
 
@@ -626,9 +637,9 @@ comment on table UNIDADEVENDA is
 'Garrafa, frasco, pote etc';
 
 /*==============================================================*/
-/* Index: INDEX_24                                              */
+/* Index: IDX_IDUNIDADEVENDA                                    */
 /*==============================================================*/
-create unique index INDEX_24 on UNIDADEVENDA (
+create unique index IDX_IDUNIDADEVENDA on UNIDADEVENDA (
 IDUNIDADEVENDA
 );
 
@@ -637,16 +648,40 @@ IDUNIDADEVENDA
 /*==============================================================*/
 create table USUARIO (
    IDUSUARIO            BIGINT               not null,
-   DSUSUARIO            VARCHAR(50)          not null,
-   DSSENHA              VARCHAR(200)          not null,
+   DSUSUARIO            VARCHAR(150)         not null,
+   DSSENHA              VARCHAR(30)          not null,
    constraint PK_USUARIO primary key (IDUSUARIO)
 );
 
 /*==============================================================*/
-/* Index: INDEX_1                                               */
+/* Index: IDX_IDUSUARIO                                         */
 /*==============================================================*/
-create  index INDEX_1 on USUARIO (
+create  index IDX_IDUSUARIO on USUARIO (
 IDUSUARIO
+);
+
+/*==============================================================*/
+/* Index: IDX_UNQ_DSUSUARIO                                     */
+/*==============================================================*/
+create unique index IDX_UNQ_DSUSUARIO on USUARIO (
+DSUSUARIO
+);
+
+/*==============================================================*/
+/* Table: USUARIOGRUPO                                          */
+/*==============================================================*/
+create table USUARIOGRUPO (
+   IDUSUARIOGRUPO       BIGINT               not null,
+   CDGRUPO              VARCHAR(50)          not null,
+   IDUSUARIO            BIGINT               not null,
+   constraint PK_USUARIOGRUPO primary key (IDUSUARIOGRUPO)
+);
+
+/*==============================================================*/
+/* Index: IDX_IDUSUARIOGRUPO                                    */
+/*==============================================================*/
+create  index IDX_IDUSUARIOGRUPO on USUARIOGRUPO (
+IDUSUARIOGRUPO
 );
 
 /*==============================================================*/
@@ -660,64 +695,30 @@ create table USUARIOPESSOA (
 );
 
 /*==============================================================*/
-/* Index: INDEX_2                                               */
+/* Index: IDX_IDUSUARIOPESSOA                                   */
 /*==============================================================*/
-create  index INDEX_2 on USUARIOPESSOA (
+create  index IDX_IDUSUARIOPESSOA on USUARIOPESSOA (
 IDUSUARIOPESSOA
 );
 
-
-/*==============================================================*/
-/* Table: GRUPO                                                 */
-/*==============================================================*/
-create table GRUPO (
-   CDGRUPO              VARCHAR(50)          not null,
-   constraint PK_GRUPO primary key (CDGRUPO)
-);
-
-/*==============================================================*/
-/* Index: IDX_CDGRUPO                                           */
-/*==============================================================*/
-create  index IDX_CDGRUPO on GRUPO (
-CDGRUPO
-);
-
-
-/*==============================================================*/
-/* Table: USUARIOGRUPO                                          */
-/*==============================================================*/
-create table USUARIOGRUPO (
-   IDUSUARIOGRUPO       BIGINT               not null,
-   CDGRUPO              VARCHAR(50)          not null,
-   IDUSUARIO            BIGINT               not null,
-   constraint PK_USUARIOGRUPO primary key (IDUSUARIOGRUPO)
-);
-
-/*==============================================================*/
-/* Index: IDX_USUARIOGRUPO                                      */
-/*==============================================================*/
-create  index IDX_USUARIOGRUPO on USUARIOGRUPO (
-IDUSUARIOGRUPO
-);
-
 alter table CATEGORIA
-   add constraint FK_CATEGORI_REFERENCE_CATEGORI foreign key (IDCATEGORIAPAI)
+   add constraint FK_CATEGORI_FK_CATEGO_CATEGORI foreign key (IDCATEGORIAPAI)
       references CATEGORIA (IDCATEGORIA)
       on delete restrict on update restrict;
 
 alter table CLIENTE
-   add constraint FK_CLIENTE_REFERENCE_PESSOA foreign key (IDCLIENTE)
+   add constraint FK_CLIENTE_FK_CLIENT_CLIENTES foreign key (IDCLIENTESITUACAO)
+      references CLIENTESITUACAO (IDCLIENTESITUACAO)
+      on delete restrict on update restrict;
+
+alter table CLIENTE
+   add constraint FK_CLIENTE_FK_CLIENT_PESSOA foreign key (IDCLIENTE)
       references PESSOA (IDPESSOA)
       on delete restrict on update restrict;
 
 alter table CLIENTE
-   add constraint FK_CLIENTE_REFERENCE_PLANOASS foreign key (IDPLANOASSINATURA)
+   add constraint FK_CLIENTE_FK_CLIENT_PLANOASS foreign key (IDPLANOASSINATURA)
       references PLANOASSINATURA (IDPLANOASSINATURA)
-      on delete restrict on update restrict;
-
-alter table CLIENTE
-   add constraint FK_CLIENTE_REFERENCE_CLIENTES foreign key (IDCLIENTESITUACAO)
-      references CLIENTESITUACAO (IDCLIENTESITUACAO)
       on delete restrict on update restrict;
 
 alter table CLIENTEREDE
@@ -736,38 +737,43 @@ alter table CLIENTEREDE
       on delete restrict on update restrict;
 
 alter table FORNECEDOR
-   add constraint FK_FORNECED_REFERENCE_PESSOA foreign key (IDFORNECEDOR)
+   add constraint FK_FORNECED_FK_FORNEC_PESSOA foreign key (IDFORNECEDOR)
       references PESSOA (IDPESSOA)
       on delete restrict on update restrict;
 
 alter table PEDIDO
-   add constraint FK_PEDIDO_REFERENCE_PEDIDOTI foreign key (IDPEDIDOTIPO)
-      references PEDIDOTIPO (IDPEDIDOTIPO)
+   add constraint FK_PEDIDO_FK_PEDIDO_CLIENTE foreign key (IDCLIENTE)
+      references CLIENTE (IDCLIENTE)
       on delete restrict on update restrict;
 
 alter table PEDIDO
-   add constraint FK_PEDIDO_REFERENCE_PEDIDOSI foreign key (IDPEDIDOSITUACAO)
+   add constraint FK_PEDIDO_FK_PEDIDO_PEDIDOSI foreign key (IDPEDIDOSITUACAO)
       references PEDIDOSITUACAO (IDPEDIDOSITUACAO)
       on delete restrict on update restrict;
 
 alter table PEDIDO
-   add constraint FK_PEDIDO_REFERENCE_CLIENTE foreign key (IDCLIENTE)
-      references CLIENTE (IDCLIENTE)
+   add constraint FK_PEDIDO_FK_PEDIDO_PEDIDOTI foreign key (IDPEDIDOTIPO)
+      references PEDIDOTIPO (IDPEDIDOTIPO)
       on delete restrict on update restrict;
 
 alter table PEDIDOPRODUTO
-   add constraint FK_PEDIDOPR_REFERENCE_PEDIDO foreign key (IDPEDIDO)
+   add constraint FK_PEDIDOPR_FK_PEDIDO_PEDIDO foreign key (IDPEDIDO)
       references PEDIDO (IDPEDIDO)
       on delete restrict on update restrict;
 
 alter table PEDIDOPRODUTO
-   add constraint FK_PEDIDOPR_REFERENCE_PRODUTO foreign key (IDPRODUTO)
+   add constraint FK_PEDIDOPR_FK_PEDIDO_PRODUTO foreign key (IDPRODUTO)
       references PRODUTO (IDPRODUTO)
       on delete restrict on update restrict;
 
 alter table PEDIDOPRODUTO
-   add constraint FK_PEDIDOPR_REFERENCE_PRODUTOV foreign key (IDVALORPRODUTO)
+   add constraint FK_PEDIDOPR_FK_PEDIDO_PRODUTOV foreign key (IDVALORPRODUTO)
       references PRODUTOVALOR (IDPRODUTOVALOR)
+      on delete restrict on update restrict;
+
+alter table PESSOACONTA
+   add constraint FK_PESSOACO_FK_PESSOA_BANCO foreign key (CODBANCO)
+      references BANCO (CODBANCO)
       on delete restrict on update restrict;
 
 alter table PESSOACONTA
@@ -780,54 +786,49 @@ alter table PESSOACONTA
       references TIPOCONTA (IDTIPOCONTA)
       on delete restrict on update restrict;
 
-alter table PESSOACONTA
-   add constraint FK_PESSOACO_REFERENCE_BANCO foreign key (CODBANCO)
-      references BANCO (CODBANCO)
-      on delete restrict on update restrict;
-
 alter table PESSOAENDERECO
-   add constraint FK_PESSOAEN_REFERENCE_PESSOA foreign key (IDPESSOA)
+   add constraint FK_PESSOAEN_FK_PESSOA_PESSOA foreign key (IDPESSOA)
       references PESSOA (IDPESSOA)
       on delete restrict on update restrict;
 
 alter table PESSOAENDERECO
-   add constraint FK_PESSOAEN_REFERENCE_UF foreign key (CODUF)
-      references UF (CODUF)
-      on delete restrict on update restrict;
-
-alter table PESSOAENDERECO
-   add constraint FK_PESSOAEN_REFERENCE_TIPOENDE foreign key (IDTIPOENDERECO)
+   add constraint FK_PESSOAEN_FK_PESSOA_TIPOENDE foreign key (IDTIPOENDERECO)
       references TIPOENDERECO (IDTIPOENDERECO)
       on delete restrict on update restrict;
 
-alter table PESSOATELEFONE
-   add constraint FK_PESSOATE_REFERENCE_TIPOTELE foreign key (IDTIPOTELEFONE)
-      references TIPOTELEFONE (IDTIPOTELEFONE)
+alter table PESSOAENDERECO
+   add constraint FK_PESSOAEN_FK_PESSOA_UF foreign key (CODUF)
+      references UF (CODUF)
       on delete restrict on update restrict;
 
 alter table PESSOATELEFONE
-   add constraint FK_PESSOATE_REFERENCE_PESSOA foreign key (IDPESSOA)
+   add constraint FK_PESSOATE_FK_PESSOA_PESSOA foreign key (IDPESSOA)
       references PESSOA (IDPESSOA)
       on delete restrict on update restrict;
 
+alter table PESSOATELEFONE
+   add constraint FK_PESSOATE_FK_PESSOA_TIPOTELE foreign key (IDTIPOTELEFONE)
+      references TIPOTELEFONE (IDTIPOTELEFONE)
+      on delete restrict on update restrict;
+
 alter table PLANOASSINATURA
-   add constraint FK_PLANOASS_REFERENCE_PRODUTO foreign key (IDPRODUTO)
+   add constraint FK_PLANOASS_FK_PLANOA_PRODUTO foreign key (IDPRODUTO)
       references PRODUTO (IDPRODUTO)
       on delete restrict on update restrict;
 
 alter table PRODUTO
-   add constraint FK_PRODUTO_REFERENCE_CATEGORI foreign key (IDCATEGORIA)
+   add constraint FK_PRODUTO_FK_PRODUT_CATEGORI foreign key (IDCATEGORIA)
       references CATEGORIA (IDCATEGORIA)
       on delete restrict on update restrict;
 
 alter table PRODUTO
-   add constraint FK_PRODUTO_REFERENCE_UNIDADEV foreign key (IDUNIDADEVENDA)
-      references UNIDADEVENDA (IDUNIDADEVENDA)
+   add constraint FK_PRODUTO_FK_PRODUT_FORNECED foreign key (IDFORNECEDOR)
+      references FORNECEDOR (IDFORNECEDOR)
       on delete restrict on update restrict;
 
 alter table PRODUTO
-   add constraint FK_PRODUTO_REFERENCE_FORNECED foreign key (IDFORNECEDOR)
-      references FORNECEDOR (IDFORNECEDOR)
+   add constraint FK_PRODUTO_FK_PRODUT_UNIDADEV foreign key (IDUNIDADEVENDA)
+      references UNIDADEVENDA (IDUNIDADEVENDA)
       on delete restrict on update restrict;
 
 alter table PRODUTOCOMPOSICAO
@@ -841,8 +842,18 @@ alter table PRODUTOCOMPOSICAO
       on delete restrict on update restrict;
 
 alter table PRODUTOVALOR
-   add constraint FK_PRODUTOV_REFERENCE_PRODUTO foreign key (IDPRODUTO)
+   add constraint FK_PRODUTOV_FK_PRODUT_PRODUTO foreign key (IDPRODUTO)
       references PRODUTO (IDPRODUTO)
+      on delete restrict on update restrict;
+
+alter table USUARIOGRUPO
+   add constraint FK_USUARIOGRUPO_GRUPO foreign key (CDGRUPO)
+      references GRUPO (CDGRUPO)
+      on delete restrict on update restrict;
+
+alter table USUARIOGRUPO
+   add constraint FK_USUARIOG_FK_USUARI_USUARIO foreign key (IDUSUARIO)
+      references USUARIO (IDUSUARIO)
       on delete restrict on update restrict;
 
 alter table USUARIOPESSOA
@@ -851,16 +862,7 @@ alter table USUARIOPESSOA
       on delete restrict on update restrict;
 
 alter table USUARIOPESSOA
-   add constraint FK_USUARIOP_FK_USUARI_USUARIO foreign key (IDUSUARIO)
+   add constraint FK_USUARIOPESSOA_USUARIO foreign key (IDUSUARIO)
       references USUARIO (IDUSUARIO)
       on delete restrict on update restrict;
 
-alter table USUARIOGRUPO
-   add constraint FK_USUARIOGRUPO_GRUPO foreign key (IDGRUPO)
-      references GRUPO (IDGRUPO)
-      on delete restrict on update restrict;
-
-alter table USUARIOGRUPO
-   add constraint FK_USUARIOGRUPO_USUARIO foreign key (IDUSUARIO)
-      references USUARIO (IDUSUARIO)
-      on delete restrict on update restrict;

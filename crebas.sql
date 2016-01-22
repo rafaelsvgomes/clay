@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     22/01/2016 13:30:03                          */
+/* Created on:     22/01/2016 15:19:15                          */
 /*==============================================================*/
 
 
@@ -464,9 +464,9 @@ create table PLANOASSINATURA (
    IDPRODUTO            BIGINT               null,
    NOMEPLANOASSINATURA  VARCHAR(30)          not null,
    DSPLANOASSINATURA    TEXT                 null,
-   VLADESAO             MONEY                null,
-   VLRENOVACAO          MONEY                null,
-   VLCOMPRAMINIMA       MONEY                null,
+   VLADESAO             NUMERIC(12,2)        null,
+   VLRENOVACAO          NUMERIC(12,2)        null,
+   VLCOMPRAMINIMA       NUMERIC(12,2)        null,
    BOLATIVO             BOOL                 not null,
    constraint PK_PLANOASSINATURA primary key (IDPLANOASSINATURA)
 );

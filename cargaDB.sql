@@ -99,8 +99,8 @@ INSERT INTO GRUPO values ('ADMIN');
 INSERT INTO GRUPO values ('USER');
 
 --USUARIO
-INSERT INTO USUARIO values (nextval('sequsuario'), 'admin', '21232f297a57a5a743894a0e4a801fc3');
-INSERT INTO USUARIO values (nextval('sequsuario'), 'user', 'ee11cbb19052e40b07aac0ca060c23ee');
+INSERT INTO USUARIO values (nextval('sequsuario'), 'admin', 'bdfb8ce799ed1782a38a47c8090f6941');--adminclay123
+INSERT INTO USUARIO values (nextval('sequsuario'), 'user', '076c8b756a48c7b7c23c88f10fd260b8');--userclay123
 
 --USUARIOGRUPO
 INSERT INTO USUARIOGRUPO VALUES (nextval('sequsuariogrupo'), 'ADMIN', 1);

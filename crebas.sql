@@ -140,6 +140,10 @@ drop sequence SEQTELEFONE;
 
 drop sequence SEQUSUARIO;
 
+drop sequence SEQUSUARIOPESSOA;
+
+drop sequence SEQUSUARIOGRUPO;
+
 create sequence SEQPEDIDO
 increment 1;
 
@@ -174,6 +178,12 @@ create sequence SEQTELEFONE
 increment 1;
 
 create sequence SEQUSUARIO
+increment 1;
+
+create sequence SEQUSUARIOPESSOA
+increment 1;
+
+create sequence SEQUSUARIOGRUPO
 increment 1;
 
 /*==============================================================*/
@@ -649,7 +659,7 @@ IDUNIDADEVENDA
 create table USUARIO (
    IDUSUARIO            BIGINT               not null,
    DSUSUARIO            VARCHAR(150)         not null,
-   DSSENHA              VARCHAR(30)          not null,
+   DSSENHA              VARCHAR(150)          not null,
    constraint PK_USUARIO primary key (IDUSUARIO)
 );
 

@@ -60,7 +60,6 @@
 		</li>
 		<li class="divider" />
 		<li class="#{param.active == 'sair' ? 'active' : ''}">
-			<h:outputText value="#{request.getUserPrincipal().getName()}" />
 			<h:form>
 				<h:commandLink action="#{logoutMB.efetuarLogout()}" >
 					<h:outputText value="#{msg['menu.sair']}" escape="false" /> 

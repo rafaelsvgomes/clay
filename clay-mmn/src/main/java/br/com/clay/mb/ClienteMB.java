@@ -31,6 +31,8 @@ import br.com.clay.entidade.UsuarioPessoa;
 import br.com.clay.enums.TipoPessoa;
 import br.com.clay.exception.NegocioException;
 import br.com.clay.servico.ClienteServicoEJB;
+import br.com.clay.util.Email;
+import br.com.clay.util.EmailUtil;
 import br.com.clay.util.MensagemUtil;
 import br.com.clay.util.SenhaUtil;
 
@@ -161,23 +163,26 @@ public class ClienteMB extends ClayMB {
         cliente.getClienteRede().setClienteIndicador(clienteIndicador);
     }
 
+    // TODO: rafael - ajustar para edição
     private void setUsuario() {
-        Usuario usuario = new Usuario();
-        UsuarioPessoa usuarioPessoa = new UsuarioPessoa();
-        UsuarioGrupo usuarioGrupo = new UsuarioGrupo();
-        usuarioGrupo.setGrupo(new Grupo(Grupo.USER));
+        if (idSelecionado == null) {
+            Usuario usuario = new Usuario();
+            UsuarioPessoa usuarioPessoa = new UsuarioPessoa();
+            UsuarioGrupo usuarioGrupo = new UsuarioGrupo();
+            usuarioGrupo.setGrupo(new Grupo(Grupo.USER));
 
-        usuario.setDescUsuario(cliente.getDescEmail());
-        usuario.setDescSenha(SenhaUtil.gerarSenhaUsuario(cliente));
-        usuario.getListaUsuarioPessoa().add(usuarioPessoa);
-        usuario.getListaUsuarioGrupo().add(usuarioGrupo);
+            usuario.setDescUsuario(cliente.getDescEmail());
+            usuario.setDescSenha(SenhaUtil.gerarSenhaUsuario(cliente));
+            usuario.getListaUsuarioPessoa().add(usuarioPessoa);
+            usuario.getListaUsuarioGrupo().add(usuarioGrupo);
 
-        usuarioPessoa.setPessoa(cliente);
-        usuarioPessoa.setUsuario(usuario);
+            usuarioPessoa.setPessoa(cliente);
+            usuarioPessoa.setUsuario(usuario);
 
-        usuarioGrupo.setUsuario(usuario);
+            usuarioGrupo.setUsuario(usuario);
 
-        cliente.getListaUsuarioPessoa().add(usuarioPessoa);
+            cliente.getListaUsuarioPessoa().add(usuarioPessoa);
+        }
     }
 
     public String salvar() {
@@ -200,14 +205,17 @@ public class ClienteMB extends ClayMB {
             MensagemUtil.addMensagem("msg.erro.salvar.cliente", ex.getMessage());
             return "";
         } finally {
-            // EmailUtil.enviaEmail(mensagem);
+            try {
+                EmailUtil.enviaEmail(getEmailCadastro());
+            } catch (Exception emailEx) {
+                emailEx.printStackTrace();
+                MensagemUtil.addMensagem("msg.cliente.salvo.erro.enviar.email", emailEx.getMessage());
+                return "";
+            }
         }
+        tabPagamento = true;
 
-        if (true) {
-            tabPagamento = true;
-        }
-
-        return "lista_cliente";
+        return "tabPagamento";
     }
 
     public String onFlowProcess(FlowEvent event) {
@@ -217,6 +225,14 @@ public class ClienteMB extends ClayMB {
         } else {
             return event.getNewStep();
         }
+    }
+
+    private Email getEmailCadastro() {
+        Email mensagem = new Email();
+        mensagem.setDestino(cliente.getDescEmail());
+        mensagem.setMensagem("Usuario Cadastrado com Sucesso!!! \nUsuario: " + cliente.getDescEmail() + "\nSenha: " + SenhaUtil.getSenhaPadrao(cliente));
+        mensagem.setTitulo("Cadastro com sucesso - Claystore");
+        return mensagem;
     }
 
     public String remover() {

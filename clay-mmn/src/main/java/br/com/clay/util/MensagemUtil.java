@@ -34,4 +34,9 @@ public final class MensagemUtil {
     public static void addMensagem(String chave, String detalhe) {
         addMessage(getMessageFromI18N(chave), detalhe);
     }
+
+    public static String getPropriedades(String key) {
+        ResourceBundle bundle = ResourceBundle.getBundle("propriedades", getCurrentInstance().getViewRoot().getLocale());
+        return bundle.getString(key);
+    }
 }

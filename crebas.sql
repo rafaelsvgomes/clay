@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     22/01/2016 15:19:15                          */
+/* Created on:     26/01/2016 19:48:38                          */
 /*==============================================================*/
 
 
@@ -140,9 +140,9 @@ drop sequence SEQTELEFONE;
 
 drop sequence SEQUSUARIO;
 
-drop sequence SEQUSUARIOPESSOA;
-
 drop sequence SEQUSUARIOGRUPO;
+
+drop sequence SEQUSUARIOPESSOA;
 
 create sequence SEQPEDIDO
 increment 1;
@@ -180,10 +180,10 @@ increment 1;
 create sequence SEQUSUARIO
 increment 1;
 
-create sequence SEQUSUARIOPESSOA
+create sequence SEQUSUARIOGRUPO
 increment 1;
 
-create sequence SEQUSUARIOGRUPO
+create sequence SEQUSUARIOPESSOA
 increment 1;
 
 /*==============================================================*/
@@ -659,7 +659,7 @@ IDUNIDADEVENDA
 create table USUARIO (
    IDUSUARIO            BIGINT               not null,
    DSUSUARIO            VARCHAR(150)         not null,
-   DSSENHA              VARCHAR(150)          not null,
+   DSSENHA              VARCHAR(150)         not null,
    constraint PK_USUARIO primary key (IDUSUARIO)
 );
 

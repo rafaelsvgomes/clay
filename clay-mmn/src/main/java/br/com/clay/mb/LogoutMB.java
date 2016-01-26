@@ -15,7 +15,7 @@ public class LogoutMB {
         HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
         session.invalidate();
 
-        FacesContext.getCurrentInstance().getExternalContext().redirect("/clay-mmn/index.jsp");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("../index.jsp");
         FacesContext.getCurrentInstance().responseComplete();
     }
 }

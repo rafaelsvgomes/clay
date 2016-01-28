@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.jboss.security.SecurityContextAssociation;
 import org.primefaces.event.FlowEvent;
 
 import br.com.clay.entidade.Banco;
@@ -114,6 +115,15 @@ public class ClienteMB extends ClayMB {
                 codIndicador = cliente.getClienteRede().getClienteIndicador().getId();
             }
         }
+    }
+
+    public void efetuarPagamento() {
+        if (!FacesContext.getCurrentInstance().isPostback()) {
+
+            cliente = ejb.obterCliente(SecurityContextAssociation.getPrincipal().getName());
+            System.out.println(cliente.getId());
+        }
+
     }
 
     private void setEnderecoPessoa() {
@@ -309,7 +319,12 @@ public class ClienteMB extends ClayMB {
     }
 
     public String getDDDCelular() {
-        return celular.getDescTelefone().substring(0, 2);
+        for (PessoaTelefone tel : cliente.getListaTelefone()) {
+            if (tel.getTipoTelefone().getId().equals(TipoTelefone.CELULAR)) {
+                return tel.getDescTelefone().substring(0, 2);
+            }
+        }
+        return null;
     }
 
     public PessoaTelefone getCelular() {

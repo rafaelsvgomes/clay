@@ -19,6 +19,12 @@
 				<f:param name="active" value="incluirCliente" />
 			</h:link>
 		</li>
+		<li class="#{param.active == 'ativarCliente' ? 'active' : ''}">
+			<h:link outcome="/cliente/ativar_cliente" rendered="#{request.isUserInRole('USER') || request.isUserInRole('ADMIN')}">
+				<h:outputText value="#{msg['menu.ativar']}" escape="false" />
+				<f:param name="active" value="ativarCliente" />
+			</h:link>
+		</li>
 		
 		<li><em><h:outputText value="#{msg['label.fornecedores']}" rendered="#{request.isUserInRole('USER') || request.isUserInRole('ADMIN')}"/></em></li>
 

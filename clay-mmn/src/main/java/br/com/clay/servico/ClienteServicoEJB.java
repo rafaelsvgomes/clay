@@ -45,4 +45,8 @@ public class ClienteServicoEJB extends ClayPersistencia<Cliente, Long> {
         cliente.setListaPessoaConta(em.createNamedQuery(PessoaConta.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", id).getResultList());
         return cliente;
     }
+
+    public Cliente obterCliente(String descUsuario) {
+        return (Cliente) em.createNamedQuery(Cliente.OBTER_POR_DESC_USUARIO).setParameter("descUsuario", descUsuario).getSingleResult();
+    }
 }

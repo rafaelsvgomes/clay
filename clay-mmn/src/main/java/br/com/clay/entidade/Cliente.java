@@ -6,6 +6,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
@@ -15,8 +17,11 @@ import javax.persistence.PrimaryKeyJoinColumn;
  */
 @Entity
 @PrimaryKeyJoinColumn(name = "idCliente", referencedColumnName = "idPessoa")
+@NamedQueries({ @NamedQuery(name = Cliente.OBTER_POR_DESC_USUARIO, query = "SELECT c FROM Cliente c WHERE c.descEmail = :descUsuario") })
 public class Cliente extends Pessoa {
     private static final long serialVersionUID = 1L;
+
+    public static final String OBTER_POR_DESC_USUARIO = "obterPorDescUsuario";
 
     public Cliente(Long codIndicador) {
         super();

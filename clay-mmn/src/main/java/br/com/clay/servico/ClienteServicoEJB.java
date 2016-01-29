@@ -1,5 +1,7 @@
 package br.com.clay.servico;
 
+import java.util.List;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -9,6 +11,7 @@ import br.com.clay.entidade.Cliente;
 import br.com.clay.entidade.PessoaConta;
 import br.com.clay.entidade.PessoaEndereco;
 import br.com.clay.entidade.PessoaTelefone;
+import br.com.clay.entidade.Produto;
 
 /**
  * Session Bean implementation class ClienteEJB
@@ -53,5 +56,18 @@ public class ClienteServicoEJB extends ClayPersistencia<Cliente, Long> {
         cliente.getPlanoAssinatura().getProduto().getListaProdutoFilho().get(0);
         cliente.getPlanoAssinatura().getProduto().setListaProdutoFilho(cliente.getPlanoAssinatura().getProduto().getListaProdutoFilho());
         return cliente;
+    }
+
+    /**
+     * Método responsável por recuperar os produtos de um produto pai
+     * 
+     * @param idProdutoPai
+     * @return List<Produto>
+     * 
+     */
+    public List<Produto> obterProdutosKit(Long idProdutoPai) {
+        Produto produtoPai = em.find(Produto.class, idProdutoPai);
+        produtoPai.getListaProdutoFilho().get(0);
+        return produtoPai.getListaProdutoFilho();
     }
 }

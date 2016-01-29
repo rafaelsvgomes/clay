@@ -10,7 +10,7 @@
 	</ui:define>
 	
 	<f:metadata>
-		<f:event type="preRenderView" listener="#{clienteMB.efetuarPagamento()}" />
+		<f:event type="preRenderView" listener="#{clienteMB.iniciarPagamento()}" />
 	</f:metadata>
 
 	<ui:define name="content">
@@ -36,6 +36,7 @@
 								<p:selectOneMenu value="#{clienteMB.cliente.planoAssinatura}" converter="entityConverter" label="#{msg['label.cliente.plano']}" required="true">
 					                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 					                <f:selectItems value="#{clienteMB.listaPlanoAssinatura}" var="plano" itemLabel="#{plano.nomePlanoAssinatura}" />
+					                <p:ajax update="dataTableProdutos" event="change" listener="#{clienteMB.setListaProdutosPlanoAssinatura}" />
 				    	        </p:selectOneMenu>
 							</div>
 						</div>
@@ -45,7 +46,7 @@
 							<small> <h:outputText value="Produtos do plano" /></small>
 						</legend>
 						
-						<p:dataTable id="dataTableProdutos" var="produto" value="#{clienteMB.cliente.planoAssinatura.produto.listaProdutoFilho}"  emptyMessage="#{msg['alerta.nenhum.produto.encontrado']}" >
+						<p:dataTable id="dataTableProdutos" var="produto" value="#{clienteMB.listaProdutosPlanoAssinatura}"  emptyMessage="#{msg['alerta.nenhum.produto.encontrado']}" >
 							<p:column>
 								<f:facet name="header">
 									<h:outputText value="#{msg['label.pessoa.cod']}" />

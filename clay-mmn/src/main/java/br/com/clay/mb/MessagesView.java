@@ -1,9 +1,9 @@
 /**
- * Projeto:         Clay Cosméticos
+ * Projeto:         Clay Cosmeticos
  * Camada Projeto:  clay-mmn
  * Pacote:          br.com.clay.mb
  * Arquivo:         MessagesView.java
- * Data Criação:    14/10/2015
+ * Data Criacao:    14/10/2015
  */
 package br.com.clay.mb;
 

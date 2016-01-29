@@ -21,7 +21,7 @@ public class LoginFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         if (SecurityContextAssociation.getPrincipal() != null) {
             String userName = SecurityContextAssociation.getPrincipal().getName();
-            System.out.println("########## - Usuário logado: " + userName);
+            System.out.println("########## - Usuario logado: " + userName);
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }

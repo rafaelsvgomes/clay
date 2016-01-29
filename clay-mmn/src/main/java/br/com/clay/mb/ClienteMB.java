@@ -10,7 +10,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.jboss.security.SecurityContextAssociation;
-import org.primefaces.event.FlowEvent;
 
 import br.com.clay.entidade.Banco;
 import br.com.clay.entidade.Cliente;
@@ -22,6 +21,7 @@ import br.com.clay.entidade.PessoaConta;
 import br.com.clay.entidade.PessoaEndereco;
 import br.com.clay.entidade.PessoaTelefone;
 import br.com.clay.entidade.PlanoAssinatura;
+import br.com.clay.entidade.Produto;
 import br.com.clay.entidade.TipoConta;
 import br.com.clay.entidade.TipoEndereco;
 import br.com.clay.entidade.TipoTelefone;
@@ -69,7 +69,7 @@ public class ClienteMB extends ClayMB {
 
     private Long codIndicador;
 
-    private Boolean tabPagamento = Boolean.FALSE;
+    private List<Produto> listaProdutosPlanoAssinatura;
 
     public ClienteMB() {
     }
@@ -117,10 +117,13 @@ public class ClienteMB extends ClayMB {
         }
     }
 
-    public void efetuarPagamento() {
+    public void iniciarPagamento() {
+        // TODO: rafael
+        // Na hora de gravar salva a alteraÃ§Ã£o efetuada no plano (Ou pode deixar pra alterar sÃ³ no cadastro) chama o pagamento.
+        // Implementar ativar com botÃ£o no listar se for grupo admin.
         if (!FacesContext.getCurrentInstance().isPostback()) {
             cliente = ejb.obterCliente(SecurityContextAssociation.getPrincipal().getName());
-            System.out.println(cliente.getId());
+            setListaProdutosPlanoAssinatura();
         }
 
     }
@@ -166,13 +169,13 @@ public class ClienteMB extends ClayMB {
     private void setClienteRede() throws NegocioException {
         Cliente clienteIndicador = ejb.find(codIndicador);
         if (clienteIndicador == null) {
-            throw new NegocioException("Cliente indicador não encontrado");
+            throw new NegocioException("Cliente indicador nï¿½o encontrado");
         }
 
         cliente.getClienteRede().setClienteIndicador(clienteIndicador);
     }
 
-    // TODO: rafael - ajustar para edição
+    // TODO: rafael - ajustar para ediï¿½ï¿½o
     private void setUsuario() {
         if (idSelecionado == null) {
             Usuario usuario = new Usuario();
@@ -222,18 +225,8 @@ public class ClienteMB extends ClayMB {
                 return "";
             }
         }
-        tabPagamento = true;
 
-        return "tabPagamento";
-    }
-
-    public String onFlowProcess(FlowEvent event) {
-        if (tabPagamento) {
-            // skip = false; // reset in case user goes back
-            return "tabPagamento";
-        } else {
-            return event.getNewStep();
-        }
+        return "lista_cliente";
     }
 
     private Email getEmailCadastro() {
@@ -257,7 +250,7 @@ public class ClienteMB extends ClayMB {
     }
 
     // TODO: rafael - Verificar motivo de estar chamando duas vezes a listar
-    // Ao clicar no botão de proxima pagina esta buscando uma vez a cada item da lista.
+    // Ao clicar no botï¿½o de proxima pagina esta buscando uma vez a cada item da lista.
     public List<Cliente> getClientes() {
         // if (!FacesContext.getCurrentInstance().isPostback() || clientes == null) {
         clientes = ejb.findAll();
@@ -295,6 +288,14 @@ public class ClienteMB extends ClayMB {
             listaPlanoAssinatura = ejb.findAll(PlanoAssinatura.class);
         }
         return listaPlanoAssinatura;
+    }
+
+    public List<Produto> setListaProdutosPlanoAssinatura() {
+        return listaProdutosPlanoAssinatura = ejb.obterProdutosKit(cliente.getPlanoAssinatura().getProduto().getId());
+    }
+
+    public List<Produto> getListaProdutosPlanoAssinatura() {
+        return listaProdutosPlanoAssinatura;
     }
 
     public Long getIdSelecionado() {
@@ -340,14 +341,6 @@ public class ClienteMB extends ClayMB {
 
     public void setCodIndicador(Long codIndicador) {
         this.codIndicador = codIndicador;
-    }
-
-    public Boolean getTabPagamento() {
-        return tabPagamento;
-    }
-
-    public void setTabPagamento(Boolean tabPagamento) {
-        this.tabPagamento = tabPagamento;
     }
 
 }

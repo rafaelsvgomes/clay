@@ -12,7 +12,7 @@
 	</div>
 	
 	<h:form styleClass="form-horizontal">
-		<p:wizard nextLabel="Avançar" backLabel="Voltar" flowListener="#{clienteMB.onFlowProcess}">
+		<p:wizard nextLabel="Avançar" backLabel="Voltar" >
 			<p:tab id="dadosPessoais" title="Dados Pessoais">
 				<fieldset>
 					<legend>
@@ -355,22 +355,6 @@
 					</h:panelGrid>
 				</fieldset>
 				
-<!-- 				<fieldset> -->
-<!-- 					<legend> -->
-<!-- 						<small> <h:outputText value="Pagamento" /></small> -->
-<!-- 					</legend> -->
-					
-<!-- 					<div class="control-group"> -->
-<!-- 						<label class="control-label"> -->
-<!-- 							<h:outputText value="Número Cartão *" /> -->
-<!-- 						</label> -->
-<!-- 						<div class="controls"> -->
-<!-- 							<p:inputText value="#" label="#" styleClass="input-large"> -->
-<!-- 								<f:validateLength minimum="5" maximum="100" /> -->
-<!-- 							</p:inputText> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</fieldset> -->
 				<p:separator/>
 			
 					<div class="controls">
@@ -382,25 +366,6 @@
 						<p:commandButton value="#{msg['button.excluir']}" onclick="PF('confirmation').show();" rendered="#{clienteMB.cliente.id != null}" immediate="true" styleClass="btn btn-danger" />
 					</div>
 			</p:tab>
-			
-			<p:tab id="tabPagamento" title="Pagamento">
-					<fieldset>
-						<legend>
-							<small> <h:outputText value="#{msg['label.cliente.pagamento']}" /></small>
-						</legend>
-						
-						<div class="control-group">
-							<label class="control-label"> 
-								<h:outputText value="#{msg['label.cliente.pagamento']} *" />
-							</label>
-							
-							<div class="controls">
-								<ui:include src="/cliente/form_pagseguro.xhtml" />
-							</div>
-						</div>
-
-					</fieldset>
-				</p:tab>
 		</p:wizard>
 		
 		<p:dialog id="dialog" header="#{msg['dialog.emexecucao.titulo']}" widgetVar="dlg" dynamic="true" modal="true">  

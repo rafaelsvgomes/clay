@@ -5,7 +5,7 @@ import org.jboss.crypto.CryptoUtil;
 public abstract class CriptografiaUtil {
 
     /**
-     * Método responsável por criptografar a String com algoritmo MD5
+     * Metodo responsavel por criptografar a String com algoritmo MD5
      * 
      * @param valor
      * @return String

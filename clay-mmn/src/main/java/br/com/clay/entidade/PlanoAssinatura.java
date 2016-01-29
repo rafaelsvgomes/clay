@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -27,6 +29,10 @@ public class PlanoAssinatura extends ClayEntidade {
 
     @Column(nullable = false)
     private String nomePlanoAssinatura;
+
+    @ManyToOne
+    @JoinColumn(name = "idProduto")
+    private Produto produto;
 
     @Column(name = "dsplanoassinatura")
     private String descPlanoAssinatura;
@@ -135,6 +141,14 @@ public class PlanoAssinatura extends ClayEntidade {
 
     public void setBolAtivo(Boolean bolAtivo) {
         this.bolAtivo = bolAtivo;
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
 
 }

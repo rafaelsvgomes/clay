@@ -119,7 +119,6 @@ public class ClienteMB extends ClayMB {
 
     public void efetuarPagamento() {
         if (!FacesContext.getCurrentInstance().isPostback()) {
-
             cliente = ejb.obterCliente(SecurityContextAssociation.getPrincipal().getName());
             System.out.println(cliente.getId());
         }

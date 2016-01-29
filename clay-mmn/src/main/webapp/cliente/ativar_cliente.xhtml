@@ -1,0 +1,93 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="../layout/template.xhtml">
+	<ui:define name="pageTitle">
+		<h:outputText value="#{msg['page.title.lista.cliente']}" />
+	</ui:define>
+	
+	<f:metadata>
+		<f:event type="preRenderView" listener="#{clienteMB.efetuarPagamento()}" />
+	</f:metadata>
+
+	<ui:define name="content">
+		<div style="border-bottom: 1px solid #E5E5E5;">
+			<h3>
+				<h:outputText value="#{msg['label.clientes']}" />
+				<small> <h:outputText value="#{msg['label.ativar']}" /></small>
+			</h3>
+		</div>
+		<h:form  styleClass="form-horizontal">
+			<p:wizard nextLabel="Avançar" backLabel="Voltar">
+				<p:tab id="tabPlano" title="Plano">
+					<fieldset>
+						<legend>
+							<small> <h:outputText value="#{msg['label.pessoa.planoassinatura']}" /></small>
+						</legend>
+						
+						<div class="control-group">
+							<label class="control-label">
+								<h:outputText value="#{msg['label.cliente.plano']} *" />
+							</label>
+							<div class="controls">
+								<p:selectOneMenu value="#{clienteMB.cliente.planoAssinatura}" converter="entityConverter" label="#{msg['label.cliente.plano']}" required="true">
+					                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+					                <f:selectItems value="#{clienteMB.listaPlanoAssinatura}" var="plano" itemLabel="#{plano.nomePlanoAssinatura}" />
+				    	        </p:selectOneMenu>
+							</div>
+						</div>
+					</fieldset>
+					<fieldset>
+						<legend>
+							<small> <h:outputText value="Produtos do plano" /></small>
+						</legend>
+						
+						<p:dataTable id="dataTableProdutos" var="produto" value="#{clienteMB.cliente.planoAssinatura.produto.listaProdutoFilho}"  emptyMessage="#{msg['alerta.nenhum.produto.encontrado']}" >
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="#{msg['label.pessoa.cod']}" />
+								</f:facet>
+								<h:outputText value="#{produto.id}" style="text-align: center;"/>
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="#{msg['label.produto.nome']}" />
+								</f:facet>
+								<h:outputText value="#{produto.nomeProduto}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="#{msg['label.produto.vlpontosproduto']}" />
+								</f:facet>
+								<h:outputText value="#{produto.valorPontoProduto}" style="text-align: center;"/>
+							</p:column>
+						</p:dataTable>
+					</fieldset>
+				</p:tab>
+		
+				<p:tab id="tabPagamento" title="Pagamento">
+					<fieldset>
+						<legend>
+							<small> <h:outputText value="#{msg['label.cliente.pagamento']}" /></small>
+						</legend>
+						
+						<div class="control-group">
+							<label class="control-label"> 
+								<h:outputText value="#{msg['label.cliente.pagamento']} *" />
+							</label>
+							
+							<div class="controls">
+								<ui:include src="/cliente/form_pagseguro.xhtml" />
+							</div>
+						</div>
+					</fieldset>
+				</p:tab>
+			</p:wizard>
+		</h:form>
+		<h:messages />
+	</ui:define>
+</ui:composition>
+</html>

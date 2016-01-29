@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -56,17 +58,14 @@ public class Produto extends ClayEntidade {
     @Column(name = "vlpontoproduto")
     private BigDecimal valorPontoProduto;
 
-    // bi-directional many-to-one association to Categoria
     @ManyToOne
     @JoinColumn(name = "idcategoria")
     private Categoria categoria;
 
-    // bi-directional one-to-one association to Fornecedor
     @OneToOne
     @JoinColumn(name = "idfornecedor")
     private Fornecedor fornecedor;
 
-    // bi-directional many-to-one association to UnidadeVenda
     @ManyToOne
     @JoinColumn(name = "idunidadevenda")
     private UnidadeVenda unidadeVenda;
@@ -80,6 +79,10 @@ public class Produto extends ClayEntidade {
 
     @OneToMany(mappedBy = "produtoFilho")
     private List<ProdutoComposicao> listaProdutoComposicaoFilho;
+
+    @ManyToMany
+    @JoinTable(name = "produtoComposicao", joinColumns = { @JoinColumn(name = "idProduto") }, inverseJoinColumns = { @JoinColumn(name = "idProdutoItemComp") })
+    private List<Produto> listaProdutoFilho;
 
     public Produto() {
     }
@@ -250,6 +253,14 @@ public class Produto extends ClayEntidade {
 
     public void setListaProdutoComposicaoPai(List<ProdutoComposicao> listaProdutoComposicaoPai) {
         this.listaProdutoComposicaoPai = listaProdutoComposicaoPai;
+    }
+
+    public List<Produto> getListaProdutoFilho() {
+        return listaProdutoFilho;
+    }
+
+    public void setListaProdutoFilho(List<Produto> listaProdutoFilho) {
+        this.listaProdutoFilho = listaProdutoFilho;
     }
 
 }

@@ -125,7 +125,11 @@ public class ClienteMB extends ClayMB {
             cliente = ejb.obterCliente(SecurityContextAssociation.getPrincipal().getName());
             setListaProdutosPlanoAssinatura();
         }
+    }
 
+    public void ativarCliente() {
+        // TODO: rafael - implementar
+        System.out.println("tivar cliente");
     }
 
     private void setEnderecoPessoa() {
@@ -290,8 +294,8 @@ public class ClienteMB extends ClayMB {
         return listaPlanoAssinatura;
     }
 
-    public List<Produto> setListaProdutosPlanoAssinatura() {
-        return listaProdutosPlanoAssinatura = ejb.obterProdutosKit(cliente.getPlanoAssinatura().getProduto().getId());
+    public void setListaProdutosPlanoAssinatura() {
+        listaProdutosPlanoAssinatura = ejb.obterProdutosKit(cliente.getPlanoAssinatura().getProduto().getId());
     }
 
     public List<Produto> getListaProdutosPlanoAssinatura() {

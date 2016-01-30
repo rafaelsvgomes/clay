@@ -52,7 +52,15 @@
 					<h:outputText value="#{cliente.numCpfCnpj}" />
 				</p:column>
 				
-				<p:commandButton value="#{msg['button.excluir']}" onclick="PF('confirmation').show();" rendered="#{clienteMB.cliente.id != null}" immediate="true" styleClass="btn btn-danger" />
+				<p:column style="text-align: center">
+					<f:facet name="header">
+						<h:outputText value="#{msg['label.ativar']}" />
+					</f:facet>
+					<p:commandLink actionListener="#{clienteMB.ativarCliente()}" rendered="#{request.isUserInRole('USER') || request.isUserInRole('ADMIN')}">
+						<i class="icon-pencil"></i>
+		            </p:commandLink>
+				</p:column>
+				
 			</p:dataTable>
 		</h:form>
 		<h:messages />

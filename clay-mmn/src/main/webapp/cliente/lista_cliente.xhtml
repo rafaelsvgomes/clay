@@ -52,18 +52,25 @@
 					<h:outputText value="#{cliente.numCpfCnpj}" />
 				</p:column>
 				
-				<p:column style="text-align: center">
+				<p:column sortBy="#{cliente.clienteSituacao.descClienteSituacao}">
 					<f:facet name="header">
+						<h:outputText value="#{msg['label.cliente.situacao']}" />
+					</f:facet>
+					<h:outputText value="#{cliente.clienteSituacao.descClienteSituacao}" />
+				</p:column>
+				
+				<p:column style="text-align: center">
+					<f:facet name="header" >
 						<h:outputText value="#{msg['label.ativar']}" />
 					</f:facet>
-					<p:commandLink actionListener="#{clienteMB.ativarCliente()}" rendered="#{request.isUserInRole('USER') || request.isUserInRole('ADMIN')}">
-						<i class="icon-pencil"></i>
+					<p:commandLink actionListener="#{clienteMB.ativarCliente(cliente.id)}" update="growl" onclick="PF('dlgExec').show();" oncomplete="PF('dlgExec').hide();"
+					rendered="#{cliente.clienteSituacao.id != 2}">
+						<i class="icon-ok-sign"></i>
 		            </p:commandLink>
 				</p:column>
 				
 			</p:dataTable>
 		</h:form>
-		<h:messages />
 	</ui:define>
 </ui:composition>
 </html>

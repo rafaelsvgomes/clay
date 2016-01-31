@@ -1,9 +1,9 @@
 /**
- * Projeto:         Clay Cosméticos
+ * Projeto:         Clay Cosmï¿½ticos
  * Camada Projeto:  clay-mmn
  * Pacote:          br.com.clay.mb
  * Arquivo:         ProdutoMB.java
- * Data Criação:    8 de out de 2015
+ * Data Criaï¿½ï¿½o:    8 de out de 2015
  */
 package br.com.clay.mb;
 
@@ -28,7 +28,7 @@ import br.com.clay.servico.ProdutoServicoEJB;
 import br.com.clay.util.MensagemUtil;
 
 /**
- * ProdutoMB é responsável por
+ * ProdutoMB ï¿½ responsï¿½vel por
  * 
  * @author Felipe
  */
@@ -134,7 +134,7 @@ public class ProdutoMB extends ClayMB {
         produto.setBolComposicao(kit);
         if (kit) {
             produtoComposicaoPai = new ProdutoComposicao();
-            //TODO: felipe
+            // TODO: felipe
             // produto.setProdutoComposicao(produtoComposicaoPai);
             setListaProdutoComposicaoFilho();
         } else {
@@ -265,7 +265,7 @@ public class ProdutoMB extends ClayMB {
             ejb.save(produto);
         } catch (Exception ex) {
             ex.printStackTrace();
-            MensagemUtil.addMensagem("msg.erro.salvar.produto", ex.getMessage());
+            MensagemUtil.addMensagemErro("msg.erro.salvar.produto", ex.getMessage());
             return "";
         }
 
@@ -278,7 +278,7 @@ public class ProdutoMB extends ClayMB {
             System.out.println("produto removido");
         } catch (Exception ex) {
             ex.printStackTrace();
-            MensagemUtil.addMensagem("msg.erro.remover.produto", ex.getMessage());
+            MensagemUtil.addMensagemErro("msg.erro.remover.produto", ex.getMessage());
             return "";
         }
         return LISTA_PRODUTO;

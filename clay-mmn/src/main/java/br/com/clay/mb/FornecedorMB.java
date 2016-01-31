@@ -1,9 +1,9 @@
 /**
- * Projeto:         Clay Cosméticos
+ * Projeto:         Clay Cosmï¿½ticos
  * Camada Projeto:  clay-mmn
  * Pacote:          br.com.clay.mb
  * Arquivo:         FornecedorMB.java
- * Data Criação:    10 de out de 2015
+ * Data Criaï¿½ï¿½o:    10 de out de 2015
  */
 package br.com.clay.mb;
 
@@ -17,12 +17,12 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import br.com.clay.entidade.Banco;
-import br.com.clay.entidade.PessoaEndereco;
 import br.com.clay.entidade.Fornecedor;
 import br.com.clay.entidade.Pessoa;
 import br.com.clay.entidade.PessoaConta;
-import br.com.clay.entidade.Produto;
+import br.com.clay.entidade.PessoaEndereco;
 import br.com.clay.entidade.PessoaTelefone;
+import br.com.clay.entidade.Produto;
 import br.com.clay.entidade.TipoConta;
 import br.com.clay.entidade.TipoEndereco;
 import br.com.clay.entidade.TipoTelefone;
@@ -32,7 +32,7 @@ import br.com.clay.servico.FornecedorServicoEJB;
 import br.com.clay.util.MensagemUtil;
 
 /**
- * FornecedorMB é responsável por
+ * FornecedorMB ï¿½ responsï¿½vel por
  * 
  * @author Felipe
  */
@@ -123,7 +123,7 @@ public class FornecedorMB extends ClayMB {
             ejb.save(fornecedor);
         } catch (Exception ex) {
             ex.printStackTrace();
-            MensagemUtil.addMensagem("msg.erro.salvar.fornecedor", ex.getMessage());
+            MensagemUtil.addMensagemErro("msg.erro.salvar.fornecedor", ex.getMessage());
             return "";
         }
 
@@ -136,7 +136,7 @@ public class FornecedorMB extends ClayMB {
             System.out.println("fornecedor removido");
         } catch (Exception ex) {
             ex.printStackTrace();
-            MensagemUtil.addMensagem("msg.erro.remover.fornecedor", ex.getMessage());
+            MensagemUtil.addMensagemErro("msg.erro.remover.fornecedor", ex.getMessage());
             return "";
         }
         return LISTA_FORNECEDOR;

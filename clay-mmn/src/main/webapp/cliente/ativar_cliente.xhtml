@@ -37,7 +37,7 @@
 					                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 					                <f:selectItems value="#{clienteMB.listaPlanoAssinatura}" var="plano" itemLabel="#{plano.nomePlanoAssinatura}" />
 					                <p:ajax update="dataTableProdutos" event="change" listener="#{clienteMB.setListaProdutosPlanoAssinatura}" 
-					                	onstart="PF('dlg').show();" oncomplete="PF('dlg').hide();"  />
+					                	onstart="PF('dlgExec').show();" oncomplete="PF('dlgExec').hide();"  />
 				    	        </p:selectOneMenu>
 							</div>
 						</div>
@@ -89,10 +89,6 @@
 				</p:tab>
 			</p:wizard>
 		</h:form>
-		<p:dialog id="dialog" header="#{msg['dialog.emexecucao.titulo']}" widgetVar="dlg" modal="true">  
-	    	<h:outputText value="#{msg['dialog.emexecucao.aguarde']}" />  
-		</p:dialog>
-		<p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
 	</ui:define>
 </ui:composition>
 </html>

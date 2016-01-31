@@ -27,7 +27,7 @@
 							<p:selectOneRadio id="tppessoa" value="#{clienteMB.cliente.tipoPessoa}" label="#{msg['label.pessoa.tppessoa']}" required="true">
 								<f:selectItem itemLabel="Pessoa Física" itemValue="F" />
 								<f:selectItem itemLabel="Pessoa Jurídica" itemValue="J" />
-								<p:ajax update="painelCpfCnpj" event="change" />
+								<p:ajax update="painelCpfCnpj" event="change" onstart="PF('dlgExec').show();" oncomplete="PF('dlgExec').hide();"/>
 							</p:selectOneRadio>
 						</div>
 					</div>
@@ -123,7 +123,7 @@
 							<h:outputText value="#{msg['label.pessoa.email']} *" />
 						</label>
 						<div class="controls">
-							<p:inputText value="#{clienteMB.cliente.descEmail}" label="#{msg['label.pessoa.email']}" required="true" styleClass="input-large">
+							<p:inputText value="#{clienteMB.cliente.descEmail}" validator="#{emailValidator.validate}" label="#{msg['label.pessoa.email']}" required="true" styleClass="input-large">
 								<f:validateLength minimum="5" maximum="100" />
 							</p:inputText>
 						</div>
@@ -358,8 +358,8 @@
 				<p:separator/>
 			
 					<div class="controls">
-						<p:commandButton value="#{msg['button.salvar']}" action="#{clienteMB.salvar}" styleClass="btn btn-success" onclick="PF('dlg').show();" 
-							oncomplete="PF('dlg').hide();" rendered="#{clienteMB.cliente != null}" />
+						<p:commandButton value="#{msg['button.salvar']}" action="#{clienteMB.salvar}" styleClass="btn btn-success" onclick="PF('dlgExec').show();" 
+							oncomplete="PF('dlgExec').hide();" rendered="#{clienteMB.cliente != null}" />
 						
 						<p:button value="#{msg['button.cancelar']}" outcome="lista_cliente" styleClass="btn" />
 						
@@ -367,10 +367,6 @@
 					</div>
 			</p:tab>
 		</p:wizard>
-		
-		<p:dialog id="dialog" header="#{msg['dialog.emexecucao.titulo']}" widgetVar="dlg" dynamic="true" modal="true">  
-	    	<h:outputText value="#{msg['dialog.emexecucao.aguarde']}" />  
-		</p:dialog>
 		
 		<p:confirmDialog id="confirmDialog" message="#{msg['excluir.cliente.confirma']}" header="#{msg['excluir.cliente']}" severity="alert" widgetVar="confirmation">  
 	        <p:commandButton id="confirm" value="#{msg['confirma.sim']}" update="messages" oncomplete="PF('confirmation').hide()" action="#{clienteMB.remover}" />  

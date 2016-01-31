@@ -43,7 +43,7 @@ public class ClienteMB extends ClayMB {
     private static final long serialVersionUID = -6556028968452915346L;
 
     @EJB
-    ClienteServicoEJB ejb;
+    private ClienteServicoEJB ejb;
 
     private Long idSelecionado;
 
@@ -70,6 +70,8 @@ public class ClienteMB extends ClayMB {
     private Long codIndicador;
 
     private List<Produto> listaProdutosPlanoAssinatura;
+
+    private Boolean emailInvalido = Boolean.FALSE;
 
     public ClienteMB() {
     }
@@ -127,9 +129,26 @@ public class ClienteMB extends ClayMB {
         }
     }
 
-    public void ativarCliente() {
-        // TODO: rafael - implementar
-        System.out.println("tivar cliente");
+    public String ativarCliente(Long idCliente) {
+        try {
+            cliente = ejb.obterPessoa(idCliente);
+            cliente.setClienteSituacao(new ClienteSituacao(ClienteSituacao.ATIVO));
+            ejb.save(cliente);
+
+            MensagemUtil.addMensagemSucesso("msg.sucesso.ativar.cliente");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            MensagemUtil.addMensagemErro("msg.erro.salvar.cliente", ex.getMessage());
+        }
+        getClientes();
+        // TODO: rafael - verificar como atualizar a listagem
+        return "lista_cliente";
+    }
+
+    public void validarEmail() {
+        if (ejb.obterCliente(cliente.getDescEmail()) != null) {
+            emailInvalido = Boolean.TRUE;
+        }
     }
 
     private void setEnderecoPessoa() {
@@ -202,13 +221,18 @@ public class ClienteMB extends ClayMB {
     }
 
     public String salvar() {
+        Boolean enviarEmail = Boolean.FALSE;
         try {
-            cliente.setDataCadastro(new Date());
+            if (cliente.getId() == null) {
+                cliente.setDataCadastro(new Date());
+                enviarEmail = Boolean.TRUE;
+            } else {
+                cliente.setDataAtualizacao(new Date());
+            }
 
             // TODO: rafael - Substituir replaces por Validator
             cliente.setNumCpfCnpj(cliente.getNumCpfCnpj().replace("-", "").replace(".", "").replace("/", ""));
             cliente.getListaEndereco().get(0).setNumCep(cliente.getListaEndereco().get(0).getNumCep().replace("-", ""));
-            cliente.setDataAtualizacao(new Date());
 
             if (codIndicador != null && !codIndicador.equals(0L)) {
                 setClienteRede();
@@ -218,15 +242,18 @@ public class ClienteMB extends ClayMB {
             ejb.save(cliente);
         } catch (Exception ex) {
             ex.printStackTrace();
-            MensagemUtil.addMensagem("msg.erro.salvar.cliente", ex.getMessage());
+            MensagemUtil.addMensagemErro("msg.erro.salvar.cliente", ex.getMessage());
             return "";
         } finally {
-            try {
-                EmailUtil.enviaEmail(getEmailCadastro());
-            } catch (Exception emailEx) {
-                emailEx.printStackTrace();
-                MensagemUtil.addMensagem("msg.cliente.salvo.erro.enviar.email", emailEx.getMessage());
-                return "";
+            // TODO: rafael - ajustar lógica de enviar email e salvar sincronamente
+            if (enviarEmail) {
+                try {
+                    EmailUtil.enviaEmail(getEmailCadastro());
+                } catch (Exception emailEx) {
+                    emailEx.printStackTrace();
+                    MensagemUtil.addMensagemErro("msg.cliente.salvo.erro.enviar.email", emailEx.getMessage());
+                    return "";
+                }
             }
         }
 
@@ -247,7 +274,7 @@ public class ClienteMB extends ClayMB {
             System.out.println("Cliente removido");
         } catch (Exception ex) {
             ex.printStackTrace();
-            MensagemUtil.addMensagem("msg.erro.remover.cliente", ex.getMessage());
+            MensagemUtil.addMensagemErro("msg.erro.remover.cliente", ex.getMessage());
             return "";
         }
         return "lista_cliente";

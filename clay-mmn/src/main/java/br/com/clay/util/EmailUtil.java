@@ -1,8 +1,5 @@
 package br.com.clay.util;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
@@ -31,6 +28,7 @@ public class EmailUtil {
         email.setMsg(mensagem.getMensagem());
         email.addTo(mensagem.getDestino());
         String resposta = email.send();
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "E-mail enviado com sucesso para: " + mensagem.getDestino(), "Informacao"));
+        // FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "E-mail enviado com sucesso para: " +
+        // mensagem.getDestino(), "Informacao"));
     }
 }

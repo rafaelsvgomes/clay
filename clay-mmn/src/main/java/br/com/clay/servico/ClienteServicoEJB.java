@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import br.com.clay.entidade.Cliente;
@@ -56,6 +57,15 @@ public class ClienteServicoEJB extends ClayPersistencia<Cliente, Long> {
         cliente.getPlanoAssinatura().getProduto().getListaProdutoFilho().get(0);
         cliente.getPlanoAssinatura().getProduto().setListaProdutoFilho(cliente.getPlanoAssinatura().getProduto().getListaProdutoFilho());
         return cliente;
+    }
+
+    public Boolean emailJaUtilizado(String descUsuario) {
+        try {
+            em.createNamedQuery(Cliente.OBTER_POR_DESC_USUARIO).setParameter("descUsuario", descUsuario).getSingleResult();
+            return Boolean.TRUE;
+        } catch (NoResultException e) {
+            return Boolean.FALSE;
+        }
     }
 
     /**

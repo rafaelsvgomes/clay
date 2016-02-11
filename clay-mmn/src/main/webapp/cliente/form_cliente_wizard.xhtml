@@ -123,7 +123,8 @@
 							<h:outputText value="#{msg['label.pessoa.email']} *" />
 						</label>
 						<div class="controls">
-							<p:inputText value="#{clienteMB.cliente.descEmail}" validator="#{emailValidator.validate}" label="#{msg['label.pessoa.email']}" required="true" styleClass="input-large">
+							<p:inputText value="#{clienteMB.cliente.descEmail}" validator="#{emailValidator.validate}" label="#{msg['label.pessoa.email']}" 
+							disabled="#{clienteMB.idSelecionado != null}" required="true" styleClass="input-large">
 								<f:validateLength minimum="5" maximum="100" />
 							</p:inputText>
 						</div>
@@ -134,10 +135,14 @@
 					</legend>
 					<div class="control-group">
 							<label class="control-label">
-								<h:outputText value="#{msg['label.pessoa.codindicador']} *" />
+								<h:outputText value="#{msg['label.pessoa.indicador']} *" />
 							</label>
 							<div class="controls">
-								<p:inputText value="#{clienteMB.codIndicador}" label="#{msg['label.pessoa.codindicador']}" styleClass="input-small" />
+								<p:selectOneMenu id="dropClienteInicador" value="#{clienteMB.cliente.clienteRede.clienteIndicador}" label="#{msg['label.pessoa.codindicador']}" 
+									disabled="#{clienteMB.idSelecionado != null}" converter="entityConverter" filter="true" filterMatchMode="contains">
+					                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+					                <f:selectItems value="#{clienteMB.listaClientes}" var="cliente" itemLabel="#{cliente.id} - #{cliente.nomePessoa}" itemValue="#{cliente}"/>
+				    	        </p:selectOneMenu>
 							</div>
 						</div>
 				</fieldset>
@@ -267,24 +272,7 @@
 			</p:tab>
 			
 			<p:tab id="tabPlano" title="Plano">
-				<fieldset>
-					<legend>
-						<small> <h:outputText value="#{msg['label.pessoa.planoassinatura']}" /></small>
-					</legend>
-					
-					<div class="control-group">
-						<label class="control-label">
-							<h:outputText value="#{msg['label.cliente.plano']} *" />
-						</label>
-						<div class="controls">
-							<p:selectOneMenu value="#{clienteMB.cliente.planoAssinatura}" converter="entityConverter" label="#{msg['label.cliente.plano']}" required="true">
-				                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
-				                <f:selectItems value="#{clienteMB.listaPlanoAssinatura}" var="plano" itemLabel="#{plano.nomePlanoAssinatura}" />
-			    	        </p:selectOneMenu>
-						</div>
-					</div>
-					
-				</fieldset>
+				<ui:include src="/cliente/field_plano.xhtml" />
 			</p:tab>
 			
 			<p:tab id="tabConfirmacao" title="Confirmação">

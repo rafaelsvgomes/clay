@@ -25,8 +25,8 @@ public class EmailValidator implements Validator {
 
         String username = (String) submittedValue;
 
-        if (ejb.obterCliente(username) != null) {
-            throw new ValidatorException(new FacesMessage("Nome de usuário já utilizado, escolha outro"));
+        if (ejb.emailJaUtilizado(username)) {
+            throw new ValidatorException(new FacesMessage("Nome de usuário já utilizado"));
         }
     }
 }

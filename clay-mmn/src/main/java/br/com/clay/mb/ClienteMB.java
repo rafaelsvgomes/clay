@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.jboss.security.SecurityContextAssociation;
@@ -30,7 +31,6 @@ import br.com.clay.entidade.Usuario;
 import br.com.clay.entidade.UsuarioGrupo;
 import br.com.clay.entidade.UsuarioPessoa;
 import br.com.clay.enums.TipoPessoa;
-import br.com.clay.exception.NegocioException;
 import br.com.clay.servico.ClienteServicoEJB;
 import br.com.clay.util.Email;
 import br.com.clay.util.EmailUtil;
@@ -38,7 +38,7 @@ import br.com.clay.util.MensagemUtil;
 import br.com.clay.util.SenhaUtil;
 
 @ManagedBean(name = "clienteMB")
-@SessionScoped
+@ViewScoped
 public class ClienteMB extends ClayMB {
     private static final long serialVersionUID = -6556028968452915346L;
 
@@ -57,7 +57,7 @@ public class ClienteMB extends ClayMB {
 
     private PessoaConta pessoaConta;
 
-    private List<Cliente> clientes;
+    private List<Cliente> listaClientes;
 
     private List<UF> listaUfs;
 
@@ -67,11 +67,9 @@ public class ClienteMB extends ClayMB {
 
     private List<PlanoAssinatura> listaPlanoAssinatura;
 
-    private Long codIndicador;
+    private Cliente clienteIndicador;
 
     private List<Produto> listaProdutosPlanoAssinatura;
-
-    private Boolean emailInvalido = Boolean.FALSE;
 
     public ClienteMB() {
     }
@@ -81,15 +79,19 @@ public class ClienteMB extends ClayMB {
         // return; // Skip ajax requests.
         // }
         if (!FacesContext.getCurrentInstance().isPostback()) {
+            idSelecionado = null;
+
             cliente = new Cliente();
             cliente.setTipoPessoa(TipoPessoa.F);
             cliente.setClienteSituacao(new ClienteSituacao(ClienteSituacao.CADASTRADO));
             setTelefonePessoa();
             setEnderecoPessoa();
             setPessoaConta();
-            codIndicador = null;
+
+            clienteIndicador = ejb.obterCliente(SecurityContextAssociation.getPrincipal().getName());
 
             ClienteRede clienteRede = new ClienteRede();
+            clienteRede.setClienteIndicador(clienteIndicador);
             clienteRede.setCliente(cliente);
             cliente.setClienteRede(clienteRede);
         }
@@ -103,7 +105,6 @@ public class ClienteMB extends ClayMB {
             cliente = ejb.obterPessoa(idSelecionado);
             endereco = cliente.getListaEndereco().get(0);
             pessoaConta = cliente.getListaPessoaConta().get(0);
-            codIndicador = null;
 
             for (PessoaTelefone tel : cliente.getListaTelefone()) {
                 if (tel.getTipoTelefone().getId().equals(TipoTelefone.RESIDENCIAL)) {
@@ -111,10 +112,6 @@ public class ClienteMB extends ClayMB {
                 } else {
                     celular = tel;
                 }
-            }
-
-            if (cliente.getClienteRede() != null && cliente.getClienteRede().getClienteIndicador() != null) {
-                codIndicador = cliente.getClienteRede().getClienteIndicador().getId();
             }
         }
     }
@@ -125,7 +122,6 @@ public class ClienteMB extends ClayMB {
         // Implementar ativar com botão no listar se for grupo admin.
         if (!FacesContext.getCurrentInstance().isPostback()) {
             cliente = ejb.obterCliente(SecurityContextAssociation.getPrincipal().getName());
-            setListaProdutosPlanoAssinatura();
         }
     }
 
@@ -140,15 +136,7 @@ public class ClienteMB extends ClayMB {
             ex.printStackTrace();
             MensagemUtil.addMensagemErro("msg.erro.salvar.cliente", ex.getMessage());
         }
-        getClientes();
-        // TODO: rafael - verificar como atualizar a listagem
         return "lista_cliente";
-    }
-
-    public void validarEmail() {
-        if (ejb.obterCliente(cliente.getDescEmail()) != null) {
-            emailInvalido = Boolean.TRUE;
-        }
     }
 
     private void setEnderecoPessoa() {
@@ -184,21 +172,7 @@ public class ClienteMB extends ClayMB {
         cliente.getListaPessoaConta().add(pessoaConta);
     }
 
-    /**
-     * 
-     * @throws NegocioException
-     * 
-     */
-    private void setClienteRede() throws NegocioException {
-        Cliente clienteIndicador = ejb.find(codIndicador);
-        if (clienteIndicador == null) {
-            throw new NegocioException("Cliente indicador n�o encontrado");
-        }
-
-        cliente.getClienteRede().setClienteIndicador(clienteIndicador);
-    }
-
-    // TODO: rafael - ajustar para edi��o
+    // TODO: rafael - ajustar para ediçõa
     private void setUsuario() {
         if (idSelecionado == null) {
             Usuario usuario = new Usuario();
@@ -223,8 +197,9 @@ public class ClienteMB extends ClayMB {
     public String salvar() {
         Boolean enviarEmail = Boolean.FALSE;
         try {
-            if (cliente.getId() == null) {
+            if (cliente.getId() == null || cliente.getId() == 0) {
                 cliente.setDataCadastro(new Date());
+                cliente.setDataAtualizacao(new Date());
                 enviarEmail = Boolean.TRUE;
             } else {
                 cliente.setDataAtualizacao(new Date());
@@ -234,9 +209,6 @@ public class ClienteMB extends ClayMB {
             cliente.setNumCpfCnpj(cliente.getNumCpfCnpj().replace("-", "").replace(".", "").replace("/", ""));
             cliente.getListaEndereco().get(0).setNumCep(cliente.getListaEndereco().get(0).getNumCep().replace("-", ""));
 
-            if (codIndicador != null && !codIndicador.equals(0L)) {
-                setClienteRede();
-            }
             setUsuario();
 
             ejb.save(cliente);
@@ -252,10 +224,10 @@ public class ClienteMB extends ClayMB {
                 } catch (Exception emailEx) {
                     emailEx.printStackTrace();
                     MensagemUtil.addMensagemErro("msg.cliente.salvo.erro.enviar.email", emailEx.getMessage());
-                    return "";
                 }
             }
         }
+        MensagemUtil.addMensagemSucesso("msg.sucesso.salvar.cliente");
 
         return "lista_cliente";
     }
@@ -280,52 +252,50 @@ public class ClienteMB extends ClayMB {
         return "lista_cliente";
     }
 
-    // TODO: rafael - Verificar motivo de estar chamando duas vezes a listar
-    // Ao clicar no bot�o de proxima pagina esta buscando uma vez a cada item da lista.
-    public List<Cliente> getClientes() {
-        // if (!FacesContext.getCurrentInstance().isPostback() || clientes == null) {
-        clientes = ejb.findAll();
-        // }
-        return clientes;
+    // TODO: rafael - Ao clicar no botao de proxima pagina esta buscando uma vez a cada item da lista.
+    public List<Cliente> getListaClientes() {
+        if (!FacesContext.getCurrentInstance().isPostback() || listaClientes == null) {
+            listaClientes = ejb.findAll();
+        }
+        return listaClientes;
     }
 
+    @PostConstruct
     @SuppressWarnings("unchecked")
+    public void init() {
+        // TODO: rafael - Teste de metodos carregados apenas na primeira vez que entra na tela.
+        listaUfs = ejb.findAll(UF.class);
+        listaBancos = ejb.findAll(Banco.class);
+        listaTipoConta = ejb.findAll(TipoConta.class);
+        listaPlanoAssinatura = ejb.findAll(PlanoAssinatura.class);
+    }
+
     public List<UF> getListaUfs() {
-        if (listaUfs == null) {
-            listaUfs = ejb.findAll(UF.class);
-        }
         return listaUfs;
     }
 
-    @SuppressWarnings("unchecked")
     public List<Banco> getListaBancos() {
-        if (listaBancos == null) {
-            listaBancos = ejb.findAll(Banco.class);
-        }
         return listaBancos;
     }
 
-    @SuppressWarnings("unchecked")
     public List<TipoConta> getListaTipoConta() {
-        if (listaTipoConta == null) {
-            listaTipoConta = ejb.findAll(TipoConta.class);
-        }
         return listaTipoConta;
     }
 
-    @SuppressWarnings("unchecked")
     public List<PlanoAssinatura> getListaPlanoAssinatura() {
-        if (listaPlanoAssinatura == null) {
-            listaPlanoAssinatura = ejb.findAll(PlanoAssinatura.class);
-        }
         return listaPlanoAssinatura;
     }
 
     public void setListaProdutosPlanoAssinatura() {
-        listaProdutosPlanoAssinatura = ejb.obterProdutosKit(cliente.getPlanoAssinatura().getProduto().getId());
+        if (cliente.getPlanoAssinatura() != null) {
+            listaProdutosPlanoAssinatura = ejb.obterProdutosKit(cliente.getPlanoAssinatura().getProduto().getId());
+        }
     }
 
     public List<Produto> getListaProdutosPlanoAssinatura() {
+        if (listaProdutosPlanoAssinatura == null) {
+            setListaProdutosPlanoAssinatura();
+        }
         return listaProdutosPlanoAssinatura;
     }
 
@@ -366,12 +336,7 @@ public class ClienteMB extends ClayMB {
         return pessoaConta;
     }
 
-    public Long getCodIndicador() {
-        return codIndicador;
+    public Cliente getClienteIndicador() {
+        return clienteIndicador;
     }
-
-    public void setCodIndicador(Long codIndicador) {
-        this.codIndicador = codIndicador;
-    }
-
 }

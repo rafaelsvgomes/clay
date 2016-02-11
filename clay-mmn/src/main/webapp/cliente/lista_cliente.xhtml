@@ -8,7 +8,7 @@
 	<ui:define name="pageTitle">
 		<h:outputText value="#{msg['page.title.lista.cliente']}" />
 	</ui:define>
-
+	
 	<ui:define name="content">
 		<div style="border-bottom: 1px solid #E5E5E5;">
 			<h3>
@@ -18,7 +18,7 @@
 		</div>
 		<h:form>
 			<p:dataTable id="dataTable" var="cliente"
-				value="#{clienteMB.clientes}" paginator="true" rows="10"
+				value="#{clienteMB.listaClientes}" paginator="true" rows="10"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="10,20,50" emptyMessage="#{msg['alerta.nenhum.cliente.encontrado']}" >
 				<p:column>
@@ -63,9 +63,9 @@
 					<f:facet name="header" >
 						<h:outputText value="#{msg['label.ativar']}" />
 					</f:facet>
-					<p:commandLink actionListener="#{clienteMB.ativarCliente(cliente.id)}" update="growl" onclick="PF('dlgExec').show();" oncomplete="PF('dlgExec').hide();"
-					rendered="#{cliente.clienteSituacao.id != 2}">
-						<i class="icon-ok-sign"></i>
+					<p:commandLink action="#{clienteMB.ativarCliente(cliente.id)}" update="growl, dataTable" onclick="PF('dlgExec').show();" oncomplete="PF('dlgExec').hide();"
+						rendered="#{cliente.clienteSituacao.id != 2}">
+						<i class="icon-ok-sign" style="color:green;"></i>
 		            </p:commandLink>
 				</p:column>
 				

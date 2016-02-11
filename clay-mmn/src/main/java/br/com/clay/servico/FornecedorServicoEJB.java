@@ -1,9 +1,9 @@
 /**
- * Projeto:         Clay Cosméticos
+ * Projeto:         Clay Cosmeticos
  * Camada Projeto:  clay-mmn
  * Pacote:          br.com.clay.servico
  * Arquivo:         FonecedorServicoEJB.java
- * Data Criação:    10 de out de 2015
+ * Data Criacao:    10 de out de 2015
  */
 package br.com.clay.servico;
 
@@ -12,13 +12,13 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import br.com.clay.entidade.PessoaEndereco;
 import br.com.clay.entidade.Fornecedor;
 import br.com.clay.entidade.PessoaConta;
+import br.com.clay.entidade.PessoaEndereco;
 import br.com.clay.entidade.PessoaTelefone;
 
 /**
- * FonecedorServicoEJB é responsável por 
+ * FonecedorServicoEJB responsavel por
  * 
  * @author Felipe
  */
@@ -28,7 +28,7 @@ public class FornecedorServicoEJB extends ClayPersistencia<Fornecedor, Long> {
 
     @PersistenceContext
     private EntityManager em;
-    
+
     /**
      * @param entityClass
      */
@@ -36,14 +36,16 @@ public class FornecedorServicoEJB extends ClayPersistencia<Fornecedor, Long> {
         super(Fornecedor.class);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see br.com.clay.servico.ClayPersistencia#getEntityManager()
      */
     @Override
     protected EntityManager getEntityManager() {
         return this.em;
     }
-    
+
     /**
      * @param id
      * @return Fornecedor

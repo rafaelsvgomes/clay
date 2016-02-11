@@ -14,7 +14,7 @@ import javax.validation.Payload;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Cep {
-    String message() default "Cep inv·lido";
+    String message() default "Cep inv√°lido";
 
     Class<?>[] groups() default {};
 

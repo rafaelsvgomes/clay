@@ -10,13 +10,13 @@ import javax.persistence.criteria.Root;
 import br.com.clay.entidade.ClayEntidade;
 
 /**
- * Classe resolve os métodos basicos de cadastro (CRUD) com API da <code>JPA</code>.
+ * Classe resolve os mÃ©todos basicos de cadastro (CRUD) com API da <code>JPA</code>.
  * 
  */
 public abstract class ClayPersistencia<T extends ClayEntidade, PK extends Number> {
 
     /**
-     * Classe da entidade, necessário para o método <code>EntityManager.find</code>.
+     * Classe da entidade, necessario para o mÃ©todo <code>EntityManager.find</code>.
      */
     private Class<T> entityClass;
 
@@ -76,7 +76,7 @@ public abstract class ClayPersistencia<T extends ClayEntidade, PK extends Number
     }
 
     /**
-     * Exige a definição do <code>EntityManager</code> responsável pelas operaçõees de persistência.
+     * Exige a definiÃ§Ã£o do <code>EntityManager</code> responsÃ¡vel pelas operaÃ§Ãµes de persistencia.
      */
     protected abstract EntityManager getEntityManager();
 }

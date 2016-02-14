@@ -21,29 +21,31 @@
 
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.pessoa.nome']}" />
+							<h:outputText value="#{msg['label.pessoa.nome']} *" />
 						</label>
 						<div class="controls">
-							<h:inputText value="#{fornecedorMB.fornecedor.nomePessoa}" label="#{msg['label.pessoa.nome']}" required="true" styleClass="input-large">
+							<h:inputText value="#{fornecedorMB.fornecedor.nomePessoa}" label="#{msg['label.pessoa.nome']}" required="true"  immediate="true" styleClass="input-large">
 								<f:validateLength minimum="5" maximum="100" />
 							</h:inputText>
 						</div>
 					</div>
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.pessoa.dsrazaosocial']}" />
+							<h:outputText value="#{msg['label.pessoa.dsrazaosocial']} *" />
 						</label>
 						<div class="controls">
-							<h:inputText id="rzSocial" value="#{fornecedorMB.fornecedor.descRazaoSocial}" label="#{msg['label.pessoa.dsrazaosocial']}" required="true" styleClass="input-large"/>
+							<h:inputText id="rzSocial" value="#{fornecedorMB.fornecedor.descRazaoSocial}" label="#{msg['label.pessoa.dsrazaosocial']}" required="true" immediate="true" styleClass="input-large"/>
 						</div>				
 					</div>
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.pessoa.cnpj']}" />
+							<h:outputText value="#{msg['label.pessoa.cnpj']} *" />
 						</label>
 						<div class="controls">
-							<p:inputMask id="cnpj" mask="99.999.999/9999-99" value="#{fornecedorMB.fornecedor.numCpfCnpj}" 
-								required="true" immediate="true" styleClass="input-large" />
+							<p:inputMask id="cnpj" mask="99.999.999/9999-99" value="#{fornecedorMB.fornecedor.numCpfCnpj}" label="#{msg['label.pessoa.cnpj']}" 
+								required="true" immediate="true" styleClass="input-large" >
+								<f:validator validatorId="validator.CpfValidator" />
+							</p:inputMask>
 						</div>
 					</div>		
 				</fieldset>
@@ -54,19 +56,20 @@
 					</legend>
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.pessoa.telefone']}" />
+							<h:outputText value="#{msg['label.pessoa.telefone']} *" />
 						</label>
 						<div class="controls">
-					        <p:inputMask mask="(99)99999999?9" value="#{fornecedorMB.telefone.descTelefone}" label="#{msg['label.pessoa.telefone']}" required="true" styleClass="input-large" />
+					        <p:inputMask mask="(99)99999999?9" value="#{fornecedorMB.telefone.descTelefone}" label="#{msg['label.pessoa.telefone']}" required="true" immediate="true" styleClass="input-large" />
 						</div>
 					</div>
 					
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.pessoa.email']}" />
+							<h:outputText value="#{msg['label.pessoa.email']} *" />
 						</label>
 						<div class="controls">
-							<h:inputText value="#{fornecedorMB.fornecedor.descEmail}" label="#{msg['label.pessoa.email']}" required="true" styleClass="input-large">
+							<h:inputText value="#{fornecedorMB.fornecedor.descEmail}" label="#{msg['label.pessoa.email']}" 
+							 required="true" immediate="true" styleClass="input-large">
 								<f:validateLength minimum="5" maximum="100" />
 							</h:inputText>
 						</div>
@@ -81,16 +84,16 @@
 					</legend>
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.pessoa.endereco.cep']}" />
+							<h:outputText value="#{msg['label.pessoa.endereco.cep']} *" />
 						</label>
 						<div class="controls">
-					        <p:inputMask mask="99999-999" value="#{fornecedorMB.endereco.numCep}" required="true" styleClass="input-small" />
+					        <p:inputMask mask="99999-999" value="#{fornecedorMB.endereco.numCep}" label="#{msg['label.pessoa.endereco.cep']}" required="true" styleClass="input-small" />
 						</div>
 					</div>
 					
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.pessoa.endereco']}" />
+							<h:outputText value="#{msg['label.pessoa.endereco']} *" />
 						</label>
 						<div class="controls">
 					        <h:inputText value="#{fornecedorMB.endereco.descEndereco}" label="#{msg['label.pessoa.endereco']}" required="true" styleClass="input-large"/>
@@ -99,7 +102,7 @@
 					
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.pessoa.endereco.num']}" />
+							<h:outputText value="#{msg['label.pessoa.endereco.num']} *" />
 						</label>
 						<div class="controls">
 					        <h:inputText value="#{fornecedorMB.endereco.descNumero}" label="#{msg['label.pessoa.endereco.num']}" required="true" styleClass="input-small"/>
@@ -108,7 +111,7 @@
 					
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.pessoa.endereco.compl']}" />
+							<h:outputText value="#{msg['label.pessoa.endereco.compl']} *" />
 						</label>
 						<div class="controls">
 					        <h:inputText value="#{fornecedorMB.endereco.descComplemento}" label="#{msg['label.pessoa.endereco.compl']}" styleClass="input-large"/>
@@ -117,7 +120,7 @@
 					
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.pessoa.endereco.bairro']}" />
+							<h:outputText value="#{msg['label.pessoa.endereco.bairro']} *" />
 						</label>
 						<div class="controls">
 					        <h:inputText value="#{fornecedorMB.endereco.descBairro}" label="#{msg['label.pessoa.endereco.bairro']}" required="true" styleClass="input-large"/>
@@ -126,7 +129,7 @@
 					
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.pessoa.endereco.cidade']}" />
+							<h:outputText value="#{msg['label.pessoa.endereco.cidade']} *" />
 						</label>
 						<div class="controls">
 					        <h:inputText value="#{fornecedorMB.endereco.descCidade}" label="#{msg['label.pessoa.endereco.cidade']}" required="true" styleClass="input-large"/>
@@ -135,7 +138,7 @@
 					
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.pessoa.endereco.estado']}" />
+							<h:outputText value="#{msg['label.pessoa.endereco.estado']} *" />
 						</label>
 						<div class="controls">
 							<p:selectOneMenu value="#{fornecedorMB.endereco.uf}" converter="ufConverter" >
@@ -154,7 +157,7 @@
 					</legend>
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.pessoa.banco']}" />
+							<h:outputText value="#{msg['label.pessoa.banco']} *" />
 						</label>
 						<div class="controls">
 							<p:selectOneMenu value="#{fornecedorMB.pessoaConta.banco}" converter="bancoConverter" label="#{msg['label.pessoa.banco']}">
@@ -166,7 +169,7 @@
 					
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.pessoa.tpconta']}" />
+							<h:outputText value="#{msg['label.pessoa.tpconta']} *" />
 						</label>
 						<div class="controls">
 							<p:selectOneMenu value="#{fornecedorMB.pessoaConta.tipoConta}" converter="entityConverter" label="#{msg['label.pessoa.tpconta']}">
@@ -178,7 +181,7 @@
 					
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.pessoa.agencia']}" />
+							<h:outputText value="#{msg['label.pessoa.agencia']} *" />
 						</label>
 						<div class="controls">
 					        <h:inputText value="#{fornecedorMB.pessoaConta.numAgencia}" label="#{msg['label.pessoa.agencia']}" required="true" styleClass="input-small"/>
@@ -187,7 +190,7 @@
 					
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.pessoa.conta']}" />
+							<h:outputText value="#{msg['label.pessoa.conta']} *" />
 						</label>
 						<div class="controls">
 					        <h:inputText value="#{fornecedorMB.pessoaConta.numConta}" label="#{msg['label.pessoa.conta']}" required="true" styleClass="input-small"/>

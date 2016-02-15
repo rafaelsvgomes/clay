@@ -12,7 +12,6 @@ public class TesteEmail {
         enviaEmailSimples();
         enviaEmailComAnexo();
         enviaEmailFormatoHtml();
-        //asdf
     }
 
     /**

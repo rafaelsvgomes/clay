@@ -77,6 +77,15 @@ public class ClienteMB extends ClayMB {
     public ClienteMB() {
     }
 
+    @PostConstruct
+    @SuppressWarnings("unchecked")
+    public void init() {
+        listaUfs = ejb.findAll(UF.class);
+        listaBancos = ejb.findAll(Banco.class);
+        listaTipoConta = ejb.findAll(TipoConta.class);
+        listaPlanoAssinatura = ejb.findAll(PlanoAssinatura.class);
+    }
+
     public void incluir() {
         // if (FacesContext.getCurrentInstance().getPartialViewContext().isAjaxRequest()) {
         // return; // Skip ajax requests.
@@ -184,7 +193,6 @@ public class ClienteMB extends ClayMB {
         cliente.getListaPessoaConta().add(pessoaConta);
     }
 
-    // TODO: rafael - ajustar para ediçõa
     private void setUsuario() {
         if (idSelecionado == null) {
             Usuario usuario = new Usuario();
@@ -280,16 +288,6 @@ public class ClienteMB extends ClayMB {
 
     public List<Cliente> getListaClientes() {
         return listaClientes;
-    }
-
-    @PostConstruct
-    @SuppressWarnings("unchecked")
-    public void init() {
-        // TODO: rafael - Teste de metodos carregados apenas na primeira vez que entra na tela.
-        listaUfs = ejb.findAll(UF.class);
-        listaBancos = ejb.findAll(Banco.class);
-        listaTipoConta = ejb.findAll(TipoConta.class);
-        listaPlanoAssinatura = ejb.findAll(PlanoAssinatura.class);
     }
 
     public List<UF> getListaUfs() {

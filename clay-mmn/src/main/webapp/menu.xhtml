@@ -5,52 +5,52 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<ul class="nav nav-list" style="padding-top: 15px;">
-		<li><em><h:outputText value="#{msg['label.clientes']}" rendered="#{request.isUserInRole('USER') || request.isUserInRole('ADMIN')}"/></em></li>
+		<li><em><h:outputText value="#{msg['label.clientes']}" rendered="#{usuarioLogado.getCodGrupo().equals('USER') or usuarioLogado.getCodGrupo().equals('ADMIN')}"/></em></li>
 
-		<li class="#{param.active == 'listaCliente' ? 'active' : ''}">
-			<h:link outcome="/cliente/lista_cliente" rendered="#{request.isUserInRole('USER') || request.isUserInRole('ADMIN')}">
+		<li class="#{empty param.active || param.active == 'listaCliente' ? 'active' : ''}">
+			<h:link outcome="/cliente/lista_cliente" rendered="#{usuarioLogado.getCodGrupo().equals('USER') or usuarioLogado.getCodGrupo().equals('ADMIN')}">
 				<h:outputText value="#{msg['menu.lista']}" escape="false" />
 				<f:param name="active" value="listaCliente" />
             </h:link>
 		</li>
 		<li class="#{param.active == 'incluirCliente' ? 'active' : ''}">
-			<h:link outcome="/cliente/incluir_cliente" rendered="#{request.isUserInRole('USER') || request.isUserInRole('ADMIN')}">
+			<h:link outcome="/cliente/incluir_cliente" rendered="#{usuarioLogado.getCodGrupo().equals('USER') or usuarioLogado.getCodGrupo().equals('ADMIN')}">
 				<h:outputText value="#{msg['menu.incluir']}" escape="false" />
 				<f:param name="active" value="incluirCliente" />
 			</h:link>
 		</li>
 		<li class="#{param.active == 'ativarCliente' ? 'active' : ''}">
-			<h:link outcome="/cliente/ativar_cliente" rendered="#{request.isUserInRole('USER') || request.isUserInRole('ADMIN')}">
+			<h:link outcome="/cliente/ativar_cliente" rendered="#{((usuarioLogado.getCodGrupo().equals('USER') or usuarioLogado.getCodGrupo().equals('ADMIN')) and usuarioLogado.getIdClienteSituacao().intValue() == 1)}">
 				<h:outputText value="#{msg['menu.ativar']}" escape="false" />
 				<f:param name="active" value="ativarCliente" />
 			</h:link>
 		</li>
 		
-		<li><em><h:outputText value="#{msg['label.fornecedores']}" rendered="#{request.isUserInRole('USER') || request.isUserInRole('ADMIN')}"/></em></li>
+		<li><em><h:outputText value="#{msg['label.fornecedores']}" rendered="#{usuarioLogado.getCodGrupo().equals('USER') or usuarioLogado.getCodGrupo().equals('ADMIN')}"/></em></li>
 
 		<li class="#{param.active == 'listaFornecedor' ? 'active' : ''}">
-			<h:link outcome="/fornecedor/lista_fornecedor" rendered="#{request.isUserInRole('USER') || request.isUserInRole('ADMIN')}">
+			<h:link outcome="/fornecedor/lista_fornecedor" rendered="#{usuarioLogado.getCodGrupo().equals('USER') or usuarioLogado.getCodGrupo().equals('ADMIN')}">
 				<h:outputText value="#{msg['menu.lista']}" escape="false" />
 				<f:param name="active" value="listaFornecedor" />
             </h:link>
 		</li>
 		<li class="#{param.active == 'incluirForncedor' ? 'active' : ''}">
-			<h:link outcome="/fornecedor/incluir_fornecedor" rendered="#{request.isUserInRole('USER') || request.isUserInRole('ADMIN')}">
+			<h:link outcome="/fornecedor/incluir_fornecedor" rendered="#{usuarioLogado.getCodGrupo().equals('USER') or usuarioLogado.getCodGrupo().equals('ADMIN')}">
 				<h:outputText value="#{msg['menu.incluir']}" escape="false" />
 				<f:param name="active" value="incluirForncedor" />
 			</h:link>
 		</li>
 		
-		<li><em><h:outputText value="#{msg['label.produtos']}" rendered="#{request.isUserInRole('USER') || request.isUserInRole('ADMIN')}"/></em></li>
+		<li><em><h:outputText value="#{msg['label.produtos']}" rendered="#{usuarioLogado.getCodGrupo().equals('USER') or usuarioLogado.getCodGrupo().equals('ADMIN')}"/></em></li>
 
 		<li class="#{param.active == 'listaProduto' ? 'active' : ''}" >
-			<h:link outcome="/produto/lista_produto" rendered="#{request.isUserInRole('USER') || request.isUserInRole('ADMIN')}">
+			<h:link outcome="/produto/lista_produto" rendered="#{usuarioLogado.getCodGrupo().equals('USER') or usuarioLogado.getCodGrupo().equals('ADMIN')}">
 				<h:outputText value="#{msg['menu.lista']}" escape="false" />
 				<f:param name="active" value="listaProduto" />
             </h:link>
 		</li>
 		<li class="#{param.active == 'incluirProduto' ? 'active' : ''}">
-			<h:link outcome="/produto/incluir_produto" rendered="#{request.isUserInRole('USER') || request.isUserInRole('ADMIN')}">
+			<h:link outcome="/produto/incluir_produto" rendered="#{usuarioLogado.getCodGrupo().equals('USER') or usuarioLogado.getCodGrupo().equals('ADMIN')}">
 				<h:outputText value="#{msg['menu.incluir']}" escape="false" />
 				<f:param name="active" value="incluirProduto" />
 			</h:link>

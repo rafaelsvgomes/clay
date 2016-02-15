@@ -9,7 +9,7 @@
 		</a> 
 		| <small> <h:outputText value="#{msg['label.detalhes.projeto']}" escape="false"/> 
 
-		<h:outputText value="#{request.getUserPrincipal().getName()}" style="padding-left: 30%"/>
+		<h:outputText value="#{usuarioLogado.getDescUsuario()}" style="padding-left: 30%"/>
 		</small>
 	</div>
 

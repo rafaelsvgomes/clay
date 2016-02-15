@@ -1,16 +1,17 @@
 package br.com.clay.mb;
 
+import static javax.faces.context.FacesContext.getCurrentInstance;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-
-import org.jboss.security.SecurityContextAssociation;
 
 import br.com.clay.entidade.Banco;
 import br.com.clay.entidade.Cliente;
@@ -71,7 +72,18 @@ public class ClienteMB extends ClayMB {
 
     private List<Produto> listaProdutosPlanoAssinatura;
 
+    private String reEmail;
+
     public ClienteMB() {
+    }
+
+    @PostConstruct
+    @SuppressWarnings("unchecked")
+    public void init() {
+        listaUfs = ejb.findAll(UF.class);
+        listaBancos = ejb.findAll(Banco.class);
+        listaTipoConta = ejb.findAll(TipoConta.class);
+        listaPlanoAssinatura = ejb.findAll(PlanoAssinatura.class);
     }
 
     public void incluir() {
@@ -88,12 +100,14 @@ public class ClienteMB extends ClayMB {
             setEnderecoPessoa();
             setPessoaConta();
 
-            clienteIndicador = ejb.obterCliente(SecurityContextAssociation.getPrincipal().getName());
+            clienteIndicador = ejb.obterCliente(getUsuarioLogado().getIdCliente());
 
             ClienteRede clienteRede = new ClienteRede();
             clienteRede.setClienteIndicador(clienteIndicador);
             clienteRede.setCliente(cliente);
             cliente.setClienteRede(clienteRede);
+
+            iniciarListarClientes();
         }
     }
 
@@ -105,6 +119,13 @@ public class ClienteMB extends ClayMB {
             cliente = ejb.obterPessoa(idSelecionado);
             endereco = cliente.getListaEndereco().get(0);
             pessoaConta = cliente.getListaPessoaConta().get(0);
+
+            if (cliente.getClienteRede() != null) {
+                clienteIndicador = cliente.getClienteRede().getClienteIndicador();
+
+                listaClientes = new ArrayList<Cliente>();
+                listaClientes.add(clienteIndicador);
+            }
 
             for (PessoaTelefone tel : cliente.getListaTelefone()) {
                 if (tel.getTipoTelefone().getId().equals(TipoTelefone.RESIDENCIAL)) {
@@ -121,7 +142,7 @@ public class ClienteMB extends ClayMB {
         // Na hora de gravar salva a alteração efetuada no plano (Ou pode deixar pra alterar só no cadastro) chama o pagamento.
         // Implementar ativar com botão no listar se for grupo admin.
         if (!FacesContext.getCurrentInstance().isPostback()) {
-            cliente = ejb.obterCliente(SecurityContextAssociation.getPrincipal().getName());
+            cliente = ejb.obterCliente(getUsuarioLogado().getIdCliente());
         }
     }
 
@@ -136,7 +157,7 @@ public class ClienteMB extends ClayMB {
             ex.printStackTrace();
             MensagemUtil.addMensagemErro("msg.erro.salvar.cliente", ex.getMessage());
         }
-        return "lista_cliente";
+        return "lista_cliente?faces-redirect=true";
     }
 
     private void setEnderecoPessoa() {
@@ -172,7 +193,6 @@ public class ClienteMB extends ClayMB {
         cliente.getListaPessoaConta().add(pessoaConta);
     }
 
-    // TODO: rafael - ajustar para ediçõa
     private void setUsuario() {
         if (idSelecionado == null) {
             Usuario usuario = new Usuario();
@@ -228,8 +248,7 @@ public class ClienteMB extends ClayMB {
             }
         }
         MensagemUtil.addMensagemSucesso("msg.sucesso.salvar.cliente");
-
-        return "lista_cliente";
+        return "lista_cliente?faces-redirect=true";
     }
 
     private Email getEmailCadastro() {
@@ -249,25 +268,26 @@ public class ClienteMB extends ClayMB {
             MensagemUtil.addMensagemErro("msg.erro.remover.cliente", ex.getMessage());
             return "";
         }
-        return "lista_cliente";
+        return "lista_cliente?faces-redirect=true";
     }
 
-    // TODO: rafael - Ao clicar no botao de proxima pagina esta buscando uma vez a cada item da lista.
-    public List<Cliente> getListaClientes() {
-        if (!FacesContext.getCurrentInstance().isPostback() || listaClientes == null) {
+    public void validaEmail() {
+        if (!cliente.getDescEmail().equals(reEmail)) {
+            // MensagemUtil.addMensagemErro("msg.erro.remover.cliente", "Teste");
+
+            getCurrentInstance().addMessage("id", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Teste", "Teste"));
+        }
+
+    }
+
+    public void iniciarListarClientes() {
+        if (!FacesContext.getCurrentInstance().isPostback()) {
             listaClientes = ejb.findAll();
         }
-        return listaClientes;
     }
 
-    @PostConstruct
-    @SuppressWarnings("unchecked")
-    public void init() {
-        // TODO: rafael - Teste de metodos carregados apenas na primeira vez que entra na tela.
-        listaUfs = ejb.findAll(UF.class);
-        listaBancos = ejb.findAll(Banco.class);
-        listaTipoConta = ejb.findAll(TipoConta.class);
-        listaPlanoAssinatura = ejb.findAll(PlanoAssinatura.class);
+    public List<Cliente> getListaClientes() {
+        return listaClientes;
     }
 
     public List<UF> getListaUfs() {
@@ -338,5 +358,13 @@ public class ClienteMB extends ClayMB {
 
     public Cliente getClienteIndicador() {
         return clienteIndicador;
+    }
+
+    public String getReEmail() {
+        return reEmail;
+    }
+
+    public void setReEmail(String reEmail) {
+        this.reEmail = reEmail;
     }
 }

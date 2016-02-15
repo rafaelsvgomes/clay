@@ -9,6 +9,10 @@
 		<h:outputText value="#{msg['page.title.lista.cliente']}" />
 	</ui:define>
 	
+	<f:metadata>
+		<f:event type="preRenderView" listener="#{clienteMB.iniciarListarClientes()}" />
+	</f:metadata>
+	
 	<ui:define name="content">
 		<div style="border-bottom: 1px solid #E5E5E5;">
 			<h3>

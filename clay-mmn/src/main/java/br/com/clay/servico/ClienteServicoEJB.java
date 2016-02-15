@@ -43,7 +43,7 @@ public class ClienteServicoEJB extends ClayPersistencia<Cliente, Long> {
      */
     @SuppressWarnings("unchecked")
     public Cliente obterPessoa(Long id) {
-        Cliente cliente = em.find(Cliente.class, id);
+        Cliente cliente = find(id);
         cliente.setListaEndereco(em.createNamedQuery(PessoaEndereco.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", id).getResultList());
         cliente.setListaTelefone(em.createNamedQuery(PessoaTelefone.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", id).getResultList());
         cliente.setListaPessoaConta(em.createNamedQuery(PessoaConta.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", id).getResultList());
@@ -51,11 +51,13 @@ public class ClienteServicoEJB extends ClayPersistencia<Cliente, Long> {
     }
 
     @SuppressWarnings("unchecked")
-    public Cliente obterCliente(String descUsuario) {
-        Cliente cliente = (Cliente) em.createNamedQuery(Cliente.OBTER_POR_DESC_USUARIO).setParameter("descUsuario", descUsuario).getSingleResult();
-        cliente.setListaTelefone(em.createNamedQuery(PessoaTelefone.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", cliente.getId()).getResultList());
-        cliente.getPlanoAssinatura().getProduto().getListaProdutoFilho().get(0);
-        cliente.getPlanoAssinatura().getProduto().setListaProdutoFilho(cliente.getPlanoAssinatura().getProduto().getListaProdutoFilho());
+    public Cliente obterCliente(Long idCliente) {
+        Cliente cliente = find(idCliente);
+        if (cliente != null) {
+            cliente.setListaTelefone(em.createNamedQuery(PessoaTelefone.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", cliente.getId()).getResultList());
+            cliente.getPlanoAssinatura().getProduto().getListaProdutoFilho().get(0);
+            cliente.getPlanoAssinatura().getProduto().setListaProdutoFilho(cliente.getPlanoAssinatura().getProduto().getListaProdutoFilho());
+        }
         return cliente;
     }
 
@@ -80,4 +82,5 @@ public class ClienteServicoEJB extends ClayPersistencia<Cliente, Long> {
         produtoPai.getListaProdutoFilho().get(0);
         return produtoPai.getListaProdutoFilho();
     }
+
 }

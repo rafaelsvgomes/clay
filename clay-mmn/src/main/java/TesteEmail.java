@@ -12,6 +12,7 @@ public class TesteEmail {
         enviaEmailSimples();
         enviaEmailComAnexo();
         enviaEmailFormatoHtml();
+        //asdf
     }
 
     /**
@@ -22,7 +23,7 @@ public class TesteEmail {
     public void enviaEmailSimples() throws EmailException {
         SimpleEmail email = new SimpleEmail();
         email.setHostName("smtp.gmail.com"); // o servidor SMTP para envio do e-mail
-        email.addTo("destinatario@gmail.com", "Guilherme"); // destinatário
+        email.addTo("destinatario@gmail.com", "Guilherme"); // destinatï¿½rio
         email.setFrom("user@gmail.com", "Eu"); // remetente
         email.setSubject("Teste -> Email simples"); // assunto do e-mail
         email.setMsg("Teste de Email utilizando commons-email"); // conteudo do e-mail
@@ -54,7 +55,7 @@ public class TesteEmail {
         // configura o email
         MultiPartEmail email = new MultiPartEmail();
         email.setHostName("smtp.gmail.com"); // o servidor SMTP para envio do e-mail
-        email.addTo("destinatario@gmail.com", "Guilherme"); // destinatário
+        email.addTo("destinatario@gmail.com", "Guilherme"); // destinatï¿½rio
         email.setFrom("user@gmail.com", "Eu"); // remetente
         email.setSubject("Teste -> Email com anexos"); // assunto do e-mail
         email.setMsg("Teste de Email utilizando commons-email"); // conteudo do e-mail
@@ -82,10 +83,10 @@ public class TesteEmail {
         String cid = email.embed(url, "Apache logo");
         // configura a mensagem para o formato HTML
         email.setHtmlMsg("<html>Logo do Apache - <img ></html>");
-        // configure uma mensagem alternativa caso o servidor não suporte HTML
-        email.setTextMsg("Seu servidor de e-mail não suporta mensagem HTML");
+        // configure uma mensagem alternativa caso o servidor nï¿½o suporte HTML
+        email.setTextMsg("Seu servidor de e-mail nï¿½o suporta mensagem HTML");
         email.setHostName("smtp.gmail.com"); // o servidor SMTP para envio do e-mail
-        email.addTo("destinatario@gmail.com", "Guilherme"); // destinatário
+        email.addTo("destinatario@gmail.com", "Guilherme"); // destinatï¿½rio
         email.setFrom("user@gmail.com", "Eu"); // remetente
         email.setSubject("Teste -> Html Email"); // assunto do e-mail
         email.setMsg("Teste de Email HTML utilizando commons-email"); // conteudo do e-mail

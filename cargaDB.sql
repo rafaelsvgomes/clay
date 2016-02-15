@@ -60,6 +60,8 @@ insert into produto values (2,4,3,null,'Kit Plano 2','Kit de adesão, referente 
 insert into produto values (3,4,3,null,'Kit Plano 3','Kit de adesão, referente ao plano 3',10,0,0,0,20,false,true);
 insert into produto values (4,2,1,null,'Creme para as mãos','Creme suave para uso diário',10,0,0,0,30,true,false);
 insert into produto values (5,3,1,null,'Shampoo de argila','Shampoo para cabelos secos',15,0,0,0,25,true,false);
+insert into produto values (6,2,1,null,'Base maquiagem','Base para maquiagem',10,0,0,0,30,true,false);
+insert into produto values (7,3,1,null,'Máscara','MáscaraDesc',15,0,0,0,25,true,false);
 
 --ProdutoComposicao
 insert into produtocomposicao values (1,1,4,1);
@@ -105,5 +107,11 @@ INSERT INTO USUARIO values (nextval('sequsuario'), 'user', '076c8b756a48c7b7c23c
 --USUARIOGRUPO
 INSERT INTO USUARIOGRUPO VALUES (nextval('sequsuariogrupo'), 'ADMIN', 1);
 INSERT INTO USUARIOGRUPO VALUES (nextval('sequsuariogrupo'), 'USER', 2);
+
+--INSERT PESSOA ADM
+INSERT INTO pessoa values (nextval('seqpessoa'), 'Administrador', null, 'F', '00000000000', 'M', '2000-01-01', '2000-01-01', 'admin@clay.com');
+INSERT INTO cliente select p.idpessoa, 1, 2, '2000-01-01' from pessoa p where p.nomepessoa = 'Administrador';
+INSERT INTO usuariopessoa select nextval('sequsuariopessoa'), p.idpessoa, u.idusuario from pessoa p, usuario u where p.nomepessoa = 'Administrador' and u.dsusuario = 'admin';
+
 
 

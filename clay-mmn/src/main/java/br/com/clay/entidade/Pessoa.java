@@ -58,7 +58,7 @@ public abstract class Pessoa extends ClayEntidade {
     private Date dataNascimento;
 
     @NotEmpty
-    @Pattern(regexp = ".+@.+\\.[a-z]+")
+    @Pattern(regexp = ".+@.+\\.[a-z]+", message = "{email.invalido}")
     @Column(name = "dsEmail")
     private String descEmail;
 

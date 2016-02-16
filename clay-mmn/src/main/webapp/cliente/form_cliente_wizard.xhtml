@@ -39,7 +39,9 @@
 							<div class="controls">
 								<p:inputMask id="cnpj"  mask="#{clienteMB.cliente.tipoPessoa == 'J' ? '99.999.999/9999-99' : '999.999.999-99'}"  
 								label="#{clienteMB.cliente.tipoPessoa == 'J' ? msg['label.pessoa.cnpj'] : msg['label.pessoa.cpf']}" value="#{clienteMB.cliente.numCpfCnpj}" 
-									required="true" immediate="true" styleClass="input-large" />
+									required="true" immediate="true" styleClass="input-large" >
+									<f:validator validatorId="validator.CpfValidator" />
+									</p:inputMask>
 							</div>
 						</div>
 					
@@ -49,7 +51,7 @@
 							</label>
 							<div class="controls">
 								<p:inputText value="#{clienteMB.cliente.nomePessoa}" label="#{msg['label.pessoa.nome']}" 
-									 required="true" styleClass="input-large">
+									 required="true" immediate="true" styleClass="input-large">
 									<f:validateLength minimum="5" maximum="100" />
 								</p:inputText>
 							</div>
@@ -61,7 +63,7 @@
 									<h:outputText value="#{msg['label.pessoa.dsrazaosocial']} *" rendered="#{clienteMB.cliente.tipoPessoa == 'J'}" />
 								</label>
 								<div class="controls">
-									<p:inputText id="rzSocial" value="#{clienteMB.cliente.descRazaoSocial}" label="#{msg['label.pessoa.dsrazaosocial']}" required="true"  
+									<p:inputText id="rzSocial" value="#{clienteMB.cliente.descRazaoSocial}" label="#{msg['label.pessoa.dsrazaosocial']}" required="true"  immediate="true" 
 											rendered="#{clienteMB.cliente.tipoPessoa == 'J'}" styleClass="input-large"/>
 								</div>
 							</div>
@@ -74,7 +76,7 @@
 								</label>
 								<div class="controls">
 									<p:inputMask id="date" value="#{clienteMB.cliente.dataNascimento}" mask="99/99/9999" label="#{msg['label.pessoa.dtnascimento']}" 
-										 required="true">
+										 required="true" immediate="true">
 										 <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
 									</p:inputMask>
 								</div>
@@ -86,7 +88,7 @@
 								</label>
 								<div class="controls">
 							        <p:selectOneRadio id="sexo" value="#{clienteMB.cliente.tipoSexo}" label="#{msg['label.pessoa.sexo']}" 
-							        	 required="true">
+							        	 required="true" immediate="true">
 							            <f:selectItem itemLabel="Masculino" itemValue="M" />
 							            <f:selectItem itemLabel="Feminino" itemValue="F" />
 							        </p:selectOneRadio>
@@ -114,7 +116,7 @@
 							<h:outputText value="#{msg['label.pessoa.celular']} *" />
 						</label>
 						<div class="controls">
-					        <p:inputMask mask="(99)99999999?9" value="#{clienteMB.celular.descTelefone}" label="#{msg['label.pessoa.celular']}" required="true" styleClass="input-large" />
+					        <p:inputMask mask="(99)99999999?9" value="#{clienteMB.celular.descTelefone}" label="#{msg['label.pessoa.celular']}" required="true" immediate="true" styleClass="input-large" />
 						</div>
 					</div>
 					
@@ -123,7 +125,7 @@
 							<h:outputText value="#{msg['label.pessoa.email']} *" />
 						</label>
 						<div class="controls">
-							<p:inputText value="#{clienteMB.cliente.descEmail}" validator="#{emailValidator.validate}" label="#{msg['label.pessoa.email']}" 
+							<p:inputText value="#{clienteMB.cliente.descEmail}" validator="#{emailValidator.validate}" immediate="true" label="#{msg['label.pessoa.email']}" 
 							disabled="#{clienteMB.idSelecionado != null}" required="true" styleClass="input-large">
 								<f:validateLength minimum="5" maximum="100" />
 							</p:inputText>

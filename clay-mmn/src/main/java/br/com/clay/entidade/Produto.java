@@ -20,6 +20,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 /**
  * The persistent class for the produto database table.
  * 
@@ -45,6 +47,7 @@ public class Produto extends ClayEntidade {
     @Column(name = "dsproduto")
     private String descProduto;
 
+    @NotEmpty(message = "{produto.nome.vazio}")
     private String nomeProduto;
 
     private double percMargemVenda;

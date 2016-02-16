@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     26/01/2016 19:48:38                          */
+/* Created on:     16/02/2016 13:54:28                          */
 /*==============================================================*/
 
 
@@ -47,6 +47,8 @@ drop table PEDIDOSITUACAO;
 drop index IDX_IDPEDIDOTIPO;
 
 drop table PEDIDOTIPO;
+
+drop index IDX_NUMCPFCNPJ;
 
 drop index IDX_IDPESSOA;
 
@@ -401,6 +403,13 @@ create table PESSOA (
 /*==============================================================*/
 create  index IDX_IDPESSOA on PESSOA (
 IDPESSOA
+);
+
+/*==============================================================*/
+/* Index: IDX_NUMCPFCNPJ                                        */
+/*==============================================================*/
+create unique index IDX_NUMCPFCNPJ on PESSOA (
+NUMCPFCNPJ
 );
 
 /*==============================================================*/

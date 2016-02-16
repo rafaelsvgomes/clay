@@ -1,1 +1,1 @@
-create database BDCLAY
+create database CLAYMMNDB

@@ -20,6 +20,10 @@
 			<var>prp</var>
 		</resource-bundle>
 		
+		<resource-bundle>
+			<base-name>validationmessages</base-name>
+			<var>vmsg</var>
+		</resource-bundle>
 		<message-bundle>validationmessages</message-bundle>
 	</application>
 </faces-config>

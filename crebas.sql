@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     16/02/2016 13:54:28                          */
+/* Created on:     17/02/2016 12:17:39                          */
 /*==============================================================*/
 
 
@@ -247,8 +247,17 @@ create table CLIENTEREDE (
    IDCLIENTE            BIGINT               not null,
    IDCLIENTEPAI         BIGINT               null,
    IDCLIENTEINDICACAO   BIGINT               null,
+   CODNIVEL             BIGINT               null,
+   CODLADO              INT2                 null
+      constraint CKC_CODLADO_CLIENTER check (CODLADO is null or (CODLADO in (0,1))),
    constraint PK_CLIENTEREDE primary key (IDCLIENTEREDE)
 );
+
+comment on column CLIENTEREDE.CODNIVEL is
+'Nível do cliente na árvore binária';
+
+comment on column CLIENTEREDE.CODLADO is
+'Lado do cliente em relação ao pai (0/1)';
 
 /*==============================================================*/
 /* Index: IDX_IDCLIENTEREDE                                     */

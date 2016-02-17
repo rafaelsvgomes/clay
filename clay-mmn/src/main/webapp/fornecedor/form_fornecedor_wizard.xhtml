@@ -87,7 +87,7 @@
 							<h:outputText value="#{msg['label.pessoa.endereco.cep']} *" />
 						</label>
 						<div class="controls">
-					        <p:inputMask id="fornecedor_cep"  onblur="" mask="99999-999" valueChangeListener="#{fornecedorMB.buscarCep}" value="#{fornecedorMB.endereco.numCep}" label="#{msg['label.pessoa.endereco.cep']}" required="true" immediate="true" styleClass="input-small"  >
+					        <p:inputMask id="fornecedor_cep" mask="99999-999" valueChangeListener="#{fornecedorMB.buscarCep}" value="#{fornecedorMB.endereco.numCep}" label="#{msg['label.pessoa.endereco.cep']}" required="true" immediate="true" styleClass="input-small"  >
 								<p:ajax  event="blur" update="fornecedor_descendereco, fornecedor_bairro, fornecedor_cidade" />
 							</p:inputMask>
 						</div>

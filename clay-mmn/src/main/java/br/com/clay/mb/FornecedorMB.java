@@ -15,6 +15,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 
 import br.com.clay.entidade.Banco;
 import br.com.clay.entidade.Fornecedor;
@@ -43,7 +44,7 @@ import br.com.clay.webservices.CepService;
 public class FornecedorMB extends ClayMB {
     private static final long serialVersionUID = -3619457549690706465L;
 
-    private static final String LISTA_FORNECEDOR = "lista_fornecedor";
+    private static final String LISTA_FORNECEDOR = "lista_fornecedor?faces-redirect=true";
 
     @EJB
     FornecedorServicoEJB ejb;
@@ -144,21 +145,38 @@ public class FornecedorMB extends ClayMB {
         return LISTA_FORNECEDOR;
     }
     
-    public String buscarCep(String cep){
-        if(!cep.equals("") && cep.length() > 0){
+    /**
+     * Método responsável por buscar o cep no webService
+     * @param e
+     * @return String
+     * 
+     */
+    public String buscarCep(ValueChangeEvent e){
+        String cep = e.getNewValue().toString();
+        if(cep != null && !cep.isEmpty()){
             CepService cepService = new CepService();
             CepServiceVO cepServiceVO = cepService.buscarCepWebService(cep);
             
             if(cepServiceVO != null){
-                this.endereco.setDescBairro(cepServiceVO.getBairro());
-                this.endereco.setDescCidade(cepServiceVO.getCidade());
-                this.endereco.setDescEndereco(cepServiceVO.getLogradouro());
-                //this.endereco.setUf(new UF());
-                
+                populaEndereco(cep, cepServiceVO);
             }
             
         }
         return LISTA_FORNECEDOR;
+    }
+
+    /**
+     * Método responsável por popular os enderecos trago pelo web service
+     * @param cep
+     * @param cepServiceVO void
+     * 
+     */
+    private void populaEndereco(String cep, CepServiceVO cepServiceVO) {
+        this.endereco.setDescBairro(cepServiceVO.getBairro());
+        this.endereco.setDescCidade(cepServiceVO.getCidade());
+        this.endereco.setDescEndereco(cepServiceVO.getLogradouro());
+        this.endereco.setNumCep(cep);
+        this.endereco.setUf(new UF(cepServiceVO.getUf()));
     }
 
     public List<Fornecedor> getFornecedores() {

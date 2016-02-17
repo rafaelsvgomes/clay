@@ -12,6 +12,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 
 import br.com.clay.entidade.Banco;
 import br.com.clay.entidade.Cliente;
@@ -37,6 +38,8 @@ import br.com.clay.util.Email;
 import br.com.clay.util.EmailUtil;
 import br.com.clay.util.MensagemUtil;
 import br.com.clay.util.SenhaUtil;
+import br.com.clay.vo.CepServiceVO;
+import br.com.clay.webservices.CepService;
 
 @ManagedBean(name = "clienteMB")
 @ViewScoped
@@ -280,6 +283,40 @@ public class ClienteMB extends ClayMB {
 
     }
 
+    /**
+     * Método responsável por buscar o cep no webService
+     * @param e
+     * @return String
+     * 
+     */
+    public String buscarCep(ValueChangeEvent e){
+        String cep = e.getNewValue().toString();
+        if(cep != null && !cep.isEmpty()){
+            CepService cepService = new CepService();
+            CepServiceVO cepServiceVO = cepService.buscarCepWebService(cep);
+            
+            if(cepServiceVO != null){
+                populaEndereco(cep, cepServiceVO);
+            }
+            
+        }
+        return "lista_cliente?faces-redirect=true";
+    }
+    
+    /**
+     * Método responsável por popular os enderecos trago pelo web service
+     * @param cep
+     * @param cepServiceVO void
+     * 
+     */
+    private void populaEndereco(String cep, CepServiceVO cepServiceVO) {
+        this.endereco.setDescBairro(cepServiceVO.getBairro());
+        this.endereco.setDescCidade(cepServiceVO.getCidade());
+        this.endereco.setDescEndereco(cepServiceVO.getLogradouro());
+        this.endereco.setNumCep(cep);
+        this.endereco.setUf(new UF(cepServiceVO.getUf()));
+    }
+    
     public void iniciarListarClientes() {
         if (!FacesContext.getCurrentInstance().isPostback()) {
             listaClientes = ejb.findAll();

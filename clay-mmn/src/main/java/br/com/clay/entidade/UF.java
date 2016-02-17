@@ -14,6 +14,13 @@ public class UF extends ClayEntidade {
     private static final long serialVersionUID = -8342220191530234596L;
 
     public static final String LISTAR = "UF.Listar";
+    
+    public UF(String descUf) {
+        this.descUf = descUf;
+    }
+    
+    public UF() {
+    }
 
     @Id
     @Column(name = "CODUF", unique = true, nullable = false)

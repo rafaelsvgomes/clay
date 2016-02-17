@@ -87,7 +87,9 @@
 							<h:outputText value="#{msg['label.pessoa.endereco.cep']} *" />
 						</label>
 						<div class="controls">
-					        <p:inputMask mask="99999-999" value="#{fornecedorMB.endereco.numCep}" label="#{msg['label.pessoa.endereco.cep']}" required="true" styleClass="input-small" />
+					        <p:inputMask id="fornecedor_cep" mask="99999-999" value="#{fornecedorMB.endereco.numCep}" label="#{msg['label.pessoa.endereco.cep']}" required="true" immediate="true" styleClass="input-small"  >
+								<p:ajax  event="blur" listener="#{fornecedorMB.buscarCep(fornecedorMB.endereco.numCep)}" update="fornecedor_descendereco, fornecedor_bairro, fornecedor_cidade" />
+							</p:inputMask>
 						</div>
 					</div>
 					
@@ -96,7 +98,7 @@
 							<h:outputText value="#{msg['label.pessoa.endereco']} *" />
 						</label>
 						<div class="controls">
-					        <p:inputText value="#{fornecedorMB.endereco.descEndereco}" label="#{msg['label.pessoa.endereco']}" required="true" styleClass="input-large"/>
+					        <p:inputText id="fornecedor_descendereco" value="#{fornecedorMB.endereco.descEndereco}" label="#{msg['label.pessoa.endereco']}" required="true" styleClass="input-large"/>
 						</div>
 					</div>
 					
@@ -123,7 +125,7 @@
 							<h:outputText value="#{msg['label.pessoa.endereco.bairro']} *" />
 						</label>
 						<div class="controls">
-					        <p:inputText value="#{fornecedorMB.endereco.descBairro}" label="#{msg['label.pessoa.endereco.bairro']}" required="true" styleClass="input-large"/>
+					        <p:inputText id="fornecedor_bairro" value="#{fornecedorMB.endereco.descBairro}" label="#{msg['label.pessoa.endereco.bairro']}" required="true" styleClass="input-large"/>
 						</div>
 					</div>
 					
@@ -132,7 +134,7 @@
 							<h:outputText value="#{msg['label.pessoa.endereco.cidade']} *" />
 						</label>
 						<div class="controls">
-					        <p:inputText value="#{fornecedorMB.endereco.descCidade}" label="#{msg['label.pessoa.endereco.cidade']}" required="true" styleClass="input-large"/>
+					        <p:inputText id="fornecedor_cidade" value="#{fornecedorMB.endereco.descCidade}" label="#{msg['label.pessoa.endereco.cidade']}" required="true" styleClass="input-large"/>
 						</div>
 					</div>
 					
@@ -141,7 +143,7 @@
 							<h:outputText value="#{msg['label.pessoa.endereco.estado']} *" />
 						</label>
 						<div class="controls">
-							<p:selectOneMenu value="#{fornecedorMB.endereco.uf}" converter="ufConverter" required="true" label="#{msg['label.pessoa.endereco.estado']}">
+							<p:selectOneMenu id="select_uf" value="#{fornecedorMB.endereco.uf}" converter="ufConverter" required="true" label="#{msg['label.pessoa.endereco.estado']}">
 				                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 				                <f:selectItems value="#{fornecedorMB.listaUfs}" var="uf" itemLabel="#{uf.descUf}" />
 			    	        </p:selectOneMenu>

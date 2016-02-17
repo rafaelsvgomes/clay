@@ -13,7 +13,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import br.com.clay.entidade.Banco;
@@ -30,6 +30,8 @@ import br.com.clay.entidade.UF;
 import br.com.clay.enums.TipoPessoa;
 import br.com.clay.servico.FornecedorServicoEJB;
 import br.com.clay.util.MensagemUtil;
+import br.com.clay.vo.CepServiceVO;
+import br.com.clay.webservices.CepService;
 
 /**
  * FornecedorMB � respons�vel por
@@ -37,7 +39,7 @@ import br.com.clay.util.MensagemUtil;
  * @author Felipe
  */
 @ManagedBean(name = "fornecedorMB")
-@SessionScoped
+@ViewScoped
 public class FornecedorMB extends ClayMB {
     private static final long serialVersionUID = -3619457549690706465L;
 
@@ -138,6 +140,23 @@ public class FornecedorMB extends ClayMB {
             ex.printStackTrace();
             MensagemUtil.addMensagemErro("msg.erro.remover.fornecedor", ex.getMessage());
             return "";
+        }
+        return LISTA_FORNECEDOR;
+    }
+    
+    public String buscarCep(String cep){
+        if(!cep.equals("") && cep.length() > 0){
+            CepService cepService = new CepService();
+            CepServiceVO cepServiceVO = cepService.buscarCepWebService(cep);
+            
+            if(cepServiceVO != null){
+                this.endereco.setDescBairro(cepServiceVO.getBairro());
+                this.endereco.setDescCidade(cepServiceVO.getCidade());
+                this.endereco.setDescEndereco(cepServiceVO.getLogradouro());
+                //this.endereco.setUf(new UF());
+                
+            }
+            
         }
         return LISTA_FORNECEDOR;
     }

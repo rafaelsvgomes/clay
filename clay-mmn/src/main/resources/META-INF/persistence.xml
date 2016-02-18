@@ -6,11 +6,11 @@
 	<persistence-unit name="clay_pu" transaction-type="JTA">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>java:jboss/datasources/PostgreSQLDS</jta-data-source>
+		
 		<properties>
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 			<property name="hibernate.default_schema" value="public" />
-<!-- 			<property name="hibernate.temp.use_jdbc_metadata_defaults" value="false"/> -->
 		</properties>
 	</persistence-unit>
 </persistence>

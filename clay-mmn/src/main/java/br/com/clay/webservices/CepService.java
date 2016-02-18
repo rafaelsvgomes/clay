@@ -6,8 +6,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Iterator;
-import java.util.Properties;
 
 import br.com.clay.vo.CepServiceVO;
 
@@ -17,8 +15,8 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 
 @SuppressWarnings("deprecation")
 public class CepService {
-
-    private static String urlWebService = "http://cep.republicavirtual.com.br/web_cep.php";
+    
+    private static String urlWebService = "https://viacep.com.br/ws/";
 
     public CepServiceVO buscarCepWebService(String cep) {
         CepServiceVO cepServiceVO = null;
@@ -26,12 +24,7 @@ public class CepService {
 
         cep = cep.replace("-", "");
 
-        // os parametros a serem enviados
-        Properties parameters = new Properties();
-        parameters.setProperty("cep", cep);
-        parameters.setProperty("formato", "xml");
-
-        criarUrlWebService(parameters);
+        urlWebService += cep + "/xml/";
 
         try {
             br = criarConexaoWebService(br);
@@ -44,7 +37,7 @@ public class CepService {
             xstream.alias("webservicecep", CepServiceVO.class);
             cepServiceVO = (CepServiceVO) xstream.fromXML(newData.toString());
 
-        } catch (Exception e) {
+        } catch (Exception e) { 
             e.printStackTrace();
         } finally {
             closeBufferedReader(br);
@@ -53,27 +46,6 @@ public class CepService {
 
     }
 
-    /**
-     * Metodo responsavel por criar a url do web service
-     * 
-     * exemplo: http://cep.republicavirtual.com.br/web_cep.php?cep=72455490&formato=xml
-     * 
-     * @param parameters void
-     * 
-     */
-    @SuppressWarnings("rawtypes")
-    private void criarUrlWebService(Properties parameters) {
-        Iterator i = parameters.keySet().iterator();
-
-        int counter = 0;
-
-        while (i.hasNext()) {
-
-            String name = (String) i.next();
-            String value = parameters.getProperty(name);
-            urlWebService += (++counter == 1 ? "?" : "&") + name + "=" + value;
-        }
-    }
 
     /**
      * Metodo responsavel por criar a conexao com o web Service retornando um BufferedReader para comecar a ler o arquivo retorno
@@ -87,9 +59,11 @@ public class CepService {
     private BufferedReader criarConexaoWebService(BufferedReader br) throws MalformedURLException, IOException {
         // cria o objeto url
         URL url = new URL(urlWebService);
-
+        
         // cria o objeto httpurlconnection
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+       HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+       
+       System.out.println("Proxy? " + connection.usingProxy()); 
 
         // seta o metodo
         connection.setRequestProperty("Request-Method", "GET");

@@ -6,41 +6,30 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @XStreamAlias("webservicecep")
 public class CepServiceVO {
 
-    @XStreamAlias("uf")
-    private String uf;
-
-    @XStreamAlias("cidade")
-    private String cidade;
-
-    @XStreamAlias("bairro")
-    private String bairro;
-
-    @XStreamAlias("tipo_logradouro")
-    private String tipo_logradouro;
+    @XStreamAlias("cep")
+    private String cep;
 
     @XStreamAlias("logradouro")
     private String logradouro;
 
-    @XStreamAlias("resultado")
-    private String resultado;
+    @XStreamAlias("bairro")
+    private String bairro;
 
-    @XStreamAlias("resultado_txt")
-    private String resultado_txt;
+    @XStreamAlias("localidade")
+    private String localidade;
 
-    public String getBairro() {
-        return bairro;
+    @XStreamAlias("uf")
+    private String uf;
+
+    @XStreamAlias("ibge")
+    private String ibge;
+
+    public String getCep() {
+        return cep;
     }
 
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
-    }
-
-    public String getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
+    public void setCep(String cep) {
+        this.cep = cep;
     }
 
     public String getLogradouro() {
@@ -51,28 +40,20 @@ public class CepServiceVO {
         this.logradouro = logradouro;
     }
 
-    public String getResultado() {
-        return resultado;
+    public String getBairro() {
+        return bairro;
     }
 
-    public void setResultado(String resultado) {
-        this.resultado = resultado;
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
     }
 
-    public String getResultado_txt() {
-        return resultado_txt;
+    public String getLocalidade() {
+        return localidade;
     }
 
-    public void setResultado_txt(String resultado_txt) {
-        this.resultado_txt = resultado_txt;
-    }
-
-    public String getTipo_logradouro() {
-        return tipo_logradouro;
-    }
-
-    public void setTipo_logradouro(String tipo_logradouro) {
-        this.tipo_logradouro = tipo_logradouro;
+    public void setLocalidade(String localidade) {
+        this.localidade = localidade;
     }
 
     public String getUf() {
@@ -83,4 +64,12 @@ public class CepServiceVO {
         this.uf = uf;
     }
 
+    public String getIbge() {
+        return ibge;
+    }
+
+    public void setIbge(String ibge) {
+        this.ibge = ibge;
+    }
+    
 }

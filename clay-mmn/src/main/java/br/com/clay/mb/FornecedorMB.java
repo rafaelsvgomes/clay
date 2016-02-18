@@ -175,7 +175,7 @@ public class FornecedorMB extends ClayMB {
      */
     private void populaEndereco(String cep, CepServiceVO cepServiceVO) {
         this.endereco.setDescBairro(cepServiceVO.getBairro());
-        this.endereco.setDescCidade(cepServiceVO.getCidade());
+        this.endereco.setDescCidade(cepServiceVO.getLocalidade());
         this.endereco.setDescEndereco(cepServiceVO.getLogradouro());
         this.endereco.setNumCep(cep);
         this.endereco.setUf(new UF(cepServiceVO.getUf()));

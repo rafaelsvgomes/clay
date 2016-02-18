@@ -4,6 +4,34 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 	
+	
+	<script type = "text/javascript">
+			function mascara(o, f) {
+				v_obj = o;
+				v_fun = f;
+				setTimeout(“execmascara()”, 1);
+			}
+			
+			function execmascara() {
+				v_obj.value = v_fun(v_obj.value);
+			}
+			
+			function valor(v) {
+				v = v.replace(/\D/g, “”);
+				v = v.replace(/[0-9]{15}/, “invÃ¡lido”);
+				v = v.replace(/(\d{1})(\d{11})$/, “$1.$2”); // coloca ponto antes dos
+				// Ãºltimos 11 digitos
+				v = v.replace(/(\d{1})(\d{8})$/, “$1.$2”); // coloca ponto antes dos
+				// Ãºltimos 8 digitos
+				v = v.replace(/(\d{1})(\d{5})$/, “$1.$2”); // coloca ponto antes dos
+				// Ãºltimos 5 digitos
+				v = v.replace(/(\d{1})(\d{1,2})$/, “$1,$2”); // coloca virgula antes dos
+				// Ãºltimos 2 digitos
+				return v;
+			}
+
+</script>
+	
 
 	<div>
 		<h3>
@@ -99,10 +127,10 @@
 					</legend>
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.fornecedor']}" />
+							<h:outputText value="#{msg['label.fornecedor']} *" />
 						</label>
 						<div class="controls">
-							<p:selectOneMenu id="dropFornecedor" value="#{produtoMB.produto.fornecedor}" converter="entityConverter" filter="true" filterMatchMode="startsWith">
+							<p:selectOneMenu id="dropFornecedor" value="#{produtoMB.produto.fornecedor}" converter="entityConverter" filter="true" filterMatchMode="startsWith" required="true" label="#{msg['label.fornecedor']}">
 				                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 				                <f:selectItems value="#{produtoMB.listaFornecedor}" var="fornecedor" itemLabel="#{fornecedor.nomePessoa}" itemValue="#{fornecedor}"/>
 			    	        </p:selectOneMenu>
@@ -114,10 +142,10 @@
 					</legend>
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.categoria']}" />
+							<h:outputText value="#{msg['label.categoria']} *" />
 						</label>
 						<div class="controls">
-							<p:selectOneMenu id="dropCategoria" value="#{produtoMB.produto.categoria}" converter="entityConverter" filter="true" filterMatchMode="startsWith">
+							<p:selectOneMenu id="dropCategoria" value="#{produtoMB.produto.categoria}" converter="entityConverter" filter="true" filterMatchMode="startsWith" required="true" label="#{msg['label.categoria']}">
 				                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 				                <f:selectItems value="#{produtoMB.listaCategoria}" var="categoria" itemLabel="#{categoria.descCategoria}"/>
 			    	        </p:selectOneMenu>
@@ -129,10 +157,10 @@
 					</legend>
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.produto.unidadevenda']}" />
+							<h:outputText value="#{msg['label.produto.unidadevenda']} *" />
 						</label>
 						<div class="controls">
-							<p:selectOneMenu id="dropUnidadeVenda" value="#{produtoMB.produto.unidadeVenda}" converter="entityConverter" filter="true" filterMatchMode="startsWith">
+							<p:selectOneMenu id="dropUnidadeVenda" value="#{produtoMB.produto.unidadeVenda}" converter="entityConverter" filter="true" filterMatchMode="startsWith" required="true" label="#{msg['label.produto.unidadevenda']}">
 				                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 				                <f:selectItems value="#{produtoMB.listaUnidadeVenda}" var="unidadeVenda" itemLabel="#{unidadeVenda.descUnidadeVenda}" itemValue="#{unidadeVenda}"/>
 			    	        </p:selectOneMenu>
@@ -187,16 +215,14 @@
 			<p:tab id="tabValor" title="Valor">
 				<fieldset>
 					<legend>
-						<small> <h:outputText value="#{msg['label.produto.produtovalor']}" /></small>
+						<small> <h:outputText value="#{msg['label.produto.produtovalor']} *" /></small>
 					</legend>
 					<div class="control-group">
 						<label class="control-label">
 							<h:outputText value="#{msg['label.produto.produtovalor.vlcusto']}" />
 						</label>
 						<div class="controls">
-							<p:inputText maxlength="15" required="true" value="#{produtoMB.produtoValor.valorCusto}"  label="#{msg['label.produto.produtovalor.vlcusto']}"  immediate="true" styleClass="input-large">
-								<f:convertNumber currencyCode="R$" type="currency"/>
-							</p:inputText>
+							<p:inputText maxlength="15" required="true" value="#{produtoMB.produtoValor.valorCusto}"  label="#{msg['label.produto.produtovalor.vlcusto']}"  immediate="true" styleClass="input-large"  onkeypress="mascara(this, valor);"/>
 						</div>
 					</div>
 					
@@ -205,13 +231,15 @@
 							<h:outputText value="#{msg['label.produto.produtovalor.vldesconto']}" />
 						</label>
 						<div class="controls">
-					        <p:inputText value="#{produtoMB.produtoValor.valorDesconto}" label="#{msg['label.produto.produtovalor.vldesconto']}"  styleClass="input-large"/>
+					        <p:inputText value="#{produtoMB.produtoValor.valorDesconto}" label="#{msg['label.produto.produtovalor.vldesconto']}"  styleClass="input-large">
+					       
+					        </p:inputText>
 						</div>
 					</div>
 					
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.produto.produtovalor.vlproduto']}" />
+							<h:outputText value="#{msg['label.produto.produtovalor.vlproduto']} *" />
 						</label>
 						<div class="controls">
 					        <p:inputText value="#{produtoMB.produtoValor.valorProduto}" label="#{msg['label.produto.produtovalor.vlproduto']}" required="true" immediate="true" styleClass="input-large"/>

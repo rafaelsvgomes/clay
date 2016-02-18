@@ -144,29 +144,31 @@ public class FornecedorMB extends ClayMB {
         }
         return LISTA_FORNECEDOR;
     }
-    
+
     /**
-     * Método responsável por buscar o cep no webService
+     * Metodo responsavel por buscar o cep no webService
+     * 
      * @param e
      * @return String
      * 
      */
-    public String buscarCep(ValueChangeEvent e){
+    public String buscarCep(ValueChangeEvent e) {
         String cep = e.getNewValue().toString();
-        if(cep != null && !cep.isEmpty()){
+        if (cep != null && !cep.isEmpty()) {
             CepService cepService = new CepService();
             CepServiceVO cepServiceVO = cepService.buscarCepWebService(cep);
-            
-            if(cepServiceVO != null){
+
+            if (cepServiceVO != null) {
                 populaEndereco(cep, cepServiceVO);
             }
-            
+
         }
         return LISTA_FORNECEDOR;
     }
 
     /**
-     * Método responsável por popular os enderecos trago pelo web service
+     * Metodo responsavel por popular os enderecos trago pelo web service
+     * 
      * @param cep
      * @param cepServiceVO void
      * 

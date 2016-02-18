@@ -1,6 +1,5 @@
 package br.com.clay.webservices;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,15 +17,15 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 
 @SuppressWarnings("deprecation")
 public class CepService {
-    
+
     private static String urlWebService = "http://cep.republicavirtual.com.br/web_cep.php";
 
     public CepServiceVO buscarCepWebService(String cep) {
         CepServiceVO cepServiceVO = null;
         BufferedReader br = null;
-        
+
         cep = cep.replace("-", "");
-        
+
         // os parametros a serem enviados
         Properties parameters = new Properties();
         parameters.setProperty("cep", cep);
@@ -39,7 +38,7 @@ public class CepService {
 
             StringBuilder newData = leArquivoRetorno(br);
 
-            // Controi classe a partir do XML 
+            // Controi classe a partir do XML
             XStream xstream = new XStream(new DomDriver());
             Annotations.configureAliases(xstream, CepServiceVO.class);
             xstream.alias("webservicecep", CepServiceVO.class);
@@ -47,7 +46,7 @@ public class CepService {
 
         } catch (Exception e) {
             e.printStackTrace();
-        } finally{
+        } finally {
             closeBufferedReader(br);
         }
         return cepServiceVO;
@@ -55,7 +54,7 @@ public class CepService {
     }
 
     /**
-     * Método responsável por criar a url do web service
+     * Metodo responsavel por criar a url do web service
      * 
      * exemplo: http://cep.republicavirtual.com.br/web_cep.php?cep=72455490&formato=xml
      * 
@@ -65,7 +64,7 @@ public class CepService {
     @SuppressWarnings("rawtypes")
     private void criarUrlWebService(Properties parameters) {
         Iterator i = parameters.keySet().iterator();
-        
+
         int counter = 0;
 
         while (i.hasNext()) {
@@ -75,9 +74,10 @@ public class CepService {
             urlWebService += (++counter == 1 ? "?" : "&") + name + "=" + value;
         }
     }
-    
+
     /**
-     * Método responsável por criar a conexao com o web Service retornando um BufferedReader para começar a ler o arquivo retorno
+     * Metodo responsavel por criar a conexao com o web Service retornando um BufferedReader para comecar a ler o arquivo retorno
+     * 
      * @param BufferedReader br
      * @return BufferedReader
      * @throws MalformedURLException
@@ -103,12 +103,13 @@ public class CepService {
 
         // abre a conexÃ£o pra input
         br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        
+
         return br;
     }
-    
+
     /**
-     * Método responsável por ler todo o arquivo retonando uma StringBuffer
+     * Metodo responsavel por ler todo o arquivo retonando uma StringBuffer
+     * 
      * @param br
      * @return StringBuilder
      * @throws IOException StringBuffer
@@ -125,12 +126,13 @@ public class CepService {
     }
 
     /**
-     * Método responsável por fechar a conexao do buffered reader
+     * Metodo responsaavel por fechar a conexao do buffered reader
+     * 
      * @param br void
      * 
      */
     private void closeBufferedReader(BufferedReader br) {
-        if(br != null){
+        if (br != null) {
             try {
                 br.close();
             } catch (IOException e) {

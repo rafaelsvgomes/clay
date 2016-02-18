@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     17/02/2016 12:17:39                          */
+/* Created on:     18/02/2016 13:57:05                          */
 /*==============================================================*/
 
 
@@ -32,6 +32,10 @@ drop index IDX_CDGRUPO;
 
 drop table GRUPO;
 
+drop index IDX_IDPEDIDOTIPO2;
+
+drop table ORIGEMPAGAMENTO;
+
 drop index IDX_IDPEDIDO;
 
 drop table PEDIDO;
@@ -39,6 +43,10 @@ drop table PEDIDO;
 drop index IDX_IDPEDIDOPRODUTO;
 
 drop table PEDIDOPRODUTO;
+
+drop index IDX_IDPEDIDOSITUACAO2;
+
+drop table PEDIDOPRODUTOSITUACAO;
 
 drop index IDX_IDPEDIDOSITUACAO;
 
@@ -275,6 +283,9 @@ create table CLIENTESITUACAO (
    constraint PK_CLIENTESITUACAO primary key (IDCLIENTESITUACAO)
 );
 
+comment on table CLIENTESITUACAO is
+'CADASTRADO, PENDENTE, ATIVO, INATIVO, BLOQUEADO';
+
 /*==============================================================*/
 /* Index: IDX_IDCLIENTESITUACAO                                 */
 /*==============================================================*/
@@ -313,6 +324,25 @@ CDGRUPO
 );
 
 /*==============================================================*/
+/* Table: ORIGEMPAGAMENTO                                       */
+/*==============================================================*/
+create table ORIGEMPAGAMENTO (
+   IDORIGEMPAGAMENTO    BIGINT               not null,
+   DSORIGEMPAGAMENTO    VARCHAR(50)          null,
+   constraint PK_ORIGEMPAGAMENTO primary key (IDORIGEMPAGAMENTO)
+);
+
+comment on table ORIGEMPAGAMENTO is
+'Se foi Em mãos, PagSeguro, etc.';
+
+/*==============================================================*/
+/* Index: IDX_IDPEDIDOTIPO2                                     */
+/*==============================================================*/
+create unique index IDX_IDPEDIDOTIPO2 on ORIGEMPAGAMENTO (
+IDORIGEMPAGAMENTO
+);
+
+/*==============================================================*/
 /* Table: PEDIDO                                                */
 /*==============================================================*/
 create table PEDIDO (
@@ -320,6 +350,7 @@ create table PEDIDO (
    IDPEDIDOTIPO         BIGINT               null,
    IDPEDIDOSITUACAO     INT                  null,
    IDCLIENTE            BIGINT               null,
+   IDORIGEMPAGAMENTO    BIGINT               null,
    DATAPEDIDO           TIMESTAMP            null,
    VLTOTALBRUTO         NUMERIC(12,2)        null,
    VLTOTALLIQUIDO       NUMERIC(12,2)        null,
@@ -342,16 +373,41 @@ create table PEDIDOPRODUTO (
    IDPEDIDO             BIGINT               not null,
    IDPRODUTO            BIGINT               not null,
    IDVALORPRODUTO       BIGINT               null,
+   IDPEDIDOPRODUTOSITUACAO INT                  null,
    QTPRODUTO            BIGINT               not null,
    VLDESCONTO           NUMERIC(12,2)        null,
+   QTPRODUTOENTREGUE    BIGINT               null,
+   DATAENTREGA          TIMESTAMP            null,
    constraint PK_PEDIDOPRODUTO primary key (IDPEDIDOPRODUTO)
 );
+
+comment on column PEDIDOPRODUTO.QTPRODUTOENTREGUE is
+'Quantidade do produto que já foi entregue';
 
 /*==============================================================*/
 /* Index: IDX_IDPEDIDOPRODUTO                                   */
 /*==============================================================*/
 create unique index IDX_IDPEDIDOPRODUTO on PEDIDOPRODUTO (
 IDPEDIDOPRODUTO
+);
+
+/*==============================================================*/
+/* Table: PEDIDOPRODUTOSITUACAO                                 */
+/*==============================================================*/
+create table PEDIDOPRODUTOSITUACAO (
+   IDPEDIDOPRODUTOSITUACAO INT                  not null,
+   DSPEDIDOPRODUTOSITUACAO VARCHAR(30)          not null,
+   constraint PK_PEDIDOPRODUTOSITUACAO primary key (IDPEDIDOPRODUTOSITUACAO)
+);
+
+comment on table PEDIDOPRODUTOSITUACAO is
+'SITUAÇÃO DO PEDIDO (ABERTO, APROVADO)';
+
+/*==============================================================*/
+/* Index: IDX_IDPEDIDOSITUACAO2                                 */
+/*==============================================================*/
+create unique index IDX_IDPEDIDOSITUACAO2 on PEDIDOPRODUTOSITUACAO (
+IDPEDIDOPRODUTOSITUACAO
 );
 
 /*==============================================================*/
@@ -364,7 +420,7 @@ create table PEDIDOSITUACAO (
 );
 
 comment on table PEDIDOSITUACAO is
-'SITUAÇÃO DO PEDIDO (ABERTO, APROVADO)';
+'SITUAÇÃO DO PEDIDO (ABERTO, PAGO, ENTREGUE PARCIALMENTE, FINALIZADO)';
 
 /*==============================================================*/
 /* Index: IDX_IDPEDIDOSITUACAO                                  */
@@ -520,6 +576,8 @@ create table PRODUTO (
    NOMEPRODUTO          VARCHAR(40)          not null,
    DSPRODUTO            TEXT                 null,
    PERCMARGEMVENDA      NUMERIC(10,4)        null,
+   QTDESTOQUE           BIGINT               null,
+   QTDESTOQUEMINIMO     BIGINT               null,
    QTDPESO              NUMERIC(10,4)        null,
    QTDALTURA            NUMERIC(10,4)        null,
    QTDLARGURA           NUMERIC(10,4)        null,
@@ -784,6 +842,11 @@ alter table PEDIDO
       references PEDIDOTIPO (IDPEDIDOTIPO)
       on delete restrict on update restrict;
 
+alter table PEDIDO
+   add constraint FK_PEDIDO_REFERENCE_ORIGEMPA foreign key (IDORIGEMPAGAMENTO)
+      references ORIGEMPAGAMENTO (IDORIGEMPAGAMENTO)
+      on delete restrict on update restrict;
+
 alter table PEDIDOPRODUTO
    add constraint FK_PEDIDOPR_FK_PEDIDO_PEDIDO foreign key (IDPEDIDO)
       references PEDIDO (IDPEDIDO)
@@ -797,6 +860,11 @@ alter table PEDIDOPRODUTO
 alter table PEDIDOPRODUTO
    add constraint FK_PEDIDOPR_FK_PEDIDO_PRODUTOV foreign key (IDVALORPRODUTO)
       references PRODUTOVALOR (IDPRODUTOVALOR)
+      on delete restrict on update restrict;
+
+alter table PEDIDOPRODUTO
+   add constraint FK_PEDIDOPR_REFERENCE_PEDIDOPR foreign key (IDPEDIDOPRODUTOSITUACAO)
+      references PEDIDOPRODUTOSITUACAO (IDPEDIDOPRODUTOSITUACAO)
       on delete restrict on update restrict;
 
 alter table PESSOACONTA

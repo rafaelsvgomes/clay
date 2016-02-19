@@ -7,6 +7,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.validator.ValidatorException;
+
+import br.com.clay.util.MensagemUtil;
 import br.com.clay.vo.CepServiceVO;
 
 import com.thoughtworks.xstream.XStream;
@@ -16,34 +20,42 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 @SuppressWarnings("deprecation")
 public class CepService {
     
-    private static String urlWebService = "https://viacep.com.br/ws/";
-
-    public CepServiceVO buscarCepWebService(String cep) {
+    public CepServiceVO buscarCepWebService(String cep) throws ValidatorException{
         CepServiceVO cepServiceVO = null;
         BufferedReader br = null;
 
         cep = cep.replace("-", "");
 
-        urlWebService += cep + "/xml/";
-
+        StringBuilder urlWebService = nomeUrlWebServiceFormatado(cep);
+        
         try {
-            br = criarConexaoWebService(br);
+            br = criarConexaoWebService(br, urlWebService);
 
             StringBuilder newData = leArquivoRetorno(br);
 
             // Controi classe a partir do XML
             XStream xstream = new XStream(new DomDriver());
             Annotations.configureAliases(xstream, CepServiceVO.class);
-            xstream.alias("webservicecep", CepServiceVO.class);
+            xstream.alias("xmlcep", CepServiceVO.class);
             cepServiceVO = (CepServiceVO) xstream.fromXML(newData.toString());
 
         } catch (Exception e) { 
             e.printStackTrace();
+            throw new ValidatorException(new FacesMessage());
         } finally {
             closeBufferedReader(br);
         }
         return cepServiceVO;
 
+    }
+
+
+    private StringBuilder nomeUrlWebServiceFormatado(String cep) {
+        StringBuilder urlWebService = new StringBuilder();
+        urlWebService.append(MensagemUtil.getPropriedades("cep.webservice"));
+        urlWebService.append(cep);
+        urlWebService.append("/xml/");
+        return urlWebService;
     }
 
 
@@ -56,17 +68,15 @@ public class CepService {
      * @throws IOException BufferedReader
      * 
      */
-    private BufferedReader criarConexaoWebService(BufferedReader br) throws MalformedURLException, IOException {
+    private BufferedReader criarConexaoWebService(BufferedReader br, StringBuilder urlWebService) throws MalformedURLException, IOException {
         // cria o objeto url
-        URL url = new URL(urlWebService);
+        URL url = new URL(urlWebService.toString());
         
         // cria o objeto httpurlconnection
        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
        
-       System.out.println("Proxy? " + connection.usingProxy()); 
-
         // seta o metodo
-        connection.setRequestProperty("Request-Method", "GET");
+        connection.setRequestMethod("GET");
 
         // seta a variavel para ler o resultado
         connection.setDoInput(true);

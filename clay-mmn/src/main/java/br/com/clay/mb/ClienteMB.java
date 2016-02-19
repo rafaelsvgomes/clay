@@ -294,12 +294,18 @@ public class ClienteMB extends ClayMB {
         String cep = e.getNewValue().toString();
         if (cep != null && !cep.isEmpty()) {
             CepService cepService = new CepService();
-            CepServiceVO cepServiceVO = cepService.buscarCepWebService(cep);
-
+            CepServiceVO cepServiceVO = null;
+           
+            cepServiceVO = cepService.buscarCepWebService(cep);
             if (cepServiceVO != null) {
                 populaEndereco(cep, cepServiceVO);
+                if(cepServiceVO.getErro()!= null && !cepServiceVO.getErro().isEmpty()){
+                    MensagemUtil.addMensagemInfo("cep.nao.encontrado.webservice");
+                    this.endereco = new PessoaEndereco(cep);
+                }
+            }else{
+                this.endereco = new PessoaEndereco(cep);
             }
-
         }
         return "lista_cliente?faces-redirect=true";
     }
@@ -313,7 +319,7 @@ public class ClienteMB extends ClayMB {
      */
     private void populaEndereco(String cep, CepServiceVO cepServiceVO) {
         this.endereco.setDescBairro(cepServiceVO.getBairro());
-        this.endereco.setDescCidade(cepServiceVO.getLogradouro());
+        this.endereco.setDescCidade(cepServiceVO.getLocalidade());
         this.endereco.setDescEndereco(cepServiceVO.getLogradouro());
         this.endereco.setNumCep(cep);
         this.endereco.setUf(new UF(cepServiceVO.getUf()));

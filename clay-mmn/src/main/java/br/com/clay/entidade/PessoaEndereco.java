@@ -55,6 +55,16 @@ public class PessoaEndereco extends ClayEntidade {
     @ManyToOne
     @JoinColumn(name = "CODUF", nullable = false)
     private UF uf;
+    
+
+    
+    public PessoaEndereco() {
+    }
+
+    public PessoaEndereco(String numCep) {
+        super();
+        this.numCep = numCep;
+    }
 
     public Long getId() {
         return id;

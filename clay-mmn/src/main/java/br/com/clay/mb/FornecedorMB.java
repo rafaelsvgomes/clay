@@ -16,6 +16,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.validator.ValidatorException;
 
 import br.com.clay.entidade.Banco;
 import br.com.clay.entidade.Fornecedor;
@@ -156,12 +157,18 @@ public class FornecedorMB extends ClayMB {
         String cep = e.getNewValue().toString();
         if (cep != null && !cep.isEmpty()) {
             CepService cepService = new CepService();
-            CepServiceVO cepServiceVO = cepService.buscarCepWebService(cep);
-
+            CepServiceVO cepServiceVO = null;
+           
+            cepServiceVO = cepService.buscarCepWebService(cep);
             if (cepServiceVO != null) {
                 populaEndereco(cep, cepServiceVO);
+                if(cepServiceVO.getErro()!= null && !cepServiceVO.getErro().isEmpty()){
+                    MensagemUtil.addMensagemInfo("cep.nao.encontrado.webservice");
+                    this.endereco = new PessoaEndereco(cep);
+                }
+            }else{
+                this.endereco = new PessoaEndereco(cep);
             }
-
         }
         return LISTA_FORNECEDOR;
     }

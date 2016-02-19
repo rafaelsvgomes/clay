@@ -70,6 +70,15 @@ public class ClienteServicoEJB extends ClayPersistencia<Cliente, Long> {
         }
     }
 
+    public Boolean cpfCnpjJaUtilizado(String numCpfCnpj) {
+        try {
+            em.createNamedQuery(Cliente.OBTER_POR_NUM_CPF_CNPJ).setParameter("numCpfCnpj", numCpfCnpj).getSingleResult();
+            return Boolean.TRUE;
+        } catch (NoResultException e) {
+            return Boolean.FALSE;
+        }
+    }
+
     /**
      * Método responsável por recuperar os produtos de um produto pai
      * 

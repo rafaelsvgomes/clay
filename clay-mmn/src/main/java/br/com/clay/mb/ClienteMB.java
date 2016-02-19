@@ -34,6 +34,7 @@ import br.com.clay.entidade.UsuarioGrupo;
 import br.com.clay.entidade.UsuarioPessoa;
 import br.com.clay.enums.TipoPessoa;
 import br.com.clay.servico.ClienteServicoEJB;
+import br.com.clay.util.CpfCnpjUtil;
 import br.com.clay.util.Email;
 import br.com.clay.util.EmailUtil;
 import br.com.clay.util.MensagemUtil;
@@ -229,7 +230,7 @@ public class ClienteMB extends ClayMB {
             }
 
             // TODO: rafael - Substituir replaces por Validator
-            cliente.setNumCpfCnpj(cliente.getNumCpfCnpj().replace("-", "").replace(".", "").replace("/", ""));
+            cliente.setNumCpfCnpj(CpfCnpjUtil.getCpfCnpjLimpo(cliente.getNumCpfCnpj()));
             cliente.getListaEndereco().get(0).setNumCep(cliente.getListaEndereco().get(0).getNumCep().replace("-", ""));
 
             setUsuario();
@@ -295,15 +296,15 @@ public class ClienteMB extends ClayMB {
         if (cep != null && !cep.isEmpty()) {
             CepService cepService = new CepService();
             CepServiceVO cepServiceVO = null;
-           
+
             cepServiceVO = cepService.buscarCepWebService(cep);
             if (cepServiceVO != null) {
                 populaEndereco(cep, cepServiceVO);
-                if(cepServiceVO.getErro()!= null && !cepServiceVO.getErro().isEmpty()){
+                if (cepServiceVO.getErro() != null && !cepServiceVO.getErro().isEmpty()) {
                     MensagemUtil.addMensagemInfo("cep.nao.encontrado.webservice");
                     this.endereco = new PessoaEndereco(cep);
                 }
-            }else{
+            } else {
                 this.endereco = new PessoaEndereco(cep);
             }
         }

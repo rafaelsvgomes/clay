@@ -6,6 +6,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
+import br.com.clay.util.MensagemUtil;
+
 public class CpfCnpjValidator implements Validator {
     @Override
     public void validate(FacesContext arg0, UIComponent arg1, Object valorTela) throws ValidatorException {
@@ -13,12 +15,13 @@ public class CpfCnpjValidator implements Validator {
     	
     	 FacesMessage message = new FacesMessage();
          message.setSeverity(FacesMessage.SEVERITY_ERROR);
+         message.setDetail("Erro validação CPF/CNPJ");
     	
          if (cpfCnpj.length() == 11 && !validaCPF(cpfCnpj)) {
-        	 message.setSummary("CPF inválido. Coloque um CPF válido!");
+        	 message.setSummary(MensagemUtil.getMessageFromValidationMessages("cpf.invalido"));
     		throw new ValidatorException(message);
         }else if(cpfCnpj.length() == 14 &&  !validaCNPJ(cpfCnpj)){
-        	message.setSummary("CNPJ inválido. Coloque um CNPJ válido!");
+            message.setSummary(MensagemUtil.getMessageFromValidationMessages("cnpj.invalido"));
         	throw new ValidatorException(message);
  		}
     }

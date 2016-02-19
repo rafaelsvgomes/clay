@@ -3,14 +3,20 @@ package br.com.clay.vo;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-@XStreamAlias("webservicecep")
+@XStreamAlias("xmlcep")
 public class CepServiceVO {
+    
+    @XStreamAlias("erro")
+    private String erro;
 
     @XStreamAlias("cep")
     private String cep;
 
     @XStreamAlias("logradouro")
     private String logradouro;
+    
+    @XStreamAlias("complemento")
+    private String complemento;
 
     @XStreamAlias("bairro")
     private String bairro;
@@ -23,6 +29,19 @@ public class CepServiceVO {
 
     @XStreamAlias("ibge")
     private String ibge;
+    
+    @XStreamAlias("gia")
+    private String gia;
+    
+    
+
+    public String getErro() {
+        return erro;
+    }
+
+    public void setErro(String erro) {
+        this.erro = erro;
+    }
 
     public String getCep() {
         return cep;
@@ -38,6 +57,14 @@ public class CepServiceVO {
 
     public void setLogradouro(String logradouro) {
         this.logradouro = logradouro;
+    }
+
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
     }
 
     public String getBairro() {
@@ -71,5 +98,14 @@ public class CepServiceVO {
     public void setIbge(String ibge) {
         this.ibge = ibge;
     }
+
+    public String getGia() {
+        return gia;
+    }
+
+    public void setGia(String gia) {
+        this.gia = gia;
+    }
+
     
 }

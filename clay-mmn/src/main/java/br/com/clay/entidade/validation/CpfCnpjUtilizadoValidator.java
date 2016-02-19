@@ -10,11 +10,12 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 import br.com.clay.servico.ClienteServicoEJB;
+import br.com.clay.util.CpfCnpjUtil;
 import br.com.clay.util.MensagemUtil;
 
-@ManagedBean(name = "emailValidator")
+@ManagedBean(name = "cpfCnpjUtilizadoValidator")
 @RequestScoped
-public class EmailValidator implements Validator {
+public class CpfCnpjUtilizadoValidator implements Validator {
 
     @EJB
     private ClienteServicoEJB ejb;
@@ -23,10 +24,10 @@ public class EmailValidator implements Validator {
         if (submittedValue == null) {
             return;
         }
-        String username = (String) submittedValue;
+        String numCpfCnpj = CpfCnpjUtil.getCpfCnpjLimpo((String) submittedValue);
 
-        if (ejb.emailJaUtilizado(username)) {
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, MensagemUtil.getMessageFromValidationMessages("email.ja.cadastrado"), null));
+        if (ejb.cpfCnpjJaUtilizado(numCpfCnpj)) {
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, MensagemUtil.getMessageFromValidationMessages("cpfcnpj.ja.cadastrado"), null));
         }
 
     }

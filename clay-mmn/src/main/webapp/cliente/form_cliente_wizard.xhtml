@@ -38,8 +38,9 @@
 							</label>
 							<div class="controls">
 								<p:inputMask id="cnpj"  mask="#{clienteMB.cliente.tipoPessoa == 'J' ? '99.999.999/9999-99' : '999.999.999-99'}"  
-								label="#{clienteMB.cliente.tipoPessoa == 'J' ? msg['label.pessoa.cnpj'] : msg['label.pessoa.cpf']}" value="#{clienteMB.cliente.numCpfCnpj}" 
-									required="true" immediate="true" styleClass="input-large" >
+									label="#{clienteMB.cliente.tipoPessoa == 'J' ? msg['label.pessoa.cnpj'] : msg['label.pessoa.cpf']}" 
+									value="#{clienteMB.cliente.numCpfCnpj}" required="true" immediate="true" styleClass="input-large" 
+									validator="#{cpfCnpjUtilizadoValidator.validate}">
 									<f:validator validatorId="validator.CpfValidator" />
 									</p:inputMask>
 							</div>
@@ -162,7 +163,7 @@
 						</label>
 						<div class="controls">
 					        <p:inputMask id="cliente_cep"  mask="99999-999" valueChangeListener="#{clienteMB.buscarCep}" value="#{clienteMB.endereco.numCep}" label="#{msg['label.pessoa.endereco.cep']}" required="true" immediate="true" styleClass="input-small"  >
-								<p:ajax  event="blur" update="cliente_descendereco, cliente_bairro, cliente_cidade" onstart="PF('dlgExec').show();" oncomplete="PF('dlgExec').hide();"/>
+								<p:ajax  event="blur" process="@this" immediate="true" update="cliente_descendereco, cliente_bairro, cliente_cidade" onstart="PF('dlgExec').show();" oncomplete="PF('dlgExec').hide();"/>
 							</p:inputMask>
 						</div>
 					</div>

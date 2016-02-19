@@ -18,12 +18,14 @@ import javax.persistence.PrimaryKeyJoinColumn;
 @Entity
 @PrimaryKeyJoinColumn(name = "idCliente", referencedColumnName = "idPessoa")
 @NamedQueries({ @NamedQuery(name = Cliente.OBTER_POR_DESC_USUARIO, query = "SELECT c.id FROM Cliente c WHERE c.descEmail = :descUsuario"),
-        @NamedQuery(name = Cliente.OBTER_POR_NUM_CPF_CNPJ, query = "SELECT c.id FROM Cliente c WHERE c.numCpfCnpj = :numCpfCnpj") })
+        @NamedQuery(name = Cliente.OBTER_POR_NUM_CPF_CNPJ, query = "SELECT c.id FROM Cliente c WHERE c.numCpfCnpj = :numCpfCnpj"),
+        @NamedQuery(name = Cliente.OBTER_POR_NUM_CPF_CNPJ_IGNORA_SELECIONADO, query = "SELECT c.id FROM Cliente c WHERE c.numCpfCnpj = :numCpfCnpj and c.id not in :idSelecionado") })
 public class Cliente extends Pessoa {
     private static final long serialVersionUID = 1L;
 
     public static final String OBTER_POR_DESC_USUARIO = "obterPorDescUsuario";
     public static final String OBTER_POR_NUM_CPF_CNPJ = "obterPorNumCpfCnpj";
+    public static final String OBTER_POR_NUM_CPF_CNPJ_IGNORA_SELECIONADO = "obterPorNumCpfCnpjIgnoraSelecionado";
 
     public Cliente(Long codIndicador) {
         super();

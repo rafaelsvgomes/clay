@@ -2,6 +2,7 @@ package br.com.clay.util;
 
 import static javax.faces.context.FacesContext.getCurrentInstance;
 
+import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
 import javax.faces.application.FacesMessage;
@@ -62,5 +63,14 @@ public final class MensagemUtil {
     public static String getPropriedades(String key) {
         ResourceBundle bundle = ResourceBundle.getBundle("propriedades", getCurrentInstance().getViewRoot().getLocale());
         return bundle.getString(key);
+    }
+
+    /**
+     * @param key
+     * @return Recupera a mensagem do arquivo validationmessages <code>ResourceBundle</code>.
+     */
+    public static String getMessageFromValidationMessages(String key, String prefixo) {
+        ResourceBundle bundle = ResourceBundle.getBundle("validationmessages", getCurrentInstance().getViewRoot().getLocale());
+        return MessageFormat.format(bundle.getString(key), prefixo, "");
     }
 }

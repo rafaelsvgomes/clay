@@ -43,8 +43,8 @@
 						</label>
 						<div class="controls">
 							<p:inputMask id="cnpj" mask="99.999.999/9999-99" value="#{fornecedorMB.fornecedor.numCpfCnpj}" label="#{msg['label.pessoa.cnpj']}" 
-								required="true" immediate="true" styleClass="input-large" >
-								<f:validator validatorId="validator.CpfValidator" />
+								required="true" immediate="true" styleClass="input-large" validator="#{cpfCnpjUtilizadoValidator.validate}" >
+								<f:param id="idSelecionado" name="idSelecionado" value="#{clienteMB.idSelecionado}"/>
 							</p:inputMask>
 						</div>
 					</div>		

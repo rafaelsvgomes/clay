@@ -70,9 +70,14 @@ public class ClienteServicoEJB extends ClayPersistencia<Cliente, Long> {
         }
     }
 
-    public Boolean cpfCnpjJaUtilizado(String numCpfCnpj) {
+    public Boolean cpfCnpjJaUtilizado(String numCpfCnpj, Long idClienteSelecionado) {
         try {
-            em.createNamedQuery(Cliente.OBTER_POR_NUM_CPF_CNPJ).setParameter("numCpfCnpj", numCpfCnpj).getSingleResult();
+            if (idClienteSelecionado != null) {
+                em.createNamedQuery(Cliente.OBTER_POR_NUM_CPF_CNPJ_IGNORA_SELECIONADO).setParameter("numCpfCnpj", numCpfCnpj).setParameter("idSelecionado", idClienteSelecionado)
+                        .getSingleResult();
+            } else {
+                em.createNamedQuery(Cliente.OBTER_POR_NUM_CPF_CNPJ).setParameter("numCpfCnpj", numCpfCnpj).getSingleResult();
+            }
             return Boolean.TRUE;
         } catch (NoResultException e) {
             return Boolean.FALSE;

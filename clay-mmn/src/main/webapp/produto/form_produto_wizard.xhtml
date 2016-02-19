@@ -3,35 +3,6 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-	
-	
-	<script type = "text/javascript">
-			function mascara(o, f) {
-				v_obj = o;
-				v_fun = f;
-				setTimeout(“execmascara()”, 1);
-			}
-			
-			function execmascara() {
-				v_obj.value = v_fun(v_obj.value);
-			}
-			
-			function valor(v) {
-				v = v.replace(/\D/g, “”);
-				v = v.replace(/[0-9]{15}/, “invÃ¡lido”);
-				v = v.replace(/(\d{1})(\d{11})$/, “$1.$2”); // coloca ponto antes dos
-				// Ãºltimos 11 digitos
-				v = v.replace(/(\d{1})(\d{8})$/, “$1.$2”); // coloca ponto antes dos
-				// Ãºltimos 8 digitos
-				v = v.replace(/(\d{1})(\d{5})$/, “$1.$2”); // coloca ponto antes dos
-				// Ãºltimos 5 digitos
-				v = v.replace(/(\d{1})(\d{1,2})$/, “$1,$2”); // coloca virgula antes dos
-				// Ãºltimos 2 digitos
-				return v;
-			}
-
-</script>
-	
 
 	<div>
 		<h3>
@@ -96,7 +67,9 @@
 							<h:outputText value="#{msg['label.produto.qtdaltura']}" />
 						</label>
 						<div class="controls">
-					        <p:inputMask value="#{produtoMB.produto.qtdAltura}"  label="#{msg['label.produto.qtdaltura']}" styleClass="input-small" />
+					        <p:inputMask value="#{produtoMB.produto.qtdAltura}" mask="999"  label="#{msg['label.produto.qtdaltura']}" styleClass="input-small" maxlength="3">
+					        	<f:validateLength minimum="0" maximum="3" />
+					        </p:inputMask>
 						</div>
 					</div>
 					
@@ -105,7 +78,9 @@
 							<h:outputText value="#{msg['label.produto.qtdlargura']}" />
 						</label>
 						<div class="controls">
-					        <p:inputMask value="#{produtoMB.produto.qtdLargura}"  label="#{msg['label.produto.qtdlargura']}" styleClass="input-small" />
+					        <p:inputMask value="#{produtoMB.produto.qtdLargura}" mask="999"  label="#{msg['label.produto.qtdlargura']}" styleClass="input-small" maxlength="3">
+					       		<f:validateLength minimum="0" maximum="300" />
+					        </p:inputMask>
 						</div>
 					</div>
 					
@@ -114,7 +89,9 @@
 							<h:outputText value="#{msg['label.produto.qtdpeso']}" />
 						</label>
 						<div class="controls">
-					        <p:inputMask value="#{produtoMB.produto.qtdPeso}"  label="#{msg['label.produto.qtdpeso']}" styleClass="input-small" />
+					        <p:inputMask value="#{produtoMB.produto.qtdPeso}" mask="999"  label="#{msg['label.produto.qtdpeso']}" styleClass="input-small" maxlength="3">
+					        	<f:validateLength minimum="0" maximum="300" />
+					        </p:inputMask>
 						</div>
 					</div>
 				</fieldset>
@@ -215,14 +192,17 @@
 			<p:tab id="tabValor" title="Valor">
 				<fieldset>
 					<legend>
-						<small> <h:outputText value="#{msg['label.produto.produtovalor']} *" /></small>
+						<small> <h:outputText value="#{msg['label.produto.produtovalor']}" /></small>
 					</legend>
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.produto.produtovalor.vlcusto']}" />
+							<h:outputText value="#{msg['label.produto.produtovalor.vlcusto']} *" />
 						</label>
 						<div class="controls">
-							<p:inputText maxlength="15" required="true" value="#{produtoMB.produtoValor.valorCusto}"  label="#{msg['label.produto.produtovalor.vlcusto']}"  immediate="true" styleClass="input-large"  onkeypress="mascara(this, valor);"/>
+							<p:inputMask id="valorCusto" valueChangeListener="#{produtoMB.atualizarValorCusto}" maxlength="15" required="true" value="#{produtoMB.produtoValor.valorCusto}"  label="#{msg['label.produto.produtovalor.vlcusto']}"  immediate="true" styleClass="input-large"  onkeydown="mascara(this, valor);">
+								<f:convertNumber currencySymbol="R$" type="currency" />
+								<p:ajax event="change" process="@this" update="valorDesconto, valorTotal" immediate="true" onstart="PF('dlgExec').show();" oncomplete="PF('dlgExec').hide();"/>
+							</p:inputMask>
 						</div>
 					</div>
 					
@@ -231,9 +211,10 @@
 							<h:outputText value="#{msg['label.produto.produtovalor.vldesconto']}" />
 						</label>
 						<div class="controls">
-					        <p:inputText value="#{produtoMB.produtoValor.valorDesconto}" label="#{msg['label.produto.produtovalor.vldesconto']}"  styleClass="input-large">
-					       
-					        </p:inputText>
+					        <p:inputMask id="valorDesconto" valueChangeListener="#{produtoMB.atualizarValorDesconto}" value="#{produtoMB.produtoValor.valorDesconto}" label="#{msg['label.produto.produtovalor.vldesconto']}"  styleClass="input-large">
+					       			<f:convertNumber currencySymbol="R$" type="currency" />
+					       			<p:ajax event="change" process="@all" update="valorCusto, valorDesconto, valorTotal" immediate="true" onstart="PF('dlgExec').show();" oncomplete="PF('dlgExec').hide();"/>
+					        </p:inputMask>
 						</div>
 					</div>
 					
@@ -242,7 +223,9 @@
 							<h:outputText value="#{msg['label.produto.produtovalor.vlproduto']} *" />
 						</label>
 						<div class="controls">
-					        <p:inputText value="#{produtoMB.produtoValor.valorProduto}" label="#{msg['label.produto.produtovalor.vlproduto']}" required="true" immediate="true" styleClass="input-large"/>
+					        <p:inputMask  id="valorTotal" disabled="true" value="#{produtoMB.produtoValor.valorProduto}" label="#{msg['label.produto.produtovalor.vlproduto']}" required="true" immediate="true" styleClass="input-large">
+					       		<f:convertNumber currencySymbol="R$" type="currency" />
+					        </p:inputMask>
 						</div>
 					</div>
 				</fieldset>
@@ -308,7 +291,6 @@
 					
 					<p:button value="#{msg['button.cancelar']}" outcome="lista_produto" styleClass="btn" />
 					
-					<p:commandButton value="#{msg['button.excluir']}" onclick="PF('confirmation').show();" rendered="#{produtoMB.produto.id != null}" immediate="true" styleClass="btn btn-danger" />
 				</div>
 				
 			</p:tab>

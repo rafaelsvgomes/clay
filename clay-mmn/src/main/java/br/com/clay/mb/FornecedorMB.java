@@ -16,7 +16,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
-import javax.faces.validator.ValidatorException;
 
 import br.com.clay.entidade.Banco;
 import br.com.clay.entidade.Fornecedor;

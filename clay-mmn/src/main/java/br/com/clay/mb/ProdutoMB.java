@@ -7,6 +7,7 @@
  */
 package br.com.clay.mb;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -15,6 +16,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 
 import org.primefaces.event.FlowEvent;
 
@@ -37,7 +39,7 @@ import br.com.clay.util.MensagemUtil;
 public class ProdutoMB extends ClayMB {
     private static final long serialVersionUID = -1164826778001209860L;
 
-    private static final String LISTA_PRODUTO = "lista_produto";
+    private static final String LISTA_PRODUTO = "lista_produto?faces-redirect=true";
 
     @EJB
     ProdutoServicoEJB ejb;
@@ -166,6 +168,34 @@ public class ProdutoMB extends ClayMB {
         }
         return listaProdutos;
     }
+    
+    public String atualizarValorCusto(ValueChangeEvent e) {
+        BigDecimal valorCusto = (BigDecimal) e.getNewValue();
+        if(this.produtoValor.getValorDesconto() == null){
+            this.produtoValor.setValorProduto(valorCusto);
+        }else{
+            calculoCustoTotal(valorCusto, this.produtoValor.getValorDesconto());
+        }
+        return LISTA_PRODUTO;
+    }
+    
+    public String atualizarValorDesconto(ValueChangeEvent e) {
+        BigDecimal valorDesconto = (BigDecimal) e.getNewValue();
+        if(this.produtoValor.getValorCusto() != null){
+            calculoCustoTotal(this.produtoValor.getValorCusto(), valorDesconto);
+        }
+        return LISTA_PRODUTO;
+    }
+
+    private void calculoCustoTotal(BigDecimal valorCusto, BigDecimal valorDesconto) {
+        if(valorCusto.compareTo(valorDesconto) == 1){
+            this.produtoValor.setValorProduto(valorCusto.subtract(valorDesconto));
+        }else if(valorCusto.compareTo(valorDesconto) == 0){
+            this.produtoValor.setValorProduto(new BigDecimal(0));
+        }else{
+            MensagemUtil.addMensagemErro("validacao.produto.valor.desconto.maior.que.valor.custo", "Desconto maior que valor do custo");
+        }
+    }
 
     @SuppressWarnings("unchecked")
     public List<Fornecedor> getListaFornecedor() {
@@ -243,9 +273,13 @@ public class ProdutoMB extends ClayMB {
             } else {
                 return "tabVenda";
             }
-        } else {
-            return event.getNewStep();
+        } else if(event.getNewStep().equalsIgnoreCase("tabConfirmacao")) {
+            if(this.produtoValor.getValorDesconto() != null && this.produtoValor.getValorCusto() != null && this.produtoValor.getValorDesconto().compareTo(this.produtoValor.getValorCusto()) == 1){
+                MensagemUtil.addMensagemErro("validacao.produto.valor.desconto.maior.que.valor.custo", "Desconto maior que valor do custo");
+                return "tabValor";
+            }
         }
+        return event.getNewStep();
     }
 
     public void editar() {

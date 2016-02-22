@@ -31,7 +31,7 @@ public class LoginFilter implements Filter {
         if (SecurityContextAssociation.getPrincipal() != null && ((HttpServletRequest) servletRequest).getSession().getAttribute("usuarioLogado") == null) {
             String userName = SecurityContextAssociation.getPrincipal().getName();
 
-            inserirUsuarioSessao(userName, servletRequest);
+            inserirUsuarioSessao(userName.trim(), servletRequest);
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }

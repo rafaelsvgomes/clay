@@ -1,0 +1,68 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="../layout/template.xhtml">
+	<ui:define name="pageTitle">
+		<h:outputText value="#{msg['page.title.editar.senha']}" />
+	</ui:define>
+
+	<ui:define name="content">
+		<div style="border-bottom: 1px solid #E5E5E5;">
+			<h3>
+				<h:outputText value="#{msg['label.clientes']}" />
+				<small> <h:outputText value="#{subtitle}" /></small>
+			</h3>
+		</div>
+		<h:form  styleClass="form-horizontal">
+			<p:tab id="tabEditarSenha" title="Senha">
+				<fieldset>
+					<legend>
+						<small> <h:outputText value="#{msg['label.cliente.pagamento']}" /></small>
+					</legend>
+					
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.usuario.login']} *" />
+						</label>
+						<div class="controls">
+							<p:inputText value="#{usuarioLogado.descUsuario}" label="#{msg['label.usuario.login']}" required="true" immediate="true" styleClass="input-large" disabled="true" />
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.usuario.senha']} *" />
+						</label>
+						<div class="controls">
+							<p:password id="senha1" value="#{usuarioMB.senha}" label="#{msg['label.usuario.senha']}" required="true" immediate="true" styleClass="input-large" 
+							feedback="true" promptLabel="Digite a senha" weakLabel="Fraca" goodLabel="Boa" strongLabel="Forte" />
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.usuario.re.senha']} *" />
+						</label>
+						<div class="controls">
+							<p:password id="senha2" value="#{usuarioMB.reSenha}" label="#{msg['label.usuario.re.senha']}" required="true" immediate="true" styleClass="input-large" />
+						</div>
+					</div>
+				</fieldset>
+			</p:tab>
+			
+			<p:separator/>
+			<div class="controls">
+				<p:commandButton value="#{msg['button.salvar']}" onclick="PF('confirmation').show();" styleClass="btn btn-success" />
+			</div>
+			<p:confirmDialog id="confirmDialog" message="#{msg['alterar.senha.confirma']}" header="#{msg['excluir.cliente']}" severity="alert" widgetVar="confirmation">  
+		        <p:commandButton id="confirm" value="#{msg['confirma.sim']}" update="messages" oncomplete="PF('confirmation').hide()" action="#{usuarioMB.alterarSenha()}" />  
+		        <p:commandButton id="decline" value="#{msg['confirma.nao']}" update="messages" onclick="PF('confirmation').hide()" type="button" />
+		    </p:confirmDialog>
+		    <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

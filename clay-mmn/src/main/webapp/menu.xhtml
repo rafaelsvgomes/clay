@@ -57,10 +57,11 @@
 		</li>
 		
 		<li class="divider" />
-		<li class="#{param.active == 'sobre' ? 'active' : ''}">
-			<h:link outcome="/cliente/sobre">
-				<h:outputText value="#{msg['menu.sobre']}" escape="false" />
-				<f:param name="active" value="sobre" />
+		<li><em><h:outputText value="#{msg['label.usuario']}" rendered="#{usuarioLogado.getCodGrupo().equals('USER') or usuarioLogado.getCodGrupo().equals('ADMIN')}"/></em></li>
+		<li class="#{param.active == 'usuario' ? 'active' : ''}">
+			<h:link outcome="/usuario/senha">
+				<h:outputText value="#{msg['menu.editar.senha.usuario']}" escape="false" />
+				<f:param name="active" value="usuario" />
 			</h:link>
 			
 		</li>

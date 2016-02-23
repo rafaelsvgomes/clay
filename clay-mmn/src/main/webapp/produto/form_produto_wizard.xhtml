@@ -2,7 +2,13 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	
+	<h:head>
+ <title>Test</title>
+ <script type="text/javascript" src="jquery.maskMoney.js"></script>
+</h:head>
 
 	<div>
 		<h3>
@@ -45,7 +51,10 @@
 							<h:outputText value="#{msg['label.produto.percmargemvenda']} " />
 						</label>
 						<div class="controls">
-							<p:inputText value="#{produtoMB.produto.percMargemVenda}" label="#{msg['label.produto.percmargemvenda']}" styleClass="input-large"/>
+							<pe:inputNumber   minValue="0" symbol=" %" maxValue="100" decimalPlaces="2" symbolPosition="s" value="#{produtoMB.produto.percMargemVenda}"
+								label="#{msg['label.produto.percmargemvenda']}" styleClass="input-large" immediate="true">
+							</pe:inputNumber>
+						
 						</div>
 					</div>
 					<div class="control-group">
@@ -67,9 +76,10 @@
 							<h:outputText value="#{msg['label.produto.qtdaltura']}" />
 						</label>
 						<div class="controls">
-					        <p:inputMask value="#{produtoMB.produto.qtdAltura}" mask="999"  label="#{msg['label.produto.qtdaltura']}" styleClass="input-small" maxlength="3">
-					        	<f:validateLength minimum="0" maximum="3" />
-					        </p:inputMask>
+					        <pe:inputNumber  emptyValue="0" minValue="0" symbol=" Cm" maxValue="3" decimalPlaces="2" symbolPosition="s" value="#{produtoMB.produto.qtdAltura}" decimalSeparator="," thousandSeparator="."
+								label="#{msg['label.produto.qtdaltura']}" styleClass="input-medium" maxlength="3" immediate="true">
+							</pe:inputNumber>
+					        
 						</div>
 					</div>
 					
@@ -78,9 +88,9 @@
 							<h:outputText value="#{msg['label.produto.qtdlargura']}" />
 						</label>
 						<div class="controls">
-					        <p:inputMask value="#{produtoMB.produto.qtdLargura}" mask="999"  label="#{msg['label.produto.qtdlargura']}" styleClass="input-small" maxlength="3">
-					       		<f:validateLength minimum="0" maximum="300" />
-					        </p:inputMask>
+					        <pe:inputNumber emptyValue="0" minValue="0" symbol=" Cm" maxValue="300" decimalPlaces="2" symbolPosition="s" value="#{produtoMB.produto.qtdLargura}"  decimalSeparator="," thousandSeparator="."
+								label="#{msg['label.produto.qtdlargura']}" styleClass="input-medium" maxlength="3" immediate="true">
+							</pe:inputNumber>
 						</div>
 					</div>
 					
@@ -89,9 +99,9 @@
 							<h:outputText value="#{msg['label.produto.qtdpeso']}" />
 						</label>
 						<div class="controls">
-					        <p:inputMask value="#{produtoMB.produto.qtdPeso}" mask="999"  label="#{msg['label.produto.qtdpeso']}" styleClass="input-small" maxlength="3">
-					        	<f:validateLength minimum="0" maximum="300" />
-					        </p:inputMask>
+					          <pe:inputNumber emptyValue="0"  minValue="0" symbol=" Kg" maxValue="300" decimalPlaces="2" symbolPosition="s" value="#{produtoMB.produto.qtdPeso}"  decimalSeparator="," thousandSeparator="."
+								label="#{msg['label.produto.qtdpeso']}" styleClass="input-medium" maxlength="3" immediate="true">
+							</pe:inputNumber>
 						</div>
 					</div>
 				</fieldset>
@@ -199,10 +209,10 @@
 							<h:outputText value="#{msg['label.produto.produtovalor.vlcusto']} *" />
 						</label>
 						<div class="controls">
-							<p:inputMask id="valorCusto" valueChangeListener="#{produtoMB.atualizarValorCusto}" maxlength="15" required="true" value="#{produtoMB.produtoValor.valorCusto}"  label="#{msg['label.produto.produtovalor.vlcusto']}"  immediate="true" styleClass="input-large"  onkeydown="mascara(this, valor);">
-								<f:convertNumber currencySymbol="R$" type="currency" />
+							<pe:inputNumber  emptyValue="0" id="valorCusto" valueChangeListener="#{produtoMB.atualizarValorCusto}" minValue="0" symbol="R$ " 
+											 value="#{produtoMB.produtoValor.valorCusto}" label="#{msg['label.produto.produtovalor.vlcusto']}" styleClass="input-large" immediate="true" decimalSeparator="," thousandSeparator=".">
 								<p:ajax event="change" process="@this" update="valorDesconto, valorTotal" immediate="true" onstart="PF('dlgExec').show();" oncomplete="PF('dlgExec').hide();"/>
-							</p:inputMask>
+							</pe:inputNumber>
 						</div>
 					</div>
 					
@@ -211,10 +221,11 @@
 							<h:outputText value="#{msg['label.produto.produtovalor.vldesconto']}" />
 						</label>
 						<div class="controls">
-					        <p:inputMask id="valorDesconto" valueChangeListener="#{produtoMB.atualizarValorDesconto}" value="#{produtoMB.produtoValor.valorDesconto}" label="#{msg['label.produto.produtovalor.vldesconto']}"  styleClass="input-large">
-					       			<f:convertNumber currencySymbol="R$" type="currency" />
-					       			<p:ajax event="change" process="@all" update="valorCusto, valorDesconto, valorTotal" immediate="true" onstart="PF('dlgExec').show();" oncomplete="PF('dlgExec').hide();"/>
-					        </p:inputMask>
+					        <pe:inputNumber  emptyValue="0" id="valorDesconto" valueChangeListener="#{produtoMB.atualizarValorDesconto}" minValue="0" symbol="R$ " 
+											 value="#{produtoMB.produtoValor.valorDesconto}" label="#{msg['label.produto.produtovalor.vldesconto']}" styleClass="input-large" immediate="true" decimalSeparator="," thousandSeparator=".">
+								<p:ajax event="change" process="@this" update="valorCusto,valorDesconto, valorTotal" immediate="true" onstart="PF('dlgExec').show();" oncomplete="PF('dlgExec').hide();"/>
+							</pe:inputNumber>
+					        
 						</div>
 					</div>
 					
@@ -223,9 +234,9 @@
 							<h:outputText value="#{msg['label.produto.produtovalor.vlproduto']} *" />
 						</label>
 						<div class="controls">
-					        <p:inputMask  id="valorTotal" disabled="true" value="#{produtoMB.produtoValor.valorProduto}" label="#{msg['label.produto.produtovalor.vlproduto']}" required="true" immediate="true" styleClass="input-large">
-					       		<f:convertNumber currencySymbol="R$" type="currency" />
-					        </p:inputMask>
+					        <pe:inputNumber  emptyValue="0" id="valorTotal" disabled="true" minValue="0" symbol="R$ " 
+											 value="#{produtoMB.produtoValor.valorProduto}" label="#{msg['label.produto.produtovalor.vlproduto']}" styleClass="input-large" immediate="true" decimalSeparator="," thousandSeparator=".">
+							</pe:inputNumber>
 						</div>
 					</div>
 				</fieldset>
@@ -246,16 +257,16 @@
 							<h:outputText value="#{produtoMB.produto.descProduto}" styleClass="outputLabel"/>
 							
 							<h:outputText value="#{msg['label.produto.percmargemvenda']}" />
-							<h:outputText value="#{produtoMB.produto.percMargemVenda}" styleClass="outputLabel"/>
-							
+							<h:outputText value="#{produtoMB.produto.percMargemVenda} %" styleClass="outputLabel"/>
+
 							<h:outputText value="#{msg['label.produto.qtdaltura']}" />
-							<h:outputText value="#{produtoMB.produto.qtdAltura}" styleClass="outputLabel"/>
+							<h:outputText value="#{produtoMB.produto.qtdAltura} Cm" styleClass="outputLabel"/>
 
 							<h:outputText value="#{msg['label.produto.qtdlargura']}" />
-							<h:outputText value="#{produtoMB.produto.qtdLargura}" styleClass="outputLabel"/>
+							<h:outputText value="#{produtoMB.produto.qtdLargura} Cm" styleClass="outputLabel"/>
 							
 							<h:outputText value="#{msg['label.produto.qtdpeso']}" />
-							<h:outputText value="#{produtoMB.produto.qtdPeso}" styleClass="outputLabel"/>		
+							<h:outputText value="#{produtoMB.produto.qtdPeso} Kg" styleClass="outputLabel"/>
 						</h:panelGrid>
 						
 						
@@ -272,13 +283,19 @@
 						
 						<h:panelGrid columns="2" columnClasses="label,value" border="1">
 							<h:outputText value="#{msg['label.produto.produtovalor.vlcusto']}" />
-							<h:outputText value="#{produtoMB.produto.listaProdutoValor.get(0).valorCusto}" styleClass="outputLabel"/>
+							<h:outputText value="#{produtoMB.produto.listaProdutoValor.get(0).valorCusto}" styleClass="outputLabel">
+							   <f:convertNumber type="currency" currencySymbol="R$ "/>
+							</h:outputText>
 							
 							<h:outputText value="#{msg['label.produto.produtovalor.vldesconto']}" />
-							<h:outputText value="#{produtoMB.produto.listaProdutoValor.get(0).valorDesconto}" styleClass="outputLabel"/>
+							<h:outputText value="#{produtoMB.produto.listaProdutoValor.get(0).valorDesconto}" styleClass="outputLabel">
+								<f:convertNumber type="currency" currencySymbol="R$ "/>
+							</h:outputText>
 							
 							<h:outputText value="#{msg['label.produto.produtovalor.vlproduto']}" />
-							<h:outputText value="#{produtoMB.produto.listaProdutoValor.get(0).valorProduto}" styleClass="outputLabel"/>
+							<h:outputText value="#{produtoMB.produto.listaProdutoValor.get(0).valorProduto}" styleClass="outputLabel">
+								<f:convertNumber type="currency" currencySymbol="R$ "/>
+							</h:outputText>
 						</h:panelGrid>
 					</h:panelGrid>
 				</fieldset>

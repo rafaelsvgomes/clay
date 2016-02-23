@@ -30,7 +30,7 @@ public class ProdutoValor extends ClayEntidade{
 	@Column(name = "idProdutoValor")
 	private Long id;
 
-	@Column(name = "dtatualizacao")
+	@Column(name = "dataatualizacao")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar dataAtualizacao;
 

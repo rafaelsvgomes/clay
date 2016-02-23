@@ -55,15 +55,15 @@ insert into categoria values (3,'Shampoo',1);
 insert into categoria values (4,'Kit Adesão',null);
 
 --Produto
-insert into produto values (nextval('SEQPRODUTO'),4,3,null,'Kit Plano 1','Kit de adesão, referente ao plano 1',10,0,0,0,20,false,true);
-insert into produto values (nextval('SEQPRODUTO'),4,3,null,'Kit Plano 2','Kit de adesão, referente ao plano 2',10,0,0,0,20,false,true);
-insert into produto values (nextval('SEQPRODUTO'),4,3,null,'Kit Plano 3','Kit de adesão, referente ao plano 3',10,0,0,0,20,false,true);
-insert into produto values (nextval('SEQPRODUTO'),2,1,null,'Creme para as mãos','Creme suave para uso diário',10,0,0,0,30,true,false);
-insert into produto values (nextval('SEQPRODUTO'),3,1,null,'Shampoo de argila','Shampoo para cabelos secos',15,0,0,0,25,true,false);
-insert into produto values (nextval('SEQPRODUTO'),2,1,null,'Base maquiagem','Base para maquiagem desc',10,0,0,0,30,true,false);
-insert into produto values (nextval('SEQPRODUTO'),3,1,null,'Máscara','Máscara desc',15,0,0,0,25,true,false);
-insert into produto values (nextval('SEQPRODUTO'),2,1,null,'Pomada de argila','Pomada de argila desc',10,0,0,0,30,true,false);
-insert into produto values (nextval('SEQPRODUTO'),3,1,null,'Loção hidratante','Loção hidratante desc',15,0,0,0,25,true,false);
+insert into produto values (nextval('SEQPRODUTO'),4,3,null,'Kit Plano 1','Kit de adesão, referente ao plano 1',10,0,0,0,0,0,20,false,true);
+insert into produto values (nextval('SEQPRODUTO'),4,3,null,'Kit Plano 2','Kit de adesão, referente ao plano 2',10,0,0,0,0,0,20,false,true);
+insert into produto values (nextval('SEQPRODUTO'),4,3,null,'Kit Plano 3','Kit de adesão, referente ao plano 3',10,0,0,0,0,0,20,false,true);
+insert into produto values (nextval('SEQPRODUTO'),2,1,null,'Creme para as mãos','Creme suave para uso diário',10,0,0,0,0,0,30,true,false);
+insert into produto values (nextval('SEQPRODUTO'),3,1,null,'Shampoo de argila','Shampoo para cabelos secos',15,0,0,0,0,0,25,true,false);
+insert into produto values (nextval('SEQPRODUTO'),2,1,null,'Base maquiagem','Base para maquiagem desc',10,0,0,0,0,0,30,true,false);
+insert into produto values (nextval('SEQPRODUTO'),3,1,null,'Máscara','Máscara desc',15,0,0,0,0,0,25,true,false);
+insert into produto values (nextval('SEQPRODUTO'),2,1,null,'Pomada de argila','Pomada de argila desc',10,0,0,0,0,0,30,true,false);
+insert into produto values (nextval('SEQPRODUTO'),3,1,null,'Loção hidratante','Loção hidratante desc',15,0,0,0,0,0,25,true,false);
 
 --ProdutoComposicao
 INSERT INTO produtocomposicao select nextval('seqprodutocomposicao'), p.idproduto, pi.idproduto, 5 from produto p, produto pi where p.nomeproduto = 'Kit Plano 1' and pi.nomeproduto = 'Creme para as mãos';
@@ -110,20 +110,22 @@ INSERT INTO USUARIO values (nextval('sequsuario'), 'user', '076c8b756a48c7b7c23c
 
 --USUARIOGRUPO
 INSERT INTO USUARIOGRUPO VALUES (nextval('sequsuariogrupo'), 'ADMIN', 1);
-INSERT INTO USUARIOGRUPO VALUES (nextval('sequsuariogrupo'), 'USER', 2);
+INSERT INTO USUARIOGRUPO VALUES (nextval('sequsuariogrupo'), 'CLIENTE', 2);
 
 --INSERT PESSOA ADM
-INSERT INTO pessoa values (nextval('seqpessoa'), 'Gestor Master Clay', null, 'F', '00000000000', 'M', '2000-01-01', '2000-01-01', 'admin@clay.com');
-INSERT INTO cliente select p.idpessoa, 1, 2, '2000-01-01' from pessoa p where p.nomepessoa = 'Administrador';
+INSERT INTO pessoa values (nextval('seqpessoa'), 'Administrador', null, 'F', '00000000000', 'M', '2000-01-01', '2000-01-01', 'admin@clay.com');
+INSERT INTO cliente select p.idpessoa, 2, 2, '2000-01-01' from pessoa p where p.nomepessoa = 'Administrador';
 INSERT INTO usuariopessoa select nextval('sequsuariopessoa'), p.idpessoa, u.idusuario from pessoa p, usuario u where p.nomepessoa = 'Administrador' and u.dsusuario = 'admin';
 
 --INSERT GESTOR MASTER
-INSERT INTO pessoa values (nextval('seqpessoa'), 'Gestor Master Clay', 'Gestor Master Clay SA', 'J', '00000000000000', null, '2000-01-01', '2000-01-01', 'gestormaster@gmail.com');
+INSERT INTO pessoa values (nextval('seqpessoa'), 'Gestor Master Clay', 'Gestor Master Clay SA', 'J', '11111111111111', null, '2000-01-01', '2000-01-01', 'gestormaster@clay.com');
 INSERT INTO pessoaendereco select nextval('seqpessoaendereco'), p.idpessoa, 2, 'Endereço Gestor', 0, '', 'Brasília', 'Brasília', '00000000', 'DF' from pessoa p where p.nomepessoa = 'Gestor Master Clay';
 INSERT INTO pessoaconta select nextval('seqpessoaconta'), p.idpessoa, 2, 1, 1, 11, true from pessoa p where p.nomepessoa = 'Gestor Master Clay';  
 INSERT INTO pessoatelefone select nextval('seqpessoatelefone'), 1, p.idpessoa, '(61)99999999' from pessoa p where p.nomepessoa = 'Gestor Master Clay';  
 INSERT INTO cliente select p.idpessoa, 1, 2, '2000-01-01' from pessoa p where p.nomepessoa = 'Gestor Master Clay';
 INSERT INTO usuariopessoa select nextval('sequsuariopessoa'), p.idpessoa, u.idusuario from pessoa p, usuario u where p.nomepessoa = 'Gestor Master Clay' and u.dsusuario = 'gestormaster';
+INSERT INTO USUARIO values (nextval('sequsuario'), 'gestormaster', 'bdfb8ce799ed1782a38a47c8090f6941');--adminclay123
+INSERT INTO USUARIOGRUPO select nextval('sequsuariogrupo'), 'ADMIN', p.idpessoa from pessoa p where p.nomepessoa = 'Gestor Master Clay';
 
 
 

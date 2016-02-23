@@ -154,47 +154,33 @@ drop sequence SEQUSUARIOGRUPO;
 
 drop sequence SEQUSUARIOPESSOA;
 
-create sequence SEQPEDIDO
-increment 1;
+create sequence SEQPEDIDO increment 1;
 
-create sequence SEQPEDIDOPRODUTO
-increment 1;
+create sequence SEQPEDIDOPRODUTO increment 1;
 
-create sequence SEQPESSOA
-increment 1;
+create sequence SEQPESSOA increment 1;
 
-create sequence SEQPESSOACONTA
-increment 1;
+create sequence SEQPESSOACONTA increment 1;
 
-create sequence SEQPESSOAENDERECO
-increment 1;
+create sequence SEQPESSOAENDERECO increment 1;
 
-create sequence SEQPESSOAREDE
-increment 1;
+create sequence SEQPESSOAREDE increment 1;
 
-create sequence SEQPLANOASSINATURA
-increment 1;
+create sequence SEQPLANOASSINATURA increment 1;
 
-create sequence SEQPRODUTO
-increment 1;
+create sequence SEQPRODUTO increment 1;
 
-create sequence SEQPRODUTOCOMPOSICAO
-increment 1;
+create sequence SEQPRODUTOCOMPOSICAO increment 1;
 
-create sequence SEQPRODUTOVALOR
-increment 1;
+create sequence SEQPRODUTOVALOR increment 1;
 
-create sequence SEQPESSOATELEFONE
-increment 1;
+create sequence SEQPESSOATELEFONE increment 1;
 
-create sequence SEQUSUARIO
-increment 1;
+create sequence SEQUSUARIO increment 1;
 
-create sequence SEQUSUARIOGRUPO
-increment 1;
+create sequence SEQUSUARIOGRUPO increment 1;
 
-create sequence SEQUSUARIOPESSOA
-increment 1;
+create sequence SEQUSUARIOPESSOA increment 1;
 
 /*==============================================================*/
 /* Table: BANCO                                                 */

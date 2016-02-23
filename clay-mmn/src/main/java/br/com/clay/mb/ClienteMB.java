@@ -161,6 +161,7 @@ public class ClienteMB extends ClayMB {
             ex.printStackTrace();
             MensagemUtil.addMensagemErro("msg.erro.salvar.cliente", ex.getMessage());
         }
+        // TODO: rafael - Ao utilizar este return nao aparece o p:growl de sucesso e erro.
         return "lista_cliente?faces-redirect=true";
     }
 

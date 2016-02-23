@@ -55,34 +55,37 @@ insert into categoria values (3,'Shampoo',1);
 insert into categoria values (4,'Kit Adesão',null);
 
 --Produto
-insert into produto values (1,4,3,null,'Kit Plano 1','Kit de adesão, referente ao plano 1',10,0,0,0,20,false,true);
-insert into produto values (2,4,3,null,'Kit Plano 2','Kit de adesão, referente ao plano 2',10,0,0,0,20,false,true);
-insert into produto values (3,4,3,null,'Kit Plano 3','Kit de adesão, referente ao plano 3',10,0,0,0,20,false,true);
-insert into produto values (4,2,1,null,'Creme para as mãos','Creme suave para uso diário',10,0,0,0,30,true,false);
-insert into produto values (5,3,1,null,'Shampoo de argila','Shampoo para cabelos secos',15,0,0,0,25,true,false);
-insert into produto values (6,2,1,null,'Base maquiagem','Base para maquiagem',10,0,0,0,30,true,false);
-insert into produto values (7,3,1,null,'Máscara','MáscaraDesc',15,0,0,0,25,true,false);
+insert into produto values (nextval('SEQPRODUTO'),4,3,null,'Kit Plano 1','Kit de adesão, referente ao plano 1',10,0,0,0,20,false,true);
+insert into produto values (nextval('SEQPRODUTO'),4,3,null,'Kit Plano 2','Kit de adesão, referente ao plano 2',10,0,0,0,20,false,true);
+insert into produto values (nextval('SEQPRODUTO'),4,3,null,'Kit Plano 3','Kit de adesão, referente ao plano 3',10,0,0,0,20,false,true);
+insert into produto values (nextval('SEQPRODUTO'),2,1,null,'Creme para as mãos','Creme suave para uso diário',10,0,0,0,30,true,false);
+insert into produto values (nextval('SEQPRODUTO'),3,1,null,'Shampoo de argila','Shampoo para cabelos secos',15,0,0,0,25,true,false);
+insert into produto values (nextval('SEQPRODUTO'),2,1,null,'Base maquiagem','Base para maquiagem desc',10,0,0,0,30,true,false);
+insert into produto values (nextval('SEQPRODUTO'),3,1,null,'Máscara','Máscara desc',15,0,0,0,25,true,false);
+insert into produto values (nextval('SEQPRODUTO'),2,1,null,'Pomada de argila','Pomada de argila desc',10,0,0,0,30,true,false);
+insert into produto values (nextval('SEQPRODUTO'),3,1,null,'Loção hidratante','Loção hidratante desc',15,0,0,0,25,true,false);
 
 --ProdutoComposicao
-insert into produtocomposicao values (1,1,4,1);
-insert into produtocomposicao values (2,1,5,1);
-insert into produtocomposicao values (3,2,4,2);
-insert into produtocomposicao values (4,2,5,2);
-insert into produtocomposicao values (5,3,4,3);
-insert into produtocomposicao values (6,3,5,3);
+INSERT INTO produtocomposicao select nextval('seqprodutocomposicao'), p.idproduto, pi.idproduto, 5 from produto p, produto pi where p.nomeproduto = 'Kit Plano 1' and pi.nomeproduto = 'Creme para as mãos';
+INSERT INTO produtocomposicao select nextval('seqprodutocomposicao'), p.idproduto, pi.idproduto, 10 from produto p, produto pi where p.nomeproduto = 'Kit Plano 1' and pi.nomeproduto = 'Shampoo de argila';
+INSERT INTO produtocomposicao select nextval('seqprodutocomposicao'), p.idproduto, pi.idproduto, 6 from produto p, produto pi where p.nomeproduto = 'Kit Plano 2' and pi.nomeproduto = 'Base maquiagem';
+INSERT INTO produtocomposicao select nextval('seqprodutocomposicao'), p.idproduto, pi.idproduto, 11 from produto p, produto pi where p.nomeproduto = 'Kit Plano 2' and pi.nomeproduto = 'Máscara';
+INSERT INTO produtocomposicao select nextval('seqprodutocomposicao'), p.idproduto, pi.idproduto, 100 from produto p, produto pi where p.nomeproduto = 'Kit Plano 3' and pi.nomeproduto = 'Pomada de argila';
+INSERT INTO produtocomposicao select nextval('seqprodutocomposicao'), p.idproduto, pi.idproduto, 52 from produto p, produto pi where p.nomeproduto = 'Kit Plano 3' and pi.nomeproduto = 'Loção hidratante';
 
 --ProdutoValor
-insert into produtovalor values (1,1,10,20,0,'2015-10-28');
-insert into produtovalor values (2,2,20,40,0,'2015-10-28');
-insert into produtovalor values (3,3,30,60,0,'2015-10-28');
-insert into produtovalor values (4,4,8,15,1,'2015-10-28');
-insert into produtovalor values (5,5,12,19.30,2,'2015-10-28');
+insert into produtovalor select nextval('seqprodutovalor'), p.idproduto, 10.5, 20.59, 2.0, '2016-02-20' from produto p where p.nomeproduto = 'Shampoo de argila';
+insert into produtovalor select nextval('seqprodutovalor'), p.idproduto, 20.5, 40.57, 1.5, '2016-02-20' from produto p where p.nomeproduto = 'Creme para as mãos';
+insert into produtovalor select nextval('seqprodutovalor'), p.idproduto, 15.44, 40.57, 4.5, '2016-02-20' from produto p where p.nomeproduto = 'Base maquiagem';
+insert into produtovalor select nextval('seqprodutovalor'), p.idproduto, 50.5, 55.57, 5.5, '2016-02-20' from produto p where p.nomeproduto = 'Máscara';
+insert into produtovalor select nextval('seqprodutovalor'), p.idproduto, 21.3, 25.57, 2.52, '2016-02-20' from produto p where p.nomeproduto = 'Pomada de argila';
+insert into produtovalor select nextval('seqprodutovalor'), p.idproduto, 22.75, 47.57, 4.57, '2016-02-20' from produto p where p.nomeproduto = 'Loção hidratante';
 
 
 --PlanoAssinatura
 insert into planoassinatura values (nextval('seqplanoassinatura'), 1, 'Plano 1', 'Desc Plano 1', 100.00, 100.00, 100.00, true);
-insert into planoassinatura values (nextval('seqplanoassinatura'), 2, 'Plano 2', 'Desc Plano 2', 100.00, 100.00, 100.00, true);
-insert into planoassinatura values (nextval('seqplanoassinatura'), 3, 'Plano 3', 'Desc Plano 3', 100.00, 100.00, 100.00, true);
+insert into planoassinatura values (nextval('seqplanoassinatura'), 2, 'Plano 2', 'Desc Plano 2', 200.00, 200.00, 200.00, true);
+insert into planoassinatura values (nextval('seqplanoassinatura'), 3, 'Plano 3', 'Desc Plano 3', 300.00, 300.00, 300.00, true);
 
 --PedidoSituacao
 insert into pedidosituacao values (1,'Aberto');
@@ -98,7 +101,8 @@ insert into clientesituacao values (4,'Bloqueado');
 
 --GRUPO
 INSERT INTO GRUPO values ('ADMIN');
-INSERT INTO GRUPO values ('USER');
+INSERT INTO GRUPO values ('CLIENTE');
+INSERT INTO GRUPO values ('GESTOR');
 
 --USUARIO
 INSERT INTO USUARIO values (nextval('sequsuario'), 'admin', 'bdfb8ce799ed1782a38a47c8090f6941');--adminclay123
@@ -109,9 +113,17 @@ INSERT INTO USUARIOGRUPO VALUES (nextval('sequsuariogrupo'), 'ADMIN', 1);
 INSERT INTO USUARIOGRUPO VALUES (nextval('sequsuariogrupo'), 'USER', 2);
 
 --INSERT PESSOA ADM
-INSERT INTO pessoa values (nextval('seqpessoa'), 'Administrador', null, 'F', '00000000000', 'M', '2000-01-01', '2000-01-01', 'admin@clay.com');
+INSERT INTO pessoa values (nextval('seqpessoa'), 'Gestor Master Clay', null, 'F', '00000000000', 'M', '2000-01-01', '2000-01-01', 'admin@clay.com');
 INSERT INTO cliente select p.idpessoa, 1, 2, '2000-01-01' from pessoa p where p.nomepessoa = 'Administrador';
 INSERT INTO usuariopessoa select nextval('sequsuariopessoa'), p.idpessoa, u.idusuario from pessoa p, usuario u where p.nomepessoa = 'Administrador' and u.dsusuario = 'admin';
+
+--INSERT GESTOR MASTER
+INSERT INTO pessoa values (nextval('seqpessoa'), 'Gestor Master Clay', 'Gestor Master Clay SA', 'J', '00000000000000', null, '2000-01-01', '2000-01-01', 'gestormaster@gmail.com');
+INSERT INTO pessoaendereco select nextval('seqpessoaendereco'), p.idpessoa, 2, 'Endereço Gestor', 0, '', 'Brasília', 'Brasília', '00000000', 'DF' from pessoa p where p.nomepessoa = 'Gestor Master Clay';
+INSERT INTO pessoaconta select nextval('seqpessoaconta'), p.idpessoa, 2, 1, 1, 11, true from pessoa p where p.nomepessoa = 'Gestor Master Clay';  
+INSERT INTO pessoatelefone select nextval('seqpessoatelefone'), 1, p.idpessoa, '(61)99999999' from pessoa p where p.nomepessoa = 'Gestor Master Clay';  
+INSERT INTO cliente select p.idpessoa, 1, 2, '2000-01-01' from pessoa p where p.nomepessoa = 'Gestor Master Clay';
+INSERT INTO usuariopessoa select nextval('sequsuariopessoa'), p.idpessoa, u.idusuario from pessoa p, usuario u where p.nomepessoa = 'Gestor Master Clay' and u.dsusuario = 'gestormaster';
 
 
 

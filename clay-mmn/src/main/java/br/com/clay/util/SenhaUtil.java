@@ -5,7 +5,7 @@ import br.com.clay.entidade.Cliente;
 public class SenhaUtil {
 
     public static String gerarSenhaUsuario(Cliente cliente) {
-        return CriptografiaUtil.toMD5(getSenhaPadrao(cliente));
+        return criptografarSenha(getSenhaPadrao(cliente));
     }
 
     public static String getSenhaPadrao(Cliente cliente) {
@@ -14,5 +14,9 @@ public class SenhaUtil {
 
     private static String getParteCpfCnpjSenha(String cpfCnpj) {
         return cpfCnpj.substring(0, 3);
+    }
+
+    public static String criptografarSenha(String senha) {
+        return CriptografiaUtil.toMD5(senha);
     }
 }

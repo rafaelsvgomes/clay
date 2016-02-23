@@ -6,21 +6,21 @@
 
 <ui:composition template="../layout/template.xhtml">
 	<ui:define name="pageTitle">
-		<h:outputText value="#{msg['page.title.editar.senha']}" />
+		<h:outputText value="#{msg['page.title.alterar.senha']}" />
 	</ui:define>
 
 	<ui:define name="content">
 		<div style="border-bottom: 1px solid #E5E5E5;">
 			<h3>
-				<h:outputText value="#{msg['label.clientes']}" />
-				<small> <h:outputText value="#{subtitle}" /></small>
+				<h:outputText value="#{msg['label.usuario']}" />
+				<small> <h:outputText value="#{msg['label.editar']}" /></small>
 			</h3>
 		</div>
 		<h:form  styleClass="form-horizontal">
 			<p:tab id="tabEditarSenha" title="Senha">
 				<fieldset>
 					<legend>
-						<small> <h:outputText value="#{msg['label.cliente.pagamento']}" /></small>
+						<small> <h:outputText value="#{msg['page.title.alterar.senha']}" /></small>
 					</legend>
 					
 					<div class="control-group">
@@ -37,8 +37,8 @@
 							<h:outputText value="#{msg['label.usuario.senha']} *" />
 						</label>
 						<div class="controls">
-							<p:password id="senha1" value="#{usuarioMB.senha}" label="#{msg['label.usuario.senha']}" required="true" immediate="true" styleClass="input-large" 
-							feedback="true" promptLabel="Digite a senha" weakLabel="Fraca" goodLabel="Boa" strongLabel="Forte" />
+							<p:password id="pwd1" value="#{usuarioMB.senha}" match="pwd2" label="#{msg['label.usuario.senha']}" required="true" styleClass="input-large"
+							validatorMessage="Senhas não conferem" feedback="true" promptLabel="Digite a senha" weakLabel="Fraca" goodLabel="Boa" strongLabel="Forte" />
 						</div>
 					</div>
 					
@@ -47,7 +47,7 @@
 							<h:outputText value="#{msg['label.usuario.re.senha']} *" />
 						</label>
 						<div class="controls">
-							<p:password id="senha2" value="#{usuarioMB.reSenha}" label="#{msg['label.usuario.re.senha']}" required="true" immediate="true" styleClass="input-large" />
+							<p:password id="pwd2" value="#{usuarioMB.senha}" label="#{msg['label.usuario.re.senha']}" required="true" styleClass="input-large" />
 						</div>
 					</div>
 				</fieldset>
@@ -55,13 +55,13 @@
 			
 			<p:separator/>
 			<div class="controls">
-				<p:commandButton value="#{msg['button.salvar']}" onclick="PF('confirmation').show();" styleClass="btn btn-success" />
+				<p:commandButton value="#{msg['button.salvar']}" oncomplete="(!args.validationFailed) ? PF('confirmation').show() : PF('confirmation').hide()" styleClass="btn btn-success" />
 			</div>
 			<p:confirmDialog id="confirmDialog" message="#{msg['alterar.senha.confirma']}" header="#{msg['excluir.cliente']}" severity="alert" widgetVar="confirmation">  
-		        <p:commandButton id="confirm" value="#{msg['confirma.sim']}" update="messages" oncomplete="PF('confirmation').hide()" action="#{usuarioMB.alterarSenha()}" />  
+		        <p:commandButton id="confirm" value="#{msg['confirma.sim']}"  action="#{usuarioMB.alterarSenha()}" update="messages, growl" oncomplete="PF('confirmation').hide(); PF('dlgExec').hide();" onclick="PF('dlgExec').show();"/>  
 		        <p:commandButton id="decline" value="#{msg['confirma.nao']}" update="messages" onclick="PF('confirmation').hide()" type="button" />
 		    </p:confirmDialog>
-		    <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
+		    <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" severity="warn, error"/>
 		</h:form>
 	</ui:define>
 </ui:composition>

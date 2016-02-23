@@ -18,7 +18,7 @@
 		</div>
 		<h:form>
 			<p:dataTable id="dataTable" var="produto"
-				value="#{produtoMB.listaProdutos}" paginator="true" rows="10"
+				value="#{produtoMB.listaProdutos}" paginator="true" rows="10" paginatorPosition="bottom"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="10,20,50" emptyMessage="#{msg['alerta.nenhum.produto.encontrado']}" >
 				<p:column width="20">

@@ -146,7 +146,7 @@ drop sequence SEQPRODUTOCOMPOSICAO;
 
 drop sequence SEQPRODUTOVALOR;
 
-drop sequence SEQTELEFONE;
+drop sequence SEQPESSOATELEFONE;
 
 drop sequence SEQUSUARIO;
 
@@ -184,7 +184,7 @@ increment 1;
 create sequence SEQPRODUTOVALOR
 increment 1;
 
-create sequence SEQTELEFONE
+create sequence SEQPESSOATELEFONE
 increment 1;
 
 create sequence SEQUSUARIO

@@ -8,17 +8,11 @@ public class UsuarioLogado implements Serializable {
     public UsuarioLogado() {
     }
 
-    public UsuarioLogado(Long idCliente, String descUsuario, Long idClienteSituacao, String codGrupo) {
-        this.idCliente = idCliente;
-        this.descUsuario = descUsuario;
-        this.idClienteSituacao = idClienteSituacao;
-        this.codGrupo = codGrupo;
-    }
-
     private Long idCliente;
     private String descUsuario;
     private Long idClienteSituacao;
     private String codGrupo;
+    private Long idUsuario;
 
     public Long getIdCliente() {
         return idCliente;
@@ -50,6 +44,14 @@ public class UsuarioLogado implements Serializable {
 
     public void setCodGrupo(String codGrupo) {
         this.codGrupo = codGrupo;
+    }
+
+    public Long getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
 }

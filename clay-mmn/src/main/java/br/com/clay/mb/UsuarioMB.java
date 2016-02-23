@@ -7,9 +7,14 @@
  */
 package br.com.clay.mb;
 
-import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+
+import br.com.clay.entidade.Usuario;
+import br.com.clay.servico.UsuarioServicoEJB;
+import br.com.clay.util.MensagemUtil;
+import br.com.clay.util.SenhaUtil;
 
 /**
  * UsuarioMB
@@ -22,15 +27,20 @@ public class UsuarioMB extends ClayMB {
 
     private static final long serialVersionUID = 1L;
     private String senha;
-    private String reSenha;
 
-    @PostConstruct
-    private void init() {
-
-    }
+    @EJB
+    UsuarioServicoEJB ejb;
 
     public void alterarSenha() {
-        System.out.println(senha + " " + reSenha);
+        try {
+            Usuario usuario = ejb.find(getUsuarioLogado().getIdUsuario());
+            usuario.setDescSenha(SenhaUtil.criptografarSenha(senha));
+            ejb.save(usuario);
+            MensagemUtil.addMensagemSucesso("msg.sucesso.alterar.senha");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            MensagemUtil.addMensagemErro("msg.erro.alterar.senha", ex.getMessage());
+        }
     }
 
     public String getSenha() {
@@ -40,13 +50,4 @@ public class UsuarioMB extends ClayMB {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-
-    public String getReSenha() {
-        return reSenha;
-    }
-
-    public void setReSenha(String reSenha) {
-        this.reSenha = reSenha;
-    }
-
 }

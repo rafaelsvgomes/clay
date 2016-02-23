@@ -33,7 +33,7 @@ public class UsuarioServicoEJB extends ClayPersistencia<Usuario, Long> {
     }
 
     public UsuarioLogado obterUsuario(String userName) {
-        String sql = "SELECT up.idpessoa, u.dsusuario, c.idclientesituacao, ug.cdgrupo FROM usuario u, usuariopessoa up, usuariogrupo ug, cliente c "
+        String sql = "SELECT up.idpessoa, u.dsusuario, c.idclientesituacao, ug.cdgrupo, u.idusuario FROM usuario u, usuariopessoa up, usuariogrupo ug, cliente c "
                 + "WHERE u.idusuario = up.idusuario and up.idpessoa = c.idcliente and u.idusuario = ug.idusuario and u.dsusuario = :userName";
 
         Object[] usuario = (Object[]) em.createNativeQuery(sql).setParameter("userName", userName).getSingleResult();
@@ -43,9 +43,9 @@ public class UsuarioServicoEJB extends ClayPersistencia<Usuario, Long> {
         usuarioLogado.setDescUsuario((String) usuario[1]);
         usuarioLogado.setIdClienteSituacao(((BigInteger) usuario[2]).longValue());
         usuarioLogado.setCodGrupo((String) usuario[3]);
+        usuarioLogado.setIdUsuario(((BigInteger) usuario[4]).longValue());
 
         return usuarioLogado;
-
     }
 
 }

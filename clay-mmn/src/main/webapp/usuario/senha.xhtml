@@ -34,20 +34,30 @@
 					
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.usuario.senha']} *" />
+							<h:outputText value="#{msg['label.usuario.senha.atual']} *" />
 						</label>
 						<div class="controls">
-							<p:password id="pwd1" value="#{usuarioMB.senha}" match="pwd2" label="#{msg['label.usuario.senha']}" required="true" styleClass="input-large"
+							<p:password id="senhaAtual" value="#{usuarioMB.senhaAtual}" label="#{msg['label.usuario.senha.atual']}" required="true" styleClass="input-large"/>
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label">
+							<h:outputText value="#{msg['label.usuario.nova.senha']} *" />
+						</label>
+						<div class="controls">
+							<p:password id="pwd1" value="#{usuarioMB.novaSenha}" match="pwd2" label="#{msg['label.usuario.nova.senha']}" required="true" styleClass="input-large"
 							validatorMessage="Senhas não conferem" feedback="true" promptLabel="Digite a senha" weakLabel="Fraca" goodLabel="Boa" strongLabel="Forte" />
 						</div>
 					</div>
 					
 					<div class="control-group">
 						<label class="control-label">
-							<h:outputText value="#{msg['label.usuario.re.senha']} *" />
+							<h:outputText value="#{msg['label.usuario.confirmar.nova.senha']} *" />
 						</label>
 						<div class="controls">
-							<p:password id="pwd2" value="#{usuarioMB.senha}" label="#{msg['label.usuario.re.senha']}" required="true" styleClass="input-large" />
+							<p:password id="pwd2" value="#{usuarioMB.novaSenha}" label="#{msg['label.usuario.confirmar.nova.senha']}" required="true" styleClass="input-large" 
+							validatorMessage="Senhas não conferem" feedback="true" promptLabel="Confirme a senha" weakLabel="Fraca" goodLabel="Boa" strongLabel="Forte" />
 						</div>
 					</div>
 				</fieldset>
@@ -58,10 +68,11 @@
 				<p:commandButton value="#{msg['button.salvar']}" oncomplete="(!args.validationFailed) ? PF('confirmation').show() : PF('confirmation').hide()" styleClass="btn btn-success" />
 			</div>
 			<p:confirmDialog id="confirmDialog" message="#{msg['alterar.senha.confirma']}" header="#{msg['excluir.cliente']}" severity="alert" widgetVar="confirmation">  
-		        <p:commandButton id="confirm" value="#{msg['confirma.sim']}"  action="#{usuarioMB.alterarSenha()}" update="messages, growl" oncomplete="PF('confirmation').hide(); PF('dlgExec').hide();" onclick="PF('dlgExec').show();"/>  
+		        <p:commandButton id="confirm" value="#{msg['confirma.sim']}"  action="#{usuarioMB.alterarSenha()}" update="messages, senhaGrowl" oncomplete="PF('confirmation').hide(); PF('dlgExec').hide();" onclick="PF('dlgExec').show();"/>  
 		        <p:commandButton id="decline" value="#{msg['confirma.nao']}" update="messages" onclick="PF('confirmation').hide()" type="button" />
 		    </p:confirmDialog>
 		    <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" severity="warn, error"/>
+		    <p:growl id="senhaGrowl" severity="info"/>
 		</h:form>
 	</ui:define>
 </ui:composition>

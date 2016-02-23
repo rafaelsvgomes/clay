@@ -26,7 +26,8 @@ import br.com.clay.util.SenhaUtil;
 public class UsuarioMB extends ClayMB {
 
     private static final long serialVersionUID = 1L;
-    private String senha;
+    private String senhaAtual;
+    private String novaSenha;
 
     @EJB
     UsuarioServicoEJB ejb;
@@ -34,7 +35,11 @@ public class UsuarioMB extends ClayMB {
     public void alterarSenha() {
         try {
             Usuario usuario = ejb.find(getUsuarioLogado().getIdUsuario());
-            usuario.setDescSenha(SenhaUtil.criptografarSenha(senha));
+            if (!usuario.getDescSenha().equals(SenhaUtil.criptografarSenha(senhaAtual))) {
+                MensagemUtil.addMensagemErro("msg.erro.senha.atual.incorreta", "");
+                return;
+            }
+            usuario.setDescSenha(SenhaUtil.criptografarSenha(novaSenha));
             ejb.save(usuario);
             MensagemUtil.addMensagemSucesso("msg.sucesso.alterar.senha");
         } catch (Exception ex) {
@@ -43,11 +48,20 @@ public class UsuarioMB extends ClayMB {
         }
     }
 
-    public String getSenha() {
-        return senha;
+    public String getSenhaAtual() {
+        return senhaAtual;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setSenhaAtual(String senhaAtual) {
+        this.senhaAtual = senhaAtual;
     }
+
+    public String getNovaSenha() {
+        return novaSenha;
+    }
+
+    public void setNovaSenha(String novaSenha) {
+        this.novaSenha = novaSenha;
+    }
+
 }

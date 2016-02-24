@@ -13,6 +13,7 @@ public class UsuarioLogado implements Serializable {
     private Long idClienteSituacao;
     private String codGrupo;
     private Long idUsuario;
+    private String nomePessoa;
 
     public Long getIdCliente() {
         return idCliente;
@@ -52,6 +53,14 @@ public class UsuarioLogado implements Serializable {
 
     public void setIdUsuario(Long idUsuario) {
         this.idUsuario = idUsuario;
+    }
+
+    public String getNomePessoa() {
+        return nomePessoa;
+    }
+
+    public void setNomePessoa(String nomePessoa) {
+        this.nomePessoa = nomePessoa;
     }
 
 }

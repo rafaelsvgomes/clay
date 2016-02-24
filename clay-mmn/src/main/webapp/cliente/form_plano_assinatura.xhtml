@@ -15,8 +15,9 @@
 				</label>
 				<div class="controls">
 					<p:selectOneMenu value="#{clienteMB.cliente.planoAssinatura}" converter="entityConverter" label="#{msg['label.cliente.plano']}" required="true">
+		                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 		                <f:selectItems value="#{clienteMB.listaPlanoAssinatura}" var="plano" itemLabel="#{plano.nomePlanoAssinatura}" />
-		                <p:ajax update="dataTableProdutos" event="change" listener="#{clienteMB.setListaProdutosPlanoAssinatura}" 
+		                <p:ajax update="dataTableProdutos" event="change" listener="#{clienteMB.atualizaListaProdutosPlanoAssinatura()}" 
 		                	onstart="PF('dlgExec').show();" oncomplete="PF('dlgExec').hide();"  />
 		   	        </p:selectOneMenu>
 				</div>

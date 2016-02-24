@@ -2,6 +2,7 @@ package br.com.clay.entidade;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,20 +26,29 @@ public class ClienteRede extends ClayEntidade {
 
     public static final String LISTAR_POR_ID_CLIENTE = "listarClienteRedeIdCliente";
 
+    public ClienteRede() {
+    }
+
+    public ClienteRede(Long idClienteRede, Cliente cliente, Cliente clienteIndicador) {
+        this.id = idClienteRede;
+        this.cliente = cliente;
+        this.clienteIndicador = clienteIndicador;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqpessoarede")
     @Column(name = "idClienteRede", unique = true, nullable = false)
     private Long id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idCliente", nullable = false, updatable = false)
     private Cliente cliente;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idClientePai", nullable = true)
     private Cliente clientePai;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idClienteIndicacao", nullable = true)
     private Cliente clienteIndicador;
 

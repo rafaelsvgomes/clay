@@ -12,6 +12,7 @@ import br.com.clay.entidade.Cliente;
 import br.com.clay.entidade.PessoaConta;
 import br.com.clay.entidade.PessoaEndereco;
 import br.com.clay.entidade.PessoaTelefone;
+import br.com.clay.entidade.PlanoAssinatura;
 import br.com.clay.entidade.Produto;
 
 /**
@@ -37,13 +38,19 @@ public class ClienteServicoEJB extends ClayPersistencia<Cliente, Long> {
         super(Cliente.class);
     }
 
+    @SuppressWarnings("unchecked")
+    public List<Cliente> listarClientesSimples() {
+        return em.createNamedQuery(Cliente.LISTAR_CLIENTES_SIMPLES).getResultList();
+    }
+
     /**
      * @param id
      * @return Pessoa
      */
     @SuppressWarnings("unchecked")
     public Cliente obterPessoa(Long id) {
-        Cliente cliente = find(id);
+        Cliente cliente = (Cliente) em.createNamedQuery(Cliente.OBTER_CLIENTE_EDITAR).setParameter("idCliente", id).getSingleResult();
+
         cliente.setListaEndereco(em.createNamedQuery(PessoaEndereco.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", id).getResultList());
         cliente.setListaTelefone(em.createNamedQuery(PessoaTelefone.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", id).getResultList());
         cliente.setListaPessoaConta(em.createNamedQuery(PessoaConta.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", id).getResultList());
@@ -91,10 +98,28 @@ public class ClienteServicoEJB extends ClayPersistencia<Cliente, Long> {
      * @return List<Produto>
      * 
      */
-    public List<Produto> obterProdutosKit(Long idProdutoPai) {
+    public List<Produto> listarProdutosKit(Long idProdutoPai) {
         Produto produtoPai = em.find(Produto.class, idProdutoPai);
         produtoPai.getListaProdutoFilho().get(0);
         return produtoPai.getListaProdutoFilho();
+    }
+
+    /**
+     * @return Object
+     * 
+     */
+    @SuppressWarnings("unchecked")
+    public List<Cliente> listarClientesIndicadores() {
+        return em.createNamedQuery(Cliente.LISTAR_CLIENTES_INDICADORES).getResultList();
+    }
+
+    /**
+     * @return List<PlanoAssinatura>
+     * 
+     */
+    @SuppressWarnings("unchecked")
+    public List<PlanoAssinatura> listarPlanoAssinatura() {
+        return em.createNamedQuery(PlanoAssinatura.LISTAR_SIPLES).getResultList();
     }
 
 }

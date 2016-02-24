@@ -33,6 +33,43 @@ import br.com.clay.enums.TipoSexo;
 public abstract class Pessoa extends ClayEntidade {
     private static final long serialVersionUID = -8922414503953244338L;
 
+    public Pessoa() {
+    }
+
+    /**
+     * LISTAR_CLIENTES_INDICADORES
+     */
+    public Pessoa(Long id, String nomePessoa) {
+        this.id = id;
+        this.nomePessoa = nomePessoa;
+    }
+
+    /**
+     * OBTER_CLIENTE_EDITAR
+     */
+    public Pessoa(Long id, String nomePessoa, String descRazaoSocial, TipoPessoa tipoPessoa, String numCpfCnpj, TipoSexo tipoSexo, Date dataNascimento, String descEmail,
+            Date dataCadastro) {
+        this.id = id;
+        this.nomePessoa = nomePessoa;
+        this.descRazaoSocial = descRazaoSocial;
+        this.tipoPessoa = tipoPessoa;
+        this.numCpfCnpj = numCpfCnpj;
+        this.tipoSexo = tipoSexo;
+        this.dataNascimento = dataNascimento;
+        this.descEmail = descEmail;
+        this.dataCadastro = dataCadastro;
+    }
+
+    /**
+     * LISTAR_CLIENTES_SIMPLES
+     */
+    public Pessoa(Long id, String nomePessoa, TipoPessoa tipoPessoa, String numCpfCnpj) {
+        this.id = id;
+        this.nomePessoa = nomePessoa;
+        this.tipoPessoa = tipoPessoa;
+        this.numCpfCnpj = numCpfCnpj;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqpessoa")
     @Column(name = "idPessoa", unique = true, nullable = false)

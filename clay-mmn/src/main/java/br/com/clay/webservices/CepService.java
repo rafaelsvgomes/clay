@@ -19,15 +19,15 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 
 @SuppressWarnings("deprecation")
 public class CepService {
-    
-    public CepServiceVO buscarCepWebService(String cep) throws ValidatorException{
+
+    public CepServiceVO buscarCepWebService(String cep) throws ValidatorException {
         CepServiceVO cepServiceVO = null;
         BufferedReader br = null;
 
         cep = cep.replace("-", "");
 
         StringBuilder urlWebService = nomeUrlWebServiceFormatado(cep);
-        
+
         try {
             br = criarConexaoWebService(br, urlWebService);
 
@@ -39,7 +39,7 @@ public class CepService {
             xstream.alias("xmlcep", CepServiceVO.class);
             cepServiceVO = (CepServiceVO) xstream.fromXML(newData.toString());
 
-        } catch (Exception e) { 
+        } catch (Exception e) {
             e.printStackTrace();
             throw new ValidatorException(new FacesMessage());
         } finally {
@@ -49,7 +49,6 @@ public class CepService {
 
     }
 
-
     private StringBuilder nomeUrlWebServiceFormatado(String cep) {
         StringBuilder urlWebService = new StringBuilder();
         urlWebService.append(MensagemUtil.getPropriedades("cep.webservice"));
@@ -57,7 +56,6 @@ public class CepService {
         urlWebService.append("/xml/");
         return urlWebService;
     }
-
 
     /**
      * Metodo responsavel por criar a conexao com o web Service retornando um BufferedReader para comecar a ler o arquivo retorno
@@ -71,10 +69,10 @@ public class CepService {
     private BufferedReader criarConexaoWebService(BufferedReader br, StringBuilder urlWebService) throws MalformedURLException, IOException {
         // cria o objeto url
         URL url = new URL(urlWebService.toString());
-        
+
         // cria o objeto httpurlconnection
-       HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-       
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
         // seta o metodo
         connection.setRequestMethod("GET");
 

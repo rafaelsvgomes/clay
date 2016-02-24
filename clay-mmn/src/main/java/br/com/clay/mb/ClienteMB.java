@@ -1,17 +1,13 @@
 package br.com.clay.mb;
 
-import static javax.faces.context.FacesContext.getCurrentInstance;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 
 import br.com.clay.entidade.Banco;
@@ -72,11 +68,9 @@ public class ClienteMB extends ClayMB {
 
     private List<PlanoAssinatura> listaPlanoAssinatura;
 
-    private Cliente clienteIndicador;
-
     private List<Produto> listaProdutosPlanoAssinatura;
 
-    private String reEmail;
+    private List<Cliente> listaClientesIndicadores;
 
     public ClienteMB() {
     }
@@ -87,14 +81,11 @@ public class ClienteMB extends ClayMB {
         listaUfs = ejb.findAll(UF.class);
         listaBancos = ejb.findAll(Banco.class);
         listaTipoConta = ejb.findAll(TipoConta.class);
-        listaPlanoAssinatura = ejb.findAll(PlanoAssinatura.class);
+        listaPlanoAssinatura = ejb.listarPlanoAssinatura();
     }
 
     public void incluir() {
-        // if (FacesContext.getCurrentInstance().getPartialViewContext().isAjaxRequest()) {
-        // return; // Skip ajax requests.
-        // }
-        if (!FacesContext.getCurrentInstance().isPostback()) {
+        if (!isPostBack()) {
             idSelecionado = null;
 
             cliente = new Cliente();
@@ -104,19 +95,17 @@ public class ClienteMB extends ClayMB {
             setEnderecoPessoa();
             setPessoaConta();
 
-            clienteIndicador = ejb.obterCliente(getUsuarioLogado().getIdCliente());
-
             ClienteRede clienteRede = new ClienteRede();
-            clienteRede.setClienteIndicador(clienteIndicador);
+            clienteRede.setClienteIndicador(new Cliente(getUsuarioLogado().getIdCliente(), getUsuarioLogado().getNomePessoa()));
             clienteRede.setCliente(cliente);
             cliente.setClienteRede(clienteRede);
 
-            iniciarListarClientes();
+            initListaClienteIndicador();
         }
     }
 
     public void editar() {
-        if (!FacesContext.getCurrentInstance().isPostback()) {
+        if (!isPostBack()) {
             if (idSelecionado == null) {
                 return;
             }
@@ -125,11 +114,11 @@ public class ClienteMB extends ClayMB {
             pessoaConta = cliente.getListaPessoaConta().get(0);
 
             if (cliente.getClienteRede() != null) {
-                clienteIndicador = cliente.getClienteRede().getClienteIndicador();
-
-                listaClientes = new ArrayList<Cliente>();
-                listaClientes.add(clienteIndicador);
+                listaClientesIndicadores = new ArrayList<Cliente>();
+                listaClientesIndicadores.add(cliente.getClienteRede().getClienteIndicador());
             }
+
+            listaProdutosPlanoAssinatura = ejb.listarProdutosKit(cliente.getPlanoAssinatura().getProduto().getId());
 
             for (PessoaTelefone tel : cliente.getListaTelefone()) {
                 if (tel.getTipoTelefone().getId().equals(TipoTelefone.RESIDENCIAL)) {
@@ -145,8 +134,10 @@ public class ClienteMB extends ClayMB {
         // TODO: rafael
         // Na hora de gravar salva a alteração efetuada no plano (Ou pode deixar pra alterar só no cadastro) chama o pagamento.
         // Implementar ativar com botão no listar se for grupo admin.
-        if (!FacesContext.getCurrentInstance().isPostback()) {
+        if (!isPostBack()) {
+            // TODO: rafael - alterar busca de clientes.
             cliente = ejb.obterCliente(getUsuarioLogado().getIdCliente());
+            listaProdutosPlanoAssinatura = ejb.listarProdutosKit(cliente.getPlanoAssinatura().getProduto().getId());
         }
     }
 
@@ -276,15 +267,6 @@ public class ClienteMB extends ClayMB {
         return "lista_cliente?faces-redirect=true";
     }
 
-    public void validaEmail() {
-        if (!cliente.getDescEmail().equals(reEmail)) {
-            // MensagemUtil.addMensagemErro("msg.erro.remover.cliente", "Teste");
-
-            getCurrentInstance().addMessage("id", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Teste", "Teste"));
-        }
-
-    }
-
     /**
      * Metodo responsavel por buscar o cep no webService
      * 
@@ -328,9 +310,13 @@ public class ClienteMB extends ClayMB {
     }
 
     public void iniciarListarClientes() {
-        if (!FacesContext.getCurrentInstance().isPostback()) {
-            listaClientes = ejb.findAll();
+        if (!isPostBack()) {
+            listaClientes = ejb.listarClientesSimples();
         }
+    }
+
+    private void initListaClienteIndicador() {
+        listaClientesIndicadores = ejb.listarClientesIndicadores();
     }
 
     public List<Cliente> getListaClientes() {
@@ -353,16 +339,13 @@ public class ClienteMB extends ClayMB {
         return listaPlanoAssinatura;
     }
 
-    public void setListaProdutosPlanoAssinatura() {
+    public void atualizaListaProdutosPlanoAssinatura() {
         if (cliente.getPlanoAssinatura() != null) {
-            listaProdutosPlanoAssinatura = ejb.obterProdutosKit(cliente.getPlanoAssinatura().getProduto().getId());
+            listaProdutosPlanoAssinatura = ejb.listarProdutosKit(cliente.getPlanoAssinatura().getProduto().getId());
         }
     }
 
     public List<Produto> getListaProdutosPlanoAssinatura() {
-        if (listaProdutosPlanoAssinatura == null) {
-            setListaProdutosPlanoAssinatura();
-        }
         return listaProdutosPlanoAssinatura;
     }
 
@@ -403,15 +386,7 @@ public class ClienteMB extends ClayMB {
         return pessoaConta;
     }
 
-    public Cliente getClienteIndicador() {
-        return clienteIndicador;
-    }
-
-    public String getReEmail() {
-        return reEmail;
-    }
-
-    public void setReEmail(String reEmail) {
-        this.reEmail = reEmail;
+    public List<Cliente> getListaClientesIndicadores() {
+        return listaClientesIndicadores;
     }
 }

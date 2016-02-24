@@ -34,6 +34,15 @@ public class ClienteSituacao extends ClayEntidade {
     public ClienteSituacao() {
     }
 
+    /**
+     * @param idClienteSituacao
+     * @param descClienteSituacao2
+     */
+    public ClienteSituacao(Long idClienteSituacao, String descClienteSituacao) {
+        this.id = idClienteSituacao;
+        this.descClienteSituacao = descClienteSituacao;
+    }
+
     public Long getId() {
         return id;
     }

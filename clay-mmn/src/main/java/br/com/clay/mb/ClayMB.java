@@ -17,5 +17,9 @@ abstract class ClayMB implements Serializable {
 
         return (UsuarioLogado) session.getAttribute("usuarioLogado");
     }
+    
+    public Boolean isPostBack(){
+        return FacesContext.getCurrentInstance().isPostback();
+    }
 
 }

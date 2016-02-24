@@ -144,7 +144,7 @@
 								<p:selectOneMenu id="dropClienteInicador" value="#{clienteMB.cliente.clienteRede.clienteIndicador}" label="#{msg['label.pessoa.codindicador']}" 
 									disabled="#{clienteMB.idSelecionado != null}" converter="entityConverter" filter="true" filterMatchMode="contains">
 					                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
-					                <f:selectItems value="#{clienteMB.listaClientes}" var="cliente" itemLabel="#{cliente.id} - #{cliente.nomePessoa}" itemValue="#{cliente}"/>
+					                <f:selectItems value="#{clienteMB.listaClientesIndicadores}" var="cliente" itemLabel="#{cliente.id} - #{cliente.nomePessoa}" itemValue="#{cliente}"/>
 				    	        </p:selectOneMenu>
 							</div>
 						</div>
@@ -277,7 +277,7 @@
 			</p:tab>
 			
 			<p:tab id="tabPlano" title="Plano">
-				<ui:include src="/cliente/field_plano.xhtml" />
+				<ui:include src="/cliente/form_plano_assinatura.xhtml" />
 			</p:tab>
 			
 			<p:tab id="tabConfirmacao" title="Confirmação">

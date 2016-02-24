@@ -125,7 +125,7 @@ INSERT INTO pessoatelefone select nextval('seqpessoatelefone'), 1, p.idpessoa, '
 INSERT INTO cliente select p.idpessoa, 1, 2, '2000-01-01' from pessoa p where p.nomepessoa = 'Gestor Master Clay';
 INSERT INTO usuariopessoa select nextval('sequsuariopessoa'), p.idpessoa, u.idusuario from pessoa p, usuario u where p.nomepessoa = 'Gestor Master Clay' and u.dsusuario = 'gestormaster';
 INSERT INTO USUARIO values (nextval('sequsuario'), 'gestormaster', 'bdfb8ce799ed1782a38a47c8090f6941');--adminclay123
-INSERT INTO USUARIOGRUPO select nextval('sequsuariogrupo'), 'ADMIN', p.idpessoa from pessoa p where p.nomepessoa = 'Gestor Master Clay';
+INSERT INTO USUARIOGRUPO select nextval('sequsuariogrupo'), 'GESTOR', p.idpessoa from pessoa p where p.nomepessoa = 'Gestor Master Clay';
 
 
 

@@ -19,6 +19,7 @@ public class PessoaTeste {
     public static void setUp() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
+		
     }
 
     @Test

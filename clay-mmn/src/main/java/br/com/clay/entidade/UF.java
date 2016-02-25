@@ -15,8 +15,8 @@ public class UF extends ClayEntidade {
 
     public static final String LISTAR = "UF.Listar";
     
-    public UF(String descUf) {
-        this.descUf = descUf;
+    public UF(String codUf) {
+        this.codUf = codUf;
     }
     
     public UF() {

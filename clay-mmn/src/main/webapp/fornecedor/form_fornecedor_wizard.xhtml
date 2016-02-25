@@ -88,7 +88,7 @@
 						</label>
 						<div class="controls">
 					        <p:inputMask id="fornecedor_cep" mask="99999-999" valueChangeListener="#{fornecedorMB.buscarCep}" value="#{fornecedorMB.endereco.numCep}" label="#{msg['label.pessoa.endereco.cep']}" required="true" immediate="true" styleClass="input-small"  >
-								<p:ajax   event="blur" process="@this" update="fornecedor_descendereco, fornecedor_bairro, fornecedor_cidade, select_uf" immediate="true" onstart="PF('dlgExec').show();" oncomplete="PF('dlgExec').hide();"/>
+								<p:ajax   event="blur" process="@this" update="fornecedor_descendereco, fornecedor_bairro, fornecedor_cidade, select_uf"  onstart="PF('dlgExec').show();" oncomplete="PF('dlgExec').hide();"/>
 							</p:inputMask>
 						</div>
 					</div>
@@ -145,7 +145,7 @@
 						<div class="controls">
 							<p:selectOneMenu id="select_uf" value="#{fornecedorMB.endereco.uf}" converter="ufConverter" required="true" label="#{msg['label.pessoa.endereco.estado']}">
 				                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
-				                <f:selectItems value="#{fornecedorMB.listaUfs}" var="uf" itemLabel="#{uf.descUf}" />
+				                <f:selectItems value="#{fornecedorMB.listaUfs}" var="uf" itemLabel="#{uf.descUf}"/>
 			    	        </p:selectOneMenu>
 						</div>
 					</div>

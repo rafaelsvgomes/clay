@@ -14,6 +14,7 @@ import br.com.clay.entidade.PessoaEndereco;
 import br.com.clay.entidade.PessoaTelefone;
 import br.com.clay.entidade.PlanoAssinatura;
 import br.com.clay.entidade.Produto;
+import br.com.clay.entidade.UF;
 
 /**
  * Session Bean implementation class ClienteEJB
@@ -120,6 +121,16 @@ public class ClienteServicoEJB extends ClayPersistencia<Cliente, Long> {
     @SuppressWarnings("unchecked")
     public List<PlanoAssinatura> listarPlanoAssinatura() {
         return em.createNamedQuery(PlanoAssinatura.LISTAR_SIPLES).getResultList();
+    }
+
+    /**
+     * Método responsável por buscar a uf de acordo com seu ID
+     * @param uf
+     * @return UF
+     * 
+     */
+    public UF obterUF(String codUf) {
+        return em.find(UF.class, codUf);
     }
 
 }

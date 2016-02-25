@@ -188,11 +188,7 @@ public class ProdutoMB extends ClayMB {
     }
 
     private void calculoCustoTotal(BigDecimal valorCusto, BigDecimal valorDesconto) {
-        if(valorCusto.compareTo(valorDesconto) == 1){
-            this.produtoValor.setValorProduto(valorCusto.subtract(valorDesconto));
-        }else if(valorCusto.compareTo(valorDesconto) == 0){
-            this.produtoValor.setValorProduto(new BigDecimal(0));
-        }else{
+        if(valorCusto.compareTo(valorDesconto) < 1){
             MensagemUtil.addMensagemErro("validacao.produto.valor.desconto.maior.que.valor.custo", "Desconto maior que valor do custo");
         }
     }

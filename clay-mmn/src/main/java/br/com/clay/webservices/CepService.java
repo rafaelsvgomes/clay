@@ -7,9 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.validator.ValidatorException;
-
+import br.com.clay.exception.CEPProxyException;
 import br.com.clay.util.MensagemUtil;
 import br.com.clay.vo.CepServiceVO;
 
@@ -20,7 +18,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 @SuppressWarnings("deprecation")
 public class CepService {
 
-    public CepServiceVO buscarCepWebService(String cep) throws ValidatorException {
+    public CepServiceVO buscarCepWebService(String cep) throws CEPProxyException {
         CepServiceVO cepServiceVO = null;
         BufferedReader br = null;
 
@@ -41,7 +39,7 @@ public class CepService {
 
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ValidatorException(new FacesMessage());
+            throw new CEPProxyException(e);
         } finally {
             closeBufferedReader(br);
         }

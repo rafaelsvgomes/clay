@@ -29,6 +29,7 @@ import br.com.clay.entidade.TipoEndereco;
 import br.com.clay.entidade.TipoTelefone;
 import br.com.clay.entidade.UF;
 import br.com.clay.enums.TipoPessoa;
+import br.com.clay.exception.CEPProxyException;
 import br.com.clay.servico.FornecedorServicoEJB;
 import br.com.clay.util.MensagemUtil;
 import br.com.clay.vo.CepServiceVO;
@@ -152,24 +153,34 @@ public class FornecedorMB extends ClayMB {
      * @return String
      * 
      */
-    public String buscarCep(ValueChangeEvent e) {
-        String cep = e.getNewValue().toString();
-        if (cep != null && !cep.isEmpty()) {
+    public String buscarCep(ValueChangeEvent valueChangeEvent) {
+        String cep = valueChangeEvent.getNewValue().toString();
+        
+        if (cep != null && !cep.isEmpty() && cep.trim().replaceAll("_", "").replace("-", "").length() == 8) {
             CepService cepService = new CepService();
             CepServiceVO cepServiceVO = null;
            
-            cepServiceVO = cepService.buscarCepWebService(cep);
+            cepServiceVO = buscarCEPWebService(cep, cepService, cepServiceVO);
+            
             if (cepServiceVO != null) {
-                populaEndereco(cep, cepServiceVO);
                 if(cepServiceVO.getErro()!= null && !cepServiceVO.getErro().isEmpty()){
-                    MensagemUtil.addMensagemInfo("cep.nao.encontrado.webservice");
+                    MensagemUtil.addMensagemInfo("webservice.cep.nao.encontrado");
                     this.endereco = new PessoaEndereco(cep);
                 }
-            }else{
-                this.endereco = new PessoaEndereco(cep);
+                populaEndereco(cep, cepServiceVO);
             }
         }
         return LISTA_FORNECEDOR;
+    }
+
+    private CepServiceVO buscarCEPWebService(String cep, CepService cepService, CepServiceVO cepServiceVO) {
+        try{
+            cepServiceVO = cepService.buscarCepWebService(cep);
+        }catch (CEPProxyException e){
+            MensagemUtil.addMensagemInfo("webservice.cep.erro");
+            this.endereco = new PessoaEndereco(cep);
+        }
+        return cepServiceVO;
     }
 
     /**
@@ -184,7 +195,7 @@ public class FornecedorMB extends ClayMB {
         this.endereco.setDescCidade(cepServiceVO.getLocalidade());
         this.endereco.setDescEndereco(cepServiceVO.getLogradouro());
         this.endereco.setNumCep(cep);
-        this.endereco.setUf(new UF(cepServiceVO.getUf()));
+        this.endereco.setUf(ejb.obterUF(cepServiceVO.getUf()));
     }
 
     public List<Fornecedor> getFornecedores() {

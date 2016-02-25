@@ -29,6 +29,7 @@ import br.com.clay.entidade.Usuario;
 import br.com.clay.entidade.UsuarioGrupo;
 import br.com.clay.entidade.UsuarioPessoa;
 import br.com.clay.enums.TipoPessoa;
+import br.com.clay.exception.CEPProxyException;
 import br.com.clay.servico.ClienteServicoEJB;
 import br.com.clay.util.CpfCnpjUtil;
 import br.com.clay.util.Email;
@@ -276,24 +277,32 @@ public class ClienteMB extends ClayMB {
      */
     public String buscarCep(ValueChangeEvent e) {
         String cep = e.getNewValue().toString();
-        if (cep != null && !cep.isEmpty()) {
+        if (cep != null && !cep.isEmpty() && cep.trim().replaceAll("_", "").replace("-", "").length() == 8) {
             CepService cepService = new CepService();
             CepServiceVO cepServiceVO = null;
 
-            cepServiceVO = cepService.buscarCepWebService(cep);
+            cepServiceVO = buscarCEPWebService(cep, cepService, cepServiceVO);
             if (cepServiceVO != null) {
-                populaEndereco(cep, cepServiceVO);
                 if (cepServiceVO.getErro() != null && !cepServiceVO.getErro().isEmpty()) {
-                    MensagemUtil.addMensagemInfo("cep.nao.encontrado.webservice");
+                    MensagemUtil.addMensagemInfo("webservice.cep.nao.encontrado");
                     this.endereco = new PessoaEndereco(cep);
                 }
-            } else {
-                this.endereco = new PessoaEndereco(cep);
-            }
+                populaEndereco(cep, cepServiceVO);
+            } 
         }
         return "lista_cliente?faces-redirect=true";
     }
 
+    private CepServiceVO buscarCEPWebService(String cep, CepService cepService, CepServiceVO cepServiceVO) {
+        try{
+            cepServiceVO = cepService.buscarCepWebService(cep);
+        }catch (CEPProxyException e){
+            MensagemUtil.addMensagemInfo("webservice.cep.erro");
+            this.endereco = new PessoaEndereco(cep);
+        }
+        return cepServiceVO;
+    }
+    
     /**
      * Metodo responsavel por popular os enderecos trago pelo web service
      * 
@@ -306,7 +315,7 @@ public class ClienteMB extends ClayMB {
         this.endereco.setDescCidade(cepServiceVO.getLocalidade());
         this.endereco.setDescEndereco(cepServiceVO.getLogradouro());
         this.endereco.setNumCep(cep);
-        this.endereco.setUf(new UF(cepServiceVO.getUf()));
+        this.endereco.setUf(ejb.obterUF(cepServiceVO.getUf()));
     }
 
     public void iniciarListarClientes() {

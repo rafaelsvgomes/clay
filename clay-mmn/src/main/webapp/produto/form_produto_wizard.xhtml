@@ -76,7 +76,7 @@
 							<h:outputText value="#{msg['label.produto.qtdaltura']}" />
 						</label>
 						<div class="controls">
-					        <pe:inputNumber  emptyValue="0" minValue="0" symbol=" Cm" maxValue="3" decimalPlaces="2" symbolPosition="s" value="#{produtoMB.produto.qtdAltura}" decimalSeparator="," thousandSeparator="."
+					        <pe:inputNumber  emptyValue="0" minValue="0" symbol=" M" maxValue="300" decimalPlaces="2" symbolPosition="s" value="#{produtoMB.produto.qtdAltura}" decimalSeparator="," thousandSeparator="."
 								label="#{msg['label.produto.qtdaltura']}" styleClass="input-medium" maxlength="3" immediate="true">
 							</pe:inputNumber>
 					        
@@ -88,7 +88,7 @@
 							<h:outputText value="#{msg['label.produto.qtdlargura']}" />
 						</label>
 						<div class="controls">
-					        <pe:inputNumber emptyValue="0" minValue="0" symbol=" Cm" maxValue="300" decimalPlaces="2" symbolPosition="s" value="#{produtoMB.produto.qtdLargura}"  decimalSeparator="," thousandSeparator="."
+					        <pe:inputNumber emptyValue="0" minValue="0" symbol=" M" maxValue="300" decimalPlaces="2" symbolPosition="s" value="#{produtoMB.produto.qtdLargura}"  decimalSeparator="," thousandSeparator="."
 								label="#{msg['label.produto.qtdlargura']}" styleClass="input-medium" maxlength="3" immediate="true">
 							</pe:inputNumber>
 						</div>
@@ -234,7 +234,7 @@
 							<h:outputText value="#{msg['label.produto.produtovalor.vlproduto']} *" />
 						</label>
 						<div class="controls">
-					        <pe:inputNumber  emptyValue="0" id="valorTotal" disabled="true" minValue="0" symbol="R$ " 
+					        <pe:inputNumber  emptyValue="0" id="valorTotal" minValue="0" symbol="R$ " 
 											 value="#{produtoMB.produtoValor.valorProduto}" label="#{msg['label.produto.produtovalor.vlproduto']}" styleClass="input-large" immediate="true" decimalSeparator="," thousandSeparator=".">
 							</pe:inputNumber>
 						</div>

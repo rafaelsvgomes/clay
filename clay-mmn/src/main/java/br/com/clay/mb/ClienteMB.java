@@ -15,6 +15,8 @@ import br.com.clay.entidade.Cliente;
 import br.com.clay.entidade.ClienteRede;
 import br.com.clay.entidade.ClienteSituacao;
 import br.com.clay.entidade.Grupo;
+import br.com.clay.entidade.OrigemPagamento;
+import br.com.clay.entidade.Pedido;
 import br.com.clay.entidade.Pessoa;
 import br.com.clay.entidade.PessoaConta;
 import br.com.clay.entidade.PessoaEndereco;
@@ -72,6 +74,12 @@ public class ClienteMB extends ClayMB {
     private List<Produto> listaProdutosPlanoAssinatura;
 
     private List<Cliente> listaClientesIndicadores;
+
+    private List<OrigemPagamento> listaOrigemPagamento;
+
+    private Pedido pedido;
+
+    private Boolean isPagSeguro;
 
     public ClienteMB() {
     }
@@ -131,15 +139,29 @@ public class ClienteMB extends ClayMB {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public void iniciarPagamento() {
         // TODO: rafael
         // Na hora de gravar salva a alteração efetuada no plano (Ou pode deixar pra alterar só no cadastro) chama o pagamento.
         // Implementar ativar com botão no listar se for grupo admin.
         if (!isPostBack()) {
-            // TODO: rafael - alterar busca de clientes.
-            cliente = ejb.obterCliente(getUsuarioLogado().getIdCliente());
+            cliente = ejb.obterPessoa(getUsuarioLogado().getIdCliente());
+
+            listaOrigemPagamento = ejb.findAll(OrigemPagamento.class);
             listaProdutosPlanoAssinatura = ejb.listarProdutosKit(cliente.getPlanoAssinatura().getProduto().getId());
+            pedido = new Pedido();
         }
+    }
+
+    public Boolean getIsPagSeguro() {
+        if (pedido.getOrigemPagamento() != null) {
+            isPagSeguro = pedido.getOrigemPagamento().getId() == OrigemPagamento.PAG_SEGURO;
+        }
+        return isPagSeguro;
+    }
+
+    public void setIsPagSeguro(Boolean pagSeguro) {
+        this.isPagSeguro = pagSeguro;
     }
 
     public String ativarCliente(Long idCliente) {
@@ -405,5 +427,17 @@ public class ClienteMB extends ClayMB {
 
     public List<Cliente> getListaClientesIndicadores() {
         return listaClientesIndicadores;
+    }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
+
+    public List<OrigemPagamento> getListaOrigemPagamento() {
+        return listaOrigemPagamento;
     }
 }

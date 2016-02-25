@@ -107,6 +107,9 @@ insert into clientesituacao values (2,'Ativo');
 insert into clientesituacao values (3,'Inativo');
 insert into clientesituacao values (4,'Bloqueado');
 
+insert into origempagamento values (1, 'Em mãos');
+insert into origempagamento values (2, 'PagSeguro');
+
 --GRUPO
 INSERT INTO GRUPO values ('ADMIN');
 INSERT INTO GRUPO values ('USER');

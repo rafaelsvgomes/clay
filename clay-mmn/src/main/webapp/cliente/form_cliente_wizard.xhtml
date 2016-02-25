@@ -163,7 +163,7 @@
 						</label>
 						<div class="controls">
 					        <p:inputMask id="cliente_cep"  mask="99999-999" valueChangeListener="#{clienteMB.buscarCep}" value="#{clienteMB.endereco.numCep}" label="#{msg['label.pessoa.endereco.cep']}" required="true" immediate="true" styleClass="input-small"  >
-								<p:ajax  event="blur" process="@this" immediate="true" update="cliente_descendereco, cliente_bairro, cliente_cidade" onstart="PF('dlgExec').show();" oncomplete="PF('dlgExec').hide();"/>
+								<p:ajax  event="blur" process="@this" update="cliente_descendereco, cliente_bairro, cliente_cidade, select_uf" onstart="PF('dlgExec').show();" oncomplete="PF('dlgExec').hide();"/>
 							</p:inputMask>
 						</div>
 					</div>
@@ -218,7 +218,7 @@
 							<h:outputText value="#{msg['label.pessoa.endereco.estado']} *" />
 						</label>
 						<div class="controls">
-							<p:selectOneMenu value="#{clienteMB.endereco.uf}" converter="ufConverter" label="#{msg['label.pessoa.endereco.estado']}" required="true">
+							<p:selectOneMenu id="select_uf" value="#{clienteMB.endereco.uf}" converter="ufConverter" label="#{msg['label.pessoa.endereco.estado']}" required="true">
 				                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 				                <f:selectItems value="#{clienteMB.listaUfs}" var="uf" itemLabel="#{uf.descUf}" />
 			    	        </p:selectOneMenu>

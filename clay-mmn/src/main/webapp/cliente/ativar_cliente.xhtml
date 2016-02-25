@@ -21,29 +21,23 @@
 			</h3>
 		</div>
 		<h:form  styleClass="form-horizontal">
-			<p:wizard nextLabel="Avançar" backLabel="Voltar">
-				<p:tab id="tabPlano" title="Plano">
-					<ui:include src="/cliente/form_plano_assinatura.xhtml" />
-				</p:tab>
+				<ui:include src="/cliente/form_plano_assinatura.xhtml" />
 		
-				<p:tab id="tabPagamento" title="Pagamento">
-					<fieldset>
-						<legend>
-							<small> <h:outputText value="#{msg['label.cliente.pagamento']}" /></small>
-						</legend>
+				<fieldset>
+					<legend>
+						<small> <h:outputText value="#{msg['label.cliente.pagamento']}" /></small>
+					</legend>
+					
+					<div class="control-group">
+						<label class="control-label"> 
+							<h:outputText value="#{msg['label.cliente.pagamento']} *" />
+						</label>
 						
-						<div class="control-group">
-							<label class="control-label"> 
-								<h:outputText value="#{msg['label.cliente.pagamento']} *" />
-							</label>
-							
-							<div class="controls">
-								<ui:include src="/cliente/form_pagseguro.xhtml" />
-							</div>
+						<div class="controls">
+							<ui:include src="/cliente/form_pagseguro.xhtml" />
 						</div>
-					</fieldset>
-				</p:tab>
-			</p:wizard>
+					</div>
+				</fieldset>
 		</h:form>
 	</ui:define>
 </ui:composition>

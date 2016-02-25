@@ -2,6 +2,8 @@ package br.com.clay.entidade;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +14,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import br.com.clay.enums.LadoArvore;
 
 /**
  * Entity implementation class for Entity: ClienteRede
@@ -52,6 +56,13 @@ public class ClienteRede extends ClayEntidade {
     @JoinColumn(name = "idClienteIndicacao", nullable = true)
     private Cliente clienteIndicador;
 
+    @Column(name = "codNivel")
+    private Long codNivel;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "codLado")
+    private LadoArvore ladoArvore;
+
     public Long getId() {
         return id;
     }
@@ -82,5 +93,21 @@ public class ClienteRede extends ClayEntidade {
 
     public void setClienteIndicador(Cliente clienteIndicador) {
         this.clienteIndicador = clienteIndicador;
+    }
+
+    public Long getCodNivel() {
+        return codNivel;
+    }
+
+    public void setCodNivel(Long codNivel) {
+        this.codNivel = codNivel;
+    }
+
+    public LadoArvore getLadoArvore() {
+        return ladoArvore;
+    }
+
+    public void setLadoArvore(LadoArvore ladoArvore) {
+        this.ladoArvore = ladoArvore;
     }
 }

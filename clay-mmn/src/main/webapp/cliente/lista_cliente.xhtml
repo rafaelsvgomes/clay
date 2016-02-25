@@ -24,12 +24,12 @@
 			<p:dataTable id="dataTable" var="cliente"
 				value="#{clienteMB.listaClientes}" paginator="true" rows="10" paginatorPosition="bottom"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="10,20,50" emptyMessage="#{msg['alerta.nenhum.cliente.encontrado']}" >
-				<p:column>
+				currentPageReportTemplate="{currentPage} de {totalPages}" rowsPerPageTemplate="10,20,50" emptyMessage="#{msg['alerta.nenhum.cliente.encontrado']}" >
+				<p:column style="text-align: center; width: 20px">
 					<f:facet name="header">
-						<h:outputText value="#{msg['label.pessoa.cod']}" />
+						<h:outputText value="#" />
 					</f:facet>
-					<h:outputText value="#{cliente.id}" style="text-align: center;"/>
+					<h:outputText value="#{cliente.id}"/>
 				</p:column>
 	
 				<p:column sortBy="#{cliente.nomePessoa}">
@@ -42,7 +42,7 @@
 					</h:link>
 				</p:column>
 				
-				<p:column sortBy="#{cliente.tipoPessoa.descTipoPessoa}">
+				<p:column sortBy="#{cliente.tipoPessoa.descTipoPessoa}" style="text-align: center;">
 					<f:facet name="header">
 						<h:outputText value="#{msg['label.pessoa.tppessoa']}" />
 					</f:facet>

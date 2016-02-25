@@ -8,9 +8,11 @@
 package br.com.clay.mb;
 
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 
+import br.com.clay.entidade.ClienteSituacao;
+import br.com.clay.entidade.Grupo;
 import br.com.clay.entidade.Usuario;
 import br.com.clay.servico.UsuarioServicoEJB;
 import br.com.clay.util.MensagemUtil;
@@ -22,7 +24,7 @@ import br.com.clay.util.SenhaUtil;
  * @author Rafael.Silva
  */
 @ManagedBean(name = "usuarioMB")
-@ViewScoped
+@SessionScoped
 public class UsuarioMB extends ClayMB {
 
     private static final long serialVersionUID = 1L;
@@ -46,6 +48,30 @@ public class UsuarioMB extends ClayMB {
             ex.printStackTrace();
             MensagemUtil.addMensagemErro("msg.erro.alterar.senha", ex.getMessage());
         }
+    }
+
+    public boolean isAdmin() {
+        return getUsuarioLogado().getCodGrupo().equals(Grupo.ADMIN);
+    }
+
+    public boolean isCliente() {
+        return getUsuarioLogado().getCodGrupo().equals(Grupo.CLIENTE);
+    }
+
+    public boolean isGestor() {
+        return getUsuarioLogado().getCodGrupo().equals(Grupo.GESTOR);
+    }
+
+    public boolean isUser() {
+        return getUsuarioLogado().getCodGrupo().equals(Grupo.USER);
+    }
+
+    public boolean exibeParaTodos() {
+        return isAdmin() || isCliente() || isGestor() || isUser();
+    }
+
+    public boolean exibeEfetuarPagamento() {
+        return exibeParaTodos() && getUsuarioLogado().getIdClienteSituacao() == ClienteSituacao.CADASTRADO;
     }
 
     public String getSenhaAtual() {

@@ -20,8 +20,8 @@
 			<p:dataTable id="dataTable" var="fornecedor"
 				value="#{fornecedorMB.fornecedores}" paginator="true" rows="10" paginatorPosition="bottom"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="10,20,50" emptyMessage="#{msg['alerta.nenhum.fornecedor.encontrado']}" >
-				<p:column width="20">
+				currentPageReportTemplate="{currentPage} de {totalPages}" rowsPerPageTemplate="10,20,50" emptyMessage="#{msg['alerta.nenhum.fornecedor.encontrado']}" >
+				<p:column style="text-align: center; width: 20px">
 					<f:facet name="header">#</f:facet>
 					<h:outputText value="#{fornecedor.id}" />
 				</p:column>

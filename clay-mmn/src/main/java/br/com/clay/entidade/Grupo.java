@@ -16,6 +16,8 @@ public class Grupo extends ClayEntidade {
 
     public static final String ADMIN = "ADMIN";
     public static final String USER = "USER";
+    public static final String GESTOR = "GESTOR";
+    public static final String CLIENTE = "CLIENTE";
 
     public Grupo() {
         super();

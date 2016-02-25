@@ -169,30 +169,6 @@ public class ProdutoMB extends ClayMB {
         return listaProdutos;
     }
     
-    public String atualizarValorCusto(ValueChangeEvent e) {
-        BigDecimal valorCusto = (BigDecimal) e.getNewValue();
-        if(this.produtoValor.getValorDesconto() == null){
-            this.produtoValor.setValorProduto(valorCusto);
-        }else{
-            calculoCustoTotal(valorCusto, this.produtoValor.getValorDesconto());
-        }
-        return LISTA_PRODUTO;
-    }
-    
-    public String atualizarValorDesconto(ValueChangeEvent e) {
-        BigDecimal valorDesconto = (BigDecimal) e.getNewValue();
-        if(this.produtoValor.getValorCusto() != null){
-            calculoCustoTotal(this.produtoValor.getValorCusto(), valorDesconto);
-        }
-        return LISTA_PRODUTO;
-    }
-
-    private void calculoCustoTotal(BigDecimal valorCusto, BigDecimal valorDesconto) {
-        if(valorCusto.compareTo(valorDesconto) < 1){
-            MensagemUtil.addMensagemErro("validacao.produto.valor.desconto.maior.que.valor.custo", "Desconto maior que valor do custo");
-        }
-    }
-
     @SuppressWarnings("unchecked")
     public List<Fornecedor> getListaFornecedor() {
         if (listaFornecedore == null) {

@@ -209,7 +209,7 @@
 							<h:outputText value="#{msg['label.produto.produtovalor.vlcusto']} *" />
 						</label>
 						<div class="controls">
-							<pe:inputNumber  emptyValue="0" id="valorCusto" valueChangeListener="#{produtoMB.atualizarValorCusto}" minValue="0" symbol="R$ " 
+							<pe:inputNumber  emptyValue="0" id="valorCusto" minValue="0" symbol="R$ " 
 											 value="#{produtoMB.produtoValor.valorCusto}" label="#{msg['label.produto.produtovalor.vlcusto']}" styleClass="input-large" immediate="true" decimalSeparator="," thousandSeparator=".">
 								<p:ajax event="change" process="@this" update="valorDesconto, valorTotal" immediate="true" onstart="PF('dlgExec').show();" oncomplete="PF('dlgExec').hide();"/>
 							</pe:inputNumber>
@@ -221,7 +221,7 @@
 							<h:outputText value="#{msg['label.produto.produtovalor.vldesconto']}" />
 						</label>
 						<div class="controls">
-					        <pe:inputNumber  emptyValue="0" id="valorDesconto" valueChangeListener="#{produtoMB.atualizarValorDesconto}" minValue="0" symbol="R$ " 
+					        <pe:inputNumber  emptyValue="0" id="valorDesconto"  minValue="0" symbol="R$ " 
 											 value="#{produtoMB.produtoValor.valorDesconto}" label="#{msg['label.produto.produtovalor.vldesconto']}" styleClass="input-large" immediate="true" decimalSeparator="," thousandSeparator=".">
 								<p:ajax event="change" process="@this" update="valorCusto,valorDesconto, valorTotal" immediate="true" onstart="PF('dlgExec').show();" oncomplete="PF('dlgExec').hide();"/>
 							</pe:inputNumber>
@@ -260,10 +260,10 @@
 							<h:outputText value="#{produtoMB.produto.percMargemVenda} %" styleClass="outputLabel"/>
 
 							<h:outputText value="#{msg['label.produto.qtdaltura']}" />
-							<h:outputText value="#{produtoMB.produto.qtdAltura} Cm" styleClass="outputLabel"/>
+							<h:outputText value="#{produtoMB.produto.qtdAltura} M" styleClass="outputLabel"/>
 
 							<h:outputText value="#{msg['label.produto.qtdlargura']}" />
-							<h:outputText value="#{produtoMB.produto.qtdLargura} Cm" styleClass="outputLabel"/>
+							<h:outputText value="#{produtoMB.produto.qtdLargura} M" styleClass="outputLabel"/>
 							
 							<h:outputText value="#{msg['label.produto.qtdpeso']}" />
 							<h:outputText value="#{produtoMB.produto.qtdPeso} Kg" styleClass="outputLabel"/>

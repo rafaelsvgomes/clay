@@ -165,7 +165,7 @@ public class FornecedorMB extends ClayMB {
             if (cepServiceVO != null) {
                 if(cepServiceVO.getErro()!= null && !cepServiceVO.getErro().isEmpty()){
                     MensagemUtil.addMensagemInfo("webservice.cep.nao.encontrado");
-                    this.endereco = new PessoaEndereco(cep);
+                    limpaEndereco(cep);
                 }
                 populaEndereco(cep, cepServiceVO);
             }
@@ -178,11 +178,19 @@ public class FornecedorMB extends ClayMB {
             cepServiceVO = cepService.buscarCepWebService(cep);
         }catch (CEPProxyException e){
             MensagemUtil.addMensagemInfo("webservice.cep.erro");
-            this.endereco = new PessoaEndereco(cep);
+            limpaEndereco(cep);
         }
         return cepServiceVO;
     }
 
+    private void limpaEndereco(String cep) {
+        this.endereco.setDescBairro("");
+        this.endereco.setDescCidade("");
+        this.endereco.setDescEndereco("");
+        this.endereco.setNumCep(cep);
+        this.endereco.setUf(new UF());
+    }
+    
     /**
      * Metodo responsavel por popular os enderecos trago pelo web service
      * 

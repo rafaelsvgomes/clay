@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     18/02/2016 13:57:05                          */
+/* Created on:     25/02/2016 13:15:58                          */
 /*==============================================================*/
 
 
@@ -374,7 +374,7 @@ create table PEDIDOPRODUTO (
    IDPRODUTO            BIGINT               not null,
    IDVALORPRODUTO       BIGINT               null,
    IDPEDIDOPRODUTOSITUACAO INT                  null,
-   QTPRODUTO            BIGINT               not null,
+   QTDPRODUTO           BIGINT               not null,
    VLDESCONTO           NUMERIC(12,2)        null,
    QTPRODUTOENTREGUE    BIGINT               null,
    DATAENTREGA          TIMESTAMP            null,
@@ -833,6 +833,11 @@ alter table PEDIDO
       on delete restrict on update restrict;
 
 alter table PEDIDO
+   add constraint FK_PEDIDO_FK_PEDIDO_ORIGEMPA foreign key (IDORIGEMPAGAMENTO)
+      references ORIGEMPAGAMENTO (IDORIGEMPAGAMENTO)
+      on delete restrict on update restrict;
+
+alter table PEDIDO
    add constraint FK_PEDIDO_FK_PEDIDO_PEDIDOSI foreign key (IDPEDIDOSITUACAO)
       references PEDIDOSITUACAO (IDPEDIDOSITUACAO)
       on delete restrict on update restrict;
@@ -842,14 +847,14 @@ alter table PEDIDO
       references PEDIDOTIPO (IDPEDIDOTIPO)
       on delete restrict on update restrict;
 
-alter table PEDIDO
-   add constraint FK_PEDIDO_REFERENCE_ORIGEMPA foreign key (IDORIGEMPAGAMENTO)
-      references ORIGEMPAGAMENTO (IDORIGEMPAGAMENTO)
-      on delete restrict on update restrict;
-
 alter table PEDIDOPRODUTO
    add constraint FK_PEDIDOPR_FK_PEDIDO_PEDIDO foreign key (IDPEDIDO)
       references PEDIDO (IDPEDIDO)
+      on delete restrict on update restrict;
+
+alter table PEDIDOPRODUTO
+   add constraint FK_PEDIDOPR_FK_PEDIDO_PEDIDOPR foreign key (IDPEDIDOPRODUTOSITUACAO)
+      references PEDIDOPRODUTOSITUACAO (IDPEDIDOPRODUTOSITUACAO)
       on delete restrict on update restrict;
 
 alter table PEDIDOPRODUTO
@@ -860,11 +865,6 @@ alter table PEDIDOPRODUTO
 alter table PEDIDOPRODUTO
    add constraint FK_PEDIDOPR_FK_PEDIDO_PRODUTOV foreign key (IDVALORPRODUTO)
       references PRODUTOVALOR (IDPRODUTOVALOR)
-      on delete restrict on update restrict;
-
-alter table PEDIDOPRODUTO
-   add constraint FK_PEDIDOPR_REFERENCE_PEDIDOPR foreign key (IDPEDIDOPRODUTOSITUACAO)
-      references PEDIDOPRODUTOSITUACAO (IDPEDIDOPRODUTOSITUACAO)
       on delete restrict on update restrict;
 
 alter table PESSOACONTA

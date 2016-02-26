@@ -7,7 +7,8 @@
 			<span onclick="javascript:redirect()" class="linkClass"/>
 		</form>
 		<div style="display:none:"> <!-- If you want it hidden -->
-	    	<form method="post" target="pagseguro" action="https://pagseguro.uol.com.br/v2/checkout/payment.html">  
+	    	<form method="post" target="pagseguro" action="${prp['action.pagseguro.teste']}"
+	    		onsubmit="PagSeguroLightbox(this); return false;">  
 		        <!-- Campos obrigatórios -->  
 		        <input name="receiverEmail" type="hidden" value="${prp['conta.pagseguro']}" />  
 		        <input name="currency" type="hidden" value="BRL" />  

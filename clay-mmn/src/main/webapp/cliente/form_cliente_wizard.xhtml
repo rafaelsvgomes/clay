@@ -350,14 +350,14 @@
 				
 				<p:separator/>
 			
-					<div class="controls">
-						<p:commandButton value="#{msg['button.salvar']}" action="#{clienteMB.salvar}" styleClass="btn btn-success" onclick="PF('dlgExec').show();" 
-							oncomplete="PF('dlgExec').hide();" rendered="#{clienteMB.cliente != null}" />
-						
-						<p:button value="#{msg['button.cancelar']}" outcome="lista_cliente" styleClass="btn" />
-						
-						<!-- p:commandButton value="#{msg['button.excluir']}" onclick="PF('confirmation').show();" rendered="#{clienteMB.cliente.id != null}" immediate="true" styleClass="btn btn-danger" /-->
-					</div>
+				<div class="controls">
+					<p:commandButton value="#{msg['button.salvar']}" action="#{clienteMB.salvar}" styleClass="btn btn-success" onclick="PF('dlgExec').show();" 
+						oncomplete="PF('dlgExec').hide();" rendered="#{clienteMB.cliente != null}" />
+					
+					<p:button value="#{msg['button.cancelar']}" outcome="lista_cliente" styleClass="btn" />
+					
+					<!-- p:commandButton value="#{msg['button.excluir']}" onclick="PF('confirmation').show();" rendered="#{clienteMB.cliente.id != null}" immediate="true" styleClass="btn btn-danger" /-->
+				</div>
 			</p:tab>
 		</p:wizard>
 		

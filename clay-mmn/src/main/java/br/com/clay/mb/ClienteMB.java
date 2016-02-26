@@ -118,23 +118,27 @@ public class ClienteMB extends ClayMB {
             if (idSelecionado == null) {
                 return;
             }
-            cliente = ejb.obterPessoa(idSelecionado);
-            endereco = cliente.getListaEndereco().get(0);
-            pessoaConta = cliente.getListaPessoaConta().get(0);
+            iniciarClienteEditar(idSelecionado);
+        }
+    }
 
-            if (cliente.getClienteRede() != null) {
-                listaClientesIndicadores = new ArrayList<Cliente>();
-                listaClientesIndicadores.add(cliente.getClienteRede().getClienteIndicador());
-            }
+    private void iniciarClienteEditar(Long idCliente) {
+        cliente = ejb.obterPessoa(idCliente);
+        endereco = cliente.getListaEndereco().get(0);
+        pessoaConta = cliente.getListaPessoaConta().get(0);
 
-            listaProdutosPlanoAssinatura = ejb.listarProdutosKit(cliente.getPlanoAssinatura().getProduto().getId());
+        if (cliente.getClienteRede() != null) {
+            listaClientesIndicadores = new ArrayList<Cliente>();
+            listaClientesIndicadores.add(cliente.getClienteRede().getClienteIndicador());
+        }
 
-            for (PessoaTelefone tel : cliente.getListaTelefone()) {
-                if (tel.getTipoTelefone().getId().equals(TipoTelefone.RESIDENCIAL)) {
-                    telefone = tel;
-                } else {
-                    celular = tel;
-                }
+        listaProdutosPlanoAssinatura = ejb.listarProdutosKit(cliente.getPlanoAssinatura().getProduto().getId());
+
+        for (PessoaTelefone tel : cliente.getListaTelefone()) {
+            if (tel.getTipoTelefone().getId().equals(TipoTelefone.RESIDENCIAL)) {
+                telefone = tel;
+            } else {
+                celular = tel;
             }
         }
     }
@@ -145,7 +149,7 @@ public class ClienteMB extends ClayMB {
         // Na hora de gravar salva a alteração efetuada no plano (Ou pode deixar pra alterar só no cadastro) chama o pagamento.
         // Implementar ativar com botão no listar se for grupo admin.
         if (!isPostBack()) {
-            cliente = ejb.obterPessoa(getUsuarioLogado().getIdCliente());
+            iniciarClienteEditar(getUsuarioLogado().getIdCliente());
 
             listaOrigemPagamento = ejb.findAll(OrigemPagamento.class);
             listaProdutosPlanoAssinatura = ejb.listarProdutosKit(cliente.getPlanoAssinatura().getProduto().getId());
@@ -310,21 +314,21 @@ public class ClienteMB extends ClayMB {
                     limpaEndereco(cep);
                 }
                 populaEndereco(cep, cepServiceVO);
-            } 
+            }
         }
         return "lista_cliente?faces-redirect=true";
     }
 
     private CepServiceVO buscarCEPWebService(String cep, CepService cepService, CepServiceVO cepServiceVO) {
-        try{
+        try {
             cepServiceVO = cepService.buscarCepWebService(cep);
-        }catch (CEPProxyException e){
+        } catch (CEPProxyException e) {
             MensagemUtil.addMensagemInfo("webservice.cep.erro");
             limpaEndereco(cep);
         }
         return cepServiceVO;
     }
-    
+
     private void limpaEndereco(String cep) {
         this.endereco.setDescBairro("");
         this.endereco.setDescCidade("");
@@ -332,7 +336,7 @@ public class ClienteMB extends ClayMB {
         this.endereco.setNumCep(cep);
         this.endereco.setUf(new UF());
     }
-    
+
     /**
      * Metodo responsavel por popular os enderecos trago pelo web service
      * 
@@ -345,7 +349,16 @@ public class ClienteMB extends ClayMB {
         this.endereco.setDescCidade(cepServiceVO.getLocalidade());
         this.endereco.setDescEndereco(cepServiceVO.getLogradouro());
         this.endereco.setNumCep(cep);
-        this.endereco.setUf(ejb.obterUF(cepServiceVO.getUf()));
+        this.endereco.setUf(getUf(cepServiceVO.getUf()));
+    }
+
+    private UF getUf(String u) {
+        for (UF uf : listaUfs) {
+            if (uf.equals(u)) {
+                return uf;
+            }
+        }
+        return null;
     }
 
     public void iniciarListarClientes() {

@@ -1,5 +1,6 @@
 package br.com.clay.entidade;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -28,7 +29,7 @@ import br.com.clay.enums.TipoSexo;
         @NamedQuery(name = Cliente.LISTAR_CLIENTES_INDICADORES, query = "SELECT new br.com.clay.entidade.Cliente(c.id, c.nomePessoa) FROM Cliente c"),
         @NamedQuery(name = Cliente.OBTER_CLIENTE_EDITAR, query = "SELECT new br.com.clay.entidade.Cliente(c.id, c.nomePessoa, c.descRazaoSocial, c.tipoPessoa, c.numCpfCnpj, c.tipoSexo, "
                 + "c.dataNascimento, c.descEmail, c.dataCadastro, c.clienteSituacao.id, c.clienteSituacao.descClienteSituacao, c.clienteRede.id, c.clienteRede.clienteIndicador.id, "
-                + "c.clienteRede.clienteIndicador.nomePessoa, c.planoAssinatura.id, c.planoAssinatura.nomePlanoAssinatura, c.planoAssinatura.produto.id) "
+                + "c.clienteRede.clienteIndicador.nomePessoa, c.planoAssinatura.id, c.planoAssinatura.nomePlanoAssinatura, c.planoAssinatura.valorAdesao, c.planoAssinatura.produto.id) "
                 + "FROM Cliente c WHERE c.id = :idCliente"),
         @NamedQuery(name = Cliente.LISTAR_CLIENTES_SIMPLES, query = "SELECT new br.com.clay.entidade.Cliente(c.id, c.nomePessoa, c.tipoPessoa, c.numCpfCnpj, c.clienteSituacao.id, "
                 + "c.clienteSituacao.descClienteSituacao) FROM Cliente c") })
@@ -63,11 +64,11 @@ public class Cliente extends Pessoa {
      */
     public Cliente(Long id, String nomePessoa, String descRazaoSocial, TipoPessoa tipoPessoa, String numCpfCnpj, TipoSexo tipoSexo, Date dataNascimento, String descEmail,
             Date dataCadastro, Long idClienteSituacao, String descClienteSituacao, Long idClienteRede, Long idClienteIndicador, String nomeClienteIndicador,
-            Short idPlanoAssinatura, String nomePlanoAssinatura, Long idProdutoPlano) {
+            Short idPlanoAssinatura, String nomePlanoAssinatura, BigDecimal valorAdesao, Long idProdutoPlano) {
         super(id, nomePessoa, descRazaoSocial, tipoPessoa, numCpfCnpj, tipoSexo, dataNascimento, descEmail, dataCadastro);
         this.clienteSituacao = new ClienteSituacao(idClienteSituacao, descClienteSituacao);
         this.clienteRede = new ClienteRede(idClienteRede, new Cliente(id, nomePessoa), new Cliente(idClienteIndicador, nomePessoa));
-        this.planoAssinatura = new PlanoAssinatura(idPlanoAssinatura, nomePlanoAssinatura, idProdutoPlano);
+        this.planoAssinatura = new PlanoAssinatura(idPlanoAssinatura, nomePlanoAssinatura, valorAdesao, idProdutoPlano);
     }
 
     public Cliente() {

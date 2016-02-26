@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "PlanoAssinatura")
 @SequenceGenerator(name = "seqplanoassinatura", sequenceName = "seqplanoassinatura", allocationSize = 1)
-@NamedQueries({ @NamedQuery(name = PlanoAssinatura.LISTAR_SIPLES, query = "SELECT new br.com.clay.entidade.PlanoAssinatura(p.id, p.nomePlanoAssinatura, p.produto.id) FROM PlanoAssinatura p") })
+@NamedQueries({ @NamedQuery(name = PlanoAssinatura.LISTAR_SIPLES, query = "SELECT new br.com.clay.entidade.PlanoAssinatura(p.id, p.nomePlanoAssinatura, p.valorAdesao, p.produto.id) FROM PlanoAssinatura p") })
 public class PlanoAssinatura extends ClayEntidade {
     private static final long serialVersionUID = 1L;
 
@@ -30,9 +30,10 @@ public class PlanoAssinatura extends ClayEntidade {
     public PlanoAssinatura() {
     }
 
-    public PlanoAssinatura(Short id, String nomePlano, Long idProduto) {
+    public PlanoAssinatura(Short id, String nomePlano, BigDecimal valorAdesao, Long idProduto) {
         this.id = id;
         this.nomePlanoAssinatura = nomePlano;
+        this.valorAdesao = valorAdesao;
         this.produto = new Produto();
         this.produto.setId(idProduto);
     }

@@ -59,14 +59,4 @@ public class FornecedorServicoEJB extends ClayPersistencia<Fornecedor, Long> {
         fornecedor.setListaPessoaConta(em.createNamedQuery(PessoaConta.LISTAR_POR_ID_PESSOA).setParameter("idPessoa", id).getResultList());
         return fornecedor;
     }
-    
-    /**
-     * Método responsável por buscar a uf de acordo com seu ID
-     * @param codUf
-     * @return UF
-     * 
-     */
-    public UF obterUF(String codUf){
-        return em.find(UF.class, codUf);
-    }
 }

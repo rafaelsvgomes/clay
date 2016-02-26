@@ -349,12 +349,12 @@ public class ClienteMB extends ClayMB {
         this.endereco.setDescCidade(cepServiceVO.getLocalidade());
         this.endereco.setDescEndereco(cepServiceVO.getLogradouro());
         this.endereco.setNumCep(cep);
-        this.endereco.setUf(getUf(cepServiceVO.getUf()));
+        this.endereco.setUf(getUF(cepServiceVO.getUf()));
     }
 
-    private UF getUf(String u) {
+    private UF getUF(String codUf) {
         for (UF uf : listaUfs) {
-            if (uf.equals(u)) {
+            if(codUf.equals(uf.getCodUf())){
                 return uf;
             }
         }

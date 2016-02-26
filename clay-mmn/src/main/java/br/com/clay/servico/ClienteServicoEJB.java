@@ -123,14 +123,4 @@ public class ClienteServicoEJB extends ClayPersistencia<Cliente, Long> {
         return em.createNamedQuery(PlanoAssinatura.LISTAR_SIPLES).getResultList();
     }
 
-    /**
-     * Método responsável por buscar a uf de acordo com seu ID
-     * @param uf
-     * @return UF
-     * 
-     */
-    public UF obterUF(String codUf) {
-        return em.find(UF.class, codUf);
-    }
-
 }

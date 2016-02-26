@@ -2,7 +2,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+             xmlns:pe="http://primefaces.org/ui/extensions">
 
 	<div>
 		<h3>
@@ -24,7 +25,7 @@
 							<h:outputText value="#{msg['label.pessoa.nome']} *" />
 						</label>
 						<div class="controls">
-							<p:inputText value="#{fornecedorMB.fornecedor.nomePessoa}" label="#{msg['label.pessoa.nome']}" required="true"  immediate="true" styleClass="input-large">
+							<p:inputText value="#{fornecedorMB.fornecedor.nomePessoa}" label="#{msg['label.pessoa.nome']}" required="true"   styleClass="input-large">
 								<f:validateLength minimum="5" maximum="100" />
 							</p:inputText>
 						</div>
@@ -34,7 +35,7 @@
 							<h:outputText value="#{msg['label.pessoa.dsrazaosocial']} *" />
 						</label>
 						<div class="controls">
-							<p:inputText id="rzSocial" value="#{fornecedorMB.fornecedor.descRazaoSocial}" label="#{msg['label.pessoa.dsrazaosocial']}" required="true" immediate="true" styleClass="input-large"/>
+							<p:inputText id="rzSocial" value="#{fornecedorMB.fornecedor.descRazaoSocial}" label="#{msg['label.pessoa.dsrazaosocial']}" required="true"  styleClass="input-large"/>
 						</div>				
 					</div>
 					<div class="control-group">
@@ -43,7 +44,7 @@
 						</label>
 						<div class="controls">
 							<p:inputMask id="cnpj" mask="99.999.999/9999-99" value="#{fornecedorMB.fornecedor.numCpfCnpj}" label="#{msg['label.pessoa.cnpj']}" 
-								required="true" immediate="true" styleClass="input-large" validator="#{cpfCnpjUtilizadoValidator.validate}" >
+								required="true"  styleClass="input-large" validator="#{cpfCnpjUtilizadoValidator.validate}" >
 								<f:param id="idSelecionado" name="idSelecionado" value="#{clienteMB.idSelecionado}"/>
 							</p:inputMask>
 						</div>
@@ -59,7 +60,7 @@
 							<h:outputText value="#{msg['label.pessoa.telefone']} *" />
 						</label>
 						<div class="controls">
-					        <p:inputMask mask="(99)99999999?9" value="#{fornecedorMB.telefone.descTelefone}" label="#{msg['label.pessoa.telefone']}" required="true" immediate="true" styleClass="input-large" />
+					        <p:inputMask mask="(99)99999999?9" value="#{fornecedorMB.telefone.descTelefone}" label="#{msg['label.pessoa.telefone']}" required="true"  styleClass="input-large" />
 						</div>
 					</div>
 					
@@ -69,7 +70,7 @@
 						</label>
 						<div class="controls">
 							<p:inputText value="#{fornecedorMB.fornecedor.descEmail}" label="#{msg['label.pessoa.email']}" 
-							 required="true" immediate="true" styleClass="input-large">
+							 required="true"  styleClass="input-large">
 								<f:validateLength minimum="5" maximum="100" />
 							</p:inputText>
 						</div>
@@ -87,7 +88,7 @@
 							<h:outputText value="#{msg['label.pessoa.endereco.cep']} *" />
 						</label>
 						<div class="controls">
-					        <p:inputMask id="fornecedor_cep" mask="99999-999" valueChangeListener="#{fornecedorMB.buscarCep}" value="#{fornecedorMB.endereco.numCep}" label="#{msg['label.pessoa.endereco.cep']}" required="true" immediate="true" styleClass="input-small"  >
+					        <p:inputMask id="fornecedor_cep" mask="99999-999" valueChangeListener="#{fornecedorMB.buscarCep}" value="#{fornecedorMB.endereco.numCep}" label="#{msg['label.pessoa.endereco.cep']}" required="true"  styleClass="input-small"  >
 								<p:ajax   event="blur" process="@this" update="fornecedor_descendereco, fornecedor_bairro, fornecedor_cidade, select_uf"  onstart="PF('dlgExec').show();" oncomplete="PF('dlgExec').hide();"/>
 							</p:inputMask>
 						</div>
@@ -186,7 +187,7 @@
 							<h:outputText value="#{msg['label.pessoa.agencia']} *" />
 						</label>
 						<div class="controls">
-					        <p:inputText value="#{fornecedorMB.pessoaConta.numAgencia}" label="#{msg['label.pessoa.agencia']}" required="true" styleClass="input-small"/>
+						 	<p:inputMask  value="#{fornecedorMB.pessoaConta.numAgencia}"  mask="9999-9" label="#{msg['label.pessoa.agencia']}" required="true" styleClass="input-small"/>
 						</div>
 					</div>
 					
@@ -195,7 +196,7 @@
 							<h:outputText value="#{msg['label.pessoa.conta']} *" />
 						</label>
 						<div class="controls">
-					        <p:inputText value="#{fornecedorMB.pessoaConta.numConta}" label="#{msg['label.pessoa.conta']}" required="true" styleClass="input-small"/>
+							<p:inputText value="#{fornecedorMB.pessoaConta.numConta}" mask="999999" label="#{msg['label.pessoa.conta']}" required="true" styleClass="input-small"/>
 						</div>
 					</div>
 				</fieldset>

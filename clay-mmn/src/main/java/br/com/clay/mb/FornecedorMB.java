@@ -203,9 +203,18 @@ public class FornecedorMB extends ClayMB {
         this.endereco.setDescCidade(cepServiceVO.getLocalidade());
         this.endereco.setDescEndereco(cepServiceVO.getLogradouro());
         this.endereco.setNumCep(cep);
-        this.endereco.setUf(ejb.obterUF(cepServiceVO.getUf()));
+        this.endereco.setUf(getUF(cepServiceVO.getUf()));
     }
-
+    
+    public UF getUF(String codUf) {
+        for (UF uf : listaUfs) {
+            if(codUf.equals(uf.getCodUf())){
+                return uf;
+            }
+        }
+        return null;
+    }
+    
     public List<Fornecedor> getFornecedores() {
         fornecedores = ejb.findAll();
         return fornecedores;

@@ -2,15 +2,22 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core">
-
-	<div class="logo" align="center">
-		<h:link outcome="/layout/home">
-			<img src="../resources/img/logo_clay.png" alt="#{msg['label.logo.clay']}" title="#{msg['label.logo.clay']}"  />
-		</h:link>
-	</div>
-
-	<h1 class="title">
-		<h:outputText value="#{msg['app.title']}" />
-	</h1>
-
+	<ui:composition>
+		<div class="logo" align="center">
+			<h:link outcome="/layout/home">
+				<img src="../resources/img/logo_clay.png" alt="#{msg['label.logo.clay']}" title="#{msg['label.logo.clay']}"  />
+			</h:link>
+		</div>
+	
+		<h1 class="title">
+			<h:outputText value="#{msg['app.title']}" />
+		</h1>
+		
+		<nav class="menu-opcoes">
+		    <ul>
+		      <li><a href="#">Sua Conta</a></li>
+		      <li><a href="sobre.html">Sobre</a></li>
+		    </ul>
+	  	</nav>
+  	</ui:composition>
 </ui:fragment>

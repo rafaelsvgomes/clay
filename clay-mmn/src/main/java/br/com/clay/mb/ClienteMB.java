@@ -40,6 +40,7 @@ import br.com.clay.util.MensagemUtil;
 import br.com.clay.util.SenhaUtil;
 import br.com.clay.vo.CepServiceVO;
 import br.com.clay.webservices.CepService;
+import br.com.uol.pagseguro.exception.PagSeguroServiceException;
 
 @ManagedBean(name = "clienteMB")
 @ViewScoped
@@ -157,9 +158,14 @@ public class ClienteMB extends ClayMB {
         }
     }
 
-    public Boolean getIsPagSeguro() {
+    private String checkoutCode;
+
+    public Boolean getIsPagSeguro() throws PagSeguroServiceException {
         if (pedido.getOrigemPagamento() != null) {
             isPagSeguro = pedido.getOrigemPagamento().getId() == OrigemPagamento.PAG_SEGURO;
+            if (isPagSeguro) {
+                checkoutCode = new CreateCheckout().getCheckoutCode();
+            }
         }
         return isPagSeguro;
     }
@@ -354,7 +360,7 @@ public class ClienteMB extends ClayMB {
 
     private UF getUF(String codUf) {
         for (UF uf : listaUfs) {
-            if(codUf.equals(uf.getCodUf())){
+            if (codUf.equals(uf.getCodUf())) {
                 return uf;
             }
         }
@@ -452,5 +458,13 @@ public class ClienteMB extends ClayMB {
 
     public List<OrigemPagamento> getListaOrigemPagamento() {
         return listaOrigemPagamento;
+    }
+
+    public String getCheckoutCode() {
+        return checkoutCode;
+    }
+
+    public void setCheckoutCode(String checkoutCode) {
+        this.checkoutCode = checkoutCode;
     }
 }

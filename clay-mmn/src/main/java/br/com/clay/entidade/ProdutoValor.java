@@ -8,11 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
 
 /**
  * The persistent class for the valorproduto database table.
@@ -20,82 +20,86 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "PRODUTOVALOR")
-@NamedQuery(name = ProdutoValor.LISTAR_POR_ID_PRODUTO, query = "SELECT pv FROM ProdutoValor pv WHERE pv.produto.id = :idProduto")
-public class ProdutoValor extends ClayEntidade{
-	private static final long serialVersionUID = 1L;
+@NamedQueries({ @NamedQuery(name = ProdutoValor.LISTAR_POR_ID_PRODUTO, query = "SELECT pv FROM ProdutoValor pv WHERE pv.produto.id = :idProduto"),
+        @NamedQuery(name = ProdutoValor.OBTER_PRODUTO_VALOR_ATUAL, query = "SELECT p FROM ProdutoValor p WHERE p.produto.id = :idProduto ORDER BY p.dataAtualizacao DESC") })
+public class ProdutoValor extends ClayEntidade {
+    private static final long serialVersionUID = 1L;
 
-	public static final String LISTAR_POR_ID_PRODUTO = "listarValorProdutoPorIdProduto";
-	
-	@Id
-	@Column(name = "idProdutoValor")
-	private Long id;
+    public static final String LISTAR_POR_ID_PRODUTO = "listarValorProdutoPorIdProduto";
+    public static final String OBTER_PRODUTO_VALOR_ATUAL = "obterProdutoValorAtual";
 
-	@Column(name = "dataatualizacao")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Calendar dataAtualizacao;
+    @Id
+    @Column(name = "idProdutoValor")
+    private Long id;
 
-	@Column(name = "vlcusto")
-	private BigDecimal valorCusto;
+    @Column(name = "dataatualizacao")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar dataAtualizacao;
 
-	@Column(name = "vldesconto")
-	private BigDecimal valorDesconto;
+    @Column(name = "vlcusto")
+    private BigDecimal valorCusto;
 
-	@Column(name = "vlproduto")
-	private BigDecimal valorProduto;
+    @Column(name = "vldesconto")
+    private BigDecimal valorDesconto;
 
-	//bi-directional many-to-one association to Produto
-	@ManyToOne
-	@JoinColumn(name="idproduto")
-	private Produto produto;
+    @Column(name = "vlproduto")
+    private BigDecimal valorProduto;
 
-	public ProdutoValor() {
-	}
-	
-	public void setIdValorProduto(Long idValorProduto) {
-		this.id = idValorProduto;
-	}
+    // bi-directional many-to-one association to Produto
+    @ManyToOne
+    @JoinColumn(name = "idproduto")
+    private Produto produto;
 
-	public Calendar getDataAtualizacao() {
-		return this.dataAtualizacao;
-	}
+    public ProdutoValor() {
+    }
 
-	public void setDataAtualizacao(Calendar dataAtualizacao) {
-		this.dataAtualizacao = dataAtualizacao;
-	}
+    public void setIdValorProduto(Long idValorProduto) {
+        this.id = idValorProduto;
+    }
 
-	public BigDecimal getValorCusto() {
-		return this.valorCusto;
-	}
+    public Calendar getDataAtualizacao() {
+        return this.dataAtualizacao;
+    }
 
-	public void setValorCusto(BigDecimal valorCusto) {
-		this.valorCusto = valorCusto;
-	}
+    public void setDataAtualizacao(Calendar dataAtualizacao) {
+        this.dataAtualizacao = dataAtualizacao;
+    }
 
-	public BigDecimal getValorDesconto() {
-		return this.valorDesconto;
-	}
+    public BigDecimal getValorCusto() {
+        return this.valorCusto;
+    }
 
-	public void setValorDesconto(BigDecimal valorDesconto) {
-		this.valorDesconto = valorDesconto;
-	}
+    public void setValorCusto(BigDecimal valorCusto) {
+        this.valorCusto = valorCusto;
+    }
 
-	public BigDecimal getValorProduto() {
-		return this.valorProduto;
-	}
+    public BigDecimal getValorDesconto() {
+        return this.valorDesconto;
+    }
 
-	public void setValorProduto(BigDecimal valorProduto) {
-		this.valorProduto = valorProduto;
-	}
+    public void setValorDesconto(BigDecimal valorDesconto) {
+        this.valorDesconto = valorDesconto;
+    }
 
-	public Produto getProduto() {
-		return this.produto;
-	}
+    public BigDecimal getValorProduto() {
+        return this.valorProduto;
+    }
 
-	public void setProduto(Produto produto) {
-		this.produto = produto;
-	}
+    public void setValorProduto(BigDecimal valorProduto) {
+        this.valorProduto = valorProduto;
+    }
 
-    /* (non-Javadoc)
+    public Produto getProduto() {
+        return this.produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see br.com.clay.entidade.ClayEntidade#getId()
      */
     @Override

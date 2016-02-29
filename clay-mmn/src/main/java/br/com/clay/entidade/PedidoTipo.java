@@ -23,6 +23,16 @@ public class PedidoTipo extends ClayEntidade {
 
     private static final long serialVersionUID = -6751034595445330176L;
 
+    public static final short ASSINATURA = 1;
+    public static final short COMPRA = 2;
+
+    public PedidoTipo() {
+    }
+
+    public PedidoTipo(short id) {
+        this.id = id;
+    }
+
     @Id
     @Column(name = "idPedidoTipo", nullable = false, unique = true)
     private Short id;

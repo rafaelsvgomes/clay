@@ -1,5 +1,6 @@
 package br.com.clay.mb;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,6 +18,10 @@ import br.com.clay.entidade.ClienteSituacao;
 import br.com.clay.entidade.Grupo;
 import br.com.clay.entidade.OrigemPagamento;
 import br.com.clay.entidade.Pedido;
+import br.com.clay.entidade.PedidoProduto;
+import br.com.clay.entidade.PedidoProdutoSituacao;
+import br.com.clay.entidade.PedidoSituacao;
+import br.com.clay.entidade.PedidoTipo;
 import br.com.clay.entidade.Pessoa;
 import br.com.clay.entidade.PessoaConta;
 import br.com.clay.entidade.PessoaEndereco;
@@ -152,9 +157,26 @@ public class ClienteMB extends ClayMB {
         if (!isPostBack()) {
             iniciarClienteEditar(getUsuarioLogado().getIdCliente());
 
+            Pedido pedido = new Pedido();
+            pedido.setCliente(cliente);
+            pedido.setDataPedido(new Date());
+            pedido.setOrigemPagamento(new OrigemPagamento(OrigemPagamento.PAG_SEGURO));
+            pedido.setPedidoSituacao(new PedidoSituacao(PedidoSituacao.ABERTO));
+            pedido.setPedidoTipo(new PedidoTipo(PedidoTipo.ASSINATURA));
+            pedido.setValorFrete(BigDecimal.ZERO);
+            pedido.setValorTotalBruto(cliente.getPlanoAssinatura().getValorAdesao());
+            pedido.setValorTotalLiquido(cliente.getPlanoAssinatura().getValorAdesao());
+
+            PedidoProduto pp = new PedidoProduto();
+            pp.setPedido(pedido);
+            pp.setPedidoProdutoSituacao(new PedidoProdutoSituacao(PedidoProdutoSituacao.ABERTO));
+            pp.setProduto(cliente.getPlanoAssinatura().getProduto());
+            pp.setProdutoValor(ejb.obterValorProduto(cliente.getPlanoAssinatura().getProduto().getId()));
+            pp.setQtdProduto(1l);
+            pp.setValorDesconto(BigDecimal.ZERO);
+
             listaOrigemPagamento = ejb.findAll(OrigemPagamento.class);
             listaProdutosPlanoAssinatura = ejb.listarProdutosKit(cliente.getPlanoAssinatura().getProduto().getId());
-            pedido = new Pedido();
         }
     }
 

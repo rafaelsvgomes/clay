@@ -23,7 +23,15 @@ public class OrigemPagamento extends ClayEntidade {
 
     private static final long serialVersionUID = 919101219244401727L;
 
+    public static final short EM_MAOS = 1;
     public static final short PAG_SEGURO = 2;
+
+    public OrigemPagamento(short idOrigem) {
+        this.id = idOrigem;
+    }
+
+    public OrigemPagamento() {
+    }
 
     @Id
     @Column(name = "idOrigemPagamento", unique = true, nullable = false)

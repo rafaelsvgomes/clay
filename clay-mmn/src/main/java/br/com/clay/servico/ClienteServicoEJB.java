@@ -14,7 +14,7 @@ import br.com.clay.entidade.PessoaEndereco;
 import br.com.clay.entidade.PessoaTelefone;
 import br.com.clay.entidade.PlanoAssinatura;
 import br.com.clay.entidade.Produto;
-import br.com.clay.entidade.UF;
+import br.com.clay.entidade.ProdutoValor;
 
 /**
  * Session Bean implementation class ClienteEJB
@@ -121,6 +121,17 @@ public class ClienteServicoEJB extends ClayPersistencia<Cliente, Long> {
     @SuppressWarnings("unchecked")
     public List<PlanoAssinatura> listarPlanoAssinatura() {
         return em.createNamedQuery(PlanoAssinatura.LISTAR_SIPLES).getResultList();
+    }
+
+    /**
+     * Método responsável por
+     * 
+     * @param id
+     * @return ProdutoValor
+     * 
+     */
+    public ProdutoValor obterValorProduto(Long id) {
+        return (ProdutoValor) em.createNamedQuery(ProdutoValor.OBTER_PRODUTO_VALOR_ATUAL).setMaxResults(1).getSingleResult();
     }
 
 }

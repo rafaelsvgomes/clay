@@ -97,9 +97,22 @@ insert into pedidosituacao values (3,'Aguardando retirada');
 insert into pedidosituacao values (4,'Entrega parcial');
 insert into pedidosituacao values (5,'Finalizado');
 
---PedidoSituacao
+--PedidoProdutoSituacao
 insert into pedidoprodutosituacao values (1,'Não Entregue');
 insert into pedidoprodutosituacao values (2,'Entregue');
+
+--PedidoTipo
+insert into pedidotipo values (1,'Assinatura');
+insert into pedidotipo values (2,'Compra');
+
+--StatusPagamento (PagSeguro)
+insert into statuspagamento values (1,'Aguardando pagamento');
+insert into statuspagamento values (2,'Em análise');
+insert into statuspagamento values (3,'Pago');
+insert into statuspagamento values (4,'Disponível');
+insert into statuspagamento values (5,'Em disputa');
+insert into statuspagamento values (6,'Devolvida');
+insert into statuspagamento values (7,'Cancelada');
 
 --ClienteSituacao
 insert into clientesituacao values (1,'Cadastrado');

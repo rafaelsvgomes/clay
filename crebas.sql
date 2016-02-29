@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     25/02/2016 13:15:58                          */
+/* Created on:     29/02/2016 13:06:10                          */
 /*==============================================================*/
 
 
@@ -31,6 +31,10 @@ drop table FORNECEDOR;
 drop index IDX_CDGRUPO;
 
 drop table GRUPO;
+
+drop index IDX_IDLOGPEDIDOSITUACAO;
+
+drop table LOGPEDIDOSITUACAO;
 
 drop index IDX_IDPEDIDOTIPO2;
 
@@ -92,6 +96,10 @@ drop index IDX_IDPRODUTOVALOR;
 
 drop table PRODUTOVALOR;
 
+drop index IDX_IDSTATUSPAGAMENTO;
+
+drop table STATUSPAGAMENTO;
+
 drop index IDX_IDTIPOCONTA;
 
 drop table TIPOCONTA;
@@ -126,6 +134,10 @@ drop index IDX_IDUSUARIOPESSOA;
 
 drop table USUARIOPESSOA;
 
+drop sequence SEQCLIENTEREDE;
+
+drop sequence SEQLOGPEDIDOSITUACAO;
+
 drop sequence SEQPEDIDO;
 
 drop sequence SEQPEDIDOPRODUTO;
@@ -135,8 +147,6 @@ drop sequence SEQPESSOA;
 drop sequence SEQPESSOACONTA;
 
 drop sequence SEQPESSOAENDERECO;
-
-drop sequence SEQPESSOAREDE;
 
 drop sequence SEQPLANOASSINATURA;
 
@@ -154,6 +164,12 @@ drop sequence SEQUSUARIOGRUPO;
 
 drop sequence SEQUSUARIOPESSOA;
 
+create sequence SEQCLIENTEREDE
+increment 1;
+
+create sequence SEQLOGPEDIDOSITUACAO
+increment 1;
+
 create sequence SEQPEDIDO
 increment 1;
 
@@ -167,9 +183,6 @@ create sequence SEQPESSOACONTA
 increment 1;
 
 create sequence SEQPESSOAENDERECO
-increment 1;
-
-create sequence SEQPESSOAREDE
 increment 1;
 
 create sequence SEQPLANOASSINATURA
@@ -321,6 +334,28 @@ create table GRUPO (
 /*==============================================================*/
 create  index IDX_CDGRUPO on GRUPO (
 CDGRUPO
+);
+
+/*==============================================================*/
+/* Table: LOGPEDIDOSITUACAO                                     */
+/*==============================================================*/
+create table LOGPEDIDOSITUACAO (
+   IDLOGPEDIDOSITUACAO  SERIAL               not null,
+   IDPEDIDO             BIGINT               null,
+   IDSTATUSPAGAMENTO    BIGINT               null,
+   CODTRANSACAO         VARCHAR(100)         null,
+   DATAHORAPEDIDOSITUACAO TIMESTAMP            null,
+   constraint PK_LOGPEDIDOSITUACAO primary key (IDLOGPEDIDOSITUACAO)
+);
+
+comment on table LOGPEDIDOSITUACAO is
+'Se foi Em mãos, PagSeguro, etc.';
+
+/*==============================================================*/
+/* Index: IDX_IDLOGPEDIDOSITUACAO                               */
+/*==============================================================*/
+create unique index IDX_IDLOGPEDIDOSITUACAO on LOGPEDIDOSITUACAO (
+IDLOGPEDIDOSITUACAO
 );
 
 /*==============================================================*/
@@ -647,6 +682,22 @@ IDPRODUTOVALOR
 );
 
 /*==============================================================*/
+/* Table: STATUSPAGAMENTO                                       */
+/*==============================================================*/
+create table STATUSPAGAMENTO (
+   IDSTATUSPAGAMENTO    BIGINT               not null,
+   DSSTATUSPAGAMENTO    VARCHAR(100)         null,
+   constraint PK_STATUSPAGAMENTO primary key (IDSTATUSPAGAMENTO)
+);
+
+/*==============================================================*/
+/* Index: IDX_IDSTATUSPAGAMENTO                                 */
+/*==============================================================*/
+create unique index IDX_IDSTATUSPAGAMENTO on STATUSPAGAMENTO (
+IDSTATUSPAGAMENTO
+);
+
+/*==============================================================*/
 /* Table: TIPOCONTA                                             */
 /*==============================================================*/
 create table TIPOCONTA (
@@ -825,6 +876,16 @@ alter table CLIENTEREDE
 alter table FORNECEDOR
    add constraint FK_FORNECED_FK_FORNEC_PESSOA foreign key (IDFORNECEDOR)
       references PESSOA (IDPESSOA)
+      on delete restrict on update restrict;
+
+alter table LOGPEDIDOSITUACAO
+   add constraint FK_LOGPEDID_REFERENCE_PEDIDO foreign key (IDPEDIDO)
+      references PEDIDO (IDPEDIDO)
+      on delete restrict on update restrict;
+
+alter table LOGPEDIDOSITUACAO
+   add constraint FK_LOGPEDID_REFERENCE_STATUSPA foreign key (IDSTATUSPAGAMENTO)
+      references STATUSPAGAMENTO (IDSTATUSPAGAMENTO)
       on delete restrict on update restrict;
 
 alter table PEDIDO

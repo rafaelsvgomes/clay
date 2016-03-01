@@ -1,0 +1,105 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="../layout/template.xhtml">
+	<ui:define name="pageTitle">
+		<h:outputText value="#{msg['page.title.lista.pedido']}" />
+	</ui:define>
+	
+	<f:metadata>
+		<f:event type="preRenderView" listener="#{pedidoMB.iniciarListarPedidos()}" />
+	</f:metadata>
+
+	<ui:define name="content">
+		<div style="border-bottom: 1px solid #E5E5E5;">
+			<h3>
+				<h:outputText value="#{msg['label.pedido']}" />
+				<small> <h:outputText value="#{msg['label.listagem']}" /></small>
+			</h3>
+		</div>
+		<h:form>
+			<p:dataTable id="dataTable" var="pedido"
+				value="#{pedidoMB.listaPedidos}" paginator="true" rows="10" paginatorPosition="bottom"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="{currentPage} de {totalPages}" rowsPerPageTemplate="10,20,50" emptyMessage="#{msg['alerta.nenhum.pedido.encontrado']}" >
+				<p:column style="text-align: center; width: 25px">
+					<f:facet name="header">#</f:facet>
+					<h:outputText value="#{pedido.id}" />
+				</p:column>
+	
+				<p:column sortBy="#{pedido.cliente.nomePessoa}">
+					<f:facet name="header">
+						<h:outputText value="#{msg['label.pessoa.nome.cliente']}" />
+					</f:facet>
+					<h:link outcome="editar_pedido" value="#{pedido.cliente.nomePessoa}"
+						title="#{msg['label.editar']} #{pedido.cliente.nomePessoa}">
+						<f:param name="id" value="#{pedido.id}" />
+					</h:link>
+				</p:column>
+	
+				<p:column sortBy="#{pedido.pedidoSituacao.descPedidoSituacao}">
+					<f:facet name="header">
+						<h:outputText value="#{msg['label.pedido.situacao']}" />
+					</f:facet>
+					<h:outputText value="#{pedido.pedidoSituacao.descPedidoSituacao}" />
+				</p:column>
+				
+				<p:column sortBy="#{pedido.origemPagamento.descOrigemPagamento}">
+					<f:facet name="header">
+						<h:outputText value="#{msg['label.pedido.origemPagamento']}" />
+					</f:facet>
+					<h:outputText value="#{pedido.origemPagamento.descOrigemPagamento}" />
+				</p:column>
+				
+				<p:column sortBy="#{pedido.pedidoTipo.descPedidoTipo}">
+					<f:facet name="header">
+						<h:outputText value="#{msg['label.pedido.tipo']}" />
+					</f:facet>
+					<h:outputText value="#{pedido.pedidoTipo.descPedidoTipo}" />
+				</p:column>
+				
+				<p:column sortBy="#{pedido.dataPedido}">
+					<f:facet name="header">
+						<h:outputText value="#{msg['label.pedido.dataPedido']}" />
+					</f:facet>
+					<h:outputText value="#{pedido.dataPedido}" >
+					 	<f:convertDateTime  pattern="dd/MM/yyyy HH:mm"/>
+					</h:outputText>
+				</p:column>
+				
+				<p:column sortBy="#{pedido.valorFrete}">
+					<f:facet name="header">
+						<h:outputText value="#{msg['label.pedido.valorFrete']}" />
+					</f:facet>
+					<h:outputText value="#{pedido.valorFrete}" >
+						  <f:convertNumber currencySymbol="R$" type="currency"/>
+					</h:outputText>
+				</p:column>
+				
+				<p:column sortBy="#{pedido.valorTotalBruto}">
+					<f:facet name="header">
+						<h:outputText value="#{msg['label.pedido.valorBruto']}" />
+					</f:facet>
+					<h:outputText value="#{pedido.valorTotalBruto}" >
+						 <f:convertNumber currencySymbol="R$" type="currency"/>
+					</h:outputText>
+				</p:column>
+				
+				<p:column sortBy="#{pedido.valorTotalLiquido}">
+					<f:facet name="header">
+						<h:outputText value="#{msg['label.pedido.valorLiquido']}" />
+					</f:facet>
+					<h:outputText value="#{pedido.valorTotalLiquido}" >
+						 <f:convertNumber currencySymbol="R$" type="currency"/>
+					</h:outputText>
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+		<h:messages />
+	</ui:define>
+</ui:composition>
+</html>

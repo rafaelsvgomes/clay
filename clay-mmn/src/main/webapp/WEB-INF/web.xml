@@ -45,6 +45,7 @@
       <url-pattern>/fornecedor/*</url-pattern>
       <url-pattern>/layout/*</url-pattern>
       <url-pattern>/produto/*</url-pattern>
+      <url-pattern>/pedido/*</url-pattern>
     </web-resource-collection>
     <auth-constraint>
       <role-name>ADMIN</role-name>

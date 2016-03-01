@@ -21,7 +21,7 @@
 			</h3>
 		</div>
 		<h:form styleClass="form-horizontal">
-				<ui:include src="/cliente/form_plano_assinatura.xhtml" />
+			<ui:include src="/cliente/form_plano_assinatura.xhtml" />
 		</h:form>
 		<h:form styleClass="form-horizontal">
 			<fieldset>
@@ -35,7 +35,7 @@
 							<h:outputText value="#{msg['label.pagamento.origem']} *" />
 						</label>
 						<div class="controls">
-							<p:selectOneMenu value="#{clienteMB.pedido.origemPagamento}" converter="entityConverter" label="#{msg['label.pagamento.origem']}" required="true" immediate="true">
+							<p:selectOneMenu value="#{clienteMB.pedido.origemPagamento}" disabled="#{!clienteMB.podeAlterarPedidoPlano}" converter="entityConverter" label="#{msg['label.pagamento.origem']}" required="true">
 				                <f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
 				                <f:selectItems value="#{clienteMB.listaOrigemPagamento}" var="op" itemLabel="#{op.descOrigemPagamento}" />
 				                <p:ajax update="painelPagSeguro" event="change" onstart="PF('dlgExec').show();" oncomplete="PF('dlgExec').hide();"/>
@@ -63,8 +63,6 @@
 						oncomplete="PF('dlgExec').hide();" rendered="#{clienteMB.cliente != null}" />
 					
 					<p:button value="#{msg['button.cancelar']}" outcome="lista_cliente" styleClass="btn" />
-					
-					<!-- p:commandButton value="#{msg['button.excluir']}" onclick="PF('confirmation').show();" rendered="#{clienteMB.cliente.id != null}" immediate="true" styleClass="btn btn-danger" /-->
 				</div>
 		</h:form>
 	</ui:define>

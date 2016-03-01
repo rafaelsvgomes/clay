@@ -23,7 +23,7 @@ import br.com.clay.enums.LadoArvore;
  */
 @Entity
 @Table(name = "CLIENTEREDE")
-@SequenceGenerator(name = "seqpessoarede", sequenceName = "seqpessoarede", allocationSize = 1)
+@SequenceGenerator(name = "seqclienterede", sequenceName = "seqclienterede", allocationSize = 1)
 @NamedQueries({ @NamedQuery(name = ClienteRede.LISTAR_POR_ID_CLIENTE, query = "SELECT cr FROM ClienteRede cr WHERE cr.cliente.id = :idCliente") })
 public class ClienteRede extends ClayEntidade {
     private static final long serialVersionUID = 1L;
@@ -40,7 +40,7 @@ public class ClienteRede extends ClayEntidade {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqpessoarede")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqclienterede")
     @Column(name = "idClienteRede", unique = true, nullable = false)
     private Long id;
 

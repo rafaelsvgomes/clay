@@ -16,6 +16,7 @@ import br.com.clay.entidade.Cliente;
 import br.com.clay.entidade.ClienteRede;
 import br.com.clay.entidade.ClienteSituacao;
 import br.com.clay.entidade.Grupo;
+import br.com.clay.entidade.LogPedidoSituacao;
 import br.com.clay.entidade.OrigemPagamento;
 import br.com.clay.entidade.Pedido;
 import br.com.clay.entidade.PedidoProduto;
@@ -28,6 +29,7 @@ import br.com.clay.entidade.PessoaEndereco;
 import br.com.clay.entidade.PessoaTelefone;
 import br.com.clay.entidade.PlanoAssinatura;
 import br.com.clay.entidade.Produto;
+import br.com.clay.entidade.StatusPagamento;
 import br.com.clay.entidade.TipoConta;
 import br.com.clay.entidade.TipoEndereco;
 import br.com.clay.entidade.TipoTelefone;
@@ -87,6 +89,8 @@ public class ClienteMB extends ClayMB {
 
     private Boolean isPagSeguro;
 
+    private Boolean podeAlterarPedidoPlano;
+
     public ClienteMB() {
     }
 
@@ -97,6 +101,7 @@ public class ClienteMB extends ClayMB {
         listaBancos = ejb.findAll(Banco.class);
         listaTipoConta = ejb.findAll(TipoConta.class);
         listaPlanoAssinatura = ejb.listarPlanoAssinatura();
+        podeAlterarPedidoPlano = Boolean.TRUE;
     }
 
     public void incluir() {
@@ -150,12 +155,21 @@ public class ClienteMB extends ClayMB {
     }
 
     @SuppressWarnings("unchecked")
-    public void iniciarPagamento() {
+    public void iniciarPagamento() throws PagSeguroServiceException {
         // TODO: rafael
         // Na hora de gravar salva a alteração efetuada no plano (Ou pode deixar pra alterar só no cadastro) chama o pagamento.
         // Implementar ativar com botão no listar se for grupo admin.
+        podeAlterarPedidoPlano = Boolean.FALSE;
+
+        pedido = new Pedido();
+
         if (!isPostBack()) {
             iniciarClienteEditar(getUsuarioLogado().getIdCliente());
+            listaOrigemPagamento = ejb.findAll(OrigemPagamento.class);
+            listaProdutosPlanoAssinatura = ejb.listarProdutosKit(cliente.getPlanoAssinatura().getProduto().getId());
+            pedido.setOrigemPagamento(listaOrigemPagamento.get(1));
+
+            checkoutCode = new CreateCheckout().getCheckoutCode();
 
             Pedido pedido = new Pedido();
             pedido.setCliente(cliente);
@@ -167,17 +181,30 @@ public class ClienteMB extends ClayMB {
             pedido.setValorTotalBruto(cliente.getPlanoAssinatura().getValorAdesao());
             pedido.setValorTotalLiquido(cliente.getPlanoAssinatura().getValorAdesao());
 
-            PedidoProduto pp = new PedidoProduto();
-            pp.setPedido(pedido);
-            pp.setPedidoProdutoSituacao(new PedidoProdutoSituacao(PedidoProdutoSituacao.ABERTO));
-            pp.setProduto(cliente.getPlanoAssinatura().getProduto());
-            pp.setProdutoValor(ejb.obterValorProduto(cliente.getPlanoAssinatura().getProduto().getId()));
-            pp.setQtdProduto(1l);
-            pp.setValorDesconto(BigDecimal.ZERO);
+            pedido.addPedidoProduto(getPedidoProduto());
+            pedido.addLogPedidoSituacao(getLogPedidoSituacao());
 
-            listaOrigemPagamento = ejb.findAll(OrigemPagamento.class);
-            listaProdutosPlanoAssinatura = ejb.listarProdutosKit(cliente.getPlanoAssinatura().getProduto().getId());
+            ejb.salvarPedido(pedido);
         }
+    }
+
+    private LogPedidoSituacao getLogPedidoSituacao() {
+        LogPedidoSituacao log = new LogPedidoSituacao();
+        log.setCodTransacao(checkoutCode);
+        log.setDataHoraPedidoSituacao(new Date());
+        log.setStatusPagamento(new StatusPagamento(StatusPagamento.AGUARDANDO_PAGAMENTO));
+
+        return log;
+    }
+
+    private PedidoProduto getPedidoProduto() {
+        PedidoProduto pp = new PedidoProduto();
+        pp.setPedidoProdutoSituacao(new PedidoProdutoSituacao(PedidoProdutoSituacao.ABERTO));
+        pp.setProduto(cliente.getPlanoAssinatura().getProduto());
+        pp.setProdutoValor(ejb.obterValorProduto(cliente.getPlanoAssinatura().getProduto().getId()));
+        pp.setQtdProduto(1l);
+        pp.setValorDesconto(BigDecimal.ZERO);
+        return pp;
     }
 
     private String checkoutCode;
@@ -185,9 +212,6 @@ public class ClienteMB extends ClayMB {
     public Boolean getIsPagSeguro() throws PagSeguroServiceException {
         if (pedido.getOrigemPagamento() != null) {
             isPagSeguro = pedido.getOrigemPagamento().getId() == OrigemPagamento.PAG_SEGURO;
-            if (isPagSeguro) {
-                checkoutCode = new CreateCheckout().getCheckoutCode();
-            }
         }
         return isPagSeguro;
     }
@@ -284,6 +308,7 @@ public class ClienteMB extends ClayMB {
 
             ejb.save(cliente);
         } catch (Exception ex) {
+            enviarEmail = Boolean.FALSE;
             ex.printStackTrace();
             MensagemUtil.addMensagemErro("msg.erro.salvar.cliente", ex.getMessage());
             return "";
@@ -488,5 +513,9 @@ public class ClienteMB extends ClayMB {
 
     public void setCheckoutCode(String checkoutCode) {
         this.checkoutCode = checkoutCode;
+    }
+
+    public Boolean getPodeAlterarPedidoPlano() {
+        return podeAlterarPedidoPlano;
     }
 }

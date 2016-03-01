@@ -18,7 +18,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "PessoaTelefone")
-@SequenceGenerator(name = "seqpessoatelefone", sequenceName = "seqpessoatelefone", allocationSize = 1)
+@SequenceGenerator(name = "seqtelefone", sequenceName = "seqtelefone", allocationSize = 1)
 @NamedQueries({ @NamedQuery(name = PessoaTelefone.LISTAR_POR_ID_PESSOA, query = "SELECT t FROM PessoaTelefone t WHERE t.pessoa.id = :idPessoa") })
 public class PessoaTelefone extends ClayEntidade {
     private static final long serialVersionUID = 1L;
@@ -27,7 +27,7 @@ public class PessoaTelefone extends ClayEntidade {
 
     @Id
     @Column(name = "IDPessoaTelefone")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqpessoatelefone")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqtelefone")
     private Long id;
 
     @ManyToOne

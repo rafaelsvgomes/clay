@@ -8,8 +8,11 @@
 package br.com.clay.entidade;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +20,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -64,6 +68,28 @@ public class Pedido extends ClayEntidade {
 
     @Column(name = "vlFrete")
     private BigDecimal valorFrete;
+
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+    private List<PedidoProduto> listaPedidoProduto;
+
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+    private List<LogPedidoSituacao> listaLogPedidoSituacao;
+
+    public void addPedidoProduto(PedidoProduto pedidoProduto) {
+        if (getListaPedidoProduto() == null) {
+            setListaPedidoProduto(new ArrayList<PedidoProduto>());
+        }
+        getListaPedidoProduto().add(pedidoProduto);
+        pedidoProduto.setPedido(this);
+    }
+
+    public void addLogPedidoSituacao(LogPedidoSituacao logPedidoSituacao) {
+        if (getListaLogPedidoSituacao() == null) {
+            setListaLogPedidoSituacao(new ArrayList<LogPedidoSituacao>());
+        }
+        getListaLogPedidoSituacao().add(logPedidoSituacao);
+        logPedidoSituacao.setPedido(this);
+    }
 
     public Long getId() {
         return id;
@@ -135,6 +161,22 @@ public class Pedido extends ClayEntidade {
 
     public void setValorFrete(BigDecimal valorFrete) {
         this.valorFrete = valorFrete;
+    }
+
+    public List<PedidoProduto> getListaPedidoProduto() {
+        return listaPedidoProduto;
+    }
+
+    public void setListaPedidoProduto(List<PedidoProduto> listaPedidoProduto) {
+        this.listaPedidoProduto = listaPedidoProduto;
+    }
+
+    public List<LogPedidoSituacao> getListaLogPedidoSituacao() {
+        return listaLogPedidoSituacao;
+    }
+
+    public void setListaLogPedidoSituacao(List<LogPedidoSituacao> listaLogPedidoSituacao) {
+        this.listaLogPedidoSituacao = listaLogPedidoSituacao;
     }
 
 }

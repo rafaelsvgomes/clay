@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     29/02/2016 13:06:10                          */
+/* Created on:     01/03/2016 08:21:06                          */
 /*==============================================================*/
 
 
@@ -148,6 +148,8 @@ drop sequence SEQPESSOACONTA;
 
 drop sequence SEQPESSOAENDERECO;
 
+drop sequence SEQPESSOATELEFONE;
+
 drop sequence SEQPLANOASSINATURA;
 
 drop sequence SEQPRODUTO;
@@ -155,8 +157,6 @@ drop sequence SEQPRODUTO;
 drop sequence SEQPRODUTOCOMPOSICAO;
 
 drop sequence SEQPRODUTOVALOR;
-
-drop sequence SEQTELEFONE;
 
 drop sequence SEQUSUARIO;
 
@@ -185,6 +185,9 @@ increment 1;
 create sequence SEQPESSOAENDERECO
 increment 1;
 
+create sequence SEQPESSOATELEFONE
+increment 1;
+
 create sequence SEQPLANOASSINATURA
 increment 1;
 
@@ -195,9 +198,6 @@ create sequence SEQPRODUTOCOMPOSICAO
 increment 1;
 
 create sequence SEQPRODUTOVALOR
-increment 1;
-
-create sequence SEQTELEFONE
 increment 1;
 
 create sequence SEQUSUARIO
@@ -407,16 +407,16 @@ create table PEDIDOPRODUTO (
    IDPEDIDOPRODUTO      BIGINT               not null,
    IDPEDIDO             BIGINT               not null,
    IDPRODUTO            BIGINT               not null,
-   IDVALORPRODUTO       BIGINT               null,
+   IDPRODUTOVALOR       BIGINT               null,
    IDPEDIDOPRODUTOSITUACAO INT                  null,
    QTDPRODUTO           BIGINT               not null,
    VLDESCONTO           NUMERIC(12,2)        null,
-   QTPRODUTOENTREGUE    BIGINT               null,
+   QTDPRODUTOENTREGUE   BIGINT               null,
    DATAENTREGA          TIMESTAMP            null,
    constraint PK_PEDIDOPRODUTO primary key (IDPEDIDOPRODUTO)
 );
 
-comment on column PEDIDOPRODUTO.QTPRODUTOENTREGUE is
+comment on column PEDIDOPRODUTO.QTDPRODUTOENTREGUE is
 'Quantidade do produto que já foi entregue';
 
 /*==============================================================*/
@@ -924,7 +924,7 @@ alter table PEDIDOPRODUTO
       on delete restrict on update restrict;
 
 alter table PEDIDOPRODUTO
-   add constraint FK_PEDIDOPR_FK_PEDIDO_PRODUTOV foreign key (IDVALORPRODUTO)
+   add constraint FK_PEDIDOPR_FK_PEDIDO_PRODUTOV foreign key (IDPRODUTOVALOR)
       references PRODUTOVALOR (IDPRODUTOVALOR)
       on delete restrict on update restrict;
 

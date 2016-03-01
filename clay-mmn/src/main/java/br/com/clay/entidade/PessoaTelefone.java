@@ -18,16 +18,24 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "PessoaTelefone")
-@SequenceGenerator(name = "seqtelefone", sequenceName = "seqtelefone", allocationSize = 1)
+@SequenceGenerator(name = "seqpessoatelefone", sequenceName = "seqpessoatelefone", allocationSize = 1)
 @NamedQueries({ @NamedQuery(name = PessoaTelefone.LISTAR_POR_ID_PESSOA, query = "SELECT t FROM PessoaTelefone t WHERE t.pessoa.id = :idPessoa") })
 public class PessoaTelefone extends ClayEntidade {
     private static final long serialVersionUID = 1L;
 
     public static final String LISTAR_POR_ID_PESSOA = "listarTelefonePorIdPessoa";
 
+    public PessoaTelefone() {
+    }
+
+    public PessoaTelefone(TipoTelefone tipoTelefone, Pessoa pessoa) {
+        this.tipoTelefone = tipoTelefone;
+        this.pessoa = pessoa;
+    }
+
     @Id
     @Column(name = "IDPessoaTelefone")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqtelefone")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqpessoatelefone")
     private Long id;
 
     @ManyToOne
@@ -71,5 +79,31 @@ public class PessoaTelefone extends ClayEntidade {
 
     public void setDescTelefone(String descTelefone) {
         this.descTelefone = descTelefone;
+    }
+
+    /**
+     * Método responsável por obter apenas o ddd
+     * 
+     * @return String
+     * 
+     */
+    public String getDDD() {
+        if (this.getDescTelefone() != null) {
+            return this.getDescTelefone().substring(0, 2);
+        }
+        return null;
+    }
+
+    /**
+     * Método responsável por obter o número sem ddd
+     * 
+     * @return String
+     * 
+     */
+    public String getNumero() {
+        if (this.getDescTelefone() != null) {
+            return this.getDescTelefone().substring(2);
+        }
+        return null;
     }
 }

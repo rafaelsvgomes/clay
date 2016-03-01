@@ -3,11 +3,29 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
+		<h:head>
+			<script type="text/javascript">
+				function pagar(code){
+				        PagSeguroLightbox(code,  {
+				                 success : function(transactionCode) {
+			                        alert('success - ' + transactionCode);
+		                            location.href="http://paginadesucesso";
+				                 },
+				                 abort : function() {
+			                     	alert('abort' + code);
+		                            location.href="http://paginadeErro";
+				                 }
+				         }); 
+			         return false;
+				}
+			</script>
+		</h:head>
+	
 		<form>
 			<span onclick="javascript:redirect()" class="linkClass"/>
 		</form>
 		<div>
-			<form action="https://sandbox.pagseguro.uol.com.br/checkout/v2/cart.html?action=add" method="post" onsubmit="PagSeguroLightbox(this); return false;">
+			<form action="https://sandbox.pagseguro.uol.com.br/checkout/v2/cart.html?action=add" method="post" onsubmit="pagar(this); return false;">
 				<input type="hidden" name="code" value="${clienteMB.checkoutCode}" />
 				<input type="image" src="https://p.simg.uol.com.br/out/pagseguro/i/botoes/pagamentos/120x53-pagar-azul.gif" name="submit" alt="Pague com PagSeguro - é rápido, grátis e seguro!" />
 			</form>

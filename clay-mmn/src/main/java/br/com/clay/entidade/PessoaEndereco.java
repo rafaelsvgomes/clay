@@ -55,15 +55,22 @@ public class PessoaEndereco extends ClayEntidade {
     @ManyToOne
     @JoinColumn(name = "CODUF", nullable = false)
     private UF uf;
-    
 
-    
     public PessoaEndereco() {
     }
 
     public PessoaEndereco(String numCep) {
         super();
         this.numCep = numCep;
+    }
+
+    /**
+     * @param tipoEndereco2
+     * @param cliente
+     */
+    public PessoaEndereco(TipoEndereco tipoEndereco2, Cliente cliente) {
+        this.tipoEndereco = tipoEndereco2;
+        this.pessoa = cliente;
     }
 
     public Long getId() {

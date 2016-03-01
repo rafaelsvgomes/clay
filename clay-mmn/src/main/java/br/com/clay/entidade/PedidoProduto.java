@@ -46,7 +46,7 @@ public class PedidoProduto extends ClayEntidade {
     private Produto produto;
 
     @ManyToOne
-    @JoinColumn(name = "idValorProduto", nullable = false)
+    @JoinColumn(name = "idProdutoValor", nullable = false)
     private ProdutoValor produtoValor;
 
     @ManyToOne
@@ -59,7 +59,6 @@ public class PedidoProduto extends ClayEntidade {
     @Column(name = "vlDesconto")
     private BigDecimal valorDesconto;
 
-    @Column(name = "qtProdutoEntregue")
     private Long qtdProdutoEntregue;
 
     private Date dataEntrega;

@@ -25,6 +25,13 @@ public class PessoaConta extends ClayEntidade {
 
     public static final String LISTAR_POR_ID_PESSOA = "listarPessoaContaPorIdPessoa";
 
+    public PessoaConta() {
+    }
+
+    public PessoaConta(Cliente cliente) {
+        this.pessoa = cliente;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqpessoaconta")
     @Column(name = "idPessoaConta", unique = true, nullable = false)

@@ -6,6 +6,10 @@
 		<validator-id>validator.CpfValidator</validator-id>
 		<validator-class>br.com.clay.entidade.validation.CpfCnpjValidator</validator-class>
 	</validator>
+	<converter>
+    	<converter-id>converter.TelefoneConverter</converter-id>
+     	<converter-class>br.com.clay.entidade.converter.TelefoneConverter</converter-class>
+	</converter>
 	<application>
 		<!-- configuracoes do locale (i18n) -->
 		<locale-config>

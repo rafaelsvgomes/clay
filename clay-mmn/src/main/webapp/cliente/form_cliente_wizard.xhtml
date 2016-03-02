@@ -108,7 +108,9 @@
 							<h:outputText value="#{msg['label.pessoa.telefone']}" />
 						</label>
 						<div class="controls">
-					        <p:inputMask mask="(99)99999999?9" value="#{clienteMB.telefone.descTelefone}" label="#{msg['label.pessoa.telefone']}" styleClass="input-large" />
+					        <p:inputMask mask="(99)99999999?9" value="#{clienteMB.telefone.descTelefone}" label="#{msg['label.pessoa.telefone']}" styleClass="input-large" >
+					        	<f:converter converterId="converter.TelefoneConverter" />
+					        </p:inputMask>
 						</div>
 					</div>
 					

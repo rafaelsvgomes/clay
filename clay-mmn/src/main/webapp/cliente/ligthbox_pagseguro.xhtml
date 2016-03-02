@@ -9,11 +9,11 @@
 				        PagSeguroLightbox(code,  {
 				                 success : function(transactionCode) {
 			                        alert('success - ' + transactionCode);
-		                            location.href="http://paginadesucesso";
+		                            location.href="sucesso_pagamento.xhtml";
 				                 },
 				                 abort : function() {
-			                     	alert('abort' + code);
-		                            location.href="http://paginadeErro";
+			                     	/*alert('abort' + code);*/
+			                     	location.href="abortar_pagamento.xhtml";
 				                 }
 				         }); 
 			         return false;

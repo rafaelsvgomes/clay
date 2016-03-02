@@ -1,6 +1,7 @@
 package br.com.clay.mb;
 
 import br.com.clay.entidade.Pedido;
+import br.com.clay.entidade.PessoaTelefone;
 import br.com.clay.enums.TipoPessoa;
 import br.com.uol.pagseguro.domain.checkout.Checkout;
 import br.com.uol.pagseguro.enums.Currency;
@@ -50,7 +51,11 @@ public class CreateCheckout {
     private Checkout getCheckout(Pedido pedido) {
         Checkout checkout = new Checkout();
 
-        checkout.addItem(pedido.getId().toString(), pedido.getPedidoTipo().getDescPedidoTipo(), pedido.getListaPedidoProduto().size(), pedido.getValorTotalLiquido(), 0l, null);
+        checkout.addItem(pedido.getId().toString(), pedido.getCliente().getPlanoAssinatura().getNomePlanoAssinatura(), pedido.getListaPedidoProduto().size(),
+                pedido.getValorTotalLiquido(), 0l, null);
+
+        PessoaTelefone telefone = pedido.getCliente().getTelefoneCelular();
+        telefone.setDescTelefone(telefone.getDescTelefone().replace("(", "").replace(")", ""));
 
         checkout.setSender(pedido.getCliente().getNomePessoa(), pedido.getCliente().getDescEmail(), pedido.getCliente().getTelefoneCelular().getDDD(), pedido.getCliente()
                 .getTelefoneCelular().getNumero(), getDocumentType(pedido.getCliente().getTipoPessoa()), pedido.getCliente().getNumCpfCnpj());
@@ -65,21 +70,6 @@ public class CreateCheckout {
         // checkout.setRedirectURL("http://www.meusite.com.br/redir");
 
         // Another way to set checkout parameters
-        // checkout.addParameter("senderBornDate", "07/05/1981");
-        //
-        // checkout.addIndexedParameter("itemId", "0003", 3);
-        //
-        // checkout.addIndexedParameter("itemDescription", "Notebook Preto", 3);
-        //
-        // checkout.addIndexedParameter("itemQuantity", "1", 3);
-        //
-        // checkout.addIndexedParameter("itemAmount", "200.00", 3);
-
-        // checkout.addMetaDataItem(MetaDataItemKey.PASSENGER_CPF, "15600944276", 1);
-        //
-        // checkout.addMetaDataItem(MetaDataItemKey.GAME_NAME, "DOTA");
-        //
-        // checkout.addMetaDataItem(MetaDataItemKey.PASSENGER_PASSPORT, "23456", 1);
 
         return checkout;
     }

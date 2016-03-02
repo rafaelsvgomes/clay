@@ -1,5 +1,6 @@
 package br.com.clay.mb;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -175,12 +176,28 @@ public class ClienteMB extends ClayMB {
 
             pedido.addPedidoProduto(getPedidoProduto());
 
+            ejb.salvarPedido(pedido);
+
             checkoutCode = new CreateCheckout().getCheckoutCode(pedido);
 
             pedido.addLogPedidoSituacao(getLogPedidoSituacao());
 
-            ejb.salvarPedido(pedido);
+            // ejb.salvarPedido(pedido);
+
         }
+    }
+
+    public String redirecionarSucessoPagamento() {
+        System.out.println("Sucesso Pagamento");
+        MensagemUtil.addMensagemSucesso("msg.sucesso.pagamento");
+        return "lista_cliente";
+    }
+
+    public String abortarPagamento() throws IOException {
+        System.out.println("Pagamento Abortado");
+        MensagemUtil.addMensagemSucesso("msg.sucesso.pagamento");
+        return "lista_cliente";
+        // FacesContext.getCurrentInstance().getExternalContext().redirect("lista_cliente.xhtml");
     }
 
     private LogPedidoSituacao getLogPedidoSituacao() {

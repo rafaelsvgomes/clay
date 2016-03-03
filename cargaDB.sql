@@ -89,6 +89,7 @@ insert into clientesituacao values (1,'Cadastrado');
 insert into clientesituacao values (2,'Ativo');
 insert into clientesituacao values (3,'Inativo');
 insert into clientesituacao values (4,'Bloqueado');
+insert into clientesituacao values (5,'Aguardando Pagamento');
 
 --GRUPO
 INSERT INTO GRUPO values ('ADMIN');

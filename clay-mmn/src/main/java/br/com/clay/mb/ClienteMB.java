@@ -179,25 +179,18 @@ public class ClienteMB extends ClayMB {
             ejb.salvarPedido(pedido);
 
             checkoutCode = new CreateCheckout().getCheckoutCode(pedido);
-
-            pedido.addLogPedidoSituacao(getLogPedidoSituacao());
-
-            // ejb.salvarPedido(pedido);
-
         }
     }
 
-    public String redirecionarSucessoPagamento() {
-        System.out.println("Sucesso Pagamento");
+    public String tratarSucessoPagamento() {
+        ejb.salvarLogPedidoSituacao(getLogPedidoSituacao());
         MensagemUtil.addMensagemSucesso("msg.sucesso.pagamento");
-        return "lista_cliente";
+        return "/layout/home";
     }
 
     public String abortarPagamento() throws IOException {
-        System.out.println("Pagamento Abortado");
-        MensagemUtil.addMensagemSucesso("msg.sucesso.pagamento");
-        return "lista_cliente";
-        // FacesContext.getCurrentInstance().getExternalContext().redirect("lista_cliente.xhtml");
+        ejb.removerPedido(pedido);
+        return "/layout/home";
     }
 
     private LogPedidoSituacao getLogPedidoSituacao() {
@@ -205,6 +198,7 @@ public class ClienteMB extends ClayMB {
         log.setCodTransacao(checkoutCode);
         log.setDataHoraPedidoSituacao(new Date());
         log.setStatusPagamento(new StatusPagamento(StatusPagamento.AGUARDANDO_PAGAMENTO));
+        log.setPedido(pedido);
 
         return log;
     }

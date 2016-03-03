@@ -9,6 +9,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import br.com.clay.entidade.Cliente;
+import br.com.clay.entidade.LogPedidoSituacao;
 import br.com.clay.entidade.Pedido;
 import br.com.clay.entidade.PessoaConta;
 import br.com.clay.entidade.PessoaEndereco;
@@ -132,12 +133,21 @@ public class ClienteServicoEJB extends ClayPersistencia<Cliente, Long> {
      * 
      */
     public ProdutoValor obterValorProduto(Long idProduto) {
-        em.createNamedQuery(ProdutoValor.OBTER_PRODUTO_VALOR_ATUAL).setParameter("idProduto", idProduto).setMaxResults(1).getSingleResult();
-        return null;
+        return (ProdutoValor) em.createNamedQuery(ProdutoValor.OBTER_PRODUTO_VALOR_ATUAL).setParameter("idProduto", idProduto).setMaxResults(1).getSingleResult();
     }
 
     public void salvarPedido(Pedido pedido) {
         em.persist(pedido);
+    }
+
+    public void removerPedido(Pedido pedido) {
+        Pedido p = em.find(Pedido.class, pedido.getId());
+        p.getListaPedidoProduto().get(0);
+        em.remove(p);
+    }
+
+    public void salvarLogPedidoSituacao(LogPedidoSituacao logPedidoSituacao) {
+        em.persist(logPedidoSituacao);
     }
 
 }

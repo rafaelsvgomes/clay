@@ -23,3 +23,10 @@
 .ui-wizard-step-title {
     font-size: 14px;
 }
+
+.centro {
+	margin-top:50px;
+	margin-left:100px;
+	height: 400px;
+	width: 400px;
+}

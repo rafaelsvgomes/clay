@@ -12,11 +12,12 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import br.com.clay.entidade.Cliente;
-import br.com.clay.entidade.OrigemPagamento;
 import br.com.clay.entidade.Pedido;
-import br.com.clay.entidade.PedidoSituacao;
-import br.com.clay.entidade.PedidoTipo;
+import br.com.uol.pagseguro.domain.Transaction;
+import br.com.uol.pagseguro.exception.PagSeguroServiceException;
+import br.com.uol.pagseguro.properties.PagSeguroConfig;
+import br.com.uol.pagseguro.service.NotificationService;
+import br.com.uol.pagseguro.service.TransactionSearchService;
 
 /**
  * PedidoServicoEJB responsavel por
@@ -46,9 +47,55 @@ public class PedidoServicoEJB extends ClayPersistencia<Pedido, Long> {
     protected EntityManager getEntityManager() {
         return this.em;
     }
-    
+
     public EntityManager getEm() {
         return em;
+    }
+
+    /**
+     * Método responsável por
+     * 
+     * @param codNotificao void
+     * 
+     */
+    public void atualizarTransacaoPedido(String codNotificao) {
+        Transaction transaction = null;
+        try {
+            transaction = NotificationService.checkTransaction(PagSeguroConfig.getAccountCredentials(), codNotificao);
+        } catch (PagSeguroServiceException e) {
+            System.err.println(e.getMessage());
+        }
+
+        if (transaction != null) {
+            System.out.println("#############NotificationService.checkTransaction##############");
+            System.out.println("code: " + transaction.getCode());
+            System.out.println("reference: " + transaction.getReference());
+            System.out.println("status: " + transaction.getStatus());
+        }
+
+        atualizarTranzacaoPedidoBuscarPorCod(codNotificao);
+    }
+
+    public void atualizarTranzacaoPedidoBuscarPorCod(String codTransacao) {
+        Transaction transaction = null;
+        try {
+            transaction = TransactionSearchService.searchByCode(PagSeguroConfig.getAccountCredentials(), codTransacao);
+        } catch (PagSeguroServiceException e) {
+            System.err.println(e.getMessage());
+        }
+
+        if (transaction != null) {
+            printTransaction(transaction);
+        }
+    }
+
+    private static void printTransaction(Transaction transaction) {
+        System.out.println("#############TransactionSearchService.searchByCode##############");
+        System.out.println("date: " + transaction.getDate());
+        System.out.println("code: " + transaction.getCode());
+        System.out.println("reference: " + transaction.getReference());
+        System.out.println("type: " + transaction.getType());
+        System.out.println("status: " + transaction.getStatus());
     }
 
 }

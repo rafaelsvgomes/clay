@@ -2,18 +2,18 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui" prependId="false">
 		<h:head>
 			<script type="text/javascript">
 				function pagar(code){
 				        PagSeguroLightbox(code,  {
 				                 success : function(transactionCode) {
-			                        alert('success - ' + transactionCode);
-		                            location.href="sucesso_pagamento.xhtml";
+			                        /*alert('success - ' + transactionCode);*/
+			                        document.getElementById("cod_transacao").value = transactionCode;
+			                        document.getElementById("botao_pag_efetuado").click();
 				                 },
 				                 abort : function() {
-			                     	/*alert('abort' + code);*/
-			                     	location.href="abortar_pagamento.xhtml";
+			                     	document.getElementById("botao_abortar").click();
 				                 }
 				         }); 
 			         return false;
@@ -21,9 +21,12 @@
 			</script>
 		</h:head>
 	
-		<form>
+		<h:form prependId="false">
 			<span onclick="javascript:redirect()" class="linkClass"/>
-		</form>
+			<h:commandButton id="botao_abortar" value="Abortar" action="#{clienteMB.abortarPagamento()}" style="display:none;"/>
+			<h:commandButton id="botao_pag_efetuado" value="Sucesso" action="#{clienteMB.tratarSucessoPagamento()}" style="display:none;"/>
+			<h:inputHidden id="cod_transacao" value="#{clienteMB.checkoutCode}" />
+		</h:form>
 		<div>
 			<form action="https://sandbox.pagseguro.uol.com.br/checkout/v2/cart.html?action=add" method="post" onsubmit="pagar(this); return false;">
 				<input type="hidden" name="code" value="${clienteMB.checkoutCode}" />
@@ -31,4 +34,6 @@
 			</form>
 			<script type="text/javascript"  src="https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.lightbox.js"></script>
 		</div>
+		
+		
 </ui:composition>

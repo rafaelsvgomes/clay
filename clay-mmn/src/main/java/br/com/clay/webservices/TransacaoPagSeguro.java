@@ -36,11 +36,9 @@ public class TransacaoPagSeguro extends HttpServlet {
         System.out.println("Solicitação Recebida. GET");
         String codTransacao = request.getParameter("id_transacao");
         String codNotificao = request.getParameter("notificationCode");
-        String tipo = request.getParameter("notificationType");
-        System.out.println("GET: idTransacao = " + codTransacao + " notificationCode = " + codNotificao + " notificationType = " + tipo);
+        System.out.println("GET: idTransacao = " + codTransacao + " notificationCode = " + codNotificao);
 
         ejb.atualizarTransacaoPedido(codNotificao);
-        ejb.atualizarTranzacaoPedidoBuscarPorCod(codTransacao);
     }
 
     /**
@@ -50,11 +48,9 @@ public class TransacaoPagSeguro extends HttpServlet {
         System.out.println("Solicitação Recebida. POST");
         String codTransacao = request.getParameter("id_transacao");
         String codNotificao = request.getParameter("notificationCode");
-        String tipo = request.getParameter("notificationType");
-        System.out.println("POST: idTransacao = " + codTransacao + " notificationCode = " + codNotificao + " notificationType = " + tipo);
+        System.out.println("POST: idTransacao = " + codTransacao + " notificationCode = " + codNotificao);
 
         ejb.atualizarTransacaoPedido(codNotificao);
-        ejb.atualizarTranzacaoPedidoBuscarPorCod(codTransacao);
     }
 
 }

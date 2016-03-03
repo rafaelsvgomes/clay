@@ -17,7 +17,6 @@ import br.com.uol.pagseguro.domain.Transaction;
 import br.com.uol.pagseguro.exception.PagSeguroServiceException;
 import br.com.uol.pagseguro.properties.PagSeguroConfig;
 import br.com.uol.pagseguro.service.NotificationService;
-import br.com.uol.pagseguro.service.TransactionSearchService;
 
 /**
  * PedidoServicoEJB responsavel por
@@ -73,29 +72,6 @@ public class PedidoServicoEJB extends ClayPersistencia<Pedido, Long> {
             System.out.println("status: " + transaction.getStatus());
         }
 
-        atualizarTranzacaoPedidoBuscarPorCod(codNotificao);
-    }
-
-    public void atualizarTranzacaoPedidoBuscarPorCod(String codTransacao) {
-        Transaction transaction = null;
-        try {
-            transaction = TransactionSearchService.searchByCode(PagSeguroConfig.getAccountCredentials(), codTransacao);
-        } catch (PagSeguroServiceException e) {
-            System.err.println(e.getMessage());
-        }
-
-        if (transaction != null) {
-            printTransaction(transaction);
-        }
-    }
-
-    private static void printTransaction(Transaction transaction) {
-        System.out.println("#############TransactionSearchService.searchByCode##############");
-        System.out.println("date: " + transaction.getDate());
-        System.out.println("code: " + transaction.getCode());
-        System.out.println("reference: " + transaction.getReference());
-        System.out.println("type: " + transaction.getType());
-        System.out.println("status: " + transaction.getStatus());
     }
 
 }

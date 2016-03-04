@@ -7,13 +7,11 @@
  */
 package br.com.clay.mb;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import br.com.clay.entidade.Pedido;
 import br.com.clay.servico.PedidoServicoEJB;
@@ -53,6 +51,12 @@ public class PedidoMB extends ClayMB {
                 return;
             }
             pedido = ejb.find(idSelecionado);
+        }
+    }
+    
+    public void incluir() {
+        if (!isPostBack()) {
+            pedido = new Pedido();
         }
     }
     

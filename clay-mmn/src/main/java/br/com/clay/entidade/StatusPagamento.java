@@ -29,6 +29,8 @@ public class StatusPagamento extends ClayEntidade {
     public static final short EM_DISPUTA = 5;
     public static final short DEVOLVIDA = 6;
     public static final short CANCELADA = 7;
+    public static final short CHARGEBACK_DEBITADO = 8;
+    public static final short EM_CONTESTACAO = 9;
 
     public StatusPagamento() {
     }

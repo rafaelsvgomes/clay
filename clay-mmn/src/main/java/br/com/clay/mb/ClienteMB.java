@@ -88,9 +88,9 @@ public class ClienteMB extends ClayMB {
 
     private Pedido pedido;
 
-    private Boolean isPagSeguro;
+    private Boolean podeAlterarPlano;
 
-    private Boolean podeAlterarPedidoPlano;
+    private Boolean podeEfetuarPagamento;
 
     public ClienteMB() {
     }
@@ -102,12 +102,12 @@ public class ClienteMB extends ClayMB {
         listaBancos = ejb.findAll(Banco.class);
         listaTipoConta = ejb.findAll(TipoConta.class);
         listaPlanoAssinatura = ejb.listarPlanoAssinatura();
-        podeAlterarPedidoPlano = Boolean.TRUE;
     }
 
     public void incluir() {
         if (!isPostBack()) {
             idSelecionado = null;
+            podeAlterarPlano = Boolean.TRUE;
 
             cliente = new Cliente();
             cliente.setTipoPessoa(TipoPessoa.F);
@@ -127,6 +127,7 @@ public class ClienteMB extends ClayMB {
 
     public void editar() {
         if (!isPostBack()) {
+            podeAlterarPlano = Boolean.TRUE;
             if (idSelecionado == null) {
                 return;
             }
@@ -152,38 +153,49 @@ public class ClienteMB extends ClayMB {
 
     @SuppressWarnings("unchecked")
     public void iniciarPagamento() throws PagSeguroServiceException {
-        // TODO: rafael
-        // Na hora de gravar salva a alteração efetuada no plano (Ou pode deixar pra alterar só no cadastro) chama o pagamento.
-        // Implementar ativar com botão no listar se for grupo admin.
-        podeAlterarPedidoPlano = Boolean.FALSE;
-
         pedido = new Pedido();
-
+        podeAlterarPlano = Boolean.FALSE;
         if (!isPostBack()) {
             iniciarClienteEditar(getUsuarioLogado().getIdCliente());
             listaOrigemPagamento = ejb.findAll(OrigemPagamento.class);
             listaProdutosPlanoAssinatura = ejb.listarProdutosKit(cliente.getPlanoAssinatura().getProduto().getId());
             pedido.setOrigemPagamento(listaOrigemPagamento.get(1));
+            podeEfetuarPagamento();
+            if (podeEfetuarPagamento) {
+                pedido.setCliente(cliente);
+                pedido.setDataPedido(new Date());
+                pedido.setOrigemPagamento(new OrigemPagamento(OrigemPagamento.PAG_SEGURO));
+                pedido.setPedidoSituacao(new PedidoSituacao(PedidoSituacao.ABERTO));
+                pedido.setPedidoTipo(new PedidoTipo(PedidoTipo.ASSINATURA));
+                pedido.setValorFrete(BigDecimal.ZERO);
+                pedido.setValorTotalBruto(cliente.getPlanoAssinatura().getValorAdesao());
+                pedido.setValorTotalLiquido(cliente.getPlanoAssinatura().getValorAdesao());
 
-            pedido.setCliente(cliente);
-            pedido.setDataPedido(new Date());
-            pedido.setOrigemPagamento(new OrigemPagamento(OrigemPagamento.PAG_SEGURO));
-            pedido.setPedidoSituacao(new PedidoSituacao(PedidoSituacao.ABERTO));
-            pedido.setPedidoTipo(new PedidoTipo(PedidoTipo.ASSINATURA));
-            pedido.setValorFrete(BigDecimal.ZERO);
-            pedido.setValorTotalBruto(cliente.getPlanoAssinatura().getValorAdesao());
-            pedido.setValorTotalLiquido(cliente.getPlanoAssinatura().getValorAdesao());
+                pedido.addPedidoProduto(getPedidoProduto());
 
-            pedido.addPedidoProduto(getPedidoProduto());
+                ejb.salvarPedido(pedido);
 
-            ejb.salvarPedido(pedido);
+                checkoutCode = new CreateCheckout().getCheckoutCode(pedido);
+            }
+        }
+    }
 
-            checkoutCode = new CreateCheckout().getCheckoutCode(pedido);
+    public void podeEfetuarPagamento() {
+        if (!isPostBack()) {
+            podeEfetuarPagamento = Boolean.TRUE;
+            LogPedidoSituacao log = ejb.obterLogPedidoSituacao(cliente.getId());
+            if (log != null && log.getStatusPagamento().getId() == StatusPagamento.PAGO) {
+                MensagemUtil.addMensagemSucesso("msg.sucesso.pagamento.ja.efetivado");
+                podeEfetuarPagamento = Boolean.FALSE;
+            } else if (log != null && (log.getStatusPagamento().getId() == StatusPagamento.AGUARDANDO_PAGAMENTO || log.getStatusPagamento().getId() == StatusPagamento.EM_ANALISE)) {
+                MensagemUtil.addMensagemSucesso("msg.sucesso.pagamento.em.processamento");
+                podeEfetuarPagamento = Boolean.FALSE;
+            }
         }
     }
 
     public String tratarSucessoPagamento() {
-        ejb.salvarLogPedidoSituacao(getLogPedidoSituacao());
+        // ejb.salvarLogPedidoSituacao(getLogPedidoSituacao());
         MensagemUtil.addMensagemSucesso("msg.sucesso.pagamento");
         return "/layout/home";
     }
@@ -191,16 +203,6 @@ public class ClienteMB extends ClayMB {
     public String abortarPagamento() throws IOException {
         ejb.removerPedido(pedido);
         return "/layout/home";
-    }
-
-    private LogPedidoSituacao getLogPedidoSituacao() {
-        LogPedidoSituacao log = new LogPedidoSituacao();
-        log.setCodTransacao(checkoutCode);
-        log.setDataHoraPedidoSituacao(new Date());
-        log.setStatusPagamento(new StatusPagamento(StatusPagamento.AGUARDANDO_PAGAMENTO));
-        log.setPedido(pedido);
-
-        return log;
     }
 
     private PedidoProduto getPedidoProduto() {
@@ -214,17 +216,6 @@ public class ClienteMB extends ClayMB {
     }
 
     private String checkoutCode;
-
-    public Boolean getIsPagSeguro() throws PagSeguroServiceException {
-        if (pedido.getOrigemPagamento() != null) {
-            isPagSeguro = pedido.getOrigemPagamento().getId() == OrigemPagamento.PAG_SEGURO;
-        }
-        return isPagSeguro;
-    }
-
-    public void setIsPagSeguro(Boolean pagSeguro) {
-        this.isPagSeguro = pagSeguro;
-    }
 
     public String ativarCliente(Long idCliente) {
         try {
@@ -499,7 +490,11 @@ public class ClienteMB extends ClayMB {
         this.checkoutCode = checkoutCode;
     }
 
-    public Boolean getPodeAlterarPedidoPlano() {
-        return podeAlterarPedidoPlano;
+    public Boolean getPodeEfetuarPagamento() {
+        return podeEfetuarPagamento;
+    }
+
+    public Boolean getPodeAlterarPlano() {
+        return podeAlterarPlano;
     }
 }

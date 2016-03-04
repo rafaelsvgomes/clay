@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -27,9 +28,12 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "LogPedidoSituacao")
 @SequenceGenerator(name = "seqlogpedidosituacao", sequenceName = "seqlogpedidosituacao", allocationSize = 1)
+@NamedQuery(name = LogPedidoSituacao.OBTER_ULTIMO_LOG_PEDIDO_SITUACAO_CLIENTE, query = "SELECT l FROM LogPedidoSituacao l WHERE l.pedido.cliente.id = :idCliente AND l.pedido.pedidoTipo.id = :idPedidoTipoAssinatura")
 public class LogPedidoSituacao extends ClayEntidade {
 
     private static final long serialVersionUID = 4021847216441088976L;
+
+    public static final String OBTER_ULTIMO_LOG_PEDIDO_SITUACAO_CLIENTE = "obterUltimoLogPedidoSituacaoCliente";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqlogpedidosituacao")

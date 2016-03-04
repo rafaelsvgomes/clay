@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import br.com.clay.entidade.Cliente;
 import br.com.clay.entidade.LogPedidoSituacao;
 import br.com.clay.entidade.Pedido;
+import br.com.clay.entidade.PedidoTipo;
 import br.com.clay.entidade.PessoaConta;
 import br.com.clay.entidade.PessoaEndereco;
 import br.com.clay.entidade.PessoaTelefone;
@@ -150,4 +151,14 @@ public class ClienteServicoEJB extends ClayPersistencia<Cliente, Long> {
         em.persist(logPedidoSituacao);
     }
 
+    public LogPedidoSituacao obterLogPedidoSituacao(Long idCliente) {
+        LogPedidoSituacao log = null;
+        try {
+            log = (LogPedidoSituacao) em.createNamedQuery(LogPedidoSituacao.OBTER_ULTIMO_LOG_PEDIDO_SITUACAO_CLIENTE).setParameter("idCliente", idCliente)
+                    .setParameter("idPedidoTipoAssinatura", PedidoTipo.ASSINATURA).setMaxResults(1).getSingleResult();
+        } catch (NoResultException e) {
+            e.printStackTrace();
+        }
+        return log;
+    }
 }

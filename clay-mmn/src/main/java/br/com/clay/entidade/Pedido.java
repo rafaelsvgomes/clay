@@ -20,6 +20,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -32,9 +33,19 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Pedido")
 @SequenceGenerator(name = "seqpedido", sequenceName = "seqpedido", allocationSize = 1)
+@NamedQuery(name = Pedido.OBTER_CLIENTE_PEDIDO, query = "SELECT p.cliente FROM Pedido p WHERE p.id = :idPedido")
 public class Pedido extends ClayEntidade {
 
     private static final long serialVersionUID = 8886064910592207310L;
+
+    public static final String OBTER_CLIENTE_PEDIDO = "obterClientePedido";
+
+    public Pedido() {
+    }
+
+    public Pedido(long idPedido) {
+        this.id = idPedido;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqpedido")

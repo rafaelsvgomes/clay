@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     01/03/2016 08:21:06                          */
+/* Created on:     16/03/2016 08:51:09                          */
 /*==============================================================*/
 
 
@@ -92,6 +92,10 @@ drop index IDX_IDPROD_IDPRODITEM;
 
 drop table PRODUTOCOMPOSICAO;
 
+drop index IDX_IDPRODUTOIMAGEM;
+
+drop table PRODUTOIMAGEM;
+
 drop index IDX_IDPRODUTOVALOR;
 
 drop table PRODUTOVALOR;
@@ -156,6 +160,8 @@ drop sequence SEQPRODUTO;
 
 drop sequence SEQPRODUTOCOMPOSICAO;
 
+drop sequence SEQPRODUTOIMAGEM;
+
 drop sequence SEQPRODUTOVALOR;
 
 drop sequence SEQUSUARIO;
@@ -195,6 +201,9 @@ create sequence SEQPRODUTO
 increment 1;
 
 create sequence SEQPRODUTOCOMPOSICAO
+increment 1;
+
+create sequence SEQPRODUTOIMAGEM
 increment 1;
 
 create sequence SEQPRODUTOVALOR
@@ -662,6 +671,23 @@ IDPRODUTOCOMPOSICAO
 );
 
 /*==============================================================*/
+/* Table: PRODUTOIMAGEM                                         */
+/*==============================================================*/
+create table PRODUTOIMAGEM (
+   IDPRODUTOIMAGEM      BIGINT               not null,
+   IDPRODUTO            BIGINT               null,
+   DSCAMINHOIMAGEM      VARCHAR(500)         not null,
+   constraint PK_PRODUTOIMAGEM primary key (IDPRODUTOIMAGEM)
+);
+
+/*==============================================================*/
+/* Index: IDX_IDPRODUTOIMAGEM                                   */
+/*==============================================================*/
+create unique index IDX_IDPRODUTOIMAGEM on PRODUTOIMAGEM (
+IDPRODUTOIMAGEM
+);
+
+/*==============================================================*/
 /* Table: PRODUTOVALOR                                          */
 /*==============================================================*/
 create table PRODUTOVALOR (
@@ -995,6 +1021,11 @@ alter table PRODUTOCOMPOSICAO
 
 alter table PRODUTOCOMPOSICAO
    add constraint FK_PRODUTOCOMPITEM_PRODUTO foreign key (IDPRODUTOITEMCOMP)
+      references PRODUTO (IDPRODUTO)
+      on delete restrict on update restrict;
+
+alter table PRODUTOIMAGEM
+   add constraint FK_PRODUTOI_REFERENCE_PRODUTO foreign key (IDPRODUTO)
       references PRODUTO (IDPRODUTO)
       on delete restrict on update restrict;
 

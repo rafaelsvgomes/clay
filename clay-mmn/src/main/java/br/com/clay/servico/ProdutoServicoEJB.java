@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 
 import br.com.clay.entidade.Produto;
 import br.com.clay.entidade.ProdutoComposicao;
+import br.com.clay.entidade.ProdutoImagem;
 import br.com.clay.entidade.ProdutoValor;
 
 /**
@@ -66,5 +67,32 @@ public class ProdutoServicoEJB extends ClayPersistencia<Produto, Long> {
     @SuppressWarnings("unchecked")
     public List<Produto> listarProdutoDisponivelKit() {
         return em.createNamedQuery(Produto.LISTAR_PRODUTO_DISPONIVEL_KIT).getResultList();
+    }
+    
+    @SuppressWarnings("unchecked")
+	public List<Produto> listarProdutoDisponivelLoja() {
+    	return em.createNamedQuery(Produto.LISTAR_PRODUTO_LOJA).getResultList();
+    }
+    
+    @SuppressWarnings("unchecked")
+   	public List<Produto> listarProdutoLoja(Long idCategoria) {
+   		return em.createNamedQuery(Produto.LISTAR_PRODUTO_CATEGORIA_LOJA).setParameter("idCategoria", idCategoria).getResultList();
+    }
+    
+    @SuppressWarnings("unchecked")
+   	public List<Produto> listarProdutoLoja(String nomeProduto) {
+   		return em.createNamedQuery(Produto.LISTAR_PRODUTO_NOME_LOJA).setParameter("nomeProduto", "%" + nomeProduto.toLowerCase() + "%").getResultList();
+    }
+    
+    @SuppressWarnings("unchecked")
+	public List<Produto> listarProdutoLoja(Long idCategoria, String nomeProduto) {
+		return em.createNamedQuery(Produto.LISTAR_PRODUTO_NOME_CATEGORIA_LOJA).setParameter("idCategoria", idCategoria).setParameter("nomeProduto", "%" + nomeProduto.toLowerCase() + "%").getResultList();
+    }
+    
+    @SuppressWarnings("unchecked")
+	public Produto obterProdutoComImagens(Long id) {
+    	Produto produto = this.obterProduto(id);
+    	produto.setListaProdutoImagem(em.createNamedQuery(ProdutoImagem.LISTAR_POR_ID_PRODUTO).setParameter("idProduto", id).getResultList());
+    	return produto; 
     }
 }

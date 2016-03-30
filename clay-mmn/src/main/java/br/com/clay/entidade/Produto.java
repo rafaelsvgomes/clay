@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -29,11 +30,21 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "PRODUTO")
 @SequenceGenerator(name = "seqproduto", sequenceName = "seqproduto", allocationSize = 1)
-@NamedQueries({ @NamedQuery(name = Produto.LISTAR_PRODUTO_DISPONIVEL_KIT, query = "SELECT p FROM Produto p WHERE p.bolComposicao = false") })
+@NamedQueries({ 
+	@NamedQuery(name = Produto.LISTAR_PRODUTO_DISPONIVEL_KIT, query = "SELECT p FROM Produto p WHERE p.bolComposicao = false"),
+	@NamedQuery(name = Produto.LISTAR_PRODUTO_LOJA, query = "SELECT new br.com.clay.entidade.Produto(p.id, p.nomeProduto, p.categoria.id, pi.descCaminhoImagem)  FROM ProdutoImagem pi INNER JOIN pi.produto p WHERE p.bolVisivel = true AND pi.bolPadrao = true"),
+	@NamedQuery(name = Produto.LISTAR_PRODUTO_NOME_LOJA, query = "SELECT new br.com.clay.entidade.Produto(p.id, p.nomeProduto, p.categoria.id, pi.descCaminhoImagem)  FROM ProdutoImagem pi INNER JOIN pi.produto p WHERE p.bolVisivel = true AND pi.bolPadrao = true AND LOWER(p.nomeProduto) LIKE :nomeProduto"),
+	@NamedQuery(name = Produto.LISTAR_PRODUTO_CATEGORIA_LOJA, query = "SELECT new br.com.clay.entidade.Produto(p.id, p.nomeProduto, p.categoria.id, pi.descCaminhoImagem)  FROM ProdutoImagem pi INNER JOIN pi.produto p WHERE p.bolVisivel = true AND pi.bolPadrao = true AND p.categoria.id = :idCategoria"),
+	@NamedQuery(name = Produto.LISTAR_PRODUTO_NOME_CATEGORIA_LOJA, query = "SELECT new br.com.clay.entidade.Produto(p.id, p.nomeProduto, p.categoria.id, pi.descCaminhoImagem)  FROM ProdutoImagem pi INNER JOIN pi.produto p WHERE p.bolVisivel = true AND pi.bolPadrao = true AND p.categoria.id = :idCategoria AND LOWER(p.nomeProduto) LIKE :nomeProduto")})
 public class Produto extends ClayEntidade {
     private static final long serialVersionUID = 1L;
 
     public static final String LISTAR_PRODUTO_DISPONIVEL_KIT = "Produto.listarProdutoDisponivelKit";
+    public static final String LISTAR_PRODUTO_LOJA = "Produto.listarProdutoLoja";
+    public static final String LISTAR_PRODUTO_NOME_LOJA = "Produto.listarProdutoNomeLoja";
+    public static final String LISTAR_PRODUTO_CATEGORIA_LOJA = "Produto.listarProdutoCategoriaLoja";
+    public static final String LISTAR_PRODUTO_NOME_CATEGORIA_LOJA = "Produto.listarProdutoNomeCategoriaLoja";
+    
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqproduto")
@@ -73,7 +84,6 @@ public class Produto extends ClayEntidade {
     @JoinColumn(name = "idunidadevenda")
     private UnidadeVenda unidadeVenda;
 
-    // bi-directional many-to-one association to ValorProduto
     @OneToMany(mappedBy = "produto")
     private List<ProdutoValor> listaProdutoValor;
 
@@ -86,11 +96,33 @@ public class Produto extends ClayEntidade {
     @ManyToMany
     @JoinTable(name = "produtoComposicao", joinColumns = { @JoinColumn(name = "idProduto") }, inverseJoinColumns = { @JoinColumn(name = "idProdutoItemComp") })
     private List<Produto> listaProdutoFilho;
+    
+    @OneToMany(mappedBy = "produto")
+    private List<ProdutoImagem> listaProdutoImagem;
+
+    @Transient
+    private ProdutoImagem produtoImagemPadrao;
 
     public Produto() {
     }
+    
+    /**
+     * Construtor da QUERY - LISTAR_PRODUTO_LOJA
+     * 
+     * @param id
+     * @param nomeProduto
+     * @param idCategoria
+     * @param descCaminhoImagem
+     */
+    public Produto(Long id, String nomeProduto, Long idCategoria, String descCaminhoImagem) {
+		super();
+		this.id = id;
+		this.nomeProduto = nomeProduto;
+		this.categoria = new Categoria(idCategoria);
+		this.produtoImagemPadrao = new ProdutoImagem(descCaminhoImagem);
+	}
 
-    public void setId(Long id) {
+	public void setId(Long id) {
         this.id = id;
     }
 
@@ -266,4 +298,33 @@ public class Produto extends ClayEntidade {
         this.listaProdutoFilho = listaProdutoFilho;
     }
 
+	public List<ProdutoImagem> getListaProdutoImagem() {
+		return listaProdutoImagem;
+	}
+
+	public void setListaProdutoImagem(List<ProdutoImagem> listaProdutoImagem) {
+		this.listaProdutoImagem = listaProdutoImagem;
+	}
+    
+    /**
+     * Retorna o último ProdutoValor cadastrado.
+     * 
+     * @return
+     */
+    public ProdutoValor getProdutoValorValido() {
+    	if (getListaProdutoValor() != null && !getListaProdutoValor().isEmpty()) {
+    		return getListaProdutoValor().get(getListaProdutoValor().size() - 1);
+    	}
+    	return null;
+    }
+
+	public ProdutoImagem getProdutoImagemPadrao() {
+		return produtoImagemPadrao;
+	}
+
+	public void setProdutoImagemPadrao(ProdutoImagem produtoImagemPadrao) {
+		this.produtoImagemPadrao = produtoImagemPadrao;
+	}
+    
+    
 }

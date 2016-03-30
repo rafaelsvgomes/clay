@@ -64,7 +64,12 @@
 				<f:param name="active" value="listaPedido" />
             </h:link>
 		</li>
-		
+		<li class="#{param.active == 'menuloja' ? 'active' : ''}">
+			<h:link outcome="/loja/menu_loja" rendered="#{usuarioMB.exibeParaTodos()}">
+				<h:outputText value="#{msg['menu.loja']}" escape="false" />
+				<f:param name="active" value="loja" />
+            </h:link>
+		</li>
 		
 		<li class="divider" />
 		<li><em><h:outputText value="#{msg['label.usuario']}" rendered="#{usuarioMB.exibeParaTodos()}"/></em></li>

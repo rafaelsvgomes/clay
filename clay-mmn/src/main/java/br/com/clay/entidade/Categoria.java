@@ -39,6 +39,10 @@ public class Categoria extends ClayEntidade implements Serializable {
 	public Categoria() {
 	}
 	
+	public Categoria(Long idCategoria) {
+		this.id = idCategoria;
+	}
+
 	public void setIdcategoria(Long idcategoria) {
 		this.id = idcategoria;
 	}

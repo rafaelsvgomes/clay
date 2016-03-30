@@ -7,7 +7,6 @@
  */
 package br.com.clay.mb;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -16,7 +15,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
 
 import org.primefaces.event.FlowEvent;
 
@@ -69,7 +67,7 @@ public class ProdutoMB extends ClayMB {
     }
 
     public void incluir() {
-        if (!FacesContext.getCurrentInstance().isPostback()) {
+        if (!isPostBack()) {
             produto = new Produto();
             kit = Boolean.FALSE;
             setFornecedor();

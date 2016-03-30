@@ -1,0 +1,71 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="../layout/template.xhtml">
+		<ui:define name="pageTitle">
+			<h:outputText value="#{msg['page.title.loja']}" />
+		</ui:define>
+		
+	    <ui:define name="content">
+		    <h:form id="formMenu">
+		    	<p:menubar model="#{lojaMB.modelo}">
+			         <f:facet name="options">
+			            <p:inputText id="inputFiltro" style="margin-right:10px" placeholder="#{msg['label.loja.pesquisar.filtro']}" value="#{lojaMB.filtroProduto}"/>
+			            <p:commandButton title="#{msg['label.loja.pesquisar.filtro']}" icon="ui-icon-search" update=":form:listaProduto" action="#{lojaMB.filtrarProdutosPorNome}"/>
+			            <p:commandButton title="#{msg['label.loja.limpar.filtro']}" icon="ui-icon-close" update=":form:listaProduto" action="#{lojaMB.limparFiltro}"/>
+			        </f:facet> 
+		    	</p:menubar>
+	    	</h:form>
+	    	
+	    	<h:form id="form">
+			    <p:dataGrid var="produto" value="#{lojaMB.listaProduto}" columns="3" layout="grid"
+			        rows="10" paginator="true" id="listaProduto" emptyMessage="#{msg['label.loja.nenhum.produto.encontrado']} "
+			        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+			 
+			        <p:panelGrid columns="2">
+					    <f:facet name="header">
+					        <p:graphicImage url="#{produto.produtoImagemPadrao.descCaminhoImagem}" />
+					    </f:facet>
+					 	
+					    <h:outputText value="#{produto.nomeProduto}" />
+				     	<p:commandLink update=":form:detalheProduto" oncomplete="PF('produtoDialog').show()" title="Detalhar Produto">
+		                    <h:outputText styleClass="ui-icon ui-icon-search" style="margin:0 auto;" />
+		                    <f:setPropertyActionListener value="#{produto}" target="#{lojaMB.produtoSelecionado}" />
+		                </p:commandLink>
+		            </p:panelGrid>
+			 
+			    </p:dataGrid>
+			 
+			    <p:dialog header="#{msg['label.loja.informacao.produto']}" widgetVar="produtoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+			        <p:outputPanel id="detalheProduto" style="text-align:center;">
+			            <p:panelGrid  columns="2" rendered="#{not empty lojaMB.produtoSelecionado}" columnClasses="label,value">
+			                <f:facet name="header">
+				                <p:galleria value="#{lojaMB.listaImagensProdutoSelecionado}" var="imagem" panelWidth="500" panelHeight="500">
+								    <p:graphicImage url="#{imagem}"/>
+								</p:galleria>
+			                </f:facet>
+			 
+			 				<h:outputText value="Nome:" />
+						    <h:outputText value="#{lojaMB.produtoSelecionado.nomeProduto}" />
+						 
+						    <h:outputText value="Categoria:" />
+						    <h:outputText value="#{lojaMB.produtoSelecionado.categoria.descCategoria}" />
+						 
+						 	<h:outputText value="Descrição" />
+						    <h:outputText value="#{lojaMB.produtoSelecionado.descProduto}" />
+						 
+						    <h:outputText value="Valor:" />
+						    <h:outputText value="#{lojaMB.produtoSelecionado.produtoValorValido.valorProduto}" />
+			 	
+			            </p:panelGrid>
+			        </p:outputPanel>
+			    </p:dialog>
+			    
+			</h:form>
+		</ui:define>
+    	
+	</ui:composition>
+</html>

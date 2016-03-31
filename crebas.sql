@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     16/03/2016 08:51:09                          */
+/* Created on:     31/03/2016 14:33:48                          */
 /*==============================================================*/
 
 
@@ -677,6 +677,7 @@ create table PRODUTOIMAGEM (
    IDPRODUTOIMAGEM      BIGINT               not null,
    IDPRODUTO            BIGINT               null,
    DSCAMINHOIMAGEM      VARCHAR(500)         not null,
+   BOLIMAGEMPADRAO      BOOL                 null,
    constraint PK_PRODUTOIMAGEM primary key (IDPRODUTOIMAGEM)
 );
 
